@@ -216,4 +216,3 @@ For questions or issues:
 
 - Built with [Flutter](https://flutter.dev)
 - Database powered by [Isar](https://isar.dev) and [Hive](https://hivedb.dev)
-- Icons and inspiration from the open-source community
