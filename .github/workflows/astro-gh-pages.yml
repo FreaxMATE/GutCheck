@@ -39,11 +39,16 @@ jobs:
             echo "ERROR: dist directory not created!"
             exit 1
           fi
-          ls -la dist/
+          echo "=== Dist directory contents ==="
+          ls -laR dist/
+
+      - name: Check build output
+        run: |
+          echo "=== Full astro-site structure ==="
+          ls -laR astro-site/
 
       - name: Disable Jekyll
-        working-directory: astro-site
-        run: touch dist/.nojekyll
+        run: touch astro-site/dist/.nojekyll
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v4
