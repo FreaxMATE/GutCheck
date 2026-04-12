@@ -23,12 +23,14 @@ class IsarAppDatabase implements AppDatabase {
   Future<List<Ingredient>> searchIngredients({
     String query = '',
     FoodCategory? category,
+    bool customOnly = false,
     int limit = 200,
     int offset = 0,
   }) {
     return IngredientRepository(_isar).search(
       query: query,
       category: category,
+      customOnly: customOnly,
       limit: limit,
       offset: offset,
     );

@@ -9,6 +9,7 @@ abstract class AppDatabase {
   Future<List<Ingredient>> searchIngredients({
     String query = '',
     FoodCategory? category,
+    bool customOnly = false,
     int limit = 200,
     int offset = 0,
   });

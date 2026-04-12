@@ -10,53 +10,37 @@ class IngredientRepository {
   Future<List<Ingredient>> search({
     String query = '',
     FoodCategory? category,
+    bool customOnly = false,
     int limit = 100,
     int offset = 0,
   }) async {
-    var q = _isar.ingredients.where();
+    final hasCategory = category != null;
+    final hasQuery = query.isNotEmpty;
 
-    if (category != null) {
-      if (query.isNotEmpty) {
-        final lower = query.toLowerCase();
-        return _isar.ingredients
-            .filter()
-            .categoryEqualTo(category)
-            .and()
-            // Search both English (nameLower) and German (nameDE) names
-            .group((q) => q
-                .nameLowerContains(lower, caseSensitive: false)
-                .or()
-                .nameDEContains(lower, caseSensitive: false))
-            .sortByNameLower()
-            .offset(offset)
-            .limit(limit)
-            .findAll();
-      } else {
-        return _isar.ingredients
-            .filter()
-            .categoryEqualTo(category)
-            .sortByNameLower()
-            .offset(offset)
-            .limit(limit)
-            .findAll();
-      }
-    }
-
-    if (query.isNotEmpty) {
-      final lower = query.toLowerCase();
-      // Search both English (nameLower) and German (nameDE) names
+    if (!hasCategory && !hasQuery && !customOnly) {
       return _isar.ingredients
-          .filter()
-          .nameLowerContains(lower, caseSensitive: false)
-          .or()
-          .nameDEContains(lower, caseSensitive: false)
+          .where()
           .sortByNameLower()
           .offset(offset)
           .limit(limit)
           .findAll();
     }
 
-    return q.sortByNameLower().offset(offset).limit(limit).findAll();
+    final lower = query.toLowerCase();
+    return _isar.ingredients
+        .filter()
+        .optional(customOnly, (q) => q.isSeededEqualTo(false))
+        .optional(hasCategory, (q) => q.categoryEqualTo(category!))
+        .optional(
+            hasQuery,
+            (q) => q.group((g) => g
+                .nameLowerContains(lower, caseSensitive: false)
+                .or()
+                .nameDEContains(lower, caseSensitive: false)))
+        .sortByNameLower()
+        .offset(offset)
+        .limit(limit)
+        .findAll();
   }
 
   Future<Ingredient?> findById(int id) => _isar.ingredients.get(id);

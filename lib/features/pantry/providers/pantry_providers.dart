@@ -9,14 +9,18 @@ final pantrySearchQueryProvider = StateProvider<String>((ref) => '');
 final pantryCategoryFilterProvider =
     StateProvider<FoodCategory?>((ref) => null);
 
+final pantryCustomOnlyProvider = StateProvider<bool>((ref) => false);
+
 final pagedIngredientsProvider =
     FutureProvider.autoDispose<List<Ingredient>>((ref) async {
   final db = await ref.watch(appDatabaseProvider.future);
   final query = ref.watch(pantrySearchQueryProvider);
   final category = ref.watch(pantryCategoryFilterProvider);
+  final customOnly = ref.watch(pantryCustomOnlyProvider);
   return db.searchIngredients(
     query: query,
     category: category,
+    customOnly: customOnly,
     limit: 200,
   );
 });

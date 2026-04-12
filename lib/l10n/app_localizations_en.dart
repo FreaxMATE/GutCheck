@@ -265,6 +265,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get pantryCustomFood => 'Custom food';
 
   @override
+  String get pantryMyFoods => 'My Foods';
+
+  @override
   String get addFoodTitle => 'Add Custom Food';
 
   @override

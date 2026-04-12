@@ -13,6 +13,7 @@ class CategoryFilterChips extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final l10n = AppLocalizations.of(context)!;
     final selected = ref.watch(pantryCategoryFilterProvider);
+    final customOnly = ref.watch(pantryCustomOnlyProvider);
 
     return SizedBox(
       height: 44,
@@ -20,6 +21,17 @@ class CategoryFilterChips extends ConsumerWidget {
         scrollDirection: Axis.horizontal,
         padding: const EdgeInsets.symmetric(horizontal: 16),
         children: [
+          Padding(
+            padding: const EdgeInsets.only(right: 8),
+            child: FilterChip(
+              avatar: const Icon(Icons.person, size: 16),
+              label: Text(l10n.pantryMyFoods),
+              selected: customOnly,
+              onSelected: (_) => ref
+                  .read(pantryCustomOnlyProvider.notifier)
+                  .state = !customOnly,
+            ),
+          ),
           Padding(
             padding: const EdgeInsets.only(right: 8),
             child: FilterChip(

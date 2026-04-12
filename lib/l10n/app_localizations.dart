@@ -572,6 +572,12 @@ abstract class AppLocalizations {
   /// **'Custom food'**
   String get pantryCustomFood;
 
+  /// No description provided for @pantryMyFoods.
+  ///
+  /// In en, this message translates to:
+  /// **'My Foods'**
+  String get pantryMyFoods;
+
   /// No description provided for @addFoodTitle.
   ///
   /// In en, this message translates to:

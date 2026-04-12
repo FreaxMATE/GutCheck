@@ -1,9 +1,10 @@
 'use strict';
 
-const CACHE_NAME = 'gutcheck-v1';
+const CACHE_NAME = 'gutcheck-v2';
 
-// Critical shell assets to precache on install
-const SHELL_ASSETS = [
+// All files needed to boot the app offline.
+// canvaskit/chromium/ variant is used on Chrome/Edge (most users).
+const PRECACHE = [
   '/',
   '/index.html',
   '/flutter_bootstrap.js',
@@ -11,14 +12,29 @@ const SHELL_ASSETS = [
   '/main.dart.js',
   '/manifest.json',
   '/favicon.svg',
+  '/version.json',
+  '/assets/AssetManifest.bin',
+  '/assets/AssetManifest.bin.json',
+  '/assets/FontManifest.json',
+  '/assets/fonts/MaterialIcons-Regular.otf',
+  '/assets/packages/cupertino_icons/assets/CupertinoIcons.ttf',
+  '/assets/shaders/ink_sparkle.frag',
+  '/assets/shaders/stretch_effect.frag',
+  '/assets/assets/seed/ingredients.json',
+  '/canvaskit/canvaskit.js',
+  '/canvaskit/canvaskit.wasm',
+  '/canvaskit/chromium/canvaskit.js',
+  '/canvaskit/chromium/canvaskit.wasm',
 ];
 
 self.addEventListener('install', (event) => {
   event.waitUntil(
     caches.open(CACHE_NAME).then((cache) =>
       Promise.allSettled(
-        SHELL_ASSETS.map((url) =>
-          fetch(url).then((res) => { if (res.ok) cache.put(url, res); }).catch(() => {})
+        PRECACHE.map((url) =>
+          fetch(url).then((res) => {
+            if (res.ok) return cache.put(url, res);
+          }).catch(() => {})
         )
       )
     )
@@ -27,6 +43,7 @@ self.addEventListener('install', (event) => {
 });
 
 self.addEventListener('activate', (event) => {
+  // Delete old cache versions
   event.waitUntil(
     caches.keys().then((keys) =>
       Promise.all(keys.filter((k) => k !== CACHE_NAME).map((k) => caches.delete(k)))
@@ -45,11 +62,14 @@ self.addEventListener('fetch', (event) => {
     caches.open(CACHE_NAME).then((cache) =>
       cache.match(request).then((cached) => {
         if (cached) {
-          // Serve from cache immediately; revalidate in background
-          fetch(request).then((res) => { if (res.ok) cache.put(request, res); }).catch(() => {});
+          // Serve from cache immediately (offline-first).
+          // Revalidate in background only if network is available.
+          fetch(request).then((res) => {
+            if (res.ok) cache.put(request, res);
+          }).catch(() => {});
           return cached;
         }
-        // Not cached yet — fetch from network and store for offline use
+        // Not in cache — fetch from network, cache for next time
         return fetch(request).then((res) => {
           if (res.ok) cache.put(request, res.clone());
           return res;

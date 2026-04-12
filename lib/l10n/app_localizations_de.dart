@@ -267,6 +267,9 @@ class AppLocalizationsDe extends AppLocalizations {
   String get pantryCustomFood => 'Eigenes Lebensmittel';
 
   @override
+  String get pantryMyFoods => 'Meine Lebensmittel';
+
+  @override
   String get addFoodTitle => 'Eigenes Lebensmittel hinzufügen';
 
   @override

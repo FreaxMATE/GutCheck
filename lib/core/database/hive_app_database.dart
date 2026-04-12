@@ -54,6 +54,7 @@ class HiveAppDatabase implements AppDatabase {
   Future<List<Ingredient>> searchIngredients({
     String query = '',
     FoodCategory? category,
+    bool customOnly = false,
     int limit = 200,
     int offset = 0,
   }) async {
@@ -63,7 +64,8 @@ class HiveAppDatabase implements AppDatabase {
       final categoryOk = category == null || ingredient.category == category;
       // Search both English (nameLower) and German (nameDE) names
       final queryOk = lower.isEmpty || ingredient.nameLower.contains(lower) || (ingredient.nameDE?.toLowerCase().contains(lower) ?? false);
-      return categoryOk && queryOk;
+      final customOk = !customOnly || !ingredient.isSeeded;
+      return categoryOk && queryOk && customOk;
     }).toList()
       ..sort((a, b) => a.nameLower.compareTo(b.nameLower));
 
