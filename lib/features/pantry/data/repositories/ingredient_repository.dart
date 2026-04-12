@@ -22,7 +22,11 @@ class IngredientRepository {
             .filter()
             .categoryEqualTo(category)
             .and()
-            .nameLowerContains(lower, caseSensitive: false)
+            // Search both English (nameLower) and German (nameDE) names
+            .group((q) => q
+                .nameLowerContains(lower, caseSensitive: false)
+                .or()
+                .nameDEContains(lower, caseSensitive: false))
             .sortByNameLower()
             .offset(offset)
             .limit(limit)
@@ -40,9 +44,12 @@ class IngredientRepository {
 
     if (query.isNotEmpty) {
       final lower = query.toLowerCase();
+      // Search both English (nameLower) and German (nameDE) names
       return _isar.ingredients
           .filter()
           .nameLowerContains(lower, caseSensitive: false)
+          .or()
+          .nameDEContains(lower, caseSensitive: false)
           .sortByNameLower()
           .offset(offset)
           .limit(limit)

@@ -6,8 +6,8 @@
 *.swp
 .buildlog/
 .history
-
-
+# flutter version management
+.fvmrc
 
 # Flutter repo-specific
 /bin/cache/
@@ -143,3 +143,6 @@ ehthumbs.db
 !**/ios/**/default.perspectivev3
 !/packages/flutter_tools/test/data/dart_dependencies_test/**/.packages
 !/dev/ci/**/Gemfile.lock
+
+# FVM Version Cache
+.fvm/
