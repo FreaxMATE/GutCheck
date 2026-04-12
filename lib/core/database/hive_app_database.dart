@@ -62,7 +62,7 @@ class HiveAppDatabase implements AppDatabase {
     var filtered = all.where((ingredient) {
       final categoryOk = category == null || ingredient.category == category;
       // Search both English (nameLower) and German (nameDE) names
-      final queryOk = lower.isEmpty ||ingredient.nameLower.contains(lower) || (ingredient.nameDE?.toLowerCase().contains(lower) ?? false);
+      final queryOk = lower.isEmpty || ingredient.nameLower.contains(lower) || (ingredient.nameDE?.toLowerCase().contains(lower) ?? false);
       return categoryOk && queryOk;
     }).toList()
       ..sort((a, b) => a.nameLower.compareTo(b.nameLower));
