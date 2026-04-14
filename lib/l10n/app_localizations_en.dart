@@ -581,4 +581,47 @@ class AppLocalizationsEn extends AppLocalizations {
   String impactSummary(int percent, String direction, String lag) {
     return '$percent% correlation with wellness $direction ~$lag after eating';
   }
+
+  @override
+  String get mealTemplatesTitle => 'Meal Templates';
+
+  @override
+  String get mealTemplatesEmpty =>
+      'Save your favorite meals as templates for quick logging';
+
+  @override
+  String get mealTemplateNew => 'New Template';
+
+  @override
+  String get mealTemplateSaveAs => 'Save as Template';
+
+  @override
+  String get mealTemplateNameHint => 'Template name';
+
+  @override
+  String get mealTemplateNameRequired => 'Give your template a name';
+
+  @override
+  String get mealTemplateSaved => 'Template saved!';
+
+  @override
+  String get mealTemplateDeleted => 'Template deleted';
+
+  @override
+  String get mealTemplateDeleteTitle => 'Delete Template?';
+
+  @override
+  String get mealTemplateDeleteContent =>
+      'This template will be permanently removed.';
+
+  @override
+  String get mealTemplateEditTitle => 'Edit Template';
+
+  @override
+  String get mealTemplateCreateTitle => 'New Template';
+
+  @override
+  String mealTemplateIngredientCount(int count) {
+    return '$count ingredients';
+  }
 }

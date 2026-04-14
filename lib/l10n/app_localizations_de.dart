@@ -586,4 +586,47 @@ class AppLocalizationsDe extends AppLocalizations {
   String impactSummary(int percent, String direction, String lag) {
     return '$percent % Korrelation mit Wohlbefindens-$direction ~$lag nach dem Essen';
   }
+
+  @override
+  String get mealTemplatesTitle => 'Mahlzeitenvorlagen';
+
+  @override
+  String get mealTemplatesEmpty =>
+      'Speichere Lieblingsmahlzeiten als Vorlagen zum schnellen Eintragen';
+
+  @override
+  String get mealTemplateNew => 'Neue Vorlage';
+
+  @override
+  String get mealTemplateSaveAs => 'Als Vorlage speichern';
+
+  @override
+  String get mealTemplateNameHint => 'Vorlagenname';
+
+  @override
+  String get mealTemplateNameRequired => 'Gib deiner Vorlage einen Namen';
+
+  @override
+  String get mealTemplateSaved => 'Vorlage gespeichert!';
+
+  @override
+  String get mealTemplateDeleted => 'Vorlage gelöscht';
+
+  @override
+  String get mealTemplateDeleteTitle => 'Vorlage löschen?';
+
+  @override
+  String get mealTemplateDeleteContent =>
+      'Diese Vorlage wird dauerhaft entfernt.';
+
+  @override
+  String get mealTemplateEditTitle => 'Vorlage bearbeiten';
+
+  @override
+  String get mealTemplateCreateTitle => 'Neue Vorlage';
+
+  @override
+  String mealTemplateIngredientCount(int count) {
+    return '$count Zutaten';
+  }
 }

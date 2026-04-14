@@ -10,12 +10,14 @@ class MealEntryTile extends StatelessWidget {
   final MealEntry entry;
   final VoidCallback? onDelete;
   final VoidCallback? onEdit;
+  final VoidCallback? onSaveAsTemplate;
 
   const MealEntryTile({
     super.key,
     required this.entry,
     this.onDelete,
     this.onEdit,
+    this.onSaveAsTemplate,
   });
 
   @override
@@ -44,6 +46,15 @@ class MealEntryTile extends StatelessWidget {
                   style: theme.textTheme.bodySmall
                       ?.copyWith(color: Colors.grey),
                 ),
+                if (onSaveAsTemplate != null) ...[
+                  const SizedBox(width: 4),
+                  IconButton(
+                    icon: const Icon(Icons.bookmark_add_outlined, size: 20),
+                    onPressed: onSaveAsTemplate,
+                    tooltip: l10n.mealTemplateSaveAs,
+                    visualDensity: VisualDensity.compact,
+                  ),
+                ],
                 if (onEdit != null) ...[
                   const SizedBox(width: 4),
                   IconButton(

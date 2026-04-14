@@ -6,31 +6,26 @@ import '../../../../core/constants/food_categories.dart';
 import '../../../../core/database/app_database_provider.dart';
 import '../../../../core/l10n/l10n_extensions.dart';
 import '../../../pantry/data/models/ingredient.dart';
-import '../../data/models/meal_entry.dart';
 import '../../data/models/meal_ingredient.dart';
-import '../../providers/meal_providers.dart';
+import '../../data/models/meal_template.dart';
+import '../../providers/meal_template_providers.dart';
 import '../widgets/meal_ingredient_chip.dart';
 
-class LogMealSheet extends ConsumerStatefulWidget {
-  /// When non-null, the sheet operates in edit mode for this entry.
-  final MealEntry? initialEntry;
+class EditTemplateSheet extends ConsumerStatefulWidget {
+  /// When non-null, the sheet operates in edit mode for this template.
+  final MealTemplate? initialTemplate;
 
-  /// When true and [initialEntry] is set, pre-fills from the entry but
-  /// creates a new meal on save (used when applying a template).
-  final bool isNewFromTemplate;
-
-  const LogMealSheet({super.key, this.initialEntry, this.isNewFromTemplate = false});
+  const EditTemplateSheet({super.key, this.initialTemplate});
 
   @override
-  ConsumerState<LogMealSheet> createState() => _LogMealSheetState();
+  ConsumerState<EditTemplateSheet> createState() => _EditTemplateSheetState();
 }
 
-class _LogMealSheetState extends ConsumerState<LogMealSheet> {
+class _EditTemplateSheetState extends ConsumerState<EditTemplateSheet> {
+  final _nameController = TextEditingController();
   final _searchController = TextEditingController();
-  final _notesController = TextEditingController();
 
-  String _mealLabel = 'Lunch';
-  DateTime _consumedAt = DateTime.now();
+  String? _mealLabel;
   final List<MealIngredient> _selectedIngredients = [];
 
   // Browse mode
@@ -44,8 +39,7 @@ class _LogMealSheetState extends ConsumerState<LogMealSheet> {
 
   bool _saving = false;
 
-  bool get _isEditing =>
-      widget.initialEntry != null && !widget.isNewFromTemplate;
+  bool get _isEditing => widget.initialTemplate != null;
 
   static const _mealLabels = ['Breakfast', 'Lunch', 'Dinner', 'Snack'];
 
@@ -54,42 +48,20 @@ class _LogMealSheetState extends ConsumerState<LogMealSheet> {
   @override
   void initState() {
     super.initState();
-    final entry = widget.initialEntry;
-    if (entry != null && !widget.isNewFromTemplate) {
-      // Edit mode: restore all fields from the existing entry.
-      _mealLabel = entry.mealLabel ?? 'Lunch';
-      _consumedAt = entry.consumedAt;
-      _selectedIngredients.addAll(entry.ingredients);
-      if (entry.notes != null) _notesController.text = entry.notes!;
-    } else if (entry != null && widget.isNewFromTemplate) {
-      // Template pre-fill: use template ingredients + label, but fresh time.
-      _mealLabel = entry.mealLabel ?? 'Lunch';
-      if (entry.mealLabel == null) _setSmartLabel();
-      _selectedIngredients.addAll(entry.ingredients);
-    } else {
-      _setSmartLabel();
+    final template = widget.initialTemplate;
+    if (template != null) {
+      _nameController.text = template.name;
+      _mealLabel = template.mealLabel;
+      _selectedIngredients.addAll(template.ingredients);
     }
     WidgetsBinding.instance
         .addPostFrameCallback((_) => _selectCategory(FoodCategory.vegetable));
   }
 
-  void _setSmartLabel() {
-    final hour = DateTime.now().hour;
-    if (hour < 10) {
-      _mealLabel = 'Breakfast';
-    } else if (hour < 14) {
-      _mealLabel = 'Lunch';
-    } else if (hour < 18) {
-      _mealLabel = 'Dinner';
-    } else {
-      _mealLabel = 'Snack';
-    }
-  }
-
   @override
   void dispose() {
+    _nameController.dispose();
     _searchController.dispose();
-    _notesController.dispose();
     super.dispose();
   }
 
@@ -126,7 +98,9 @@ class _LogMealSheetState extends ConsumerState<LogMealSheet> {
               child: Row(
                 children: [
                   Text(
-                    _isEditing ? l10n.mealEditTitle : l10n.logMealTitle,
+                    _isEditing
+                        ? l10n.mealTemplateEditTitle
+                        : l10n.mealTemplateCreateTitle,
                     style: Theme.of(context).textTheme.headlineSmall,
                   ),
                   const Spacer(),
@@ -144,7 +118,22 @@ class _LogMealSheetState extends ConsumerState<LogMealSheet> {
             ),
             const SizedBox(height: 8),
 
-            // Meal type
+            // Template name
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              child: TextField(
+                controller: _nameController,
+                decoration: InputDecoration(
+                  hintText: l10n.mealTemplateNameHint,
+                  prefixIcon: const Icon(Icons.bookmark_outline),
+                  isDense: true,
+                ),
+                textCapitalization: TextCapitalization.sentences,
+              ),
+            ),
+            const SizedBox(height: 8),
+
+            // Meal type (optional)
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16),
               child: SegmentedButton<String>(
@@ -154,27 +143,13 @@ class _LogMealSheetState extends ConsumerState<LogMealSheet> {
                           label: Text(localizedMealLabel(lbl, l10n)),
                         ))
                     .toList(),
-                selected: {_mealLabel},
+                selected: _mealLabel != null ? {_mealLabel!} : {},
+                emptySelectionAllowed: true,
                 onSelectionChanged: (s) =>
-                    setState(() => _mealLabel = s.first),
+                    setState(() => _mealLabel = s.isEmpty ? null : s.first),
               ),
             ),
             const SizedBox(height: 4),
-
-            // Time row
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 8),
-              child: ListTile(
-                leading: const Icon(Icons.access_time_rounded),
-                title: Text(
-                  '${_consumedAt.hour.toString().padLeft(2, '0')}:'
-                  '${_consumedAt.minute.toString().padLeft(2, '0')}',
-                ),
-                subtitle: Text(l10n.logMealTapToChangeTime),
-                onTap: _pickTime,
-                dense: true,
-              ),
-            ),
             const Divider(height: 1),
 
             // Search field
@@ -213,8 +188,7 @@ class _LogMealSheetState extends ConsumerState<LogMealSheet> {
                       padding: const EdgeInsets.only(right: 6),
                       child: FilterChip(
                         avatar: Icon(cat.icon,
-                            size: 16,
-                            color: selected ? null : cat.color),
+                            size: 16, color: selected ? null : cat.color),
                         label: Text(cat.localizedName(l10n)),
                         selected: selected,
                         onSelected: (_) => _selectCategory(cat),
@@ -261,19 +235,7 @@ class _LogMealSheetState extends ConsumerState<LogMealSheet> {
               ),
             ],
 
-            // Notes
-            Padding(
-              padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
-              child: TextField(
-                controller: _notesController,
-                decoration: InputDecoration(
-                  hintText: l10n.logMealNotesHint,
-                  prefixIcon: const Icon(Icons.note_outlined),
-                  isDense: true,
-                ),
-                maxLines: 2,
-              ),
-            ),
+            const SizedBox(height: 16),
           ],
         ),
       ),
@@ -363,26 +325,16 @@ class _LogMealSheetState extends ConsumerState<LogMealSheet> {
     });
   }
 
-  Future<void> _pickTime() async {
-    final picked = await showTimePicker(
-      context: context,
-      initialTime: TimeOfDay.fromDateTime(_consumedAt),
-    );
-    if (picked != null && mounted) {
-      setState(() {
-        _consumedAt = DateTime(
-          _consumedAt.year,
-          _consumedAt.month,
-          _consumedAt.day,
-          picked.hour,
-          picked.minute,
-        );
-      });
-    }
-  }
-
   Future<void> _save() async {
     final l10n = AppLocalizations.of(context)!;
+    final name = _nameController.text.trim();
+
+    if (name.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(l10n.mealTemplateNameRequired)),
+      );
+      return;
+    }
     if (_selectedIngredients.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text(l10n.logMealValidation)),
@@ -392,29 +344,30 @@ class _LogMealSheetState extends ConsumerState<LogMealSheet> {
 
     setState(() => _saving = true);
     try {
-      final entry = MealEntry()
-        ..consumedAt = _consumedAt
+      final template = MealTemplate()
+        ..name = name
         ..mealLabel = _mealLabel
-        ..ingredients = _selectedIngredients
-        ..notes = _notesController.text.trim().isEmpty
-            ? null
-            : _notesController.text.trim();
+        ..ingredients = _selectedIngredients;
 
       if (_isEditing) {
-        entry.id = widget.initialEntry!.id;
-        entry.createdAt = widget.initialEntry!.createdAt;
-        await ref.read(mealLogProvider.notifier).updateMeal(entry);
-      } else {
-        await ref.read(mealLogProvider.notifier).addMeal(entry);
+        template.id = widget.initialTemplate!.id;
+        template.createdAt = widget.initialTemplate!.createdAt;
       }
-      if (mounted) Navigator.of(context).pop();
+
+      await ref.read(mealTemplateProvider.notifier).saveTemplate(template);
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text(l10n.mealTemplateSaved)),
+        );
+        Navigator.of(context).pop();
+      }
     } finally {
       if (mounted) setState(() => _saving = false);
     }
   }
 }
 
-// ── Ingredient tile ───────────────────────────────────────────────────────────
+// ── Ingredient tile (same as LogMealSheet) ───────────────────────────────────
 
 class _IngredientTile extends StatelessWidget {
   final Ingredient ingredient;
@@ -463,9 +416,7 @@ class _IngredientTile extends StatelessWidget {
           ),
           const SizedBox(width: 8),
           Icon(
-            isAdded
-                ? Icons.check_circle_rounded
-                : Icons.add_circle_outline,
+            isAdded ? Icons.check_circle_rounded : Icons.add_circle_outline,
             color: isAdded
                 ? Theme.of(context).colorScheme.primary
                 : Colors.grey,

@@ -1165,6 +1165,84 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'{percent}% correlation with wellness {direction} ~{lag} after eating'**
   String impactSummary(int percent, String direction, String lag);
+
+  /// No description provided for @mealTemplatesTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Meal Templates'**
+  String get mealTemplatesTitle;
+
+  /// No description provided for @mealTemplatesEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'Save your favorite meals as templates for quick logging'**
+  String get mealTemplatesEmpty;
+
+  /// No description provided for @mealTemplateNew.
+  ///
+  /// In en, this message translates to:
+  /// **'New Template'**
+  String get mealTemplateNew;
+
+  /// No description provided for @mealTemplateSaveAs.
+  ///
+  /// In en, this message translates to:
+  /// **'Save as Template'**
+  String get mealTemplateSaveAs;
+
+  /// No description provided for @mealTemplateNameHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Template name'**
+  String get mealTemplateNameHint;
+
+  /// No description provided for @mealTemplateNameRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'Give your template a name'**
+  String get mealTemplateNameRequired;
+
+  /// No description provided for @mealTemplateSaved.
+  ///
+  /// In en, this message translates to:
+  /// **'Template saved!'**
+  String get mealTemplateSaved;
+
+  /// No description provided for @mealTemplateDeleted.
+  ///
+  /// In en, this message translates to:
+  /// **'Template deleted'**
+  String get mealTemplateDeleted;
+
+  /// No description provided for @mealTemplateDeleteTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete Template?'**
+  String get mealTemplateDeleteTitle;
+
+  /// No description provided for @mealTemplateDeleteContent.
+  ///
+  /// In en, this message translates to:
+  /// **'This template will be permanently removed.'**
+  String get mealTemplateDeleteContent;
+
+  /// No description provided for @mealTemplateEditTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit Template'**
+  String get mealTemplateEditTitle;
+
+  /// No description provided for @mealTemplateCreateTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'New Template'**
+  String get mealTemplateCreateTitle;
+
+  /// No description provided for @mealTemplateIngredientCount.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} ingredients'**
+  String mealTemplateIngredientCount(int count);
 }
 
 class _AppLocalizationsDelegate

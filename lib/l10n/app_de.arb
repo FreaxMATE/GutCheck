@@ -208,5 +208,19 @@
   "impactImprovement": "Verbesserung",
   "impactOneHour": "1\u202fStunde",
   "impactHours": "{hours}\u202fStunden",
-  "impactSummary": "{percent}\u202f% Korrelation mit Wohlbefindens-{direction} ~{lag} nach dem Essen"
+  "impactSummary": "{percent}\u202f% Korrelation mit Wohlbefindens-{direction} ~{lag} nach dem Essen",
+
+  "mealTemplatesTitle": "Mahlzeitenvorlagen",
+  "mealTemplatesEmpty": "Speichere Lieblingsmahlzeiten als Vorlagen zum schnellen Eintragen",
+  "mealTemplateNew": "Neue Vorlage",
+  "mealTemplateSaveAs": "Als Vorlage speichern",
+  "mealTemplateNameHint": "Vorlagenname",
+  "mealTemplateNameRequired": "Gib deiner Vorlage einen Namen",
+  "mealTemplateSaved": "Vorlage gespeichert!",
+  "mealTemplateDeleted": "Vorlage gel\u00f6scht",
+  "mealTemplateDeleteTitle": "Vorlage l\u00f6schen?",
+  "mealTemplateDeleteContent": "Diese Vorlage wird dauerhaft entfernt.",
+  "mealTemplateEditTitle": "Vorlage bearbeiten",
+  "mealTemplateCreateTitle": "Neue Vorlage",
+  "mealTemplateIngredientCount": "{count} Zutaten"
 }

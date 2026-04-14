@@ -1,4 +1,5 @@
 import '../../features/meal_log/data/models/meal_entry.dart';
+import '../../features/meal_log/data/models/meal_template.dart';
 import '../../features/pantry/data/models/ingredient.dart';
 import '../../features/wellness/data/models/wellness_entry.dart';
 import '../constants/food_categories.dart';
@@ -46,4 +47,10 @@ abstract class AppDatabase {
   Future<List<WellnessEntry>> allWellness();
   Future<void> deleteAllWellness();
   Future<void> deleteSampleWellness();
+
+  Future<List<MealTemplate>> allMealTemplates();
+  Future<MealTemplate?> findMealTemplateById(int id);
+  Future<void> saveMealTemplate(MealTemplate template);
+  Future<void> deleteMealTemplate(int id);
+  Future<void> deleteAllMealTemplates();
 }

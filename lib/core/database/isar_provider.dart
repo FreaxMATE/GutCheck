@@ -3,6 +3,7 @@ import 'package:isar/isar.dart';
 import 'package:path_provider/path_provider.dart';
 
 import '../../features/meal_log/data/models/meal_entry.dart';
+import '../../features/meal_log/data/models/meal_template.dart';
 import '../../features/pantry/data/models/ingredient.dart';
 import '../../features/wellness/data/models/wellness_entry.dart';
 import 'seed_service.dart';
@@ -12,7 +13,7 @@ final isarProvider = FutureProvider<Isar>((ref) async {
   final dir = await getApplicationDocumentsDirectory();
   final isar = await Isar.open(
     // MealIngredient is @embedded so it doesn't need a separate schema entry.
-    [IngredientSchema, MealEntrySchema, WellnessEntrySchema],
+    [IngredientSchema, MealEntrySchema, MealTemplateSchema, WellnessEntrySchema],
     directory: dir.path,
   );
 

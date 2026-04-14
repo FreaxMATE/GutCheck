@@ -16,6 +16,7 @@ class ExportService {
     final ingredients = await db.allCustomIngredients();
     final meals = await db.allMeals();
     final wellness = await db.allWellness();
+    final templates = await db.allMealTemplates();
 
     final payload = {
       'exportedAt': DateTime.now().toIso8601String(),
@@ -50,6 +51,18 @@ class ExportService {
         'linkedMealIds': w.linkedMealIds,
         'notes': w.notes,
         'createdAt': w.createdAt.toIso8601String(),
+      }).toList(),
+      'mealTemplates': templates.map((t) => {
+        'id': t.id,
+        'name': t.name,
+        'mealLabel': t.mealLabel,
+        'ingredients': t.ingredients.map((i) => {
+          'ingredientId': i.ingredientId,
+          'ingredientName': i.ingredientName,
+          'quantity': i.quantity,
+        }).toList(),
+        'createdAt': t.createdAt.toIso8601String(),
+        'updatedAt': t.updatedAt.toIso8601String(),
       }).toList(),
     };
 
@@ -99,6 +112,7 @@ class ExportService {
     await db.deleteAllMeals();
     await db.deleteAllWellness();
     await db.deleteAllCustomIngredients();
+    await db.deleteAllMealTemplates();
   }
 }
 

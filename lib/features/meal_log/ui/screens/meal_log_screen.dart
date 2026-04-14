@@ -4,8 +4,13 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gutcheck/l10n/app_localizations.dart';
 import '../../../../core/utils/date_utils.dart';
 import '../../data/models/meal_entry.dart';
+import '../../data/models/meal_ingredient.dart';
+import '../../data/models/meal_template.dart';
 import '../../providers/meal_providers.dart';
+import '../../providers/meal_template_providers.dart';
+import '../screens/edit_template_sheet.dart';
 import '../widgets/meal_entry_tile.dart';
+import '../widgets/meal_templates_section.dart';
 import 'log_meal_sheet.dart';
 
 class MealLogScreen extends ConsumerWidget {
@@ -36,47 +41,62 @@ class MealLogScreen extends ConsumerWidget {
         loading: () => const Center(child: CircularProgressIndicator()),
         error: (e, _) => Center(child: Text(l10n.genericError(e))),
         data: (entries) {
-          if (entries.isEmpty) {
-            return Center(
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  const Icon(Icons.restaurant_rounded,
-                      size: 64, color: Colors.grey),
-                  const SizedBox(height: 16),
-                  Text(l10n.mealLogEmpty,
-                      style: Theme.of(context).textTheme.titleMedium),
-                  const SizedBox(height: 8),
-                  Text(
-                    l10n.mealLogEmptyHint,
-                    style: Theme.of(context)
-                        .textTheme
-                        .bodyMedium
-                        ?.copyWith(color: Colors.grey),
-                  ),
-                ],
-              ),
-            );
-          }
-
           // Build a flat list of (date-header | meal-entry) items
           final items = _buildItems(entries);
 
-          return ListView.builder(
-            padding: const EdgeInsets.only(top: 8, bottom: 80),
-            itemCount: items.length,
-            itemBuilder: (ctx, i) {
-              final item = items[i];
-              if (item is DateTime) {
-                return _DateHeader(date: item);
-              }
-              final entry = item as MealEntry;
-              return MealEntryTile(
-                entry: entry,
-                onEdit: () => _editMeal(ctx, ref, entry),
-                onDelete: () => _confirmDelete(ctx, ref, entry.id, l10n),
-              );
-            },
+          return Column(
+            children: [
+              // Templates section (always visible)
+              MealTemplatesSection(
+                onApplyTemplate: (template) =>
+                    _applyTemplate(context, ref, template),
+              ),
+
+              // Meal history
+              Expanded(
+                child: entries.isEmpty
+                    ? Center(
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            const Icon(Icons.restaurant_rounded,
+                                size: 64, color: Colors.grey),
+                            const SizedBox(height: 16),
+                            Text(l10n.mealLogEmpty,
+                                style:
+                                    Theme.of(context).textTheme.titleMedium),
+                            const SizedBox(height: 8),
+                            Text(
+                              l10n.mealLogEmptyHint,
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodyMedium
+                                  ?.copyWith(color: Colors.grey),
+                            ),
+                          ],
+                        ),
+                      )
+                    : ListView.builder(
+                        padding: const EdgeInsets.only(top: 8, bottom: 80),
+                        itemCount: items.length,
+                        itemBuilder: (ctx, i) {
+                          final item = items[i];
+                          if (item is DateTime) {
+                            return _DateHeader(date: item);
+                          }
+                          final entry = item as MealEntry;
+                          return MealEntryTile(
+                            entry: entry,
+                            onEdit: () => _editMeal(ctx, ref, entry),
+                            onDelete: () =>
+                                _confirmDelete(ctx, ref, entry.id, l10n),
+                            onSaveAsTemplate: () =>
+                                _saveAsTemplate(ctx, ref, entry),
+                          );
+                        },
+                      ),
+              ),
+            ],
           );
         },
       ),
@@ -115,6 +135,48 @@ class MealLogScreen extends ConsumerWidget {
       useSafeArea: true,
       builder: (_) => const LogMealSheet(),
     ).then((_) => ref.invalidate(mealHistoryProvider));
+  }
+
+  void _applyTemplate(
+      BuildContext context, WidgetRef ref, MealTemplate template) {
+    // Build a prefill MealEntry from the template
+    final prefill = MealEntry()
+      ..mealLabel = template.mealLabel
+      ..consumedAt = DateTime.now()
+      ..ingredients = template.ingredients
+          .map((i) => MealIngredient()
+            ..ingredientId = i.ingredientId
+            ..ingredientName = i.ingredientName
+            ..quantity = i.quantity)
+          .toList();
+
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      useSafeArea: true,
+      builder: (_) =>
+          LogMealSheet(initialEntry: prefill, isNewFromTemplate: true),
+    ).then((_) => ref.invalidate(mealHistoryProvider));
+  }
+
+  void _saveAsTemplate(
+      BuildContext context, WidgetRef ref, MealEntry entry) {
+    final prefill = MealTemplate()
+      ..name = ''
+      ..mealLabel = entry.mealLabel
+      ..ingredients = entry.ingredients
+          .map((i) => MealIngredient()
+            ..ingredientId = i.ingredientId
+            ..ingredientName = i.ingredientName
+            ..quantity = i.quantity)
+          .toList();
+
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      useSafeArea: true,
+      builder: (_) => EditTemplateSheet(initialTemplate: prefill),
+    ).then((_) => ref.invalidate(mealTemplateProvider));
   }
 
   void _editMeal(BuildContext context, WidgetRef ref, MealEntry entry) {

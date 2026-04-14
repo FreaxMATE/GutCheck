@@ -7,6 +7,7 @@ import '../database/app_database.dart';
 import '../database/app_database_provider.dart';
 import '../../features/meal_log/data/models/meal_entry.dart';
 import '../../features/meal_log/data/models/meal_ingredient.dart';
+import '../../features/meal_log/data/models/meal_template.dart';
 import '../../features/pantry/data/models/ingredient.dart';
 import '../../features/wellness/data/models/wellness_entry.dart';
 
@@ -236,6 +237,37 @@ class ImportService {
         }
       }
 
+      // Restore meal templates
+      await db.deleteAllMealTemplates();
+      if (payload['mealTemplates'] is List) {
+        final templates = payload['mealTemplates'] as List;
+        for (final item in templates) {
+          try {
+            final templateIngredients = (item['ingredients'] as List?)
+                    ?.map((i) {
+                      final mi = MealIngredient()
+                        ..ingredientId = i['ingredientId'] as int
+                        ..ingredientName = i['ingredientName'] as String
+                        ..quantity = i['quantity'] as String?;
+                      return mi;
+                    })
+                    .toList() ??
+                [];
+
+            final template = MealTemplate()
+              ..id = item['id'] as int
+              ..name = item['name'] as String
+              ..mealLabel = item['mealLabel'] as String?
+              ..ingredients = templateIngredients
+              ..createdAt = DateTime.parse(item['createdAt'] as String)
+              ..updatedAt = DateTime.parse(item['updatedAt'] as String);
+            await db.saveMealTemplate(template);
+          } catch (e) {
+            continue;
+          }
+        }
+      }
+
       return ImportResult(
         success: true,
         message:
@@ -359,6 +391,43 @@ class ImportService {
                 ..createdAt = DateTime.parse(item['createdAt'] as String);
               await db.saveWellness(entry);
               wellnessEntriesAdded++;
+            }
+          } catch (e) {
+            continue;
+          }
+        }
+      }
+
+      // Merge meal templates
+      if (payload['mealTemplates'] is List) {
+        final templates = payload['mealTemplates'] as List;
+        final existingTemplates = await db.allMealTemplates();
+        final existingTemplateIds =
+            existingTemplates.map((t) => t.id).toSet();
+
+        for (final item in templates) {
+          try {
+            final id = item['id'] as int;
+            if (!existingTemplateIds.contains(id)) {
+              final templateIngredients = (item['ingredients'] as List?)
+                      ?.map((i) {
+                        final mi = MealIngredient()
+                          ..ingredientId = i['ingredientId'] as int
+                          ..ingredientName = i['ingredientName'] as String
+                          ..quantity = i['quantity'] as String?;
+                        return mi;
+                      })
+                      .toList() ??
+                  [];
+
+              final template = MealTemplate()
+                ..id = id
+                ..name = item['name'] as String
+                ..mealLabel = item['mealLabel'] as String?
+                ..ingredients = templateIngredients
+                ..createdAt = DateTime.parse(item['createdAt'] as String)
+                ..updatedAt = DateTime.parse(item['updatedAt'] as String);
+              await db.saveMealTemplate(template);
             }
           } catch (e) {
             continue;

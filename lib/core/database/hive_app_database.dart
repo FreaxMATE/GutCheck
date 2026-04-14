@@ -6,6 +6,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../features/meal_log/data/models/meal_entry.dart';
 import '../../features/meal_log/data/models/meal_ingredient.dart';
+import '../../features/meal_log/data/models/meal_template.dart';
 import '../../features/pantry/data/models/ingredient.dart';
 import '../../features/wellness/data/models/wellness_entry.dart';
 import '../constants/food_categories.dart';
@@ -18,8 +19,9 @@ class HiveAppDatabase implements AppDatabase {
   final Box<String> _ingredients;
   final Box<String> _meals;
   final Box<String> _wellness;
+  final Box<String> _templates;
 
-  HiveAppDatabase(this._ingredients, this._meals, this._wellness);
+  HiveAppDatabase(this._ingredients, this._meals, this._wellness, this._templates);
 
   @override
   Future<void> seedIfNeeded() async {
@@ -276,6 +278,38 @@ class HiveAppDatabase implements AppDatabase {
     );
   }
 
+  @override
+  Future<List<MealTemplate>> allMealTemplates() async {
+    final list = _templates.values
+        .map((value) =>
+            _templateFromJson(jsonDecode(value) as Map<String, dynamic>))
+        .toList();
+    list.sort((a, b) => b.updatedAt.compareTo(a.updatedAt));
+    return list;
+  }
+
+  @override
+  Future<MealTemplate?> findMealTemplateById(int id) async {
+    final raw = _templates.get(id.toString());
+    if (raw == null) return null;
+    return _templateFromJson(jsonDecode(raw) as Map<String, dynamic>);
+  }
+
+  @override
+  Future<void> saveMealTemplate(MealTemplate template) async {
+    if (template.id <= 0) {
+      template.id = _nextId(_templates);
+    }
+    await _templates.put(
+        template.id.toString(), jsonEncode(_templateToJson(template)));
+  }
+
+  @override
+  Future<void> deleteMealTemplate(int id) => _templates.delete(id.toString());
+
+  @override
+  Future<void> deleteAllMealTemplates() => _templates.clear();
+
   int _nextId(Box<String> box) {
     int maxId = 0;
     for (final key in box.keys) {
@@ -390,6 +424,36 @@ class HiveAppDatabase implements AppDatabase {
           DateTime.now();
   }
 
+  static Map<String, dynamic> _templateToJson(MealTemplate template) => {
+        'id': template.id,
+        'name': template.name,
+        'mealLabel': template.mealLabel,
+        'ingredients': template.ingredients
+            .map((i) => {
+                  'ingredientId': i.ingredientId,
+                  'ingredientName': i.ingredientName,
+                  'quantity': i.quantity,
+                })
+            .toList(),
+        'createdAt': template.createdAt.toIso8601String(),
+        'updatedAt': template.updatedAt.toIso8601String(),
+      };
+
+  static MealTemplate _templateFromJson(Map<String, dynamic> json) {
+    final ingredientsJson = (json['ingredients'] as List<dynamic>? ?? []);
+    return MealTemplate()
+      ..id = json['id'] as int
+      ..name = json['name'] as String
+      ..mealLabel = json['mealLabel'] as String?
+      ..ingredients = ingredientsJson
+          .map((value) => _mealIngredientFromJson(value as Map<String, dynamic>))
+          .toList()
+      ..createdAt = DateTime.tryParse(json['createdAt'] as String? ?? '') ??
+          DateTime.now()
+      ..updatedAt = DateTime.tryParse(json['updatedAt'] as String? ?? '') ??
+          DateTime.now();
+  }
+
   static FoodCategory _categoryFromJson(Object? value) {
     if (value is String) {
       try {
@@ -407,7 +471,8 @@ Future<AppDatabase> createAppDatabase() async {
   final ingredients = await Hive.openBox<String>('ingredients');
   final meals = await Hive.openBox<String>('meals');
   final wellness = await Hive.openBox<String>('wellness_entries');
-  final db = HiveAppDatabase(ingredients, meals, wellness);
+  final templates = await Hive.openBox<String>('meal_templates');
+  final db = HiveAppDatabase(ingredients, meals, wellness, templates);
   await db.seedIfNeeded();
   return db;
 }

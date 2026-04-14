@@ -2,7 +2,9 @@ import 'package:isar/isar.dart';
 import 'package:path_provider/path_provider.dart';
 
 import '../../features/meal_log/data/models/meal_entry.dart';
+import '../../features/meal_log/data/models/meal_template.dart';
 import '../../features/meal_log/data/repositories/meal_repository.dart';
+import '../../features/meal_log/data/repositories/meal_template_repository.dart';
 import '../../features/pantry/data/models/ingredient.dart';
 import '../../features/pantry/data/repositories/ingredient_repository.dart';
 import '../../features/wellness/data/models/wellness_entry.dart';
@@ -155,12 +157,32 @@ class IsarAppDatabase implements AppDatabase {
       await _isar.wellnessEntrys.filter().isSampleEqualTo(true).deleteAll();
     });
   }
+
+  @override
+  Future<List<MealTemplate>> allMealTemplates() =>
+      MealTemplateRepository(_isar).all();
+
+  @override
+  Future<MealTemplate?> findMealTemplateById(int id) =>
+      MealTemplateRepository(_isar).findById(id);
+
+  @override
+  Future<void> saveMealTemplate(MealTemplate template) =>
+      MealTemplateRepository(_isar).save(template);
+
+  @override
+  Future<void> deleteMealTemplate(int id) =>
+      MealTemplateRepository(_isar).delete(id);
+
+  @override
+  Future<void> deleteAllMealTemplates() =>
+      MealTemplateRepository(_isar).deleteAll();
 }
 
 Future<AppDatabase> createAppDatabase() async {
   final dir = await getApplicationDocumentsDirectory();
   final isar = await Isar.open(
-    [IngredientSchema, MealEntrySchema, WellnessEntrySchema],
+    [IngredientSchema, MealEntrySchema, MealTemplateSchema, WellnessEntrySchema],
     directory: dir.path,
   );
   final db = IsarAppDatabase(isar);

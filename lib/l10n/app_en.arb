@@ -266,5 +266,24 @@
       "direction": { "type": "String" },
       "lag": { "type": "String" }
     }
+  },
+
+  "mealTemplatesTitle": "Meal Templates",
+  "mealTemplatesEmpty": "Save your favorite meals as templates for quick logging",
+  "mealTemplateNew": "New Template",
+  "mealTemplateSaveAs": "Save as Template",
+  "mealTemplateNameHint": "Template name",
+  "mealTemplateNameRequired": "Give your template a name",
+  "mealTemplateSaved": "Template saved!",
+  "mealTemplateDeleted": "Template deleted",
+  "mealTemplateDeleteTitle": "Delete Template?",
+  "mealTemplateDeleteContent": "This template will be permanently removed.",
+  "mealTemplateEditTitle": "Edit Template",
+  "mealTemplateCreateTitle": "New Template",
+  "mealTemplateIngredientCount": "{count} ingredients",
+  "@mealTemplateIngredientCount": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
   }
 }
