@@ -1,10 +1,12 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../../../core/animations/animations.dart';
 import '../../../../core/constants/app_colors.dart';
 
-class WellnessScoreRing extends StatelessWidget {
+class WellnessScoreRing extends ConsumerWidget {
   final double score;
   final double size;
 
@@ -15,35 +17,46 @@ class WellnessScoreRing extends StatelessWidget {
   });
 
   @override
-  Widget build(BuildContext context) {
-    final color = AppColors.wellnessScoreInterpolated(score);
+  Widget build(BuildContext context, WidgetRef ref) {
+    final enabled = ref.watch(animationsEnabledProvider);
+    final duration = enabled
+        ? const Duration(milliseconds: 500)
+        : Duration.zero;
     return SizedBox(
       width: size,
       height: size,
-      child: CustomPaint(
-        painter: _RingPainter(score: score, color: color),
-        child: Center(
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Text(
-                score.round().toString(),
-                style: TextStyle(
-                  fontSize: size * 0.28,
-                  fontWeight: FontWeight.bold,
-                  color: color,
-                ),
+      child: TweenAnimationBuilder<double>(
+        tween: Tween<double>(begin: 0, end: score.clamp(0, 100).toDouble()),
+        duration: duration,
+        curve: Curves.easeOutCubic,
+        builder: (_, value, __) {
+          final color = AppColors.wellnessScoreInterpolated(value);
+          return CustomPaint(
+            painter: _RingPainter(score: value, color: color),
+            child: Center(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text(
+                    value.round().toString(),
+                    style: TextStyle(
+                      fontSize: size * 0.28,
+                      fontWeight: FontWeight.bold,
+                      color: color,
+                    ),
+                  ),
+                  Text(
+                    'score',
+                    style: TextStyle(
+                      fontSize: size * 0.10,
+                      color: Colors.grey,
+                    ),
+                  ),
+                ],
               ),
-              Text(
-                'score',
-                style: TextStyle(
-                  fontSize: size * 0.10,
-                  color: Colors.grey,
-                ),
-              ),
-            ],
-          ),
-        ),
+            ),
+          );
+        },
       ),
     );
   }
@@ -68,7 +81,7 @@ class _RingPainter extends CustomPainter {
       3 * pi / 2,
       false,
       Paint()
-        ..color = color.withOpacity(0.15)
+        ..color = color.withValues(alpha: 0.15)
         ..style = PaintingStyle.stroke
         ..strokeWidth = strokeWidth
         ..strokeCap = StrokeCap.round,

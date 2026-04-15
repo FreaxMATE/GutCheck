@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:gutcheck/l10n/app_localizations.dart';
+import '../../../../core/animations/animations.dart';
 import '../../../../core/utils/date_utils.dart';
 import '../../data/models/wellness_entry.dart';
 import '../../providers/wellness_providers.dart';
@@ -26,8 +27,8 @@ class WellnessHistoryScreen extends ConsumerWidget {
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  const Icon(Icons.sentiment_satisfied_alt_rounded,
-                      size: 64, color: Colors.grey),
+                  const PulseIcon(
+                      icon: Icons.sentiment_satisfied_alt_rounded, size: 64),
                   const SizedBox(height: 16),
                   Text(l10n.wellnessHistoryEmpty,
                       style: Theme.of(context).textTheme.titleMedium),
@@ -43,13 +44,21 @@ class WellnessHistoryScreen extends ConsumerWidget {
             itemBuilder: (ctx, i) {
               final item = items[i];
               if (item is DateTime) {
-                return _DateHeader(date: item);
+                return StaggeredEntrance(
+                  index: i,
+                  baseDelay: const Duration(milliseconds: 25),
+                  child: _DateHeader(date: item),
+                );
               }
               final entry = item as WellnessEntry;
-              return _WellnessEntryTile(
-                entry: entry,
-                onEdit: () => _editEntry(ctx, ref, entry),
-                onDelete: () => _confirmDelete(ctx, ref, entry.id, l10n),
+              return StaggeredEntrance(
+                index: i,
+                baseDelay: const Duration(milliseconds: 25),
+                child: _WellnessEntryTile(
+                  entry: entry,
+                  onEdit: () => _editEntry(ctx, ref, entry),
+                  onDelete: () => _confirmDelete(ctx, ref, entry.id, l10n),
+                ),
               );
             },
           );

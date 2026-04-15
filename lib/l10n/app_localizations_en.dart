@@ -139,6 +139,23 @@ class AppLocalizationsEn extends AppLocalizations {
       'Permanently delete all meals and wellness entries';
 
   @override
+  String get settingsResetDbTitle => 'Reset Database';
+
+  @override
+  String get settingsResetDbSubtitle =>
+      'Completely remove the database file. Fixes schema errors. Irreversible.';
+
+  @override
+  String get settingsResetDbDialogTitle => 'Reset Database?';
+
+  @override
+  String get settingsResetDbDialogContent =>
+      'This will permanently delete the entire database file (all meals, wellness entries, custom foods, and settings) and close the app. You must restart it manually.';
+
+  @override
+  String get settingsResetDbDone => 'Database deleted. Please restart the app.';
+
+  @override
   String get settingsSectionAppearance => 'Appearance';
 
   @override
@@ -177,6 +194,13 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get settingsSampleDataRemoved => 'Sample data removed.';
+
+  @override
+  String get settingsAnimationsTitle => 'Animations';
+
+  @override
+  String get settingsAnimationsSubtitle =>
+      'Page transitions, entrance effects, and subtle motion';
 
   @override
   String get fodmapLow => 'Low FODMAP';
@@ -226,6 +250,15 @@ class AppLocalizationsEn extends AppLocalizations {
   String get save => 'Save';
 
   @override
+  String get ok => 'OK';
+
+  @override
+  String get copy => 'Copy';
+
+  @override
+  String get copiedToClipboard => 'Copied to clipboard';
+
+  @override
   String databaseError(Object error) {
     return 'Database error: $error';
   }
@@ -268,6 +301,18 @@ class AppLocalizationsEn extends AppLocalizations {
   String get pantryMyFoods => 'My Foods';
 
   @override
+  String get pantryDeleteTitle => 'Delete Food?';
+
+  @override
+  String get pantryDeleteContent =>
+      'This custom food will be permanently removed.';
+
+  @override
+  String pantryDeleted(String name) {
+    return '$name deleted';
+  }
+
+  @override
   String get addFoodTitle => 'Add Custom Food';
 
   @override
@@ -293,6 +338,21 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get addFoodFodmapHigh => 'High FODMAP';
+
+  @override
+  String get addFoodNameDELabel => 'German Name';
+
+  @override
+  String get addFoodNameDEHint => 'e.g. Drachenfrucht';
+
+  @override
+  String get addFoodNameENLabel => 'English Name';
+
+  @override
+  String get addFoodNameENHint => 'e.g. Dragon Fruit';
+
+  @override
+  String get addFoodAutoTranslated => 'Auto-filled from dictionary';
 
   @override
   String get addFoodNotesHint => 'Any personal observations…';

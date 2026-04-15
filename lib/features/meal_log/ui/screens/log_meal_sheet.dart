@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:gutcheck/l10n/app_localizations.dart';
+import '../../../../core/animations/animations.dart';
 import '../../../../core/constants/food_categories.dart';
 import '../../../../core/database/app_database_provider.dart';
 import '../../../../core/l10n/l10n_extensions.dart';
@@ -462,13 +463,12 @@ class _IngredientTile extends StatelessWidget {
             ),
           ),
           const SizedBox(width: 8),
-          Icon(
-            isAdded
-                ? Icons.check_circle_rounded
-                : Icons.add_circle_outline,
-            color: isAdded
-                ? Theme.of(context).colorScheme.primary
-                : Colors.grey,
+          AnimatedToggleIcon(
+            active: isAdded,
+            activeIcon: Icons.check_circle_rounded,
+            inactiveIcon: Icons.add_circle_outline,
+            activeColor: Theme.of(context).colorScheme.primary,
+            inactiveColor: Colors.grey,
           ),
         ],
       ),

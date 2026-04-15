@@ -1,8 +1,12 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import 'package:gutcheck/l10n/app_localizations.dart';
+import '../../../../core/animations/animations.dart';
+import '../../../../core/utils/error_dialog.dart';
 import '../../providers/wellness_providers.dart';
 import '../widgets/diarrhea_toggle.dart';
 import '../widgets/gi_symptom_slider.dart';
@@ -139,12 +143,21 @@ class WellnessCheckScreen extends ConsumerWidget {
   }
 
   Future<void> _submit(BuildContext context, WidgetRef ref) async {
-    await ref.read(wellnessDraftProvider.notifier).submit();
-    if (context.mounted) {
-      final l10n = AppLocalizations.of(context)!;
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(l10n.wellnessSaved)),
-      );
+    final l10n = AppLocalizations.of(context)!;
+    try {
+      await ref.read(wellnessDraftProvider.notifier).submit();
+      if (context.mounted) {
+        // Fire-and-forget — burst auto-removes. SnackBar shows immediately.
+        unawaited(showSuccessBurst(context));
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text(l10n.wellnessSaved)),
+        );
+      }
+    } catch (e, st) {
+      debugPrint('Wellness save failed: $e\n$st');
+      if (context.mounted) {
+        await showErrorDialog(context, e, st);
+      }
     }
   }
 }

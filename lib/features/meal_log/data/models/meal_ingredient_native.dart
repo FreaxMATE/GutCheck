@@ -1,6 +1,6 @@
 import 'package:isar/isar.dart';
 
-part 'meal_ingredient.g.dart';
+part 'meal_ingredient_native.g.dart';
 
 /// Embedded within MealEntry. Stored directly, not as a separate collection.
 @embedded

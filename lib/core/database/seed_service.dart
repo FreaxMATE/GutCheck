@@ -13,19 +13,18 @@ class SeedService {
   SeedService(this._isar);
 
   static const _seedVersionKey = 'seed_version';
-  static const _currentSeedVersion = 2;
+  static const _currentSeedVersion = 3;
 
   Future<void> seedIfNeeded() async {
     final prefs = await SharedPreferences.getInstance();
     final seeded = prefs.getInt(_seedVersionKey) ?? 0;
     if (seeded >= _currentSeedVersion) return;
 
-    if (seeded < 2) {
-      // v1 → v2: replace all seeded ingredients with the curated bilingual set
-      await _isar.writeTxn(() async {
-        await _isar.ingredients.filter().isSeededEqualTo(true).deleteAll();
-      });
-    }
+    // On every upgrade, replace all seeded ingredients with the curated set.
+    // Custom (user-created) ingredients are preserved (isSeeded == false).
+    await _isar.writeTxn(() async {
+      await _isar.ingredients.filter().isSeededEqualTo(true).deleteAll();
+    });
 
     final jsonStr =
         await rootBundle.loadString('assets/seed/ingredients.json');

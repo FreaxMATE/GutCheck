@@ -5,7 +5,9 @@ import 'dart:convert';
 
 import 'package:file_picker/file_picker.dart';
 import 'package:gutcheck/l10n/app_localizations.dart';
+import '../animations/animations.dart';
 import '../database/app_database_provider.dart';
+import '../database/isar_provider.dart';
 import '../database/sample_data_service.dart';
 import '../providers/locale_provider.dart';
 import '../providers/theme_provider.dart';
@@ -70,6 +72,16 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
             subtitle: Text(currentThemeLabel()),
             trailing: const Icon(Icons.chevron_right),
             onTap: () => _pickTheme(context, themeMode, l10n),
+          ),
+
+          const Divider(indent: 16, endIndent: 16),
+          SwitchListTile(
+            secondary: const Icon(Icons.auto_awesome_rounded),
+            title: Text(l10n.settingsAnimationsTitle),
+            subtitle: Text(l10n.settingsAnimationsSubtitle),
+            value: ref.watch(animationsEnabledProvider),
+            onChanged: (v) =>
+                ref.read(animationsEnabledProvider.notifier).setEnabled(v),
           ),
 
           // ── Language ────────────────────────────────────────────────────────
@@ -149,6 +161,14 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
                 style: const TextStyle(color: Colors.red)),
             subtitle: Text(l10n.settingsClearSubtitle),
             onTap: () => _confirmClear(context, l10n),
+          ),
+          const Divider(indent: 16, endIndent: 16),
+          ListTile(
+            leading: const Icon(Icons.dangerous_outlined, color: Colors.red),
+            title: Text(l10n.settingsResetDbTitle,
+                style: const TextStyle(color: Colors.red)),
+            subtitle: Text(l10n.settingsResetDbSubtitle),
+            onTap: () => _confirmResetDatabase(context, l10n),
           ),
 
           // ── About ────────────────────────────────────────────────────────────
@@ -394,6 +414,47 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
           SnackBar(content: Text(l10n.settingsClearSuccess)),
         );
       }
+    }
+  }
+
+  Future<void> _confirmResetDatabase(
+      BuildContext context, AppLocalizations l10n) async {
+    final messenger = ScaffoldMessenger.of(context);
+    final confirmed = await showDialog<bool>(
+      context: context,
+      builder: (ctx) {
+        final ctxL10n = AppLocalizations.of(ctx)!;
+        return AlertDialog(
+          title: Text(ctxL10n.settingsResetDbDialogTitle),
+          content: Text(ctxL10n.settingsResetDbDialogContent),
+          actions: [
+            TextButton(
+                onPressed: () => Navigator.pop(ctx, false),
+                child: Text(ctxL10n.cancel)),
+            FilledButton(
+              style: FilledButton.styleFrom(backgroundColor: Colors.red),
+              onPressed: () => Navigator.pop(ctx, true),
+              child: Text(ctxL10n.deleteAll),
+            ),
+          ],
+        );
+      },
+    );
+    if (confirmed != true) return;
+
+    try {
+      final isar = await ref.read(isarProvider.future);
+      await isar.close(deleteFromDisk: true);
+    } catch (_) {
+      // Best-effort: even if close fails, we still try to signal the user.
+    }
+    if (mounted) {
+      messenger.showSnackBar(
+        SnackBar(
+          content: Text(l10n.settingsResetDbDone),
+          duration: const Duration(seconds: 8),
+        ),
+      );
     }
   }
 }

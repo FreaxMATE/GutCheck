@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
@@ -8,8 +9,38 @@ import '../../features/pantry/ui/screens/add_custom_food_screen.dart';
 import '../../features/pantry/ui/screens/pantry_screen.dart';
 import '../../features/wellness/ui/screens/wellness_check_screen.dart';
 import '../../features/wellness/ui/screens/wellness_history_screen.dart';
+import '../animations/animations.dart';
 import 'app_shell.dart';
 import 'settings_screen.dart';
+
+/// Fade-through transition for pushed sub-routes. Becomes instant when
+/// animations are disabled.
+Page<T> _fadeThroughPage<T>(Widget child) {
+  final enabled = animationsEnabledListenable.value;
+  return CustomTransitionPage<T>(
+    child: child,
+    transitionDuration: enabled
+        ? const Duration(milliseconds: 260)
+        : Duration.zero,
+    reverseTransitionDuration: enabled
+        ? const Duration(milliseconds: 200)
+        : Duration.zero,
+    transitionsBuilder: (_, anim, __, child) {
+      if (!enabled) return child;
+      return FadeTransition(
+        opacity: CurvedAnimation(parent: anim, curve: Curves.easeOut),
+        child: SlideTransition(
+          position: Tween<Offset>(
+            begin: const Offset(0, 0.025),
+            end: Offset.zero,
+          ).animate(
+              CurvedAnimation(parent: anim, curve: Curves.easeOutCubic)),
+          child: child,
+        ),
+      );
+    },
+  );
+}
 
 final appRouterProvider = Provider<GoRouter>((ref) {
   return GoRouter(
@@ -34,7 +65,8 @@ final appRouterProvider = Provider<GoRouter>((ref) {
             routes: [
               GoRoute(
                 path: 'add-food',
-                builder: (c, s) => const AddCustomFoodScreen(),
+                pageBuilder: (c, s) =>
+                    _fadeThroughPage(const AddCustomFoodScreen()),
               ),
             ],
           ),
@@ -50,7 +82,8 @@ final appRouterProvider = Provider<GoRouter>((ref) {
             routes: [
               GoRoute(
                 path: 'history',
-                builder: (c, s) => const WellnessHistoryScreen(),
+                pageBuilder: (c, s) =>
+                    _fadeThroughPage(const WellnessHistoryScreen()),
               ),
             ],
           ),
@@ -63,7 +96,7 @@ final appRouterProvider = Provider<GoRouter>((ref) {
       ),
       GoRoute(
         path: '/settings',
-        builder: (c, s) => const SettingsScreen(),
+        pageBuilder: (c, s) => _fadeThroughPage(const SettingsScreen()),
       ),
     ],
   );

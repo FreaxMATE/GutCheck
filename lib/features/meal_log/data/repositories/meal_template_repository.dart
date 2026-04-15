@@ -6,8 +6,11 @@ class MealTemplateRepository {
   final Isar _isar;
   MealTemplateRepository(this._isar);
 
-  Future<List<MealTemplate>> all() =>
-      _isar.mealTemplates.where().sortByUpdatedAtDesc().findAll();
+  Future<List<MealTemplate>> all() async {
+    final results = await _isar.mealTemplates.where().findAll();
+    results.sort((a, b) => b.updatedAt.compareTo(a.updatedAt));
+    return results;
+  }
 
   Future<MealTemplate?> findById(int id) => _isar.mealTemplates.get(id);
 

@@ -1,11 +1,13 @@
 {
-  "version": 2,
+  "version": 3,
   "ingredients": [
     { "name": "Carrot", "nameDE": "Karotte", "category": "vegetable", "fodmapLevel": "low" },
     { "name": "Spinach", "nameDE": "Spinat", "category": "vegetable", "fodmapLevel": "low" },
     { "name": "Bell Pepper", "nameDE": "Paprika", "category": "vegetable", "fodmapLevel": "low" },
     { "name": "Zucchini", "nameDE": "Zucchini", "category": "vegetable", "fodmapLevel": "low" },
     { "name": "Cucumber", "nameDE": "Gurke", "category": "vegetable", "fodmapLevel": "low" },
+    { "name": "Lettuce", "nameDE": "Kopfsalat", "category": "vegetable", "fodmapLevel": "low" },
+    { "name": "Arugula", "nameDE": "Rucola", "category": "vegetable", "fodmapLevel": "low" },
     { "name": "Tomato", "nameDE": "Tomate", "category": "vegetable", "fodmapLevel": "low" },
     { "name": "Potato", "nameDE": "Kartoffel", "category": "vegetable", "fodmapLevel": "low" },
     { "name": "Sweet Potato", "nameDE": "Süßkartoffel", "category": "vegetable", "fodmapLevel": "low" },
@@ -36,6 +38,9 @@
     { "name": "Watermelon", "nameDE": "Wassermelone", "category": "fruit", "fodmapLevel": "high" },
     { "name": "Peach", "nameDE": "Pfirsich", "category": "fruit", "fodmapLevel": "high" },
     { "name": "Cherry", "nameDE": "Kirsche", "category": "fruit", "fodmapLevel": "high" },
+    { "name": "Lemon", "nameDE": "Zitrone", "category": "fruit", "fodmapLevel": "low" },
+    { "name": "Lime", "nameDE": "Limette", "category": "fruit", "fodmapLevel": "low" },
+    { "name": "Jackfruit", "nameDE": "Jackfrucht", "category": "fruit", "fodmapLevel": "low" },
 
     { "name": "White Rice", "nameDE": "Weißer Reis", "category": "grain", "fodmapLevel": "low" },
     { "name": "Brown Rice", "nameDE": "Brauner Reis", "category": "grain", "fodmapLevel": "low" },
@@ -49,6 +54,7 @@
     { "name": "Rye Bread", "nameDE": "Roggenbrot", "category": "grain", "fodmapLevel": "high" },
     { "name": "Couscous", "nameDE": "Couscous", "category": "grain", "fodmapLevel": "high" },
     { "name": "Barley", "nameDE": "Gerste", "category": "grain", "fodmapLevel": "high" },
+    { "name": "Wrap", "nameDE": "Wrap", "category": "grain", "fodmapLevel": "high" },
 
     { "name": "Chicken Breast", "nameDE": "Hähnchenbrust", "category": "protein", "fodmapLevel": "low" },
     { "name": "Salmon", "nameDE": "Lachs", "category": "protein", "fodmapLevel": "low" },
@@ -60,6 +66,10 @@
     { "name": "Shrimp", "nameDE": "Garnelen", "category": "protein", "fodmapLevel": "low" },
     { "name": "Tofu", "nameDE": "Tofu", "category": "protein", "fodmapLevel": "low" },
     { "name": "Tempeh", "nameDE": "Tempeh", "category": "protein", "fodmapLevel": "low" },
+    { "name": "Seitan", "nameDE": "Seitan", "category": "protein", "fodmapLevel": "high" },
+    { "name": "Vegan Meat", "nameDE": "Veganes Fleisch", "category": "protein", "fodmapLevel": "moderate" },
+    { "name": "Vegan Sausage", "nameDE": "Vegane Wurst", "category": "protein", "fodmapLevel": "moderate" },
+    { "name": "Vegan Patty", "nameDE": "Veganes Patty", "category": "protein", "fodmapLevel": "moderate" },
 
     { "name": "Lactose-Free Milk", "nameDE": "Laktosefreie Milch", "category": "dairy", "fodmapLevel": "low" },
     { "name": "Hard Cheese", "nameDE": "Hartkäse", "category": "dairy", "fodmapLevel": "low" },
@@ -71,6 +81,15 @@
     { "name": "Ice Cream", "nameDE": "Eis", "category": "dairy", "fodmapLevel": "high" },
     { "name": "Ricotta", "nameDE": "Ricotta", "category": "dairy", "fodmapLevel": "high" },
     { "name": "Cream Cheese", "nameDE": "Frischkäse", "category": "dairy", "fodmapLevel": "high" },
+    { "name": "Gouda", "nameDE": "Gouda", "category": "dairy", "fodmapLevel": "low" },
+    { "name": "Cheddar", "nameDE": "Cheddar", "category": "dairy", "fodmapLevel": "low" },
+    { "name": "Mozzarella", "nameDE": "Mozzarella", "category": "dairy", "fodmapLevel": "low" },
+    { "name": "Sliced Cheese", "nameDE": "Schnittkäse", "category": "dairy", "fodmapLevel": "low" },
+    { "name": "Vegan Cheese", "nameDE": "Veganer Käse", "category": "dairy", "fodmapLevel": "low" },
+    { "name": "Soy Yogurt", "nameDE": "Sojajoghurt", "category": "dairy", "fodmapLevel": "low" },
+    { "name": "Coconut Yogurt", "nameDE": "Kokosjoghurt", "category": "dairy", "fodmapLevel": "low" },
+    { "name": "Oat Yogurt", "nameDE": "Haferjoghurt", "category": "dairy", "fodmapLevel": "low" },
+    { "name": "Plant Cream", "nameDE": "Pflanzensahne", "category": "dairy", "fodmapLevel": "low" },
 
     { "name": "Canned Chickpeas", "nameDE": "Kichererbsen (Dose)", "category": "legume", "fodmapLevel": "low" },
     { "name": "Lentils", "nameDE": "Linsen", "category": "legume", "fodmapLevel": "moderate" },
@@ -78,6 +97,7 @@
     { "name": "Kidney Beans", "nameDE": "Kidneybohnen", "category": "legume", "fodmapLevel": "high" },
     { "name": "Soybeans", "nameDE": "Sojabohnen", "category": "legume", "fodmapLevel": "high" },
     { "name": "Peas", "nameDE": "Erbsen", "category": "legume", "fodmapLevel": "high" },
+    { "name": "Hummus", "nameDE": "Hummus", "category": "legume", "fodmapLevel": "moderate" },
 
     { "name": "Olive Oil", "nameDE": "Olivenöl", "category": "fat", "fodmapLevel": "low" },
     { "name": "Coconut Oil", "nameDE": "Kokosöl", "category": "fat", "fodmapLevel": "low" },
@@ -87,6 +107,8 @@
     { "name": "Almonds", "nameDE": "Mandeln", "category": "fat", "fodmapLevel": "moderate" },
     { "name": "Walnuts", "nameDE": "Walnüsse", "category": "fat", "fodmapLevel": "low" },
     { "name": "Cashews", "nameDE": "Cashews", "category": "fat", "fodmapLevel": "high" },
+    { "name": "Tahini", "nameDE": "Tahini", "category": "fat", "fodmapLevel": "moderate" },
+    { "name": "Vegan Butter", "nameDE": "Vegane Butter", "category": "fat", "fodmapLevel": "low" },
 
     { "name": "Basil", "nameDE": "Basilikum", "category": "herb", "fodmapLevel": "low" },
     { "name": "Parsley", "nameDE": "Petersilie", "category": "herb", "fodmapLevel": "low" },
@@ -119,6 +141,7 @@
     { "name": "Dark Chocolate", "nameDE": "Zartbitterschokolade", "category": "other", "fodmapLevel": "low" },
     { "name": "Rice Cake", "nameDE": "Reiswaffel", "category": "other", "fodmapLevel": "low" },
     { "name": "Maple Syrup", "nameDE": "Ahornsirup", "category": "other", "fodmapLevel": "low" },
-    { "name": "Honey", "nameDE": "Honig", "category": "other", "fodmapLevel": "high" }
+    { "name": "Honey", "nameDE": "Honig", "category": "other", "fodmapLevel": "high" },
+    { "name": "Nutritional Yeast", "nameDE": "Hefeflocken", "category": "other", "fodmapLevel": "low" }
   ]
 }

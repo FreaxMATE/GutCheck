@@ -5,6 +5,8 @@ import 'package:gutcheck/l10n/app_localizations.dart';
 import '../../../../core/database/app_database_provider.dart';
 import '../../../../core/l10n/l10n_extensions.dart';
 import '../../../../core/utils/date_utils.dart';
+import '../../../meal_log/data/models/meal_ingredient.dart';
+import '../../../pantry/providers/pantry_providers.dart';
 import '../../providers/wellness_providers.dart';
 
 class LinkedMealSelector extends ConsumerWidget {
@@ -83,12 +85,7 @@ class LinkedMealSelector extends ConsumerWidget {
                         ),
                       ),
                       if (meal.ingredients.isNotEmpty)
-                        Text(
-                          meal.ingredients.take(2).map((i) => i.ingredientName).join(', '),
-                          style: const TextStyle(fontSize: 10, color: Colors.grey),
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                        ),
+                        _IngredientSummary(ingredients: meal.ingredients),
                     ],
                   ),
                 ),
@@ -104,5 +101,30 @@ class LinkedMealSelector extends ConsumerWidget {
     final db = await ref.read(appDatabaseProvider.future);
     final from = DateTime.now().subtract(const Duration(hours: 12));
     return db.mealsInRange(from: from, to: DateTime.now());
+  }
+}
+
+/// Displays the first few ingredient names, localized via the singleIngredientProvider.
+class _IngredientSummary extends ConsumerWidget {
+  final List<MealIngredient> ingredients;
+  const _IngredientSummary({required this.ingredients});
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final locale = Localizations.localeOf(context).languageCode;
+    final preview = ingredients.take(2);
+    final names = preview.map((i) {
+      final async = ref.watch(singleIngredientProvider(i.ingredientId));
+      return async.maybeWhen(
+        data: (ing) => ing?.localizedName(locale) ?? i.ingredientName,
+        orElse: () => i.ingredientName,
+      );
+    }).join(', ');
+    return Text(
+      names,
+      style: const TextStyle(fontSize: 10, color: Colors.grey),
+      maxLines: 1,
+      overflow: TextOverflow.ellipsis,
+    );
   }
 }

@@ -9,22 +9,24 @@ class WellnessRepository {
   Future<List<WellnessEntry>> inRange({
     required DateTime from,
     required DateTime to,
-  }) {
-    return _isar.wellnessEntrys
+  }) async {
+    final results = await _isar.wellnessEntrys
         .filter()
         .recordedAtBetween(from, to)
-        .sortByRecordedAt()
         .findAll();
+    results.sort((a, b) => a.recordedAt.compareTo(b.recordedAt));
+    return results;
   }
 
-  Future<List<WellnessEntry>> forDate(DateTime date) {
+  Future<List<WellnessEntry>> forDate(DateTime date) async {
     final start = DateTime(date.year, date.month, date.day);
     final end = start.add(const Duration(days: 1));
-    return _isar.wellnessEntrys
+    final results = await _isar.wellnessEntrys
         .filter()
         .recordedAtBetween(start, end)
-        .sortByRecordedAtDesc()
         .findAll();
+    results.sort((a, b) => b.recordedAt.compareTo(a.recordedAt));
+    return results;
   }
 
   Future<void> save(WellnessEntry entry) async {
@@ -35,8 +37,11 @@ class WellnessRepository {
     await _isar.writeTxn(() => _isar.wellnessEntrys.delete(id));
   }
 
-  Future<List<WellnessEntry>> all() =>
-      _isar.wellnessEntrys.where().sortByRecordedAt().findAll();
+  Future<List<WellnessEntry>> all() async {
+    final results = await _isar.wellnessEntrys.where().findAll();
+    results.sort((a, b) => a.recordedAt.compareTo(b.recordedAt));
+    return results;
+  }
 
   Future<void> deleteAll() async {
     await _isar.writeTxn(() => _isar.wellnessEntrys.where().deleteAll());

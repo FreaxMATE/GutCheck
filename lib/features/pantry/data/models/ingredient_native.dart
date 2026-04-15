@@ -2,7 +2,7 @@ import 'package:isar/isar.dart';
 
 import '../../../../core/constants/food_categories.dart';
 
-part 'ingredient.g.dart';
+part 'ingredient_native.g.dart';
 
 @collection
 class Ingredient {

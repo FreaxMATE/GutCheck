@@ -107,6 +107,9 @@ unlinked_spec.ds
 # Isar native library (copied from isar_flutter_libs for flutter run -d linux)
 /libisar.so
 
+# NixOS writable Flutter SDK overlay
+.flutter-sdk/
+
 # Coverage
 coverage/
 

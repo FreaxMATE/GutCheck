@@ -1,6 +1,6 @@
 import 'package:isar/isar.dart';
 
-part 'wellness_entry.g.dart';
+part 'wellness_entry_native.g.dart';
 
 @collection
 class WellnessEntry {

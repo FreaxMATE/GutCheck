@@ -6,25 +6,27 @@ class MealRepository {
   final Isar _isar;
   MealRepository(this._isar);
 
-  Future<List<MealEntry>> forDate(DateTime date) {
+  Future<List<MealEntry>> forDate(DateTime date) async {
     final start = DateTime(date.year, date.month, date.day);
     final end = start.add(const Duration(days: 1));
-    return _isar.mealEntrys
+    final results = await _isar.mealEntrys
         .filter()
         .consumedAtBetween(start, end)
-        .sortByConsumedAtDesc()
         .findAll();
+    results.sort((a, b) => b.consumedAt.compareTo(a.consumedAt));
+    return results;
   }
 
   Future<List<MealEntry>> inRange({
     required DateTime from,
     required DateTime to,
-  }) {
-    return _isar.mealEntrys
+  }) async {
+    final results = await _isar.mealEntrys
         .filter()
         .consumedAtBetween(from, to)
-        .sortByConsumedAt()
         .findAll();
+    results.sort((a, b) => a.consumedAt.compareTo(b.consumedAt));
+    return results;
   }
 
   Future<MealEntry?> findById(int id) => _isar.mealEntrys.get(id);
@@ -37,8 +39,11 @@ class MealRepository {
     await _isar.writeTxn(() => _isar.mealEntrys.delete(id));
   }
 
-  Future<List<MealEntry>> all() =>
-      _isar.mealEntrys.where().sortByConsumedAt().findAll();
+  Future<List<MealEntry>> all() async {
+    final results = await _isar.mealEntrys.where().findAll();
+    results.sort((a, b) => a.consumedAt.compareTo(b.consumedAt));
+    return results;
+  }
 
   Future<void> deleteAll() async {
     await _isar.writeTxn(() => _isar.mealEntrys.where().deleteAll());

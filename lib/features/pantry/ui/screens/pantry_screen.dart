@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import 'package:gutcheck/l10n/app_localizations.dart';
+import '../../../../core/animations/animations.dart';
 import '../../../../core/database/app_database_provider.dart';
 import '../../../../core/l10n/l10n_extensions.dart';
 import '../../providers/pantry_providers.dart';
@@ -66,8 +67,8 @@ class PantryScreen extends ConsumerWidget {
                       child: Column(
                         mainAxisSize: MainAxisSize.min,
                         children: [
-                          const Icon(Icons.search_off_rounded,
-                              size: 48, color: Colors.grey),
+                          const PulseIcon(
+                              icon: Icons.search_off_rounded, size: 48),
                           const SizedBox(height: 12),
                           Text(
                             searchQuery.isNotEmpty
@@ -116,6 +117,7 @@ class PantryScreen extends ConsumerWidget {
         expand: false,
         builder: (_, controller) {
           final sheetL10n = AppLocalizations.of(ctx)!;
+          final locale = Localizations.localeOf(ctx).languageCode;
           return ListView(
             controller: controller,
             padding: const EdgeInsets.all(24),
@@ -145,7 +147,7 @@ class PantryScreen extends ConsumerWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(ingredient.name,
+                        Text(ingredient.localizedName(locale),
                             style:
                                 Theme.of(ctx).textTheme.headlineSmall),
                         Text(ingredient.category.localizedName(sheetL10n),
@@ -155,6 +157,15 @@ class PantryScreen extends ConsumerWidget {
                       ],
                     ),
                   ),
+                  if (!ingredient.isSeeded)
+                    IconButton(
+                      icon: const Icon(Icons.delete_outline),
+                      color: Colors.red,
+                      tooltip: sheetL10n.delete,
+                      onPressed: () =>
+                          _confirmDeleteIngredient(ctx, ref, ingredient.id,
+                              ingredient.localizedName(locale)),
+                    ),
                 ],
               ),
               const SizedBox(height: 24),
@@ -177,6 +188,54 @@ class PantryScreen extends ConsumerWidget {
         },
       ),
     );
+  }
+
+  Future<void> _confirmDeleteIngredient(
+      BuildContext sheetCtx, WidgetRef ref, int id, String displayName) async {
+    final l10n = AppLocalizations.of(sheetCtx)!;
+    final confirmed = await showDialog<bool>(
+      context: sheetCtx,
+      builder: (dialogCtx) {
+        final dialogL10n = AppLocalizations.of(dialogCtx)!;
+        return AlertDialog(
+          title: Text(dialogL10n.pantryDeleteTitle),
+          content: Text(dialogL10n.pantryDeleteContent),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(dialogCtx, false),
+              child: Text(dialogL10n.cancel),
+            ),
+            FilledButton(
+              style: FilledButton.styleFrom(backgroundColor: Colors.red),
+              onPressed: () => Navigator.pop(dialogCtx, true),
+              child: Text(dialogL10n.delete),
+            ),
+          ],
+        );
+      },
+    );
+    if (confirmed != true) return;
+
+    try {
+      final db = await ref.read(appDatabaseProvider.future);
+      await db.deleteIngredient(id);
+      ref.invalidate(pagedIngredientsProvider);
+      ref.invalidate(singleIngredientProvider(id));
+      ref.invalidate(ingredientCountProvider);
+
+      if (sheetCtx.mounted) {
+        Navigator.of(sheetCtx).pop(); // close the detail sheet
+        ScaffoldMessenger.of(sheetCtx).showSnackBar(
+          SnackBar(content: Text(l10n.pantryDeleted(displayName))),
+        );
+      }
+    } catch (e) {
+      if (sheetCtx.mounted) {
+        ScaffoldMessenger.of(sheetCtx).showSnackBar(
+          SnackBar(content: Text(l10n.genericError(e))),
+        );
+      }
+    }
   }
 }
 

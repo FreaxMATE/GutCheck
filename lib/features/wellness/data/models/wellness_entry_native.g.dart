@@ -22,45 +22,45 @@ const WellnessEntrySchema = CollectionSchema(
       name: r'createdAt',
       type: IsarType.dateTime,
     ),
-    r'gutPeace': PropertySchema(
+    r'diarrhea': PropertySchema(
       id: 1,
+      name: r'diarrhea',
+      type: IsarType.bool,
+    ),
+    r'gutPeace': PropertySchema(
+      id: 2,
       name: r'gutPeace',
       type: IsarType.long,
     ),
+    r'heartburn': PropertySchema(
+      id: 3,
+      name: r'heartburn',
+      type: IsarType.long,
+    ),
     r'isSample': PropertySchema(
-      id: 2,
+      id: 4,
       name: r'isSample',
       type: IsarType.bool,
     ),
     r'linkedMealIds': PropertySchema(
-      id: 3,
+      id: 5,
       name: r'linkedMealIds',
       type: IsarType.longList,
     ),
     r'notes': PropertySchema(
-      id: 4,
+      id: 6,
       name: r'notes',
       type: IsarType.string,
     ),
     r'recordedAt': PropertySchema(
-      id: 5,
+      id: 7,
       name: r'recordedAt',
       type: IsarType.dateTime,
     ),
     r'wellnessScore': PropertySchema(
-      id: 6,
+      id: 8,
       name: r'wellnessScore',
       type: IsarType.double,
-    ),
-    r'heartburn': PropertySchema(
-      id: 7,
-      name: r'heartburn',
-      type: IsarType.long,
-    ),
-    r'diarrhea': PropertySchema(
-      id: 8,
-      name: r'diarrhea',
-      type: IsarType.bool,
     )
   },
   estimateSize: _wellnessEntryEstimateSize,
@@ -114,14 +114,14 @@ void _wellnessEntrySerialize(
   Map<Type, List<int>> allOffsets,
 ) {
   writer.writeDateTime(offsets[0], object.createdAt);
-  writer.writeLong(offsets[1], object.gutPeace);
-  writer.writeBool(offsets[2], object.isSample);
-  writer.writeLongList(offsets[3], object.linkedMealIds);
-  writer.writeString(offsets[4], object.notes);
-  writer.writeDateTime(offsets[5], object.recordedAt);
-  writer.writeDouble(offsets[6], object.wellnessScore);
-  writer.writeLong(offsets[7], object.heartburn);
-  writer.writeBool(offsets[8], object.diarrhea);
+  writer.writeBool(offsets[1], object.diarrhea);
+  writer.writeLong(offsets[2], object.gutPeace);
+  writer.writeLong(offsets[3], object.heartburn);
+  writer.writeBool(offsets[4], object.isSample);
+  writer.writeLongList(offsets[5], object.linkedMealIds);
+  writer.writeString(offsets[6], object.notes);
+  writer.writeDateTime(offsets[7], object.recordedAt);
+  writer.writeDouble(offsets[8], object.wellnessScore);
 }
 
 WellnessEntry _wellnessEntryDeserialize(
@@ -132,18 +132,15 @@ WellnessEntry _wellnessEntryDeserialize(
 ) {
   final object = WellnessEntry();
   object.createdAt = reader.readDateTime(offsets[0]);
-  object.gutPeace = reader.readLong(offsets[1]);
+  object.diarrhea = reader.readBool(offsets[1]);
+  object.gutPeace = reader.readLong(offsets[2]);
+  object.heartburn = reader.readLong(offsets[3]);
   object.id = id;
-  object.isSample = reader.readBool(offsets[2]);
-  object.linkedMealIds = reader.readLongList(offsets[3]) ?? [];
-  object.notes = reader.readStringOrNull(offsets[4]);
-  object.recordedAt = reader.readDateTime(offsets[5]);
-  object.wellnessScore = reader.readDouble(offsets[6]);
-  // id 7 added later; old records return 0 → clamp to 1 as default.
-  final hb = reader.readLong(offsets[7]);
-  object.heartburn = hb <= 0 ? 1 : hb;
-  // id 8 added later; old records return false (correct default).
-  object.diarrhea = reader.readBool(offsets[8]);
+  object.isSample = reader.readBool(offsets[4]);
+  object.linkedMealIds = reader.readLongList(offsets[5]) ?? [];
+  object.notes = reader.readStringOrNull(offsets[6]);
+  object.recordedAt = reader.readDateTime(offsets[7]);
+  object.wellnessScore = reader.readDouble(offsets[8]);
   return object;
 }
 
@@ -157,21 +154,21 @@ P _wellnessEntryDeserializeProp<P>(
     case 0:
       return (reader.readDateTime(offset)) as P;
     case 1:
-      return (reader.readLong(offset)) as P;
+      return (reader.readBool(offset)) as P;
     case 2:
-      return (reader.readBool(offset)) as P;
-    case 3:
-      return (reader.readLongList(offset) ?? []) as P;
-    case 4:
-      return (reader.readStringOrNull(offset)) as P;
-    case 5:
-      return (reader.readDateTime(offset)) as P;
-    case 6:
-      return (reader.readDouble(offset)) as P;
-    case 7:
       return (reader.readLong(offset)) as P;
-    case 8:
+    case 3:
+      return (reader.readLong(offset)) as P;
+    case 4:
       return (reader.readBool(offset)) as P;
+    case 5:
+      return (reader.readLongList(offset) ?? []) as P;
+    case 6:
+      return (reader.readStringOrNull(offset)) as P;
+    case 7:
+      return (reader.readDateTime(offset)) as P;
+    case 8:
+      return (reader.readDouble(offset)) as P;
     default:
       throw IsarError('Unknown property with id $propertyId');
   }
@@ -426,6 +423,16 @@ extension WellnessEntryQueryFilter
         includeLower: includeLower,
         upper: upper,
         includeUpper: includeUpper,
+      ));
+    });
+  }
+
+  QueryBuilder<WellnessEntry, WellnessEntry, QAfterFilterCondition>
+      diarrheaEqualTo(bool value) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'diarrhea',
+        value: value,
       ));
     });
   }
@@ -1049,6 +1056,19 @@ extension WellnessEntryQuerySortBy
     });
   }
 
+  QueryBuilder<WellnessEntry, WellnessEntry, QAfterSortBy> sortByDiarrhea() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'diarrhea', Sort.asc);
+    });
+  }
+
+  QueryBuilder<WellnessEntry, WellnessEntry, QAfterSortBy>
+      sortByDiarrheaDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'diarrhea', Sort.desc);
+    });
+  }
+
   QueryBuilder<WellnessEntry, WellnessEntry, QAfterSortBy> sortByGutPeace() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'gutPeace', Sort.asc);
@@ -1143,6 +1163,19 @@ extension WellnessEntryQuerySortThenBy
     });
   }
 
+  QueryBuilder<WellnessEntry, WellnessEntry, QAfterSortBy> thenByDiarrhea() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'diarrhea', Sort.asc);
+    });
+  }
+
+  QueryBuilder<WellnessEntry, WellnessEntry, QAfterSortBy>
+      thenByDiarrheaDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'diarrhea', Sort.desc);
+    });
+  }
+
   QueryBuilder<WellnessEntry, WellnessEntry, QAfterSortBy> thenByGutPeace() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'gutPeace', Sort.asc);
@@ -1156,18 +1189,6 @@ extension WellnessEntryQuerySortThenBy
     });
   }
 
-  QueryBuilder<WellnessEntry, WellnessEntry, QAfterSortBy> thenById() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'id', Sort.asc);
-    });
-  }
-
-  QueryBuilder<WellnessEntry, WellnessEntry, QAfterSortBy> thenByIdDesc() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'id', Sort.desc);
-    });
-  }
-
   QueryBuilder<WellnessEntry, WellnessEntry, QAfterSortBy> thenByHeartburn() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'heartburn', Sort.asc);
@@ -1178,6 +1199,18 @@ extension WellnessEntryQuerySortThenBy
       thenByHeartburnDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'heartburn', Sort.desc);
+    });
+  }
+
+  QueryBuilder<WellnessEntry, WellnessEntry, QAfterSortBy> thenById() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'id', Sort.asc);
+    });
+  }
+
+  QueryBuilder<WellnessEntry, WellnessEntry, QAfterSortBy> thenByIdDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'id', Sort.desc);
     });
   }
 
@@ -1242,6 +1275,12 @@ extension WellnessEntryQueryWhereDistinct
     });
   }
 
+  QueryBuilder<WellnessEntry, WellnessEntry, QDistinct> distinctByDiarrhea() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'diarrhea');
+    });
+  }
+
   QueryBuilder<WellnessEntry, WellnessEntry, QDistinct> distinctByGutPeace() {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'gutPeace');
@@ -1302,15 +1341,21 @@ extension WellnessEntryQueryProperty
     });
   }
 
-  QueryBuilder<WellnessEntry, int, QQueryOperations> heartburnProperty() {
+  QueryBuilder<WellnessEntry, bool, QQueryOperations> diarrheaProperty() {
     return QueryBuilder.apply(this, (query) {
-      return query.addPropertyName(r'heartburn');
+      return query.addPropertyName(r'diarrhea');
     });
   }
 
   QueryBuilder<WellnessEntry, int, QQueryOperations> gutPeaceProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'gutPeace');
+    });
+  }
+
+  QueryBuilder<WellnessEntry, int, QQueryOperations> heartburnProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'heartburn');
     });
   }
 

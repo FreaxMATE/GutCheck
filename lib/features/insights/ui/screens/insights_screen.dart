@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:gutcheck/l10n/app_localizations.dart';
+import '../../../../core/animations/animations.dart';
 import '../../domain/impact_score.dart';
 import '../../providers/insights_providers.dart';
 import '../widgets/calendar_heatmap.dart';
@@ -174,7 +175,11 @@ class _ImpactTab extends ConsumerWidget {
         return ListView.builder(
           padding: const EdgeInsets.only(bottom: 80),
           itemCount: items.length,
-          itemBuilder: (ctx, i) => FoodImpactCard(score: items[i]),
+          itemBuilder: (ctx, i) => StaggeredEntrance(
+            index: i,
+            baseDelay: const Duration(milliseconds: 30),
+            child: FoodImpactCard(score: items[i]),
+          ),
         );
       },
     );
@@ -292,7 +297,7 @@ class _EmptyState extends StatelessWidget {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Icon(icon, size: 64, color: Colors.grey),
+            PulseIcon(icon: icon, size: 64),
             const SizedBox(height: 16),
             Text(
               message,

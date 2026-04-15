@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:gutcheck/l10n/app_localizations.dart';
+import '../../../../core/animations/animations.dart';
 import '../../../../core/utils/date_utils.dart';
 import '../../data/models/meal_entry.dart';
 import '../../data/models/meal_ingredient.dart';
@@ -59,8 +60,8 @@ class MealLogScreen extends ConsumerWidget {
                         child: Column(
                           mainAxisSize: MainAxisSize.min,
                           children: [
-                            const Icon(Icons.restaurant_rounded,
-                                size: 64, color: Colors.grey),
+                            const PulseIcon(
+                                icon: Icons.restaurant_rounded, size: 64),
                             const SizedBox(height: 16),
                             Text(l10n.mealLogEmpty,
                                 style:
@@ -82,16 +83,24 @@ class MealLogScreen extends ConsumerWidget {
                         itemBuilder: (ctx, i) {
                           final item = items[i];
                           if (item is DateTime) {
-                            return _DateHeader(date: item);
+                            return StaggeredEntrance(
+                              index: i,
+                              baseDelay: const Duration(milliseconds: 25),
+                              child: _DateHeader(date: item),
+                            );
                           }
                           final entry = item as MealEntry;
-                          return MealEntryTile(
-                            entry: entry,
-                            onEdit: () => _editMeal(ctx, ref, entry),
-                            onDelete: () =>
-                                _confirmDelete(ctx, ref, entry.id, l10n),
-                            onSaveAsTemplate: () =>
-                                _saveAsTemplate(ctx, ref, entry),
+                          return StaggeredEntrance(
+                            index: i,
+                            baseDelay: const Duration(milliseconds: 25),
+                            child: MealEntryTile(
+                              entry: entry,
+                              onEdit: () => _editMeal(ctx, ref, entry),
+                              onDelete: () =>
+                                  _confirmDelete(ctx, ref, entry.id, l10n),
+                              onSaveAsTemplate: () =>
+                                  _saveAsTemplate(ctx, ref, entry),
+                            ),
                           );
                         },
                       ),

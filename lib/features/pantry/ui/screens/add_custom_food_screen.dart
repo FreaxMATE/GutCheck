@@ -5,6 +5,7 @@ import 'package:go_router/go_router.dart';
 import 'package:gutcheck/l10n/app_localizations.dart';
 import '../../../../core/constants/food_categories.dart';
 import '../../../../core/database/app_database_provider.dart';
+import '../../../../core/l10n/food_dictionary.dart';
 import '../../../../core/l10n/l10n_extensions.dart';
 import '../../data/models/ingredient.dart';
 import '../../providers/pantry_providers.dart';
@@ -20,18 +21,64 @@ class AddCustomFoodScreen extends ConsumerStatefulWidget {
 class _AddCustomFoodScreenState extends ConsumerState<AddCustomFoodScreen> {
   final _formKey = GlobalKey<FormState>();
   final _nameController = TextEditingController();
+  final _translationController = TextEditingController();
   final _notesController = TextEditingController();
 
   FoodCategory _category = FoodCategory.other;
   String _fodmapLevel = 'low';
   bool _saving = false;
+  bool _autoTranslated = false;
+  FoodDictionary? _dictionary;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadDictionary();
+    _nameController.addListener(_onNameChanged);
+  }
+
+  Future<void> _loadDictionary() async {
+    _dictionary = await FoodDictionary.load();
+  }
 
   @override
   void dispose() {
+    _nameController.removeListener(_onNameChanged);
     _nameController.dispose();
+    _translationController.dispose();
     _notesController.dispose();
     super.dispose();
   }
+
+  void _onNameChanged() {
+    final dict = _dictionary;
+    if (dict == null) return;
+
+    final name = _nameController.text.trim();
+    if (name.isEmpty) {
+      if (_autoTranslated) {
+        _translationController.clear();
+        setState(() => _autoTranslated = false);
+      }
+      return;
+    }
+
+    final lang = Localizations.localeOf(context).languageCode;
+    final result = dict.translate(name, sourceLanguage: lang);
+
+    if (result != null) {
+      _translationController.text = result;
+      setState(() => _autoTranslated = true);
+    } else if (_autoTranslated) {
+      // Previous auto-fill no longer matches — clear it
+      _translationController.clear();
+      setState(() => _autoTranslated = false);
+    }
+  }
+
+  /// Whether the user is currently typing in German.
+  bool get _isGerman =>
+      Localizations.localeOf(context).languageCode == 'de';
 
   @override
   Widget build(BuildContext context) {
@@ -47,6 +94,7 @@ class _AddCustomFoodScreenState extends ConsumerState<AddCustomFoodScreen> {
         child: ListView(
           padding: const EdgeInsets.all(16),
           children: [
+            // ── Primary name (in the user's current language) ──
             TextFormField(
               controller: _nameController,
               decoration: InputDecoration(
@@ -59,6 +107,31 @@ class _AddCustomFoodScreenState extends ConsumerState<AddCustomFoodScreen> {
                   v == null || v.trim().isEmpty ? l10n.addFoodNameRequired : null,
             ),
             const SizedBox(height: 16),
+
+            // ── Translation field (other language) ──
+            TextFormField(
+              controller: _translationController,
+              decoration: InputDecoration(
+                labelText: _isGerman
+                    ? l10n.addFoodNameENLabel
+                    : l10n.addFoodNameDELabel,
+                hintText: _isGerman
+                    ? l10n.addFoodNameENHint
+                    : l10n.addFoodNameDEHint,
+                prefixIcon: const Icon(Icons.translate_rounded),
+                helperText:
+                    _autoTranslated ? l10n.addFoodAutoTranslated : null,
+              ),
+              textCapitalization: TextCapitalization.words,
+              onChanged: (_) {
+                // User edited manually — stop treating it as auto-filled
+                if (_autoTranslated) {
+                  setState(() => _autoTranslated = false);
+                }
+              },
+            ),
+            const SizedBox(height: 16),
+
             DropdownButtonFormField<FoodCategory>(
               initialValue: _category,
               decoration: InputDecoration(
@@ -128,9 +201,27 @@ class _AddCustomFoodScreenState extends ConsumerState<AddCustomFoodScreen> {
 
     try {
       final db = await ref.read(appDatabaseProvider.future);
+      final primaryName = _nameController.text.trim();
+      final translation = _translationController.text.trim();
+
+      // Determine which field is EN and which is DE based on locale.
+      final String englishName;
+      final String? germanName;
+
+      if (_isGerman) {
+        // User typed in German → primary is DE, translation is EN
+        germanName = primaryName;
+        englishName = translation.isNotEmpty ? translation : primaryName;
+      } else {
+        // User typed in English → primary is EN, translation is DE
+        englishName = primaryName;
+        germanName = translation.isNotEmpty ? translation : null;
+      }
+
       final ingredient = Ingredient()
-        ..name = _nameController.text.trim()
-        ..nameLower = _nameController.text.trim().toLowerCase()
+        ..name = englishName
+        ..nameLower = englishName.toLowerCase()
+        ..nameDE = germanName
         ..category = _category
         ..fodmapLevel = _fodmapLevel
         ..isSeeded = false
@@ -138,7 +229,7 @@ class _AddCustomFoodScreenState extends ConsumerState<AddCustomFoodScreen> {
             ? null
             : _notesController.text.trim();
 
-        await db.saveIngredient(ingredient);
+      await db.saveIngredient(ingredient);
       ref.invalidate(pagedIngredientsProvider);
 
       if (mounted) {

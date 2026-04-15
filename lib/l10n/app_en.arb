@@ -53,6 +53,11 @@
   "settingsImportPantrySubtitle": "Add custom foods from a backup file",
   "settingsClearTitle": "Clear All Data",
   "settingsClearSubtitle": "Permanently delete all meals and wellness entries",
+  "settingsResetDbTitle": "Reset Database",
+  "settingsResetDbSubtitle": "Completely remove the database file. Fixes schema errors. Irreversible.",
+  "settingsResetDbDialogTitle": "Reset Database?",
+  "settingsResetDbDialogContent": "This will permanently delete the entire database file (all meals, wellness entries, custom foods, and settings) and close the app. You must restart it manually.",
+  "settingsResetDbDone": "Database deleted. Please restart the app.",
   "settingsSectionAppearance": "Appearance",
   "settingsThemeTitle": "Theme",
   "settingsThemeSystem": "System default",
@@ -68,6 +73,9 @@
   "settingsSampleDataSubtitle": "Load demo meals & wellness logs to explore the analysis features",
   "settingsSampleDataAdded": "Sample data loaded!",
   "settingsSampleDataRemoved": "Sample data removed.",
+
+  "settingsAnimationsTitle": "Animations",
+  "settingsAnimationsSubtitle": "Page transitions, entrance effects, and subtle motion",
 
   "fodmapLow": "Low FODMAP",
   "fodmapModerate": "Moderate FODMAP",
@@ -88,6 +96,9 @@
   "delete": "Delete",
   "deleteAll": "Delete All",
   "save": "Save",
+  "ok": "OK",
+  "copy": "Copy",
+  "copiedToClipboard": "Copied to clipboard",
 
   "databaseError": "Database error: {error}",
   "@databaseError": {
@@ -117,6 +128,14 @@
   "pantryNotes": "Notes",
   "pantryCustomFood": "Custom food",
   "pantryMyFoods": "My Foods",
+  "pantryDeleteTitle": "Delete Food?",
+  "pantryDeleteContent": "This custom food will be permanently removed.",
+  "pantryDeleted": "{name} deleted",
+  "@pantryDeleted": {
+    "placeholders": {
+      "name": { "type": "String" }
+    }
+  },
 
   "addFoodTitle": "Add Custom Food",
   "addFoodNameLabel": "Food Name",
@@ -127,6 +146,11 @@
   "addFoodFodmapLow": "Low FODMAP",
   "addFoodFodmapModerate": "Moderate FODMAP",
   "addFoodFodmapHigh": "High FODMAP",
+  "addFoodNameDELabel": "German Name",
+  "addFoodNameDEHint": "e.g. Drachenfrucht",
+  "addFoodNameENLabel": "English Name",
+  "addFoodNameENHint": "e.g. Dragon Fruit",
+  "addFoodAutoTranslated": "Auto-filled from dictionary",
   "addFoodNotesHint": "Any personal observations\u2026",
   "addFoodSave": "Save Food",
   "addFoodAdded": "{name} added!",

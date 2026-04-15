@@ -15,6 +15,11 @@
         devShells.default = pkgs.mkShell {
           buildInputs = with pkgs; [
             nodejs_20
+            cmake
+            ninja
+            pkg-config
+            gtk3
+            sysprof
           ];
         };
       }

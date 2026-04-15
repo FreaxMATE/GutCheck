@@ -141,6 +141,24 @@ class AppLocalizationsDe extends AppLocalizations {
       'Alle Mahlzeiten und Wohlbefindens­einträge dauerhaft löschen';
 
   @override
+  String get settingsResetDbTitle => 'Datenbank zurücksetzen';
+
+  @override
+  String get settingsResetDbSubtitle =>
+      'Entfernt die gesamte Datenbankdatei. Behebt Schema-Fehler. Unumkehrbar.';
+
+  @override
+  String get settingsResetDbDialogTitle => 'Datenbank zurücksetzen?';
+
+  @override
+  String get settingsResetDbDialogContent =>
+      'Dies löscht die gesamte Datenbankdatei dauerhaft (alle Mahlzeiten, Wohlbefindenseinträge, eigenen Lebensmittel und Einstellungen) und schließt die App. Du musst sie manuell neu starten.';
+
+  @override
+  String get settingsResetDbDone =>
+      'Datenbank gelöscht. Bitte starte die App neu.';
+
+  @override
   String get settingsSectionAppearance => 'Erscheinungsbild';
 
   @override
@@ -179,6 +197,13 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get settingsSampleDataRemoved => 'Beispieldaten entfernt.';
+
+  @override
+  String get settingsAnimationsTitle => 'Animationen';
+
+  @override
+  String get settingsAnimationsSubtitle =>
+      'Seitenübergänge, Einblendungen und dezente Bewegungen';
 
   @override
   String get fodmapLow => 'Niedriger FODMAP';
@@ -228,6 +253,15 @@ class AppLocalizationsDe extends AppLocalizations {
   String get save => 'Speichern';
 
   @override
+  String get ok => 'OK';
+
+  @override
+  String get copy => 'Kopieren';
+
+  @override
+  String get copiedToClipboard => 'In Zwischenablage kopiert';
+
+  @override
   String databaseError(Object error) {
     return 'Datenbankfehler: $error';
   }
@@ -270,6 +304,18 @@ class AppLocalizationsDe extends AppLocalizations {
   String get pantryMyFoods => 'Meine Lebensmittel';
 
   @override
+  String get pantryDeleteTitle => 'Lebensmittel löschen?';
+
+  @override
+  String get pantryDeleteContent =>
+      'Dieses eigene Lebensmittel wird dauerhaft entfernt.';
+
+  @override
+  String pantryDeleted(String name) {
+    return '$name gelöscht';
+  }
+
+  @override
   String get addFoodTitle => 'Eigenes Lebensmittel hinzufügen';
 
   @override
@@ -295,6 +341,21 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get addFoodFodmapHigh => 'Hoher FODMAP';
+
+  @override
+  String get addFoodNameDELabel => 'Deutscher Name';
+
+  @override
+  String get addFoodNameDEHint => 'z. B. Drachenfrucht';
+
+  @override
+  String get addFoodNameENLabel => 'Englischer Name';
+
+  @override
+  String get addFoodNameENHint => 'z. B. Dragon Fruit';
+
+  @override
+  String get addFoodAutoTranslated => 'Automatisch aus Wörterbuch ausgefüllt';
 
   @override
   String get addFoodNotesHint => 'Persönliche Beobachtungen…';

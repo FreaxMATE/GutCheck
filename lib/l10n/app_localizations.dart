@@ -338,6 +338,36 @@ abstract class AppLocalizations {
   /// **'Permanently delete all meals and wellness entries'**
   String get settingsClearSubtitle;
 
+  /// No description provided for @settingsResetDbTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Reset Database'**
+  String get settingsResetDbTitle;
+
+  /// No description provided for @settingsResetDbSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Completely remove the database file. Fixes schema errors. Irreversible.'**
+  String get settingsResetDbSubtitle;
+
+  /// No description provided for @settingsResetDbDialogTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Reset Database?'**
+  String get settingsResetDbDialogTitle;
+
+  /// No description provided for @settingsResetDbDialogContent.
+  ///
+  /// In en, this message translates to:
+  /// **'This will permanently delete the entire database file (all meals, wellness entries, custom foods, and settings) and close the app. You must restart it manually.'**
+  String get settingsResetDbDialogContent;
+
+  /// No description provided for @settingsResetDbDone.
+  ///
+  /// In en, this message translates to:
+  /// **'Database deleted. Please restart the app.'**
+  String get settingsResetDbDone;
+
   /// No description provided for @settingsSectionAppearance.
   ///
   /// In en, this message translates to:
@@ -415,6 +445,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Sample data removed.'**
   String get settingsSampleDataRemoved;
+
+  /// No description provided for @settingsAnimationsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Animations'**
+  String get settingsAnimationsTitle;
+
+  /// No description provided for @settingsAnimationsSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Page transitions, entrance effects, and subtle motion'**
+  String get settingsAnimationsSubtitle;
 
   /// No description provided for @fodmapLow.
   ///
@@ -506,6 +548,24 @@ abstract class AppLocalizations {
   /// **'Save'**
   String get save;
 
+  /// No description provided for @ok.
+  ///
+  /// In en, this message translates to:
+  /// **'OK'**
+  String get ok;
+
+  /// No description provided for @copy.
+  ///
+  /// In en, this message translates to:
+  /// **'Copy'**
+  String get copy;
+
+  /// No description provided for @copiedToClipboard.
+  ///
+  /// In en, this message translates to:
+  /// **'Copied to clipboard'**
+  String get copiedToClipboard;
+
   /// No description provided for @databaseError.
   ///
   /// In en, this message translates to:
@@ -578,6 +638,24 @@ abstract class AppLocalizations {
   /// **'My Foods'**
   String get pantryMyFoods;
 
+  /// No description provided for @pantryDeleteTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete Food?'**
+  String get pantryDeleteTitle;
+
+  /// No description provided for @pantryDeleteContent.
+  ///
+  /// In en, this message translates to:
+  /// **'This custom food will be permanently removed.'**
+  String get pantryDeleteContent;
+
+  /// No description provided for @pantryDeleted.
+  ///
+  /// In en, this message translates to:
+  /// **'{name} deleted'**
+  String pantryDeleted(String name);
+
   /// No description provided for @addFoodTitle.
   ///
   /// In en, this message translates to:
@@ -631,6 +709,36 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'High FODMAP'**
   String get addFoodFodmapHigh;
+
+  /// No description provided for @addFoodNameDELabel.
+  ///
+  /// In en, this message translates to:
+  /// **'German Name'**
+  String get addFoodNameDELabel;
+
+  /// No description provided for @addFoodNameDEHint.
+  ///
+  /// In en, this message translates to:
+  /// **'e.g. Drachenfrucht'**
+  String get addFoodNameDEHint;
+
+  /// No description provided for @addFoodNameENLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'English Name'**
+  String get addFoodNameENLabel;
+
+  /// No description provided for @addFoodNameENHint.
+  ///
+  /// In en, this message translates to:
+  /// **'e.g. Dragon Fruit'**
+  String get addFoodNameENHint;
+
+  /// No description provided for @addFoodAutoTranslated.
+  ///
+  /// In en, this message translates to:
+  /// **'Auto-filled from dictionary'**
+  String get addFoodAutoTranslated;
 
   /// No description provided for @addFoodNotesHint.
   ///

@@ -76,7 +76,7 @@ class WellnessDraftNotifier extends StateNotifier<WellnessDraftState> {
       ..heartburn = draft.heartburn
       ..diarrhea = draft.diarrhea
       ..wellnessScore = draft.liveScore
-      ..linkedMealIds = List.from(draft.linkedMealIds)
+      ..linkedMealIds = List<int>.from(draft.linkedMealIds)
       ..notes = draft.notes;
 
     await db.saveWellness(entry);

@@ -2,7 +2,7 @@ import 'package:isar/isar.dart';
 
 import 'meal_ingredient.dart';
 
-part 'meal_template.g.dart';
+part 'meal_template_native.g.dart';
 
 @collection
 class MealTemplate {

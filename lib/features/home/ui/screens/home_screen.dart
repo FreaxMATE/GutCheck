@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 
 import 'package:gutcheck/l10n/app_localizations.dart';
+import '../../../../core/animations/animations.dart';
 import '../../../../core/constants/app_colors.dart';
 import '../../../../core/l10n/l10n_extensions.dart';
 import '../../../../core/utils/date_utils.dart';
@@ -40,13 +41,13 @@ class HomeScreen extends ConsumerWidget {
         child: ListView(
           padding: const EdgeInsets.fromLTRB(16, 8, 16, 80),
           children: [
-            _LastWellnessCard(l10n: l10n),
+            StaggeredEntrance(index: 0, child: _LastWellnessCard(l10n: l10n)),
             const SizedBox(height: 12),
-            _LastMealCard(l10n: l10n),
+            StaggeredEntrance(index: 1, child: _LastMealCard(l10n: l10n)),
             const SizedBox(height: 12),
-            _WeeklyTrendCard(l10n: l10n),
+            StaggeredEntrance(index: 2, child: _WeeklyTrendCard(l10n: l10n)),
             const SizedBox(height: 12),
-            _TopInsightCard(l10n: l10n),
+            StaggeredEntrance(index: 3, child: _TopInsightCard(l10n: l10n)),
           ],
         ),
       ),
@@ -72,12 +73,22 @@ class _LastWellnessCard extends ConsumerWidget {
           children: [
             _SectionLabel(label: l10n.homeLastWellnessTitle),
             const SizedBox(height: 12),
-            async.when(
-              loading: () => const Center(child: CircularProgressIndicator()),
-              error: (e, _) => Text(l10n.genericError(e)),
-              data: (entry) => entry == null
-                  ? _EmptyCardContent(message: l10n.homeNoWellnessYet)
-                  : _WellnessContent(entry: entry, l10n: l10n),
+            AnimatedAsyncSwitcher(
+              child: async.when(
+                loading: () => const Center(
+                    key: ValueKey('loading'),
+                    child: CircularProgressIndicator()),
+                error: (e, _) => Text(l10n.genericError(e),
+                    key: const ValueKey('error')),
+                data: (entry) => entry == null
+                    ? _EmptyCardContent(
+                        key: const ValueKey('empty'),
+                        message: l10n.homeNoWellnessYet)
+                    : _WellnessContent(
+                        key: ValueKey('wellness-${entry.id}'),
+                        entry: entry,
+                        l10n: l10n),
+              ),
             ),
             const SizedBox(height: 12),
             Row(
@@ -104,7 +115,7 @@ class _LastWellnessCard extends ConsumerWidget {
 class _WellnessContent extends StatelessWidget {
   final WellnessEntry entry;
   final AppLocalizations l10n;
-  const _WellnessContent({required this.entry, required this.l10n});
+  const _WellnessContent({super.key, required this.entry, required this.l10n});
 
   @override
   Widget build(BuildContext context) {
@@ -201,12 +212,22 @@ class _LastMealCard extends ConsumerWidget {
           children: [
             _SectionLabel(label: l10n.homeLastMealTitle),
             const SizedBox(height: 12),
-            async.when(
-              loading: () => const Center(child: CircularProgressIndicator()),
-              error: (e, _) => Text(l10n.genericError(e)),
-              data: (meal) => meal == null
-                  ? _EmptyCardContent(message: l10n.homeNoMealsYet)
-                  : _MealContent(meal: meal, l10n: l10n),
+            AnimatedAsyncSwitcher(
+              child: async.when(
+                loading: () => const Center(
+                    key: ValueKey('loading'),
+                    child: CircularProgressIndicator()),
+                error: (e, _) => Text(l10n.genericError(e),
+                    key: const ValueKey('error')),
+                data: (meal) => meal == null
+                    ? _EmptyCardContent(
+                        key: const ValueKey('empty'),
+                        message: l10n.homeNoMealsYet)
+                    : _MealContent(
+                        key: ValueKey('meal-${meal.id}'),
+                        meal: meal,
+                        l10n: l10n),
+              ),
             ),
             const SizedBox(height: 12),
             Row(
@@ -233,7 +254,7 @@ class _LastMealCard extends ConsumerWidget {
 class _MealContent extends StatelessWidget {
   final MealEntry meal;
   final AppLocalizations l10n;
-  const _MealContent({required this.meal, required this.l10n});
+  const _MealContent({super.key, required this.meal, required this.l10n});
 
   @override
   Widget build(BuildContext context) {
@@ -509,7 +530,7 @@ class _SectionLabel extends StatelessWidget {
 
 class _EmptyCardContent extends StatelessWidget {
   final String message;
-  const _EmptyCardContent({required this.message});
+  const _EmptyCardContent({super.key, required this.message});
 
   @override
   Widget build(BuildContext context) {
