@@ -458,6 +458,48 @@ abstract class AppLocalizations {
   /// **'🦠 Tip: Tap the + button to log your meal!'**
   String get shakeTip;
 
+  /// No description provided for @timingTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Meal Timing'**
+  String get timingTitle;
+
+  /// No description provided for @timingSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'How the time you eat affects how you feel'**
+  String get timingSubtitle;
+
+  /// No description provided for @timingBestWindow.
+  ///
+  /// In en, this message translates to:
+  /// **'Best window: {label} ({hours}h) — avg {score}/10'**
+  String timingBestWindow(String label, String hours, String score);
+
+  /// No description provided for @timingWorstWindow.
+  ///
+  /// In en, this message translates to:
+  /// **'Worst window: {label} ({hours}h) — avg {score}/10'**
+  String timingWorstWindow(String label, String hours, String score);
+
+  /// No description provided for @timingLateEatingBad.
+  ///
+  /// In en, this message translates to:
+  /// **'Late eating adds +{penalty} avg discomfort'**
+  String timingLateEatingBad(String penalty);
+
+  /// No description provided for @timingLateEatingOk.
+  ///
+  /// In en, this message translates to:
+  /// **'Late eating has little effect on you'**
+  String get timingLateEatingOk;
+
+  /// No description provided for @timingAvgGap.
+  ///
+  /// In en, this message translates to:
+  /// **'Avg gap between meals: {hours}h'**
+  String timingAvgGap(String hours);
+
   /// No description provided for @weeklyDigestAvgScore.
   ///
   /// In en, this message translates to:

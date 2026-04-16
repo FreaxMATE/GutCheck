@@ -205,6 +205,35 @@ class AppLocalizationsEn extends AppLocalizations {
   String get shakeTip => '🦠 Tip: Tap the + button to log your meal!';
 
   @override
+  String get timingTitle => 'Meal Timing';
+
+  @override
+  String get timingSubtitle => 'How the time you eat affects how you feel';
+
+  @override
+  String timingBestWindow(String label, String hours, String score) {
+    return 'Best window: $label (${hours}h) — avg $score/10';
+  }
+
+  @override
+  String timingWorstWindow(String label, String hours, String score) {
+    return 'Worst window: $label (${hours}h) — avg $score/10';
+  }
+
+  @override
+  String timingLateEatingBad(String penalty) {
+    return 'Late eating adds +$penalty avg discomfort';
+  }
+
+  @override
+  String get timingLateEatingOk => 'Late eating has little effect on you';
+
+  @override
+  String timingAvgGap(String hours) {
+    return 'Avg gap between meals: ${hours}h';
+  }
+
+  @override
   String weeklyDigestAvgScore(int score) {
     return 'Average wellness score: $score';
   }

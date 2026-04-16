@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import 'package:gutcheck/l10n/app_localizations.dart';
 import '../../../../core/constants/app_colors.dart';
 import '../../domain/timing_analysis.dart';
 
@@ -15,6 +16,7 @@ class TimingAnalysisCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final l10n = AppLocalizations.of(context)!;
     final buckets = analysis.buckets;
     if (buckets.isEmpty) return const SizedBox.shrink();
 
@@ -36,7 +38,7 @@ class TimingAnalysisCard extends StatelessWidget {
                     size: 20, color: theme.colorScheme.primary),
                 const SizedBox(width: 8),
                 Text(
-                  'Meal Timing',
+                  l10n.timingTitle,
                   style: theme.textTheme.titleSmall
                       ?.copyWith(fontWeight: FontWeight.w700),
                 ),
@@ -44,7 +46,7 @@ class TimingAnalysisCard extends StatelessWidget {
             ),
             const SizedBox(height: 4),
             Text(
-              'How the time you eat affects how you feel',
+              l10n.timingSubtitle,
               style: theme.textTheme.bodySmall
                   ?.copyWith(color: Colors.grey),
             ),
@@ -63,17 +65,21 @@ class TimingAnalysisCard extends StatelessWidget {
               _InsightRow(
                 icon: Icons.thumb_up_rounded,
                 color: Colors.green,
-                text:
-                    'Best window: ${analysis.bestBucket!.label} (${analysis.bestBucket!.shortLabel}h) '
-                    '— avg ${analysis.bestBucket!.avgDiscomfort.toStringAsFixed(1)}/10',
+                text: l10n.timingBestWindow(
+                  analysis.bestBucket!.label,
+                  analysis.bestBucket!.shortLabel,
+                  analysis.bestBucket!.avgDiscomfort.toStringAsFixed(1),
+                ),
               ),
               const SizedBox(height: 4),
               _InsightRow(
                 icon: Icons.thumb_down_rounded,
                 color: Colors.red,
-                text:
-                    'Worst window: ${analysis.worstBucket!.label} (${analysis.worstBucket!.shortLabel}h) '
-                    '— avg ${analysis.worstBucket!.avgDiscomfort.toStringAsFixed(1)}/10',
+                text: l10n.timingWorstWindow(
+                  analysis.worstBucket!.label,
+                  analysis.worstBucket!.shortLabel,
+                  analysis.worstBucket!.avgDiscomfort.toStringAsFixed(1),
+                ),
               ),
             ],
 
@@ -87,8 +93,9 @@ class TimingAnalysisCard extends StatelessWidget {
                     ? Colors.orange
                     : Colors.green,
                 text: analysis.lateEatingPenalty! > 0.5
-                    ? 'Late eating adds +${analysis.lateEatingPenalty!.toStringAsFixed(1)} avg discomfort'
-                    : 'Late eating has little effect on you',
+                    ? l10n.timingLateEatingBad(
+                        analysis.lateEatingPenalty!.toStringAsFixed(1))
+                    : l10n.timingLateEatingOk,
               ),
             ],
 
@@ -97,8 +104,8 @@ class TimingAnalysisCard extends StatelessWidget {
               _InsightRow(
                 icon: Icons.timelapse_rounded,
                 color: Colors.blueGrey,
-                text:
-                    'Avg gap between meals: ${analysis.avgMealGapHours!.toStringAsFixed(1)}h',
+                text: l10n.timingAvgGap(
+                    analysis.avgMealGapHours!.toStringAsFixed(1)),
               ),
             ],
           ],

@@ -210,6 +210,36 @@ class AppLocalizationsDe extends AppLocalizations {
   String get shakeTip => '🦠 Tipp: Tippe auf + um eine Mahlzeit einzutragen!';
 
   @override
+  String get timingTitle => 'Essenszeiten';
+
+  @override
+  String get timingSubtitle =>
+      'Wie sich die Uhrzeit deiner Mahlzeiten auf dein Befinden auswirkt';
+
+  @override
+  String timingBestWindow(String label, String hours, String score) {
+    return 'Bestes Fenster: $label (${hours}h) — Ø $score/10';
+  }
+
+  @override
+  String timingWorstWindow(String label, String hours, String score) {
+    return 'Schlechtestes Fenster: $label (${hours}h) — Ø $score/10';
+  }
+
+  @override
+  String timingLateEatingBad(String penalty) {
+    return 'Spätes Essen bringt +$penalty Ø Beschwerden';
+  }
+
+  @override
+  String get timingLateEatingOk => 'Spätes Essen hat bei dir kaum Einfluss';
+
+  @override
+  String timingAvgGap(String hours) {
+    return 'Ø Abstand zwischen Mahlzeiten: ${hours}h';
+  }
+
+  @override
   String weeklyDigestAvgScore(int score) {
     return 'Durchschnittlicher Wohlbefindens-Score: $score';
   }

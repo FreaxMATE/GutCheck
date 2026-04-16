@@ -407,8 +407,11 @@ class _LogMealSheetState extends ConsumerState<LogMealSheet> {
   Map<FoodCategory, int> get _plateCounts {
     final counts = <FoodCategory, int>{};
     for (final mi in _selectedIngredients) {
-      final cat = _categoryByIngredientId[mi.ingredientId];
-      if (cat != null) counts[cat] = (counts[cat] ?? 0) + 1;
+      // Use FoodCategory.other as fallback when the async category lookup
+      // hasn't completed yet — so the plate total always matches the chip count.
+      final cat =
+          _categoryByIngredientId[mi.ingredientId] ?? FoodCategory.other;
+      counts[cat] = (counts[cat] ?? 0) + 1;
     }
     return counts;
   }

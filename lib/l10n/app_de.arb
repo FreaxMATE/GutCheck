@@ -68,6 +68,14 @@
   "weeklyDigestWellness": "Check-ins",
   "weeklyDigestStreak": "Tage Serie",
   "shakeTip": "🦠 Tipp: Tippe auf + um eine Mahlzeit einzutragen!",
+
+  "timingTitle": "Essenszeiten",
+  "timingSubtitle": "Wie sich die Uhrzeit deiner Mahlzeiten auf dein Befinden auswirkt",
+  "timingBestWindow": "Bestes Fenster: {label} ({hours}h) — Ø {score}/10",
+  "timingWorstWindow": "Schlechtestes Fenster: {label} ({hours}h) — Ø {score}/10",
+  "timingLateEatingBad": "Spätes Essen bringt +{penalty} Ø Beschwerden",
+  "timingLateEatingOk": "Spätes Essen hat bei dir kaum Einfluss",
+  "timingAvgGap": "Ø Abstand zwischen Mahlzeiten: {hours}h",
   "weeklyDigestAvgScore": "Durchschnittlicher Wohlbefindens-Score: {score}",
 
   "settingsTitle": "Einstellungen",

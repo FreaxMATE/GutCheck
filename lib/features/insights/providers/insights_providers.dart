@@ -15,26 +15,21 @@ final insightsMetricProvider =
 final insightsTimeFilterProvider =
     StateProvider<TimeFilter>((ref) => TimeFilter.week);
 
-/// Daily aggregated scores for the last 3 months, used by the calendar
-/// heatmap and the scatter plot's median line. Intentionally independent of
-/// [insightsTimeFilterProvider] so the calendar always shows a consistent
-/// 3-month view.
+/// Daily aggregated scores. Respects both the time filter and the metric
+/// toggle, so the calendar, scatter plot, and other views stay in sync.
 final heatmapDataProvider =
     FutureProvider.autoDispose<Map<DateTime, double>>((ref) async {
+  final filter = ref.watch(insightsTimeFilterProvider);
   final metric = ref.watch(insightsMetricProvider);
+  final range = filter.toDateRange();
   final db = await ref.watch(appDatabaseProvider.future);
-  final now = DateTime.now();
-  final from = DateTime(now.year, now.month - 3, 1);
-  final to = DateTime(now.year, now.month, now.day + 1);
-  final entries = await db.wellnessInRange(from: from, to: to);
+  final entries = await db.wellnessInRange(from: range.start, to: range.end);
 
-  // Each extractor returns a "higher = better" 0-100 score so the calendar's
-  // green=good / red=bad color logic stays consistent across metrics.
   final extractor = switch (metric) {
     WellnessMetric.heartburn => CorrelationEngine.heartburnAsY,
     WellnessMetric.diarrhea => CorrelationEngine.diarrheaAsY,
     WellnessMetric.combined => CorrelationEngine.combinedAsY,
-    WellnessMetric.gutPeace => null, // falls back to wellnessScore
+    WellnessMetric.gutPeace => null,
   };
 
   return InsightsRepository.aggregateByDay(entries,

@@ -4,6 +4,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gutcheck/l10n/app_localizations.dart';
 import '../../../../core/animations/animations.dart';
 import '../../domain/impact_score.dart';
+import '../../../../core/constants/app_colors.dart';
+import '../../../../core/utils/date_utils.dart';
 import '../../providers/insights_providers.dart';
 import '../widgets/calendar_heatmap.dart';
 import '../widgets/correlation_scatter_plot.dart';
@@ -60,7 +62,7 @@ class InsightsScreen extends ConsumerWidget {
   }
 }
 
-// ── Calendar Tab (daily wellness calendar) ────────────────────────────────────
+// ── Calendar Tab (adapts layout to the selected time filter) ─────────────────
 
 class _CalendarTab extends ConsumerWidget {
   const _CalendarTab();
@@ -68,6 +70,7 @@ class _CalendarTab extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final l10n = AppLocalizations.of(context)!;
+    final filter = ref.watch(insightsTimeFilterProvider);
     final data = ref.watch(heatmapDataProvider);
 
     return data.when(
@@ -81,25 +84,206 @@ class _CalendarTab extends ConsumerWidget {
           );
         }
 
-        final now = DateTime.now();
-        final months = <DateTime>[];
-        for (int i = 2; i >= 0; i--) {
-          months.add(DateTime(now.year, now.month - i, 1));
-        }
-
-        return ListView(
-          padding: const EdgeInsets.symmetric(horizontal: 16),
-          children: months
-              .map((m) => Padding(
-                    padding: const EdgeInsets.only(bottom: 24),
-                    child: CalendarHeatmap(
-                      dailyScores: scores,
-                      month: m,
-                    ),
-                  ))
-              .toList(),
-        );
+        return switch (filter) {
+          TimeFilter.day => _DayView(scores: scores),
+          TimeFilter.week => _WeekView(scores: scores),
+          TimeFilter.month => _MonthView(scores: scores),
+          TimeFilter.year => _YearView(scores: scores),
+        };
       },
+    );
+  }
+}
+
+/// Day filter: show today's single score as a large ring.
+class _DayView extends StatelessWidget {
+  final Map<DateTime, double> scores;
+  const _DayView({required this.scores});
+
+  @override
+  Widget build(BuildContext context) {
+    final today = DateTime(
+        DateTime.now().year, DateTime.now().month, DateTime.now().day);
+    final score = scores[today];
+
+    return Center(
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Text(GutDateUtils.formatDay(today),
+              style: Theme.of(context).textTheme.titleMedium),
+          const SizedBox(height: 20),
+          Container(
+            width: 140,
+            height: 140,
+            decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              color: score != null
+                  ? AppColors.wellnessScoreInterpolated(score)
+                      .withValues(alpha: 0.2)
+                  : Colors.grey.withValues(alpha: 0.1),
+            ),
+            child: Center(
+              child: Text(
+                score != null ? score.round().toString() : '—',
+                style: TextStyle(
+                  fontSize: 48,
+                  fontWeight: FontWeight.w800,
+                  color: score != null
+                      ? AppColors.wellnessScoreInterpolated(score)
+                      : Colors.grey,
+                ),
+              ),
+            ),
+          ),
+          const SizedBox(height: 8),
+          Text(
+            score != null ? 'wellness score' : 'No data today',
+            style: Theme.of(context)
+                .textTheme
+                .bodySmall
+                ?.copyWith(color: Colors.grey),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+/// Week filter: show 7 days as a horizontal strip.
+class _WeekView extends StatelessWidget {
+  final Map<DateTime, double> scores;
+  const _WeekView({required this.scores});
+
+  @override
+  Widget build(BuildContext context) {
+    final now = DateTime.now();
+    final days = List.generate(7, (i) {
+      final d = now.subtract(Duration(days: 6 - i));
+      return DateTime(d.year, d.month, d.day);
+    });
+    final weekdayLabels = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16),
+      child: Column(
+        children: [
+          const SizedBox(height: 16),
+          Row(
+            children: days.map((day) {
+              final score = scores[day];
+              final color = score != null
+                  ? AppColors.wellnessScoreInterpolated(score)
+                  : Colors.grey.withValues(alpha: 0.15);
+              final isToday = day.day == now.day &&
+                  day.month == now.month &&
+                  day.year == now.year;
+              return Expanded(
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 3),
+                  child: Column(
+                    children: [
+                      Text(
+                        weekdayLabels[day.weekday - 1],
+                        style: TextStyle(
+                          fontSize: 11,
+                          color: isToday
+                              ? Theme.of(context).colorScheme.primary
+                              : Colors.grey,
+                          fontWeight:
+                              isToday ? FontWeight.bold : FontWeight.normal,
+                        ),
+                      ),
+                      const SizedBox(height: 6),
+                      AnimatedContainer(
+                        duration: const Duration(milliseconds: 400),
+                        curve: Curves.easeOutCubic,
+                        height: score != null ? 40 + (score / 100) * 80 : 40,
+                        decoration: BoxDecoration(
+                          color: score != null
+                              ? color.withValues(alpha: 0.7)
+                              : Colors.grey.withValues(alpha: 0.1),
+                          borderRadius: BorderRadius.circular(8),
+                          border: isToday
+                              ? Border.all(
+                                  color:
+                                      Theme.of(context).colorScheme.primary,
+                                  width: 2)
+                              : null,
+                        ),
+                        child: Center(
+                          child: Text(
+                            score != null ? '${score.round()}' : '',
+                            style: TextStyle(
+                              fontSize: 13,
+                              fontWeight: FontWeight.w700,
+                              color: score != null
+                                  ? Colors.white
+                                  : Colors.transparent,
+                            ),
+                          ),
+                        ),
+                      ),
+                      const SizedBox(height: 4),
+                      Text(
+                        '${day.day}',
+                        style: TextStyle(
+                          fontSize: 11,
+                          color: isToday
+                              ? Theme.of(context).colorScheme.primary
+                              : Colors.grey[600],
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              );
+            }).toList(),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+/// Month filter: single current-month calendar grid.
+class _MonthView extends StatelessWidget {
+  final Map<DateTime, double> scores;
+  const _MonthView({required this.scores});
+
+  @override
+  Widget build(BuildContext context) {
+    return ListView(
+      padding: const EdgeInsets.symmetric(horizontal: 16),
+      children: [
+        CalendarHeatmap(
+          dailyScores: scores,
+          month: DateTime(DateTime.now().year, DateTime.now().month, 1),
+        ),
+      ],
+    );
+  }
+}
+
+/// Year filter: 12 months of calendar grids.
+class _YearView extends StatelessWidget {
+  final Map<DateTime, double> scores;
+  const _YearView({required this.scores});
+
+  @override
+  Widget build(BuildContext context) {
+    final now = DateTime.now();
+    final months = List.generate(
+        12, (i) => DateTime(now.year, now.month - 11 + i, 1));
+
+    return ListView(
+      padding: const EdgeInsets.symmetric(horizontal: 16),
+      children: months
+          .map((m) => Padding(
+                padding: const EdgeInsets.only(bottom: 24),
+                child: CalendarHeatmap(dailyScores: scores, month: m),
+              ))
+          .toList(),
     );
   }
 }

@@ -68,6 +68,38 @@
   "weeklyDigestWellness": "check-ins",
   "weeklyDigestStreak": "day streak",
   "shakeTip": "🦠 Tip: Tap the + button to log your meal!",
+
+  "timingTitle": "Meal Timing",
+  "timingSubtitle": "How the time you eat affects how you feel",
+  "timingBestWindow": "Best window: {label} ({hours}h) — avg {score}/10",
+  "@timingBestWindow": {
+    "placeholders": {
+      "label": { "type": "String" },
+      "hours": { "type": "String" },
+      "score": { "type": "String" }
+    }
+  },
+  "timingWorstWindow": "Worst window: {label} ({hours}h) — avg {score}/10",
+  "@timingWorstWindow": {
+    "placeholders": {
+      "label": { "type": "String" },
+      "hours": { "type": "String" },
+      "score": { "type": "String" }
+    }
+  },
+  "timingLateEatingBad": "Late eating adds +{penalty} avg discomfort",
+  "@timingLateEatingBad": {
+    "placeholders": {
+      "penalty": { "type": "String" }
+    }
+  },
+  "timingLateEatingOk": "Late eating has little effect on you",
+  "timingAvgGap": "Avg gap between meals: {hours}h",
+  "@timingAvgGap": {
+    "placeholders": {
+      "hours": { "type": "String" }
+    }
+  },
   "weeklyDigestAvgScore": "Average wellness score: {score}",
   "@weeklyDigestAvgScore": {
     "placeholders": {
