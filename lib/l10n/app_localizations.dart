@@ -212,6 +212,258 @@ abstract class AppLocalizations {
   /// **'Likely beneficial'**
   String get homeLikelyBeneficial;
 
+  /// No description provided for @greetingMorning1.
+  ///
+  /// In en, this message translates to:
+  /// **'Your innards demand sustenance 🍳'**
+  String get greetingMorning1;
+
+  /// No description provided for @greetingMorning2.
+  ///
+  /// In en, this message translates to:
+  /// **'Behold! A conscious biped approaches'**
+  String get greetingMorning2;
+
+  /// No description provided for @greetingMorning3.
+  ///
+  /// In en, this message translates to:
+  /// **'Caffeinate first. Interrogate bowels later ☕'**
+  String get greetingMorning3;
+
+  /// No description provided for @greetingMorning4.
+  ///
+  /// In en, this message translates to:
+  /// **'Another dawn, another garlic indictment pending'**
+  String get greetingMorning4;
+
+  /// No description provided for @greetingMorning5.
+  ///
+  /// In en, this message translates to:
+  /// **'The ol\' intestinal spaghetti awakens 🌅'**
+  String get greetingMorning5;
+
+  /// No description provided for @greetingMorning6.
+  ///
+  /// In en, this message translates to:
+  /// **'Your alimentary canal sends its regards 🧠'**
+  String get greetingMorning6;
+
+  /// No description provided for @greetingMorning7.
+  ///
+  /// In en, this message translates to:
+  /// **'Day #??? of the Great Belly Inquisition'**
+  String get greetingMorning7;
+
+  /// No description provided for @greetingMorning8.
+  ///
+  /// In en, this message translates to:
+  /// **'The tummy chronicle continues 🔍'**
+  String get greetingMorning8;
+
+  /// No description provided for @greetingAfternoon1.
+  ///
+  /// In en, this message translates to:
+  /// **'You again? Peculiar. 🕵️'**
+  String get greetingAfternoon1;
+
+  /// No description provided for @greetingAfternoon2.
+  ///
+  /// In en, this message translates to:
+  /// **'Your entrails have lunchtime opinions'**
+  String get greetingAfternoon2;
+
+  /// No description provided for @greetingAfternoon3.
+  ///
+  /// In en, this message translates to:
+  /// **'Post-meridian nibble or post-meridian blunder? 🤷'**
+  String get greetingAfternoon3;
+
+  /// No description provided for @greetingAfternoon4.
+  ///
+  /// In en, this message translates to:
+  /// **'Your stomach is basically a Yelp reviewer 💬'**
+  String get greetingAfternoon4;
+
+  /// No description provided for @greetingAfternoon5.
+  ///
+  /// In en, this message translates to:
+  /// **'Midday dispatches from the gut bureau 👀'**
+  String get greetingAfternoon5;
+
+  /// No description provided for @greetingAfternoon6.
+  ///
+  /// In en, this message translates to:
+  /// **'Tenacity! A most splendid quality 💪'**
+  String get greetingAfternoon6;
+
+  /// No description provided for @greetingAfternoon7.
+  ///
+  /// In en, this message translates to:
+  /// **'The refrigerator observes. Log forthwith. 👀'**
+  String get greetingAfternoon7;
+
+  /// No description provided for @greetingEvening1.
+  ///
+  /// In en, this message translates to:
+  /// **'Vespertine confessions welcome here 🍕'**
+  String get greetingEvening1;
+
+  /// No description provided for @greetingEvening2.
+  ///
+  /// In en, this message translates to:
+  /// **'Your bowels are drafting the evening communiqué 📝'**
+  String get greetingEvening2;
+
+  /// No description provided for @greetingEvening3.
+  ///
+  /// In en, this message translates to:
+  /// **'Supper was either magnificent or regrettable. Document it.'**
+  String get greetingEvening3;
+
+  /// No description provided for @greetingEvening4.
+  ///
+  /// In en, this message translates to:
+  /// **'The sofa beckons. But first: empirical data. 🛋️'**
+  String get greetingEvening4;
+
+  /// No description provided for @greetingEvening5.
+  ///
+  /// In en, this message translates to:
+  /// **'One morsel of data before the binge-watching 📺'**
+  String get greetingEvening5;
+
+  /// No description provided for @greetingEvening6.
+  ///
+  /// In en, this message translates to:
+  /// **'Twilight debrief with your digestive apparatus 🌙'**
+  String get greetingEvening6;
+
+  /// No description provided for @greetingNight1.
+  ///
+  /// In en, this message translates to:
+  /// **'Prowling at this hour? Your colon disapproves 🦉'**
+  String get greetingNight1;
+
+  /// No description provided for @greetingNight2.
+  ///
+  /// In en, this message translates to:
+  /// **'Midnight snackery? We have receipts. 🍫'**
+  String get greetingNight2;
+
+  /// No description provided for @greetingNight3.
+  ///
+  /// In en, this message translates to:
+  /// **'Your flora and fauna never slumber 🦠'**
+  String get greetingNight3;
+
+  /// No description provided for @greetingNight4.
+  ///
+  /// In en, this message translates to:
+  /// **'Nocturnal data entry. Exquisite commitment.'**
+  String get greetingNight4;
+
+  /// No description provided for @greetingNight5.
+  ///
+  /// In en, this message translates to:
+  /// **'The icebox phoned. It said scram. 🚨'**
+  String get greetingNight5;
+
+  /// No description provided for @supportiveMsg1.
+  ///
+  /// In en, this message translates to:
+  /// **'Your gut has convictions. Vociferous ones.'**
+  String get supportiveMsg1;
+
+  /// No description provided for @supportiveMsg2.
+  ///
+  /// In en, this message translates to:
+  /// **'Every tap edges closer to the onion tribunal.'**
+  String get supportiveMsg2;
+
+  /// No description provided for @supportiveMsg3.
+  ///
+  /// In en, this message translates to:
+  /// **'Science is posh pattern-spotting. You do it gratis.'**
+  String get supportiveMsg3;
+
+  /// No description provided for @supportiveMsg4.
+  ///
+  /// In en, this message translates to:
+  /// **'Your microbiome: 39 trillion groupies, one app 🦠'**
+  String get supportiveMsg4;
+
+  /// No description provided for @supportiveMsg5.
+  ///
+  /// In en, this message translates to:
+  /// **'Sherlock had a loupe. You wield this contraption.'**
+  String get supportiveMsg5;
+
+  /// No description provided for @supportiveMsg6.
+  ///
+  /// In en, this message translates to:
+  /// **'Not all paragons don capes. Some chronicle suppers.'**
+  String get supportiveMsg6;
+
+  /// No description provided for @supportiveMsg7.
+  ///
+  /// In en, this message translates to:
+  /// **'Your torso speaks. This gizmo translates.'**
+  String get supportiveMsg7;
+
+  /// No description provided for @supportiveMsg8.
+  ///
+  /// In en, this message translates to:
+  /// **'Minuscule data morsels → colossal epiphanies.'**
+  String get supportiveMsg8;
+
+  /// No description provided for @supportiveMsg9.
+  ///
+  /// In en, this message translates to:
+  /// **'Today\'s log = tomorrow\'s garlic prosecution evidence.'**
+  String get supportiveMsg9;
+
+  /// No description provided for @supportiveMsg10.
+  ///
+  /// In en, this message translates to:
+  /// **'Repast by repast. The gut forgets nothing.'**
+  String get supportiveMsg10;
+
+  /// No description provided for @weeklyDigestTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Your week at a glance'**
+  String get weeklyDigestTitle;
+
+  /// No description provided for @weeklyDigestMeals.
+  ///
+  /// In en, this message translates to:
+  /// **'meals'**
+  String get weeklyDigestMeals;
+
+  /// No description provided for @weeklyDigestWellness.
+  ///
+  /// In en, this message translates to:
+  /// **'check-ins'**
+  String get weeklyDigestWellness;
+
+  /// No description provided for @weeklyDigestStreak.
+  ///
+  /// In en, this message translates to:
+  /// **'day streak'**
+  String get weeklyDigestStreak;
+
+  /// No description provided for @shakeTip.
+  ///
+  /// In en, this message translates to:
+  /// **'🦠 Tip: Tap the + button to log your meal!'**
+  String get shakeTip;
+
+  /// No description provided for @weeklyDigestAvgScore.
+  ///
+  /// In en, this message translates to:
+  /// **'Average wellness score: {score}'**
+  String weeklyDigestAvgScore(int score);
+
   /// No description provided for @settingsTitle.
   ///
   /// In en, this message translates to:
@@ -457,6 +709,30 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Page transitions, entrance effects, and subtle motion'**
   String get settingsAnimationsSubtitle;
+
+  /// No description provided for @settingsSoundsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Sounds'**
+  String get settingsSoundsTitle;
+
+  /// No description provided for @settingsSoundsSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Play a subtle gurgle when adding ingredients'**
+  String get settingsSoundsSubtitle;
+
+  /// No description provided for @settingsTrophiesTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Trophies'**
+  String get settingsTrophiesTitle;
+
+  /// No description provided for @settingsTrophiesSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Your unlocked achievements'**
+  String get settingsTrophiesSubtitle;
 
   /// No description provided for @fodmapLow.
   ///
@@ -887,19 +1163,19 @@ abstract class AppLocalizations {
   /// No description provided for @wellnessGutPeace.
   ///
   /// In en, this message translates to:
-  /// **'Gut Peace'**
+  /// **'Gut Discomfort'**
   String get wellnessGutPeace;
 
   /// No description provided for @wellnessGutPeaceMin.
   ///
   /// In en, this message translates to:
-  /// **'Uncomfortable'**
+  /// **'None'**
   String get wellnessGutPeaceMin;
 
   /// No description provided for @wellnessGutPeaceMax.
   ///
   /// In en, this message translates to:
-  /// **'Perfect'**
+  /// **'Extreme'**
   String get wellnessGutPeaceMax;
 
   /// No description provided for @wellnessHeartburn.
@@ -923,7 +1199,7 @@ abstract class AppLocalizations {
   /// No description provided for @insightsMetricGutPeace.
   ///
   /// In en, this message translates to:
-  /// **'Comfort'**
+  /// **'Discomfort'**
   String get insightsMetricGutPeace;
 
   /// No description provided for @insightsMetricHeartburn.

@@ -91,25 +91,41 @@ class _EditWellnessSheetState extends ConsumerState<EditWellnessSheet> {
                 ],
               ),
 
-              // Time
-              ListTile(
-                contentPadding: EdgeInsets.zero,
-                leading: const Icon(Icons.access_time_rounded),
-                title: Text(GutDateUtils.formatTime(_recordedAt)),
-                subtitle: Text(GutDateUtils.formatDay(_recordedAt)),
-                onTap: _pickTime,
-                dense: true,
+              // Date + time (tap time to change time, tap date to change date)
+              Row(
+                children: [
+                  Expanded(
+                    child: ListTile(
+                      contentPadding: EdgeInsets.zero,
+                      leading: const Icon(Icons.calendar_today_rounded),
+                      title: Text(GutDateUtils.formatDay(_recordedAt)),
+                      onTap: _pickDate,
+                      dense: true,
+                    ),
+                  ),
+                  Expanded(
+                    child: ListTile(
+                      contentPadding: EdgeInsets.zero,
+                      leading: const Icon(Icons.access_time_rounded),
+                      title: Text(GutDateUtils.formatTime(_recordedAt)),
+                      onTap: _pickTime,
+                      dense: true,
+                    ),
+                  ),
+                ],
               ),
               const Divider(),
               const SizedBox(height: 8),
 
-              // Gut peace
+              // Gut discomfort (0 = none, 10 = extreme)
               GiSymptomSlider(
                 label: l10n.wellnessGutPeace,
                 minLabel: l10n.wellnessGutPeaceMin,
                 maxLabel: l10n.wellnessGutPeaceMax,
                 value: _gutPeace,
-                inverted: false,
+                min: 0,
+                max: 10,
+                inverted: true,
                 onChanged: (v) => setState(() => _gutPeace = v),
               ),
               const SizedBox(height: 16),
@@ -150,6 +166,27 @@ class _EditWellnessSheetState extends ConsumerState<EditWellnessSheet> {
     );
   }
 
+  Future<void> _pickDate() async {
+    final now = DateTime.now();
+    final picked = await showDatePicker(
+      context: context,
+      initialDate: _recordedAt,
+      firstDate: DateTime(now.year - 5),
+      lastDate: now,
+    );
+    if (picked != null && mounted) {
+      setState(() {
+        _recordedAt = DateTime(
+          picked.year,
+          picked.month,
+          picked.day,
+          _recordedAt.hour,
+          _recordedAt.minute,
+        );
+      });
+    }
+  }
+
   Future<void> _pickTime() async {
     final picked = await showTimePicker(
       context: context,
@@ -179,7 +216,7 @@ class _EditWellnessSheetState extends ConsumerState<EditWellnessSheet> {
         ..heartburn = _heartburn
         ..diarrhea = _diarrhea
         ..wellnessScore =
-            ((_gutPeace - 1) / 9.0) * 100.0
+            ((10 - _gutPeace) / 10.0) * 100.0
         ..linkedMealIds = List.from(widget.entry.linkedMealIds)
         ..notes = _notesController.text.trim().isEmpty
             ? null

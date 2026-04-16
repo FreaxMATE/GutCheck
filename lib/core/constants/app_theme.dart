@@ -5,9 +5,24 @@ import 'app_colors.dart';
 class AppTheme {
   AppTheme._();
 
-  static ThemeData light() {
+  /// Default neutral seed.
+  static const _baseSeed = AppColors.seedGreen;
+  /// Calm seed used when recent wellness scores are low.
+  static const _calmSeed = Color(0xFF3E7FA3); // soft blue-green
+
+  /// Picks a seed color based on [weeklyWellnessAvg] (0-100, higher=better).
+  /// When the user has been having a rough week, shift to a calmer palette.
+  static Color seedFor(double? weeklyWellnessAvg) {
+    if (weeklyWellnessAvg == null) return _baseSeed;
+    // Gently lerp toward the calm seed as avg drops below 60.
+    if (weeklyWellnessAvg >= 60) return _baseSeed;
+    final t = ((60 - weeklyWellnessAvg) / 60).clamp(0.0, 1.0);
+    return Color.lerp(_baseSeed, _calmSeed, t)!;
+  }
+
+  static ThemeData light({Color? seedColor}) {
     final colorScheme = ColorScheme.fromSeed(
-      seedColor: AppColors.seedGreen,
+      seedColor: seedColor ?? _baseSeed,
       brightness: Brightness.light,
     );
     return ThemeData(
@@ -37,9 +52,9 @@ class AppTheme {
     );
   }
 
-  static ThemeData dark() {
+  static ThemeData dark({Color? seedColor}) {
     final colorScheme = ColorScheme.fromSeed(
-      seedColor: AppColors.seedGreen,
+      seedColor: seedColor ?? _baseSeed,
       brightness: Brightness.dark,
     );
     return ThemeData(

@@ -20,7 +20,11 @@ class ExportService {
 
     final payload = {
       'exportedAt': DateTime.now().toIso8601String(),
-      'version': 1,
+      // Bumped to 2 when gutPeace semantics flipped:
+      //   v1: 1-10, higher = better (gut peace)
+      //   v2: 0-10, higher = worse (gut discomfort)
+      // Importers for v < 2 must convert gutPeace values.
+      'version': 2,
       'customIngredients': ingredients.map((i) => {
         'id': i.id,
         'name': i.name,
@@ -83,7 +87,11 @@ class ExportService {
 
     final payload = {
       'exportedAt': DateTime.now().toIso8601String(),
-      'version': 1,
+      // Bumped to 2 when gutPeace semantics flipped:
+      //   v1: 1-10, higher = better (gut peace)
+      //   v2: 0-10, higher = worse (gut discomfort)
+      // Importers for v < 2 must convert gutPeace values.
+      'version': 2,
       'customIngredients': ingredients.map((i) => {
         'id': i.id,
         'name': i.name,

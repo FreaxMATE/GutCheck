@@ -5,6 +5,7 @@ import 'core/constants/app_theme.dart';
 import 'core/providers/locale_provider.dart';
 import 'core/providers/theme_provider.dart';
 import 'core/router/app_router.dart';
+import 'features/home/providers/home_providers.dart';
 import 'l10n/app_localizations.dart';
 
 class GutCheckApp extends ConsumerWidget {
@@ -15,10 +16,15 @@ class GutCheckApp extends ConsumerWidget {
     final router = ref.watch(appRouterProvider);
     final locale = ref.watch(localeProvider);
     final themeMode = ref.watch(themeModeProvider);
+    // Adaptive theme tint: if the user's weekly wellness avg is low, shift
+    // the seed color toward a calming blue-green. Loads async; falls back to
+    // default seed until data is available.
+    final weekly = ref.watch(weeklyWellnessAvgProvider);
+    final seed = AppTheme.seedFor(weekly.asData?.value);
     return MaterialApp.router(
       title: 'GutCheck',
-      theme: AppTheme.light(),
-      darkTheme: AppTheme.dark(),
+      theme: AppTheme.light(seedColor: seed),
+      darkTheme: AppTheme.dark(seedColor: seed),
       themeMode: themeMode,
       routerConfig: router,
       debugShowCheckedModeBanner: false,

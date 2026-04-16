@@ -6,53 +6,70 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../../core/animations/animations.dart';
 import '../../../../core/constants/app_colors.dart';
 
+/// A ring gauge that visualises gut discomfort (0-10).
+///
+/// 0 = none (green, ring nearly empty) → 10 = extreme (red, ring full).
+/// The digit animates with a vertical slide + fade when the value changes.
 class WellnessScoreRing extends ConsumerWidget {
-  final double score;
+  final int discomfort;
   final double size;
 
   const WellnessScoreRing({
     super.key,
-    required this.score,
+    required this.discomfort,
     this.size = 120,
   });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final enabled = ref.watch(animationsEnabledProvider);
-    final duration = enabled
-        ? const Duration(milliseconds: 500)
-        : Duration.zero;
+    final d = discomfort.clamp(0, 10);
+    final fraction = d / 10.0;
+    final wellnessEquiv = ((10 - d) / 10.0) * 100.0;
+    final color = AppColors.wellnessScoreInterpolated(wellnessEquiv);
+
     return SizedBox(
       width: size,
       height: size,
       child: TweenAnimationBuilder<double>(
-        tween: Tween<double>(begin: 0, end: score.clamp(0, 100).toDouble()),
-        duration: duration,
+        tween: Tween<double>(begin: 0, end: fraction),
+        duration:
+            enabled ? const Duration(milliseconds: 600) : Duration.zero,
         curve: Curves.easeOutCubic,
-        builder: (_, value, __) {
-          final color = AppColors.wellnessScoreInterpolated(value);
+        builder: (_, t, __) {
           return CustomPaint(
-            painter: _RingPainter(score: value, color: color),
+            painter: _DiscomfortRingPainter(fraction: t, color: color),
             child: Center(
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Text(
-                    value.round().toString(),
-                    style: TextStyle(
-                      fontSize: size * 0.28,
-                      fontWeight: FontWeight.bold,
-                      color: color,
+              // Animated digit: slides up/down and fades when value changes.
+              child: AnimatedSwitcher(
+                duration: enabled
+                    ? const Duration(milliseconds: 350)
+                    : Duration.zero,
+                switchInCurve: Curves.easeOutBack,
+                switchOutCurve: Curves.easeIn,
+                transitionBuilder: (child, anim) {
+                  // Determine direction: new value slides in from below if
+                  // increasing, from above if decreasing.
+                  return FadeTransition(
+                    opacity: anim,
+                    child: SlideTransition(
+                      position: Tween<Offset>(
+                        begin: const Offset(0, 0.4),
+                        end: Offset.zero,
+                      ).animate(anim),
+                      child: child,
                     ),
+                  );
+                },
+                child: Text(
+                  '$d',
+                  key: ValueKey<int>(d),
+                  style: TextStyle(
+                    fontSize: size * 0.34,
+                    fontWeight: FontWeight.w800,
+                    color: color,
                   ),
-                  Text(
-                    'score',
-                    style: TextStyle(
-                      fontSize: size * 0.10,
-                      color: Colors.grey,
-                    ),
-                  ),
-                ],
+                ),
               ),
             ),
           );
@@ -62,11 +79,11 @@ class WellnessScoreRing extends ConsumerWidget {
   }
 }
 
-class _RingPainter extends CustomPainter {
-  final double score;
+class _DiscomfortRingPainter extends CustomPainter {
+  final double fraction;
   final Color color;
 
-  const _RingPainter({required this.score, required this.color});
+  const _DiscomfortRingPainter({required this.fraction, required this.color});
 
   @override
   void paint(Canvas canvas, Size size) {
@@ -81,15 +98,15 @@ class _RingPainter extends CustomPainter {
       3 * pi / 2,
       false,
       Paint()
-        ..color = color.withValues(alpha: 0.15)
+        ..color = Colors.grey.withValues(alpha: 0.12)
         ..style = PaintingStyle.stroke
         ..strokeWidth = strokeWidth
         ..strokeCap = StrokeCap.round,
     );
 
-    // Progress ring
-    final sweep = (score / 100.0).clamp(0.0, 1.0) * (3 * pi / 2);
-    if (sweep > 0) {
+    // Filled arc
+    final sweep = fraction.clamp(0.0, 1.0) * (3 * pi / 2);
+    if (sweep > 0.01) {
       canvas.drawArc(
         Rect.fromCircle(center: center, radius: radius),
         -3 * pi / 4,
@@ -105,6 +122,6 @@ class _RingPainter extends CustomPainter {
   }
 
   @override
-  bool shouldRepaint(_RingPainter oldDelegate) =>
-      oldDelegate.score != score || oldDelegate.color != color;
+  bool shouldRepaint(_DiscomfortRingPainter old) =>
+      old.fraction != fraction || old.color != color;
 }

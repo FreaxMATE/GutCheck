@@ -42,18 +42,18 @@ class ImportService {
     try {
       final Map<String, dynamic> payload = jsonDecode(jsonString);
 
-      // Validate version
-      final version = payload['version'] as int?;
-      if (version != 1) {
+      // Validate version. We currently support v1 (legacy) and v2 (current).
+      final version = payload['version'] as int? ?? 1;
+      if (version < 1 || version > 2) {
         throw FormatException('Unsupported backup version: $version');
       }
 
       final db = await ref.read(appDatabaseProvider.future);
 
       if (mode == ImportMode.replace) {
-        return _importReplace(db, payload);
+        return _importReplace(db, payload, version);
       } else {
-        return _importMerge(db, payload);
+        return _importMerge(db, payload, version);
       }
     } on FormatException catch (e) {
       return ImportResult(
@@ -138,10 +138,23 @@ class ImportService {
     }
   }
 
+  /// Converts a legacy (v1) gutPeace value (1-10, higher = better) to the
+  /// current v2 discomfort value (0-10, higher = worse).
+  /// For v2+ payloads, returns the value unchanged.
+  static int _migrateGutPeace(int value, int payloadVersion) {
+    if (payloadVersion >= 2) return value.clamp(0, 10);
+    final peace = value.clamp(1, 10);
+    return ((10 - peace) * 10 / 9).round().clamp(0, 10);
+  }
+
+  static double _wellnessScoreFor(int discomfort) =>
+      ((10 - discomfort.clamp(0, 10)) / 10.0) * 100.0;
+
   /// Replace mode: clear all existing data and restore from backup
   static Future<ImportResult> _importReplace(
     AppDatabase db,
     Map<String, dynamic> payload,
+    int payloadVersion,
   ) async {
     int ingredientsAdded = 0;
     int mealsAdded = 0;
@@ -219,13 +232,19 @@ class ImportService {
                     .toList() ??
                 [];
 
+            final rawGutPeace =
+                item['gutPeace'] as int? ?? (payloadVersion >= 2 ? 0 : 5);
+            final migratedGutPeace =
+                _migrateGutPeace(rawGutPeace, payloadVersion);
             final entry = WellnessEntry()
               ..id = item['id'] as int
               ..recordedAt = DateTime.parse(item['recordedAt'] as String)
-              ..gutPeace = item['gutPeace'] as int? ?? 5
+              ..gutPeace = migratedGutPeace
               ..heartburn = item['heartburn'] as int? ?? 1
               ..diarrhea = item['diarrhea'] as bool? ?? false
-              ..wellnessScore = (item['wellnessScore'] as num?)?.toDouble() ?? 50.0
+              // Recompute wellnessScore from the migrated gutPeace so legacy
+              // imports get a consistent value matching the new semantics.
+              ..wellnessScore = _wellnessScoreFor(migratedGutPeace)
               ..linkedMealIds = linkedMealIds
               ..notes = item['notes'] as String?
               ..createdAt = DateTime.parse(item['createdAt'] as String);
@@ -291,6 +310,7 @@ class ImportService {
   static Future<ImportResult> _importMerge(
     AppDatabase db,
     Map<String, dynamic> payload,
+    int payloadVersion,
   ) async {
     int ingredientsAdded = 0;
     int mealsAdded = 0;
@@ -380,12 +400,17 @@ class ImportService {
                       .toList() ??
                   [];
 
+              final rawGutPeace =
+                  item['gutPeace'] as int? ?? (payloadVersion >= 2 ? 0 : 5);
+              final migratedGutPeace =
+                  _migrateGutPeace(rawGutPeace, payloadVersion);
               final entry = WellnessEntry()
                 ..id = id
                 ..recordedAt = DateTime.parse(item['recordedAt'] as String)
-                ..gutPeace = item['gutPeace'] as int? ?? 5
+                ..gutPeace = migratedGutPeace
                 ..heartburn = item['heartburn'] as int? ?? 1
-                ..wellnessScore = (item['wellnessScore'] as num?)?.toDouble() ?? 50.0
+                ..diarrhea = item['diarrhea'] as bool? ?? false
+                ..wellnessScore = _wellnessScoreFor(migratedGutPeace)
                 ..linkedMealIds = linkedMealIds
                 ..notes = item['notes'] as String?
                 ..createdAt = DateTime.parse(item['createdAt'] as String);

@@ -20,19 +20,25 @@ class CorrelationEngine {
 
   // ── Wellness Score ─────────────────────────────────────────────────────────
 
-  /// Compute a 0–100 wellness score from the gut peace slider (1–10).
+  /// Compute a 0–100 wellness score from the gut discomfort value (0–10).
+  ///
+  /// Field is still named `gutPeace` in the DB but the semantic is now
+  /// "gut discomfort": 0 = no discomfort, 10 = extreme discomfort.
+  /// Higher score = better wellness, so we invert.
   static double computeWellnessScore({
-    required int gutPeace, // 1–10, higher = better
+    required int gutPeace, // 0–10, higher = WORSE
   }) {
-    return ((gutPeace - 1) / 9.0) * 100.0;
+    return ((10 - gutPeace) / 10.0) * 100.0;
   }
 
   // ── Impact Scores ──────────────────────────────────────────────────────────
 
-  /// Converts heartburn (1–10, higher = worse) to a 0–100 score where
-  /// higher = WORSE, so [isHarmful] logic (pearsonR < 0 = harmful) stays correct.
+  /// Converts heartburn (1–10, higher = worse) to a 0–100 "wellness" score
+  /// where HIGHER = better (no heartburn). Clamped for consistent 0-100 range.
+  ///   heartburn  1 → 100 (no heartburn)
+  ///   heartburn 10 →   0 (severe)
   static double heartburnAsY(WellnessEntry e) =>
-      ((11 - e.heartburn) / 9.0) * 100.0;
+      (((10 - e.heartburn.clamp(1, 10)) / 9.0) * 100.0).clamp(0.0, 100.0);
 
   /// Diarrhea as a 0–100 score: 100 = no diarrhea (good), 0 = diarrhea (bad).
   /// [isHarmful] logic (pearsonR < 0) stays correct: high food → low score → harmful.

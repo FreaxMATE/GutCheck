@@ -303,6 +303,14 @@
     {"en": "Sliced Cheese", "de": "Schnittkäse"},
     {"en": "Nutritional Yeast", "de": "Hefeflocken"},
     {"en": "Wrap", "de": "Wrap"},
-    {"en": "Jackfruit", "de": "Jackfrucht"}
+    {"en": "Jackfruit", "de": "Jackfrucht"},
+    {"en": "Porridge", "de": "Haferbrei"},
+    {"en": "Bircher Muesli", "de": "Bircher Müsli"},
+    {"en": "Overnight Oats", "de": "Overnight Oats"},
+    {"en": "Puffed Rice", "de": "Puffreis"},
+    {"en": "Bran Flakes", "de": "Weizenkleie-Flocken"},
+    {"en": "Crispbread", "de": "Knäckebrot"},
+    {"en": "Bagel", "de": "Bagel"},
+    {"en": "Croissant", "de": "Croissant"}
   ]
 }

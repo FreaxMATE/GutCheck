@@ -45,6 +45,8 @@ class CorrelationScatterPlot extends StatelessWidget {
           child: Padding(
             padding: const EdgeInsets.fromLTRB(8, 0, 16, 16),
             child: ScatterChart(
+              swapAnimationDuration: const Duration(milliseconds: 800),
+              swapAnimationCurve: Curves.easeOutCubic,
               ScatterChartData(
                 scatterSpots: spots,
                 minX: 0,

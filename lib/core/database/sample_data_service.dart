@@ -334,20 +334,25 @@ class SampleDataService {
 
   WellnessEntry _wellness(
     DateTime at, {
-    required int gutPeace,
+    required int gutPeace, // legacy arg name; callers pass "peace" (10 = great day)
     int heartburn = 1,
     bool diarrhea = false,
     String? notes,
-  }) =>
-      WellnessEntry()
-        ..recordedAt = at
-        ..gutPeace = gutPeace.clamp(1, 10)
-        ..heartburn = heartburn.clamp(1, 10)
-        ..diarrhea = diarrhea
-        ..wellnessScore = gutPeace.clamp(1, 10) / 10.0 * 100.0
-        ..linkedMealIds = []
-        ..notes = notes
-        ..isSample = true;
+  }) {
+    // Convert legacy peace (1=bad, 10=good) to new discomfort (0=good, 10=bad)
+    // using the same formula as MigrationService._flipGutPeaceSemantics.
+    final peace = gutPeace.clamp(1, 10);
+    final discomfort = ((10 - peace) * 10 / 9).round().clamp(0, 10);
+    return WellnessEntry()
+      ..recordedAt = at
+      ..gutPeace = discomfort
+      ..heartburn = heartburn.clamp(1, 10)
+      ..diarrhea = diarrhea
+      ..wellnessScore = ((10 - discomfort) / 10.0) * 100.0
+      ..linkedMealIds = []
+      ..notes = notes
+      ..isSample = true;
+  }
 
   MealIngredient _mi(Ingredient ing, String name, [String? quantity]) =>
       MealIngredient()

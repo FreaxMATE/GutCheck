@@ -25,9 +25,23 @@ class IngredientTile extends StatelessWidget {
 
     return ListTile(
       onTap: onTap,
-      leading: CircleAvatar(
-        backgroundColor: cat.color.withValues(alpha: 0.15),
-        child: Icon(cat.icon, color: cat.color, size: 20),
+      leading: Hero(
+        tag: 'ingredient-avatar-${ingredient.id}',
+        flightShuttleBuilder: (_, animation, __, ___, ____) {
+          // Transparent material during flight so the chip is cleanly drawn
+          // on top of the rising sheet.
+          return Material(
+            type: MaterialType.transparency,
+            child: CircleAvatar(
+              backgroundColor: cat.color.withValues(alpha: 0.15),
+              child: Icon(cat.icon, color: cat.color, size: 20),
+            ),
+          );
+        },
+        child: CircleAvatar(
+          backgroundColor: cat.color.withValues(alpha: 0.15),
+          child: Icon(cat.icon, color: cat.color, size: 20),
+        ),
       ),
       title: Text(ingredient.localizedName(locale)),
       subtitle: Row(

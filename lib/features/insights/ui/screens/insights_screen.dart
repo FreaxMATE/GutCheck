@@ -10,6 +10,7 @@ import '../widgets/correlation_scatter_plot.dart';
 import '../widgets/food_correlation_heatmap.dart';
 import '../widgets/food_impact_card.dart';
 import '../widgets/time_filter_bar.dart';
+import '../widgets/timing_analysis_card.dart';
 
 class InsightsScreen extends ConsumerWidget {
   const InsightsScreen({super.key});
@@ -161,6 +162,8 @@ class _ImpactTab extends ConsumerWidget {
     final l10n = AppLocalizations.of(context)!;
     final scores = ref.watch(foodImpactScoresProvider);
 
+    final timing = ref.watch(timingAnalysisProvider);
+
     return scores.when(
       loading: () => const Center(child: CircularProgressIndicator()),
       error: (e, _) => Center(child: Text(l10n.genericError(e))),
@@ -174,12 +177,27 @@ class _ImpactTab extends ConsumerWidget {
 
         return ListView.builder(
           padding: const EdgeInsets.only(bottom: 80),
-          itemCount: items.length,
-          itemBuilder: (ctx, i) => StaggeredEntrance(
-            index: i,
-            baseDelay: const Duration(milliseconds: 30),
-            child: FoodImpactCard(score: items[i]),
-          ),
+          // +1 for the timing analysis card at the top.
+          itemCount: items.length + 1,
+          itemBuilder: (ctx, i) {
+            if (i == 0) {
+              return timing.maybeWhen(
+                data: (analysis) => analysis.buckets.isNotEmpty
+                    ? StaggeredEntrance(
+                        index: 0,
+                        baseDelay: const Duration(milliseconds: 30),
+                        child: TimingAnalysisCard(analysis: analysis),
+                      )
+                    : const SizedBox.shrink(),
+                orElse: () => const SizedBox.shrink(),
+              );
+            }
+            return StaggeredEntrance(
+              index: i,
+              baseDelay: const Duration(milliseconds: 30),
+              child: FoodImpactCard(score: items[i - 1]),
+            );
+          },
         );
       },
     );

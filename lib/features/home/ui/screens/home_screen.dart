@@ -13,6 +13,8 @@ import '../../../meal_log/data/models/meal_entry.dart';
 import '../../../wellness/data/models/wellness_entry.dart';
 import '../../../wellness/ui/widgets/wellness_score_ring.dart';
 import '../../providers/home_providers.dart';
+import '../widgets/greeting_banner.dart';
+import '../widgets/weekly_digest_card.dart';
 
 class HomeScreen extends ConsumerWidget {
   const HomeScreen({super.key});
@@ -41,13 +43,17 @@ class HomeScreen extends ConsumerWidget {
         child: ListView(
           padding: const EdgeInsets.fromLTRB(16, 8, 16, 80),
           children: [
-            StaggeredEntrance(index: 0, child: _LastWellnessCard(l10n: l10n)),
+            const StaggeredEntrance(index: 0, child: GreetingBanner()),
+            const SizedBox(height: 8),
+            const StaggeredEntrance(index: 1, child: WeeklyDigestCard()),
+            const SizedBox(height: 8),
+            StaggeredEntrance(index: 1, child: _LastWellnessCard(l10n: l10n)),
             const SizedBox(height: 12),
-            StaggeredEntrance(index: 1, child: _LastMealCard(l10n: l10n)),
+            StaggeredEntrance(index: 2, child: _LastMealCard(l10n: l10n)),
             const SizedBox(height: 12),
-            StaggeredEntrance(index: 2, child: _WeeklyTrendCard(l10n: l10n)),
+            StaggeredEntrance(index: 3, child: _WeeklyTrendCard(l10n: l10n)),
             const SizedBox(height: 12),
-            StaggeredEntrance(index: 3, child: _TopInsightCard(l10n: l10n)),
+            StaggeredEntrance(index: 4, child: _TopInsightCard(l10n: l10n)),
           ],
         ),
       ),
@@ -188,7 +194,7 @@ class _WellnessContent extends StatelessWidget {
           ),
         ),
         const SizedBox(width: 16),
-        WellnessScoreRing(score: entry.wellnessScore, size: 80),
+        WellnessScoreRing(discomfort: entry.gutPeace, size: 80),
       ],
     );
   }

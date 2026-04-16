@@ -9,8 +9,10 @@ import '../../features/pantry/ui/screens/add_custom_food_screen.dart';
 import '../../features/pantry/ui/screens/pantry_screen.dart';
 import '../../features/wellness/ui/screens/wellness_check_screen.dart';
 import '../../features/wellness/ui/screens/wellness_history_screen.dart';
+import '../../features/achievements/achievements.dart';
 import '../animations/animations.dart';
 import 'app_shell.dart';
+import 'dev_screen.dart';
 import 'settings_screen.dart';
 
 /// Fade-through transition for pushed sub-routes. Becomes instant when
@@ -97,6 +99,14 @@ final appRouterProvider = Provider<GoRouter>((ref) {
       GoRoute(
         path: '/settings',
         pageBuilder: (c, s) => _fadeThroughPage(const SettingsScreen()),
+      ),
+      GoRoute(
+        path: '/dev',
+        pageBuilder: (c, s) => _fadeThroughPage(const DevScreen()),
+      ),
+      GoRoute(
+        path: '/trophies',
+        pageBuilder: (c, s) => _fadeThroughPage(const TrophyCaseScreen()),
       ),
     ],
   );

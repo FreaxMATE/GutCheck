@@ -67,6 +67,154 @@ class AppLocalizationsDe extends AppLocalizations {
   String get homeLikelyBeneficial => 'Scheinbar förderlich';
 
   @override
+  String get greetingMorning1 => 'Dein Gedärm verlangt nach Nahrungszufuhr 🍳';
+
+  @override
+  String get greetingMorning2 =>
+      'Sieh an! Ein bewusstseinsfähiger Zweibeiner naht';
+
+  @override
+  String get greetingMorning3 =>
+      'Erst koffeinieren. Dann Verdauungstrakt verhören ☕';
+
+  @override
+  String get greetingMorning4 =>
+      'Neuer Morgen, neue Knoblauch-Anklage in Vorbereitung';
+
+  @override
+  String get greetingMorning5 => 'Die gute alte Darmschlange erwacht 🌅';
+
+  @override
+  String get greetingMorning6 => 'Dein Verdauungsapparat lässt grüßen 🧠';
+
+  @override
+  String get greetingMorning7 => 'Tag #??? der Großen Bauch-Inquisition';
+
+  @override
+  String get greetingMorning8 => 'Die Magen-Chronik geht weiter 🔍';
+
+  @override
+  String get greetingAfternoon1 => 'Schon wieder? Suspekt. 🕵️';
+
+  @override
+  String get greetingAfternoon2 => 'Deine Eingeweide haben Mittagsmeinungen';
+
+  @override
+  String get greetingAfternoon3 =>
+      'Nachmittägliches Knabbern oder nachmittägliche Reue? 🤷';
+
+  @override
+  String get greetingAfternoon4 => 'Dein Magen ist quasi ein Yelp-Kritiker 💬';
+
+  @override
+  String get greetingAfternoon5 => 'Mittägliche Depesche aus dem Bauch-Büro 👀';
+
+  @override
+  String get greetingAfternoon6 =>
+      'Beharrlichkeit! Eine vortreffliche Eigenschaft 💪';
+
+  @override
+  String get greetingAfternoon7 =>
+      'Der Eisschrank observiert. Sofort dokumentieren. 👀';
+
+  @override
+  String get greetingEvening1 =>
+      'Abendliche Geständnisse sind hier willkommen 🍕';
+
+  @override
+  String get greetingEvening2 => 'Dein Darm verfasst das Abend-Kommuniqué 📝';
+
+  @override
+  String get greetingEvening3 =>
+      'Mahl war entweder prächtig oder bedauerlich. Protokollieren.';
+
+  @override
+  String get greetingEvening4 =>
+      'Das Sofa lockt. Aber erst: empirische Daten. 🛋️';
+
+  @override
+  String get greetingEvening5 => 'Ein Datenhäppchen vor dem Serienmarathon 📺';
+
+  @override
+  String get greetingEvening6 =>
+      'Abenddämmerungs-Debriefing mit dem Verdauungsapparat 🌙';
+
+  @override
+  String get greetingNight1 =>
+      'Um diese Uhrzeit umherstreunend? Dein Dickdarm missbilligt 🦉';
+
+  @override
+  String get greetingNight2 =>
+      'Mitternächtliche Nascherein? Wir haben Belege. 🍫';
+
+  @override
+  String get greetingNight3 => 'Deine Flora und Fauna schlummern nie 🦠';
+
+  @override
+  String get greetingNight4 =>
+      'Nächtliche Dateneingabe. Exquisites Engagement.';
+
+  @override
+  String get greetingNight5 => 'Die Kühltruhe rief an. Sie sagte: Abmarsch. 🚨';
+
+  @override
+  String get supportiveMsg1 => 'Dein Darm hat Überzeugungen. Lautstarke.';
+
+  @override
+  String get supportiveMsg2 => 'Jeder Tap nähert sich dem Zwiebel-Tribunal.';
+
+  @override
+  String get supportiveMsg3 =>
+      'Wissenschaft ist feines Musterspähen. Du machst\'s umsonst.';
+
+  @override
+  String get supportiveMsg4 =>
+      'Dein Mikrobiom: 39 Billionen Groupies, eine App 🦠';
+
+  @override
+  String get supportiveMsg5 =>
+      'Sherlock hatte eine Lupe. Du schwingst dieses Gerät.';
+
+  @override
+  String get supportiveMsg6 =>
+      'Nicht alle Koryphäen tragen Umhänge. Manche protokollieren Mähler.';
+
+  @override
+  String get supportiveMsg7 => 'Dein Torso spricht. Dieses Gerät dolmetscht.';
+
+  @override
+  String get supportiveMsg8 =>
+      'Winzige Datenbröckchen → kolossale Geistesblitze.';
+
+  @override
+  String get supportiveMsg9 =>
+      'Heutiges Log = morgiges Beweismaterial gegen Knoblauch.';
+
+  @override
+  String get supportiveMsg10 =>
+      'Schmaus für Schmaus. Der Darm vergisst nichts.';
+
+  @override
+  String get weeklyDigestTitle => 'Deine Woche im Überblick';
+
+  @override
+  String get weeklyDigestMeals => 'Mahlzeiten';
+
+  @override
+  String get weeklyDigestWellness => 'Check-ins';
+
+  @override
+  String get weeklyDigestStreak => 'Tage Serie';
+
+  @override
+  String get shakeTip => '🦠 Tipp: Tippe auf + um eine Mahlzeit einzutragen!';
+
+  @override
+  String weeklyDigestAvgScore(int score) {
+    return 'Durchschnittlicher Wohlbefindens-Score: $score';
+  }
+
+  @override
   String get settingsTitle => 'Einstellungen';
 
   @override
@@ -204,6 +352,19 @@ class AppLocalizationsDe extends AppLocalizations {
   @override
   String get settingsAnimationsSubtitle =>
       'Seitenübergänge, Einblendungen und dezente Bewegungen';
+
+  @override
+  String get settingsSoundsTitle => 'Töne';
+
+  @override
+  String get settingsSoundsSubtitle =>
+      'Ein leises Gluckern beim Hinzufügen von Zutaten';
+
+  @override
+  String get settingsTrophiesTitle => 'Trophäen';
+
+  @override
+  String get settingsTrophiesSubtitle => 'Deine freigeschalteten Erfolge';
 
   @override
   String get fodmapLow => 'Niedriger FODMAP';
@@ -435,13 +596,13 @@ class AppLocalizationsDe extends AppLocalizations {
   String get wellnessTitle => 'Wohlbefindens-Check';
 
   @override
-  String get wellnessGutPeace => 'Darmruhe';
+  String get wellnessGutPeace => 'Bauchbeschwerden';
 
   @override
-  String get wellnessGutPeaceMin => 'Unwohl';
+  String get wellnessGutPeaceMin => 'Keine';
 
   @override
-  String get wellnessGutPeaceMax => 'Perfekt';
+  String get wellnessGutPeaceMax => 'Extrem';
 
   @override
   String get wellnessHeartburn => 'Sodbrennen';
@@ -453,7 +614,7 @@ class AppLocalizationsDe extends AppLocalizations {
   String get wellnessHeartburnMax => 'Stark';
 
   @override
-  String get insightsMetricGutPeace => 'Wohlbefinden';
+  String get insightsMetricGutPeace => 'Beschwerden';
 
   @override
   String get insightsMetricHeartburn => 'Sodbrennen';

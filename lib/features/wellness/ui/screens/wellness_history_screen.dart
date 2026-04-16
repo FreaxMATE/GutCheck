@@ -170,10 +170,12 @@ class _WellnessEntryTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final score = entry.wellnessScore;
-    final scoreColor = score >= 70
+    // Show discomfort 0-10 (the actual gutPeace value).
+    final d = entry.gutPeace.clamp(0, 10);
+    // Color: 0-2 green, 3-5 orange, 6+ red.
+    final badgeColor = d <= 2
         ? Colors.green
-        : score >= 40
+        : d <= 5
             ? Colors.orange
             : Colors.red;
 
@@ -184,19 +186,19 @@ class _WellnessEntryTile extends StatelessWidget {
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // Score badge
+            // Discomfort badge (0-10)
             Container(
               width: 44,
               height: 44,
               decoration: BoxDecoration(
-                color: scoreColor.withValues(alpha: 0.12),
+                color: badgeColor.withValues(alpha: 0.12),
                 shape: BoxShape.circle,
               ),
               child: Center(
                 child: Text(
-                  '${score.round()}',
+                  '$d',
                   style: theme.textTheme.titleMedium?.copyWith(
-                      color: scoreColor, fontWeight: FontWeight.bold),
+                      color: badgeColor, fontWeight: FontWeight.bold),
                 ),
               ),
             ),
@@ -213,11 +215,13 @@ class _WellnessEntryTile extends StatelessWidget {
                               ?.copyWith(fontWeight: FontWeight.w600)),
                       const SizedBox(width: 8),
                       _SliderBadge(
-                        icon: Icons.favorite_rounded,
-                        color: Colors.green,
+                        icon: Icons.medical_information_outlined,
+                        color: Colors.red,
                         value: entry.gutPeace,
+                        min: 0,
                         max: 10,
-                        tooltip: 'Gut peace',
+                        tooltip: 'Gut discomfort',
+                        inverted: true, // high value = bad (red)
                       ),
                       const SizedBox(width: 4),
                       _SliderBadge(
@@ -271,6 +275,7 @@ class _SliderBadge extends StatelessWidget {
   final IconData icon;
   final Color color;
   final int value;
+  final int min;
   final int max;
   final String tooltip;
   final bool inverted;
@@ -281,14 +286,17 @@ class _SliderBadge extends StatelessWidget {
     required this.value,
     required this.max,
     required this.tooltip,
+    this.min = 1,
     this.inverted = false,
   });
 
   @override
   Widget build(BuildContext context) {
+    final range = (max - min).clamp(1, 1000);
+    final t = ((value - min) / range).clamp(0.0, 1.0);
     final badgeColor = inverted
-        ? Color.lerp(Colors.green, Colors.red, (value - 1) / (max - 1))!
-        : Color.lerp(Colors.red, Colors.green, (value - 1) / (max - 1))!;
+        ? Color.lerp(Colors.green, Colors.red, t)!
+        : Color.lerp(Colors.red, Colors.green, t)!;
 
     return Tooltip(
       message: '$tooltip: $value/$max',

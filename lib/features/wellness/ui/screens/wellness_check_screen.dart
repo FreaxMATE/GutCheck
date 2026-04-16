@@ -7,6 +7,8 @@ import 'package:go_router/go_router.dart';
 import 'package:gutcheck/l10n/app_localizations.dart';
 import '../../../../core/animations/animations.dart';
 import '../../../../core/utils/error_dialog.dart';
+import '../../../achievements/achievements.dart';
+import '../../../home/ui/widgets/gut_buddy.dart';
 import '../../providers/wellness_providers.dart';
 import '../widgets/diarrhea_toggle.dart';
 import '../widgets/gi_symptom_slider.dart';
@@ -43,14 +45,19 @@ class WellnessCheckScreen extends ConsumerWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // Live score ring
-            Center(
-              child: WellnessScoreRing(score: draft.liveScore, size: 140),
+            // Live score ring + Gut Buddy side-by-side
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                GutBuddy(size: 110, discomfort: draft.gutPeace),
+                const SizedBox(width: 12),
+                WellnessScoreRing(discomfort: draft.gutPeace, size: 120),
+              ],
             ),
             const SizedBox(height: 8),
             Center(
               child: Text(
-                _scoreLabel(draft.liveScore, l10n),
+                _discomfortLabel(draft.gutPeace, l10n),
                 style: Theme.of(context)
                     .textTheme
                     .bodyMedium
@@ -69,7 +76,9 @@ class WellnessCheckScreen extends ConsumerWidget {
               minLabel: l10n.wellnessGutPeaceMin,
               maxLabel: l10n.wellnessGutPeaceMax,
               value: draft.gutPeace,
-              inverted: false,
+              min: 0,
+              max: 10,
+              inverted: true, // 0 = good (green), 10 = bad (red)
               onChanged: notifier.setGutPeace,
             ),
 
@@ -134,11 +143,12 @@ class WellnessCheckScreen extends ConsumerWidget {
     );
   }
 
-  String _scoreLabel(double score, AppLocalizations l10n) {
-    if (score >= 80) return l10n.wellnessScoreGreat;
-    if (score >= 60) return l10n.wellnessScoreOkay;
-    if (score >= 40) return l10n.wellnessSomeDiscomfort;
-    if (score >= 20) return l10n.wellnessSignificantSymptoms;
+  /// Maps 0-10 discomfort to a localized label.
+  String _discomfortLabel(int d, AppLocalizations l10n) {
+    if (d <= 1) return l10n.wellnessScoreGreat;
+    if (d <= 3) return l10n.wellnessScoreOkay;
+    if (d <= 5) return l10n.wellnessSomeDiscomfort;
+    if (d <= 7) return l10n.wellnessSignificantSymptoms;
     return l10n.wellnessSevereDiscomfort;
   }
 
@@ -152,6 +162,13 @@ class WellnessCheckScreen extends ConsumerWidget {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text(l10n.wellnessSaved)),
         );
+      }
+      // Evaluate achievements — any newly unlocked show a toast.
+      final newlyUnlocked = await evaluateAchievements(ref);
+      for (final a in newlyUnlocked) {
+        if (!context.mounted) break;
+        showAchievementToast(context, a);
+        await Future<void>.delayed(const Duration(milliseconds: 900));
       }
     } catch (e, st) {
       debugPrint('Wellness save failed: $e\n$st');

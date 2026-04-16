@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gutcheck/l10n/app_localizations.dart';
 import '../../../../core/animations/animations.dart';
 import '../../../../core/utils/date_utils.dart';
+import '../../../../core/utils/shake_detector.dart';
 import '../../data/models/meal_entry.dart';
 import '../../data/models/meal_ingredient.dart';
 import '../../data/models/meal_template.dart';
@@ -14,11 +15,60 @@ import '../widgets/meal_entry_tile.dart';
 import '../widgets/meal_templates_section.dart';
 import 'log_meal_sheet.dart';
 
-class MealLogScreen extends ConsumerWidget {
+class MealLogScreen extends ConsumerStatefulWidget {
   const MealLogScreen({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<MealLogScreen> createState() => _MealLogScreenState();
+}
+
+class _MealLogScreenState extends ConsumerState<MealLogScreen> {
+  final _scrollController = ScrollController();
+  late final ShakeDetector _shake = ShakeDetector(onShake: _onShake);
+
+  @override
+  void initState() {
+    super.initState();
+    _shake.start();
+  }
+
+  @override
+  void dispose() {
+    _shake.stop();
+    _scrollController.dispose();
+    super.dispose();
+  }
+
+  void _onShake() {
+    if (!mounted) return;
+    final l10n = AppLocalizations.of(context)!;
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(l10n.shakeTip),
+        duration: const Duration(seconds: 3),
+        behavior: SnackBarBehavior.floating,
+      ),
+    );
+  }
+
+  /// Approximate day-jump: scroll by ~one day-section worth of pixels.
+  void _jumpDay({required bool forward}) {
+    if (!_scrollController.hasClients) return;
+    const dayHeight = 220.0;
+    final current = _scrollController.offset;
+    final maxOffset = _scrollController.position.maxScrollExtent;
+    final target = forward
+        ? (current + dayHeight).clamp(0.0, maxOffset)
+        : (current - dayHeight).clamp(0.0, maxOffset);
+    _scrollController.animateTo(
+      target,
+      duration: const Duration(milliseconds: 380),
+      curve: Curves.easeOutCubic,
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
     final history = ref.watch(mealHistoryProvider);
 
@@ -77,7 +127,17 @@ class MealLogScreen extends ConsumerWidget {
                           ],
                         ),
                       )
-                    : ListView.builder(
+                    : GestureDetector(
+                        behavior: HitTestBehavior.translucent,
+                        onHorizontalDragEnd: (d) {
+                          final vx = d.primaryVelocity ?? 0;
+                          if (vx.abs() < 400) return;
+                          // Swipe right → go to more recent (scroll up)
+                          // Swipe left  → go to older (scroll down)
+                          _jumpDay(forward: vx < 0);
+                        },
+                        child: ListView.builder(
+                        controller: _scrollController,
                         padding: const EdgeInsets.only(top: 8, bottom: 80),
                         itemCount: items.length,
                         itemBuilder: (ctx, i) {
@@ -103,7 +163,7 @@ class MealLogScreen extends ConsumerWidget {
                             ),
                           );
                         },
-                      ),
+                      )),
               ),
             ],
           );

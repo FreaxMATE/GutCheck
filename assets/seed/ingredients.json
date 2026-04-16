@@ -1,5 +1,5 @@
 {
-  "version": 3,
+  "version": 4,
   "ingredients": [
     { "name": "Carrot", "nameDE": "Karotte", "category": "vegetable", "fodmapLevel": "low" },
     { "name": "Spinach", "nameDE": "Spinat", "category": "vegetable", "fodmapLevel": "low" },
@@ -55,6 +55,18 @@
     { "name": "Couscous", "nameDE": "Couscous", "category": "grain", "fodmapLevel": "high" },
     { "name": "Barley", "nameDE": "Gerste", "category": "grain", "fodmapLevel": "high" },
     { "name": "Wrap", "nameDE": "Wrap", "category": "grain", "fodmapLevel": "high" },
+    { "name": "Muesli", "nameDE": "Müsli", "category": "grain", "fodmapLevel": "moderate" },
+    { "name": "Granola", "nameDE": "Granola", "category": "grain", "fodmapLevel": "moderate" },
+    { "name": "Cornflakes", "nameDE": "Cornflakes", "category": "grain", "fodmapLevel": "low" },
+    { "name": "Porridge", "nameDE": "Haferbrei", "category": "grain", "fodmapLevel": "low" },
+    { "name": "Bircher Muesli", "nameDE": "Bircher Müsli", "category": "grain", "fodmapLevel": "moderate" },
+    { "name": "Overnight Oats", "nameDE": "Overnight Oats", "category": "grain", "fodmapLevel": "low" },
+    { "name": "Puffed Rice", "nameDE": "Puffreis", "category": "grain", "fodmapLevel": "low" },
+    { "name": "Bran Flakes", "nameDE": "Weizenkleie-Flocken", "category": "grain", "fodmapLevel": "high" },
+    { "name": "Crispbread", "nameDE": "Knäckebrot", "category": "grain", "fodmapLevel": "moderate" },
+    { "name": "Bagel", "nameDE": "Bagel", "category": "grain", "fodmapLevel": "high" },
+    { "name": "Croissant", "nameDE": "Croissant", "category": "grain", "fodmapLevel": "moderate" },
+    { "name": "Pretzel", "nameDE": "Brezel", "category": "grain", "fodmapLevel": "moderate" },
 
     { "name": "Chicken Breast", "nameDE": "Hähnchenbrust", "category": "protein", "fodmapLevel": "low" },
     { "name": "Salmon", "nameDE": "Lachs", "category": "protein", "fodmapLevel": "low" },

@@ -22,6 +22,59 @@
   "homePossibleTrigger": "Possible trigger",
   "homeLikelyBeneficial": "Likely beneficial",
 
+  "greetingMorning1": "Your innards demand sustenance 🍳",
+  "greetingMorning2": "Behold! A conscious biped approaches",
+  "greetingMorning3": "Caffeinate first. Interrogate bowels later ☕",
+  "greetingMorning4": "Another dawn, another garlic indictment pending",
+  "greetingMorning5": "The ol' intestinal spaghetti awakens 🌅",
+  "greetingMorning6": "Your alimentary canal sends its regards 🧠",
+  "greetingMorning7": "Day #??? of the Great Belly Inquisition",
+  "greetingMorning8": "The tummy chronicle continues 🔍",
+
+  "greetingAfternoon1": "You again? Peculiar. 🕵️",
+  "greetingAfternoon2": "Your entrails have lunchtime opinions",
+  "greetingAfternoon3": "Post-meridian nibble or post-meridian blunder? 🤷",
+  "greetingAfternoon4": "Your stomach is basically a Yelp reviewer 💬",
+  "greetingAfternoon5": "Midday dispatches from the gut bureau 👀",
+  "greetingAfternoon6": "Tenacity! A most splendid quality 💪",
+  "greetingAfternoon7": "The refrigerator observes. Log forthwith. 👀",
+
+  "greetingEvening1": "Vespertine confessions welcome here 🍕",
+  "greetingEvening2": "Your bowels are drafting the evening communiqué 📝",
+  "greetingEvening3": "Supper was either magnificent or regrettable. Document it.",
+  "greetingEvening4": "The sofa beckons. But first: empirical data. 🛋️",
+  "greetingEvening5": "One morsel of data before the binge-watching 📺",
+  "greetingEvening6": "Twilight debrief with your digestive apparatus 🌙",
+
+  "greetingNight1": "Prowling at this hour? Your colon disapproves 🦉",
+  "greetingNight2": "Midnight snackery? We have receipts. 🍫",
+  "greetingNight3": "Your flora and fauna never slumber 🦠",
+  "greetingNight4": "Nocturnal data entry. Exquisite commitment.",
+  "greetingNight5": "The icebox phoned. It said scram. 🚨",
+
+  "supportiveMsg1": "Your gut has convictions. Vociferous ones.",
+  "supportiveMsg2": "Every tap edges closer to the onion tribunal.",
+  "supportiveMsg3": "Science is posh pattern-spotting. You do it gratis.",
+  "supportiveMsg4": "Your microbiome: 39 trillion groupies, one app 🦠",
+  "supportiveMsg5": "Sherlock had a loupe. You wield this contraption.",
+  "supportiveMsg6": "Not all paragons don capes. Some chronicle suppers.",
+  "supportiveMsg7": "Your torso speaks. This gizmo translates.",
+  "supportiveMsg8": "Minuscule data morsels → colossal epiphanies.",
+  "supportiveMsg9": "Today's log = tomorrow's garlic prosecution evidence.",
+  "supportiveMsg10": "Repast by repast. The gut forgets nothing.",
+
+  "weeklyDigestTitle": "Your week at a glance",
+  "weeklyDigestMeals": "meals",
+  "weeklyDigestWellness": "check-ins",
+  "weeklyDigestStreak": "day streak",
+  "shakeTip": "🦠 Tip: Tap the + button to log your meal!",
+  "weeklyDigestAvgScore": "Average wellness score: {score}",
+  "@weeklyDigestAvgScore": {
+    "placeholders": {
+      "score": { "type": "int" }
+    }
+  },
+
   "settingsTitle": "Settings",
   "settingsSectionData": "Data",
   "settingsExportTitle": "Export All Data",
@@ -76,6 +129,10 @@
 
   "settingsAnimationsTitle": "Animations",
   "settingsAnimationsSubtitle": "Page transitions, entrance effects, and subtle motion",
+  "settingsSoundsTitle": "Sounds",
+  "settingsSoundsSubtitle": "Play a subtle gurgle when adding ingredients",
+  "settingsTrophiesTitle": "Trophies",
+  "settingsTrophiesSubtitle": "Your unlocked achievements",
 
   "fodmapLow": "Low FODMAP",
   "fodmapModerate": "Moderate FODMAP",
@@ -189,13 +246,13 @@
   "logMealValidation": "Add at least one ingredient to log a meal.",
 
   "wellnessTitle": "Wellness Check",
-  "wellnessGutPeace": "Gut Peace",
-  "wellnessGutPeaceMin": "Uncomfortable",
-  "wellnessGutPeaceMax": "Perfect",
+  "wellnessGutPeace": "Gut Discomfort",
+  "wellnessGutPeaceMin": "None",
+  "wellnessGutPeaceMax": "Extreme",
   "wellnessHeartburn": "Heartburn",
   "wellnessHeartburnMin": "None",
   "wellnessHeartburnMax": "Severe",
-  "insightsMetricGutPeace": "Comfort",
+  "insightsMetricGutPeace": "Discomfort",
   "insightsMetricHeartburn": "Heartburn",
   "insightsMetricDiarrhea": "Diarrhea",
   "insightsMetricCombined": "Combined",

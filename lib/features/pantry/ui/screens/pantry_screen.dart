@@ -135,12 +135,18 @@ class PantryScreen extends ConsumerWidget {
               ),
               Row(
                 children: [
-                  CircleAvatar(
-                    radius: 28,
-                    backgroundColor:
-                        ingredient.category.color.withOpacity(0.15),
-                    child: Icon(ingredient.category.icon,
-                        color: ingredient.category.color, size: 28),
+                  Hero(
+                    tag: 'ingredient-avatar-${ingredient.id}',
+                    child: Material(
+                      type: MaterialType.transparency,
+                      child: CircleAvatar(
+                        radius: 28,
+                        backgroundColor:
+                            ingredient.category.color.withValues(alpha: 0.15),
+                        child: Icon(ingredient.category.icon,
+                            color: ingredient.category.color, size: 28),
+                      ),
+                    ),
                   ),
                   const SizedBox(width: 16),
                   Expanded(

@@ -6,11 +6,14 @@ import '../../../../core/animations/animations.dart';
 import '../../../../core/constants/food_categories.dart';
 import '../../../../core/database/app_database_provider.dart';
 import '../../../../core/l10n/l10n_extensions.dart';
+import '../../../../core/providers/sound_provider.dart';
+import '../../../achievements/achievements.dart';
 import '../../../pantry/data/models/ingredient.dart';
 import '../../data/models/meal_entry.dart';
 import '../../data/models/meal_ingredient.dart';
 import '../../providers/meal_providers.dart';
 import '../widgets/meal_ingredient_chip.dart';
+import '../widgets/meal_plate.dart';
 
 class LogMealSheet extends ConsumerStatefulWidget {
   /// When non-null, the sheet operates in edit mode for this entry.
@@ -33,6 +36,8 @@ class _LogMealSheetState extends ConsumerState<LogMealSheet> {
   String _mealLabel = 'Lunch';
   DateTime _consumedAt = DateTime.now();
   final List<MealIngredient> _selectedIngredients = [];
+  // Cached category per selected ingredient, for the MealPlate visualization.
+  final Map<int, FoodCategory> _categoryByIngredientId = {};
 
   // Browse mode
   FoodCategory? _activeCategory;
@@ -70,8 +75,24 @@ class _LogMealSheetState extends ConsumerState<LogMealSheet> {
     } else {
       _setSmartLabel();
     }
-    WidgetsBinding.instance
-        .addPostFrameCallback((_) => _selectCategory(FoodCategory.vegetable));
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _selectCategory(FoodCategory.vegetable);
+      _populateCategoriesForSelected();
+    });
+  }
+
+  Future<void> _populateCategoriesForSelected() async {
+    if (_selectedIngredients.isEmpty) return;
+    final db = await ref.read(appDatabaseProvider.future);
+    for (final mi in _selectedIngredients) {
+      if (_categoryByIngredientId.containsKey(mi.ingredientId)) continue;
+      final ing = await db.findIngredientById(mi.ingredientId);
+      if (ing != null && mounted) {
+        setState(() {
+          _categoryByIngredientId[mi.ingredientId] = ing.category;
+        });
+      }
+    }
   }
 
   void _setSmartLabel() {
@@ -234,28 +255,43 @@ class _LogMealSheetState extends ConsumerState<LogMealSheet> {
                   : _buildBrowseList(l10n),
             ),
 
-            // Selected ingredients
+            // Selected ingredients + live MealPlate
             if (_selectedIngredients.isNotEmpty) ...[
               const Divider(height: 1),
               Padding(
                 padding:
                     const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                child: Column(
+                child: Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(l10n.logMealAdded,
-                        style: Theme.of(context).textTheme.labelLarge),
-                    const SizedBox(height: 6),
-                    Wrap(
-                      spacing: 6,
-                      runSpacing: 4,
-                      children: _selectedIngredients
-                          .map((i) => MealIngredientChip(
-                                item: i,
-                                onDelete: () => setState(
-                                    () => _selectedIngredients.remove(i)),
-                              ))
-                          .toList(),
+                    MealPlate(categoryCounts: _plateCounts, size: 80),
+                    const SizedBox(width: 12),
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(l10n.logMealAdded,
+                              style:
+                                  Theme.of(context).textTheme.labelLarge),
+                          const SizedBox(height: 6),
+                          Wrap(
+                            spacing: 6,
+                            runSpacing: 4,
+                            children: _selectedIngredients
+                                .map((i) => MealIngredientChip(
+                                      item: i,
+                                      onDelete: () {
+                                        setState(() {
+                                          _selectedIngredients.remove(i);
+                                          _categoryByIngredientId
+                                              .remove(i.ingredientId);
+                                        });
+                                      },
+                                    ))
+                                .toList(),
+                          ),
+                        ],
+                      ),
                     ),
                   ],
                 ),
@@ -356,12 +392,25 @@ class _LogMealSheetState extends ConsumerState<LogMealSheet> {
       if (alreadyAdded) {
         _selectedIngredients
             .removeWhere((s) => s.ingredientId == ingredient.id);
+        _categoryByIngredientId.remove(ingredient.id);
       } else {
         _selectedIngredients.add(MealIngredient()
           ..ingredientId = ingredient.id
           ..ingredientName = ingredient.name);
+        _categoryByIngredientId[ingredient.id] = ingredient.category;
+        // Playful gurgle on add (opt-in, off by default).
+        playGurgle(ref);
       }
     });
+  }
+
+  Map<FoodCategory, int> get _plateCounts {
+    final counts = <FoodCategory, int>{};
+    for (final mi in _selectedIngredients) {
+      final cat = _categoryByIngredientId[mi.ingredientId];
+      if (cat != null) counts[cat] = (counts[cat] ?? 0) + 1;
+    }
+    return counts;
   }
 
   Future<void> _pickTime() async {
@@ -408,7 +457,15 @@ class _LogMealSheetState extends ConsumerState<LogMealSheet> {
       } else {
         await ref.read(mealLogProvider.notifier).addMeal(entry);
       }
+      final newlyUnlocked = await evaluateAchievements(ref);
       if (mounted) Navigator.of(context).pop();
+      // Show any unlocked achievements on the parent screen after the sheet closes.
+      if (mounted) {
+        for (final a in newlyUnlocked) {
+          showAchievementToast(context, a);
+          await Future<void>.delayed(const Duration(milliseconds: 900));
+        }
+      }
     } finally {
       if (mounted) setState(() => _saving = false);
     }

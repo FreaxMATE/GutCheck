@@ -14,7 +14,7 @@ class WellnessDraftState {
   final List<int> linkedMealIds;
 
   const WellnessDraftState({
-    this.gutPeace = 10,
+    this.gutPeace = 0, // 0 = no discomfort (new semantic)
     this.heartburn = 1,
     this.diarrhea = false,
     this.notes,

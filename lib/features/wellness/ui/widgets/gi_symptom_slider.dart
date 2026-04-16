@@ -1,13 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import '../../../../core/constants/app_colors.dart';
 
+/// Slider for a GI symptom (or overall gut comfort).
+///
+/// [inverted] controls color semantics only:
+///   - false → high value is GOOD (slider turns greener as value rises).
+///   - true  → high value is BAD  (slider turns redder as value rises).
 class GiSymptomSlider extends StatelessWidget {
   final String label;
   final String minLabel;
   final String maxLabel;
   final int value;
-  final bool inverted; // true = high value is bad (bloating, cramping)
+  final int min;
+  final int max;
+  final bool inverted;
   final ValueChanged<int> onChanged;
 
   const GiSymptomSlider({
@@ -17,19 +25,23 @@ class GiSymptomSlider extends StatelessWidget {
     required this.maxLabel,
     required this.value,
     required this.onChanged,
+    this.min = 1,
+    this.max = 10,
     this.inverted = false,
   });
 
   Color get _thumbColor {
-    // For inverted (bloating/cramping): low = good (green), high = bad (red)
-    // For non-inverted (gutPeace): high = good (green), low = bad (red)
-    final score = inverted ? (10 - value + 1) : value;
-    return AppColors.wellnessScoreInterpolated(score * 10.0);
+    final range = max - min;
+    if (range <= 0) return AppColors.wellnessGreen;
+    final normalized = (value - min) / range; // 0..1
+    final goodness = inverted ? (1.0 - normalized) : normalized; // 0..1
+    return AppColors.wellnessScoreInterpolated(goodness * 100.0);
   }
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final divisions = (max - min).clamp(1, 1000);
 
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 8),
@@ -44,7 +56,7 @@ class GiSymptomSlider extends StatelessWidget {
                 width: 36,
                 height: 36,
                 decoration: BoxDecoration(
-                  color: _thumbColor.withOpacity(0.15),
+                  color: _thumbColor.withValues(alpha: 0.15),
                   borderRadius: BorderRadius.circular(8),
                 ),
                 alignment: Alignment.center,
@@ -60,16 +72,33 @@ class GiSymptomSlider extends StatelessWidget {
             data: SliderThemeData(
               activeTrackColor: _thumbColor,
               thumbColor: _thumbColor,
-              inactiveTrackColor: _thumbColor.withOpacity(0.2),
-              overlayColor: _thumbColor.withOpacity(0.1),
+              inactiveTrackColor: _thumbColor.withValues(alpha: 0.2),
+              overlayColor: _thumbColor.withValues(alpha: 0.1),
               trackHeight: 6,
             ),
             child: Slider(
               value: value.toDouble(),
-              min: 1,
-              max: 10,
-              divisions: 9,
-              onChanged: (v) => onChanged(v.round()),
+              min: min.toDouble(),
+              max: max.toDouble(),
+              divisions: divisions,
+              onChanged: (v) {
+                final r = v.round();
+                if (r != value) {
+                  // Haptic intensity matches severity — stronger the
+                  // closer we are to the bad end of the scale.
+                  final range = (max - min).clamp(1, 1000);
+                  final t = ((r - min) / range).clamp(0.0, 1.0);
+                  final severity = inverted ? t : (1.0 - t);
+                  if (severity > 0.8) {
+                    HapticFeedback.heavyImpact();
+                  } else if (severity > 0.5) {
+                    HapticFeedback.mediumImpact();
+                  } else {
+                    HapticFeedback.selectionClick();
+                  }
+                }
+                onChanged(r);
+              },
             ),
           ),
           Padding(

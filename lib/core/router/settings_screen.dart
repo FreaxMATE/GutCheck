@@ -6,10 +6,12 @@ import 'dart:convert';
 import 'package:file_picker/file_picker.dart';
 import 'package:gutcheck/l10n/app_localizations.dart';
 import '../animations/animations.dart';
+import '../animations/theme_reveal.dart';
 import '../database/app_database_provider.dart';
 import '../database/isar_provider.dart';
 import '../database/sample_data_service.dart';
 import '../providers/locale_provider.dart';
+import '../providers/sound_provider.dart';
 import '../providers/theme_provider.dart';
 import '../utils/export_service.dart';
 
@@ -29,6 +31,7 @@ class SettingsScreen extends ConsumerStatefulWidget {
 
 class _SettingsScreenState extends ConsumerState<SettingsScreen> {
   bool _sampleLoading = false;
+  int _versionTapCount = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -82,6 +85,14 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
             value: ref.watch(animationsEnabledProvider),
             onChanged: (v) =>
                 ref.read(animationsEnabledProvider.notifier).setEnabled(v),
+          ),
+          SwitchListTile(
+            secondary: const Icon(Icons.volume_up_rounded),
+            title: Text(l10n.settingsSoundsTitle),
+            subtitle: Text(l10n.settingsSoundsSubtitle),
+            value: ref.watch(soundEnabledProvider),
+            onChanged: (v) =>
+                ref.read(soundEnabledProvider.notifier).setEnabled(v),
           ),
 
           // ── Language ────────────────────────────────────────────────────────
@@ -171,12 +182,37 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
             onTap: () => _confirmResetDatabase(context, l10n),
           ),
 
+          // ── Achievements ────────────────────────────────────────────────────
+          const Divider(indent: 16, endIndent: 16),
+          ListTile(
+            leading: const Icon(Icons.emoji_events_rounded, color: Colors.amber),
+            title: Text(l10n.settingsTrophiesTitle),
+            subtitle: Text(l10n.settingsTrophiesSubtitle),
+            trailing: const Icon(Icons.chevron_right),
+            onTap: () => context.push('/trophies'),
+          ),
+
           // ── About ────────────────────────────────────────────────────────────
           _SectionHeader(l10n.settingsSectionAbout),
           ListTile(
             leading: const Icon(Icons.info_outline_rounded),
             title: const Text('GutCheck'),
             subtitle: Text(l10n.settingsAppVersion),
+            onTap: () {
+              _versionTapCount++;
+              if (_versionTapCount >= 5) {
+                _versionTapCount = 0;
+                context.push('/dev');
+              } else if (_versionTapCount >= 3) {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    content: Text(
+                        '${5 - _versionTapCount} more tap(s) for dev mode…'),
+                    duration: const Duration(milliseconds: 1200),
+                  ),
+                );
+              }
+            },
           ),
           ListTile(
             leading: const Icon(Icons.lock_outline_rounded),
@@ -194,8 +230,32 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
       context: context,
       builder: (_) => _ThemeDialog(current: current),
     );
-    if (picked == null) return;
-    await ref.read(themeModeProvider.notifier).setThemeMode(picked);
+    if (picked == null || picked == current) return;
+    if (!context.mounted) return;
+
+    // Resolve what the *new* theme's background will be, then circular-reveal
+    // from roughly where the theme tile sits.
+    final scheme = MediaQuery.of(context).platformBrightness;
+    final isDarkAfter = switch (picked) {
+      ThemeMode.dark => true,
+      ThemeMode.light => false,
+      ThemeMode.system => scheme == Brightness.dark,
+    };
+    final fill = isDarkAfter ? const Color(0xFF121212) : const Color(0xFFF7F7F7);
+    final size = MediaQuery.of(context).size;
+    final origin = Offset(size.width * 0.85, 120); // near the theme tile
+    final enabled = ref.read(animationsEnabledProvider);
+    if (enabled) {
+      await showThemeReveal(
+        context: context,
+        origin: origin,
+        color: fill,
+        applyTheme: () =>
+            ref.read(themeModeProvider.notifier).setThemeMode(picked),
+      );
+    } else {
+      await ref.read(themeModeProvider.notifier).setThemeMode(picked);
+    }
   }
 
   Future<void> _pickLanguage(

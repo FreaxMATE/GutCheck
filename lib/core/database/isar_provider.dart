@@ -6,6 +6,7 @@ import '../../features/meal_log/data/models/meal_entry.dart';
 import '../../features/meal_log/data/models/meal_template.dart';
 import '../../features/pantry/data/models/ingredient.dart';
 import '../../features/wellness/data/models/wellness_entry.dart';
+import 'migration_service.dart';
 import 'seed_service.dart';
 
 /// Singleton Isar database. keepAlive ensures it's never disposed.
@@ -16,6 +17,9 @@ final isarProvider = FutureProvider<Isar>((ref) async {
     [IngredientSchema, MealEntrySchema, MealTemplateSchema, WellnessEntrySchema],
     directory: dir.path,
   );
+
+  // Run pending data migrations (idempotent, guarded by prefs flags).
+  await MigrationService(isar).runAll();
 
   // Seed the ingredient database on first launch.
   await SeedService(isar).seedIfNeeded();
