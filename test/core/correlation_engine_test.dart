@@ -6,34 +6,35 @@ import 'package:gutcheck/features/wellness/data/models/wellness_entry.dart';
 
 void main() {
   group('CorrelationEngine.computeWellnessScore', () {
-    test('perfect gut peace returns 100', () {
-      final score = CorrelationEngine.computeWellnessScore(gutPeace: 10);
+    // Note: gutPeace is stored as gut *discomfort* on a 0–20 scale
+    // (2× encoding of 0.0–10.0). 0 = no discomfort = best wellness.
+
+    test('no discomfort returns 100', () {
+      final score = CorrelationEngine.computeWellnessScore(gutPeace: 0);
       expect(score, closeTo(100.0, 0.1));
     });
 
-    test('worst gut peace returns 0', () {
-      final score = CorrelationEngine.computeWellnessScore(gutPeace: 1);
+    test('max discomfort returns 0', () {
+      final score = CorrelationEngine.computeWellnessScore(gutPeace: 20);
       expect(score, closeTo(0.0, 0.1));
     });
 
-    test('mid gut peace returns ~50', () {
-      final score = CorrelationEngine.computeWellnessScore(gutPeace: 5);
-      // (5-1)/9 * 100 ≈ 44.4
-      expect(score, greaterThan(0.0));
-      expect(score, lessThan(100.0));
+    test('mid discomfort returns ~50', () {
+      final score = CorrelationEngine.computeWellnessScore(gutPeace: 10);
+      expect(score, closeTo(50.0, 0.1));
     });
 
     test('score is between 0 and 100 for all valid inputs', () {
-      for (int gp = 1; gp <= 10; gp++) {
+      for (int gp = 0; gp <= 20; gp++) {
         final score = CorrelationEngine.computeWellnessScore(gutPeace: gp);
         expect(score, greaterThanOrEqualTo(0.0));
         expect(score, lessThanOrEqualTo(100.0));
       }
     });
 
-    test('higher gut peace produces higher score', () {
-      final scoreLow = CorrelationEngine.computeWellnessScore(gutPeace: 3);
-      final scoreHigh = CorrelationEngine.computeWellnessScore(gutPeace: 8);
+    test('lower discomfort produces higher score', () {
+      final scoreLow = CorrelationEngine.computeWellnessScore(gutPeace: 16);
+      final scoreHigh = CorrelationEngine.computeWellnessScore(gutPeace: 4);
       expect(scoreHigh, greaterThan(scoreLow));
     });
   });
