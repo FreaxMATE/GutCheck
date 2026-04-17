@@ -312,10 +312,6 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
         return l10n.paletteVerdantGreen;
       case AppPalette.twilightIndigo:
         return l10n.paletteTwilightIndigo;
-      case AppPalette.peachyPastel:
-        return l10n.palettePeachyPastel;
-      case AppPalette.warmCream:
-        return l10n.paletteWarmCream;
     }
   }
 
@@ -663,10 +659,6 @@ class _PaletteDialogState extends State<_PaletteDialog> {
         return l10n.paletteVerdantGreen;
       case AppPalette.twilightIndigo:
         return l10n.paletteTwilightIndigo;
-      case AppPalette.peachyPastel:
-        return l10n.palettePeachyPastel;
-      case AppPalette.warmCream:
-        return l10n.paletteWarmCream;
     }
   }
 

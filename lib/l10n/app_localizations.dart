@@ -818,18 +818,6 @@ abstract class AppLocalizations {
   /// **'Twilight Indigo'**
   String get paletteTwilightIndigo;
 
-  /// No description provided for @palettePeachyPastel.
-  ///
-  /// In en, this message translates to:
-  /// **'Peachy Pastel'**
-  String get palettePeachyPastel;
-
-  /// No description provided for @paletteWarmCream.
-  ///
-  /// In en, this message translates to:
-  /// **'Warm Cream'**
-  String get paletteWarmCream;
-
   /// No description provided for @settingsSectionLanguage.
   ///
   /// In en, this message translates to:

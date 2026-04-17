@@ -1,5 +1,5 @@
 {
-  "version": 8,
+  "version": 9,
   "ingredients": [
     { "name": "Carrot", "nameDE": "Karotte", "category": "vegetable", "fodmapLevel": "low" },
     { "name": "Spinach", "nameDE": "Spinat", "category": "vegetable", "fodmapLevel": "low" },

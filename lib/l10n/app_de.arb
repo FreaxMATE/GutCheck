@@ -129,7 +129,7 @@
   "settingsResetDbDialogContent": "Dies l\u00f6scht die gesamte Datenbankdatei dauerhaft (alle Mahlzeiten, Wohlbefindenseintr\u00e4ge, eigenen Lebensmittel und Einstellungen) und schlie\u00dft die App. Du musst sie manuell neu starten.",
   "settingsResetDbDone": "Datenbank gel\u00f6scht. Bitte starte die App neu.",
   "settingsSectionPantry": "Vorratskammer",
-  "settingsPantryTitle": "Smart Pantry",
+  "settingsPantryTitle": "Vorratskammer",
   "settingsPantrySubtitle": "Zutaten durchsuchen und eigene Lebensmittel hinzufügen",
   "settingsSectionAppearance": "Erscheinungsbild",
   "settingsThemeTitle": "Design",
@@ -141,8 +141,6 @@
   "settingsPaletteDialogTitle": "Farbpalette wählen",
   "paletteVerdantGreen": "Verdant Green",
   "paletteTwilightIndigo": "Twilight Indigo",
-  "palettePeachyPastel": "Peachy Pastel",
-  "paletteWarmCream": "Warm Cream",
 
   "settingsSectionLanguage": "Sprache",
   "settingsLanguageAuto": "Systemstandard",

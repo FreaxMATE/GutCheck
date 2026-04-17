@@ -48,19 +48,16 @@ class FoodFingerprint extends StatelessWidget {
 
 /// Pre-computed fingerprint data for a single food.
 class FoodFingerprintData {
-  /// Average discomfort (0-10) after eating this food.
   final double discomfort;
-
-  /// Average heartburn (0-10).
   final double heartburn;
-
-  /// Diarrhea rate (0-10 scale: 0 = never, 10 = always).
   final double diarrhea;
-
-  /// Average stress on days this food was eaten (context, not caused by food).
   final double stress;
-
   final int sampleCount;
+
+  /// Denormalized ingredient name (English, stored at log time). Used as
+  /// a fallback when the current Ingredient row has been deleted or the
+  /// seed re-insert gave it a different auto-increment id.
+  final String fallbackName;
 
   const FoodFingerprintData({
     required this.discomfort,
@@ -68,6 +65,7 @@ class FoodFingerprintData {
     required this.diarrhea,
     required this.stress,
     required this.sampleCount,
+    required this.fallbackName,
   });
 
   List<double> get axes => [discomfort, heartburn, diarrhea, stress];
@@ -132,6 +130,7 @@ Map<int, FoodFingerprintData> computeFingerprints({
       diarrhea: diarrheaRate,
       stress: avgStress,
       sampleCount: entries.length,
+      fallbackName: ingredientNames[entry.key] ?? 'Unknown',
     );
   }
 

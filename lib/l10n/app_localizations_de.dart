@@ -380,7 +380,7 @@ class AppLocalizationsDe extends AppLocalizations {
   String get settingsSectionPantry => 'Vorratskammer';
 
   @override
-  String get settingsPantryTitle => 'Smart Pantry';
+  String get settingsPantryTitle => 'Vorratskammer';
 
   @override
   String get settingsPantrySubtitle =>
@@ -415,12 +415,6 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get paletteTwilightIndigo => 'Twilight Indigo';
-
-  @override
-  String get palettePeachyPastel => 'Peachy Pastel';
-
-  @override
-  String get paletteWarmCream => 'Warm Cream';
 
   @override
   String get settingsSectionLanguage => 'Sprache';

@@ -350,7 +350,7 @@ class _FingerprintPreview extends ConsumerWidget {
             Expanded(
               child: LocalizedIngredientText(
                 ingredientId: top.key,
-                fallbackName: 'Unknown',
+                fallbackName: top.value.fallbackName,
                 style: Theme.of(context).textTheme.bodyMedium,
               ),
             ),
@@ -754,7 +754,7 @@ class InsightsFingerprintView extends ConsumerWidget {
         if (selectedId != null && fingerprints.containsKey(selectedId)) {
           final fp = fingerprints[selectedId]!;
           final name =
-              _resolveIngredientName(ref, selectedId, sorted, locale);
+              _resolveIngredientName(ref, selectedId, fp.fallbackName, locale);
           return SingleChildScrollView(
             padding: const EdgeInsets.all(16),
             child: Column(
@@ -781,9 +781,9 @@ class InsightsFingerprintView extends ConsumerWidget {
           itemCount: sorted.length,
           itemBuilder: (ctx, i) {
             final entry = sorted[i];
-            final name =
-                _resolveIngredientName(ref, entry.key, sorted, locale);
             final fp = entry.value;
+            final name =
+                _resolveIngredientName(ref, entry.key, fp.fallbackName, locale);
             final danger = fp.dangerScore;
             final color = Color.lerp(
               Colors.green,
@@ -823,13 +823,13 @@ class InsightsFingerprintView extends ConsumerWidget {
   String _resolveIngredientName(
     WidgetRef ref,
     int ingredientId,
-    List<MapEntry<int, FoodFingerprintData>> sorted,
+    String fallbackName,
     String locale,
   ) {
     final ingAsync = ref.watch(singleIngredientProvider(ingredientId));
     return ingAsync.maybeWhen(
-      data: (ing) => ing?.localizedName(locale) ?? 'Unknown',
-      orElse: () => 'Unknown',
+      data: (ing) => ing?.localizedName(locale) ?? fallbackName,
+      orElse: () => fallbackName,
     );
   }
 }

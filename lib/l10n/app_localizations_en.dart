@@ -408,12 +408,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get paletteTwilightIndigo => 'Twilight Indigo';
 
   @override
-  String get palettePeachyPastel => 'Peachy Pastel';
-
-  @override
-  String get paletteWarmCream => 'Warm Cream';
-
-  @override
   String get settingsSectionLanguage => 'Language';
 
   @override
