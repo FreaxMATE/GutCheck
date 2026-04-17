@@ -1,0 +1,188 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+const BASE = import.meta.env.BASE_URL;
+
+// ── Competitors ─────────────────────────────────────────────────────────────
+const competitors = [
+  {
+    key: 'gutcheck',
+    name: 'GutCheck',
+    tagline: 'Local-first, open source',
+    accent: true,
+  },
+  {
+    key: 'mysymptoms',
+    name: 'MySymptoms',
+    tagline: 'SkyGazer Labs — paid food-symptom tracker',
+  },
+  {
+    key: 'bearable',
+    name: 'Bearable',
+    tagline: 'Freemium mood + symptom tracker',
+  },
+  {
+    key: 'cara',
+    name: 'Cara Care',
+    tagline: 'German IBS app, DiGA-prescribable',
+  },
+  {
+    key: 'monash',
+    name: 'Monash FODMAP',
+    tagline: 'Official low-FODMAP reference',
+  },
+];
+
+// ── Feature matrix ──────────────────────────────────────────────────────────
+// Values: true (✓), false (✗), or a short string.
+const rows = [
+  {
+    section: 'Price & access',
+    features: [
+      { label: 'Free, forever',          values: { gutcheck: true, mysymptoms: 'One-time',   bearable: 'Freemium',    cara: 'Free + sub',  monash: 'One-time' } },
+      { label: 'No subscription',        values: { gutcheck: true, mysymptoms: true,         bearable: false,         cara: false,         monash: true } },
+      { label: 'Open source (AGPLv3)',   values: { gutcheck: true, mysymptoms: false,        bearable: false,         cara: false,         monash: false } },
+      { label: 'No account required',    values: { gutcheck: true, mysymptoms: true,         bearable: false,         cara: false,         monash: true } },
+    ],
+  },
+  {
+    section: 'Privacy',
+    features: [
+      { label: '100% on-device storage',       values: { gutcheck: true, mysymptoms: true,   bearable: false,         cara: false,         monash: true } },
+      { label: 'No cloud, no tracking',        values: { gutcheck: true, mysymptoms: 'Opt-in backup', bearable: false, cara: false,         monash: true } },
+      { label: 'Works fully offline',          values: { gutcheck: true, mysymptoms: true,   bearable: 'Partial',     cara: false,         monash: true } },
+    ],
+  },
+  {
+    section: 'Insights',
+    features: [
+      { label: 'Food ↔ symptom correlation',   values: { gutcheck: true, mysymptoms: true,   bearable: true,          cara: 'Limited',     monash: false } },
+      { label: 'Time-delayed windows (0–4h / 4–12h / 12–24h)', values: { gutcheck: true, mysymptoms: 'Some', bearable: 'Same-day', cara: false, monash: false } },
+      { label: 'Per-food radar / fingerprint', values: { gutcheck: true, mysymptoms: false,  bearable: false,         cara: false,         monash: false } },
+      { label: 'Delay heatmap',                values: { gutcheck: true, mysymptoms: false,  bearable: false,         cara: false,         monash: false } },
+    ],
+  },
+  {
+    section: 'Content',
+    features: [
+      { label: 'Curated food database',         values: { gutcheck: '~115 items', mysymptoms: 'Thousands', bearable: 'User-defined', cara: 'Hundreds', monash: 'Research-backed' } },
+      { label: 'Bilingual EN / DE',             values: { gutcheck: true, mysymptoms: 'EN + others', bearable: 'EN',      cara: 'DE + EN',     monash: 'EN + others' } },
+      { label: 'Low-FODMAP / research guides',  values: { gutcheck: false, mysymptoms: false, bearable: false,         cara: true,          monash: true } },
+      { label: 'Therapy / coaching programs',   values: { gutcheck: false, mysymptoms: false, bearable: false,         cara: true,          monash: false } },
+      { label: 'Prescribable in Germany (DiGA)',values: { gutcheck: false, mysymptoms: false, bearable: false,         cara: true,          monash: false } },
+    ],
+  },
+  {
+    section: 'Platforms',
+    features: [
+      { label: 'iOS',                     values: { gutcheck: true, mysymptoms: true,  bearable: true,  cara: true,  monash: true } },
+      { label: 'Android',                 values: { gutcheck: true, mysymptoms: true,  bearable: true,  cara: true,  monash: true } },
+      { label: 'Web / desktop',           values: { gutcheck: 'Web, Linux, macOS', mysymptoms: false, bearable: 'Web', cara: false, monash: false } },
+      { label: 'Cross-device sync',       values: { gutcheck: false, mysymptoms: 'Backup only', bearable: true, cara: true,  monash: 'Account' } },
+    ],
+  },
+];
+
+function cell(v) {
+  if (v === true)  return { kind: 'yes' };
+  if (v === false) return { kind: 'no' };
+  return { kind: 'text', text: v };
+}
+---
+<BaseLayout title="GutCheck vs. other gut trackers — comparison" description="Honest comparison of GutCheck against MySymptoms, Bearable, Cara Care, and Monash FODMAP.">
+
+  <!-- HERO -->
+  <section class="container-narrow pt-16 pb-10 md:pt-24">
+    <span class="eyebrow"><span class="h-1.5 w-1.5 rounded-full bg-brand-500"></span> Comparison</span>
+    <h1 class="mt-5 text-4xl sm:text-5xl font-bold tracking-tight leading-[1.05]">
+      How GutCheck stacks up.
+    </h1>
+    <p class="mt-5 max-w-2xl text-lg text-slate-600 dark:text-slate-300">
+      We looked at the four apps most people land on when they start tracking food and digestion. Here's an honest side-by-side — including where they're genuinely better than us.
+    </p>
+  </section>
+
+  <!-- QUICK TAKE -->
+  <section class="container-narrow pb-10">
+    <div class="grid gap-4 md:grid-cols-2">
+      <div class="rounded-2xl border border-emerald-200 bg-emerald-50/60 p-6 dark:border-emerald-900/60 dark:bg-emerald-950/30">
+        <h2 class="text-lg font-bold tracking-tight text-emerald-900 dark:text-emerald-200">What GutCheck does uniquely</h2>
+        <ul class="mt-3 space-y-2 text-sm text-slate-700 dark:text-slate-300">
+          <li>• The only option that's <strong>local-first AND open source</strong>.</li>
+          <li>• <strong>Food-fingerprint radar</strong> + <strong>delay heatmap</strong> across 0–4h, 4–12h, 12–24h windows.</li>
+          <li>• No account, no subscription, no telemetry — ever.</li>
+          <li>• Bilingual curated pantry (EN/DE) shipped at launch.</li>
+          <li>• Runs on iOS, Android, Web, Linux, and macOS from one codebase.</li>
+        </ul>
+      </div>
+      <div class="rounded-2xl border border-amber-200 bg-amber-50/60 p-6 dark:border-amber-900/60 dark:bg-amber-950/30">
+        <h2 class="text-lg font-bold tracking-tight text-amber-900 dark:text-amber-200">Where competitors are better</h2>
+        <ul class="mt-3 space-y-2 text-sm text-slate-700 dark:text-slate-300">
+          <li>• <strong>Cara Care</strong> is reimbursable on German statutory insurance and includes CBT / hypnotherapy programs.</li>
+          <li>• <strong>MySymptoms</strong> has a vastly larger food database and polished PDF reports for doctors.</li>
+          <li>• <strong>Bearable</strong> covers mental-health and broader symptoms, with real cross-device sync.</li>
+          <li>• <strong>Monash FODMAP</strong> owns the authoritative low-FODMAP food database.</li>
+          <li>• All four have a long track record and active user communities. We don't, yet.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- TABLE -->
+  <section class="container-narrow pb-16">
+    <div class="overflow-x-auto rounded-2xl border border-slate-200 bg-white shadow-sm dark:border-slate-800 dark:bg-slate-950">
+      <table class="w-full min-w-[900px] text-left text-sm">
+        <thead>
+          <tr class="border-b border-slate-200 dark:border-slate-800">
+            <th class="sticky left-0 z-10 bg-white p-4 text-xs font-semibold uppercase tracking-wider text-slate-500 dark:bg-slate-950 dark:text-slate-400">Feature</th>
+            {competitors.map(c => (
+              <th class={`p-4 align-bottom ${c.accent ? 'bg-brand-50/60 dark:bg-brand-950/40' : ''}`}>
+                <div class={`text-base font-bold tracking-tight ${c.accent ? 'text-brand-700 dark:text-brand-300' : 'text-slate-900 dark:text-white'}`}>{c.name}</div>
+                <div class="mt-1 text-xs font-normal text-slate-500 dark:text-slate-400">{c.tagline}</div>
+              </th>
+            ))}
+          </tr>
+        </thead>
+        <tbody>
+          {rows.map(group => (
+            <Fragment>
+              <tr class="bg-slate-50/60 dark:bg-slate-900/50">
+                <td colspan={competitors.length + 1} class="px-4 py-2 text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400">{group.section}</td>
+              </tr>
+              {group.features.map(f => (
+                <tr class="border-t border-slate-100 dark:border-slate-800/70">
+                  <td class="sticky left-0 z-10 bg-white p-4 font-medium text-slate-800 dark:bg-slate-950 dark:text-slate-200">{f.label}</td>
+                  {competitors.map(c => {
+                    const v = cell(f.values[c.key]);
+                    const accent = c.accent ? 'bg-brand-50/40 dark:bg-brand-950/20' : '';
+                    if (v.kind === 'yes') return <td class={`p-4 ${accent}`}><span class="inline-flex h-6 w-6 items-center justify-center rounded-full bg-emerald-100 text-emerald-700 dark:bg-emerald-900/60 dark:text-emerald-300"><svg class="h-3.5 w-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span></td>;
+                    if (v.kind === 'no')  return <td class={`p-4 ${accent}`}><span class="inline-flex h-6 w-6 items-center justify-center rounded-full bg-slate-100 text-slate-400 dark:bg-slate-800 dark:text-slate-500"><svg class="h-3.5 w-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></span></td>;
+                    return <td class={`p-4 text-xs text-slate-600 dark:text-slate-300 ${accent}`}>{v.text}</td>;
+                  })}
+                </tr>
+              ))}
+            </Fragment>
+          ))}
+        </tbody>
+      </table>
+    </div>
+    <p class="mt-4 text-xs text-slate-500 dark:text-slate-400">
+      Comparison compiled April 2026 from publicly documented features. Competitor products evolve — please verify current pricing and features with each vendor before deciding. If something here is out of date, <a class="underline hover:text-brand-600" href="https://github.com/FreaxMATE/GutCheck/issues">open an issue</a> and we'll fix it.
+    </p>
+  </section>
+
+  <!-- CTA -->
+  <section class="container-narrow pb-20">
+    <div class="relative overflow-hidden rounded-3xl border border-slate-200 bg-gradient-to-br from-brand-600 to-brand-800 p-10 md:p-14 text-white dark:border-slate-800">
+      <div class="absolute inset-0 opacity-20 [background:radial-gradient(rgba(255,255,255,0.35)_1px,transparent_1px)_0_0/18px_18px]"></div>
+      <div class="relative max-w-2xl">
+        <h2 class="text-3xl font-bold tracking-tight">Own your data. Read your gut.</h2>
+        <p class="mt-4 text-white/80">If privacy, openness, and actually seeing <em>when</em> a food affects you matter more than brand size — GutCheck is the one.</p>
+        <div class="mt-8 flex flex-wrap gap-3">
+          <a href={`${BASE}download`} class="inline-flex items-center gap-2 rounded-xl bg-white text-brand-800 px-5 py-3 text-sm font-semibold hover:bg-white/90 transition">Install instructions</a>
+          <a href={`${BASE}features`} class="inline-flex items-center gap-2 rounded-xl border border-white/30 px-5 py-3 text-sm font-semibold hover:bg-white/10 transition">See features</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</BaseLayout>
