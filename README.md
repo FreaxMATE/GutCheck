@@ -1,6 +1,6 @@
 <div align="center">
 
-<img src="gutcheck.png" alt="GutCheck logo" width="140" />
+<img src="docs/gutcheck.png" alt="GutCheck logo" width="140" />
 
 # GutCheck 🥗
 
@@ -30,13 +30,18 @@ It quietly correlates what you eat with how your gut reacts — no cloud, no acc
 
 ## 📸 Screenshots
 
-> _Add screenshots here once the new 4-tab layout is polished._
+<div align="center">
+  <img src="docs/screenshots/home.png" width="220" alt="Daily dashboard" />
+  <img src="docs/screenshots/wellness-check.png" width="220" alt="Wellness check-in" />
+  <img src="docs/screenshots/meal-log.png" width="220" alt="Meal log" />
+</div>
+<div align="center">
+  <img src="docs/screenshots/fingerprint.png" width="220" alt="Food fingerprint" />
+  <img src="docs/screenshots/correlations.png" width="220" alt="Correlations" />
+  <img src="docs/screenshots/heatmap.png" width="220" alt="Delay heatmap" />
+</div>
 
-<!-- <div align="center">
-  <img src="docs/screenshots/home.png" width="220" />
-  <img src="docs/screenshots/insights.png" width="220" />
-  <img src="docs/screenshots/log.png" width="220" />
-</div> -->
+<p align="center"><sub>Daily dashboard · Wellness check · Meal log · Food fingerprint · Correlations · Delay heatmap</sub></p>
 
 ## 🚀 Quick Start
 

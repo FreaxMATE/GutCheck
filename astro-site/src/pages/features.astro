@@ -1,0 +1,97 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PhoneFrame from '../components/PhoneFrame.astro';
+const BASE = import.meta.env.BASE_URL;
+
+const iconPaths = {
+  shield: '<path d="M12 2l8 4v6c0 5-3.5 9.5-8 10-4.5-.5-8-5-8-10V6l8-4z"/>',
+  chart: '<path d="M3 3v18h18"/><path d="M7 15l4-4 4 4 5-6"/>',
+  heart: '<path d="M20.84 4.6a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>',
+  layers: '<polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/>',
+  sparkles: '<path d="M12 3l1.5 4.5L18 9l-4.5 1.5L12 15l-1.5-4.5L6 9l4.5-1.5L12 3z"/>',
+  download: '<path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/>',
+  wifi: '<path d="M5 12.55a11 11 0 0 1 14 0"/><path d="M1.42 9a16 16 0 0 1 21.16 0"/><path d="M8.53 16.11a6 6 0 0 1 6.95 0"/><line x1="12" y1="20" x2="12.01" y2="20"/>',
+  utensils: '<path d="M3 2v7a3 3 0 0 0 6 0V2"/><line x1="6" y1="9" x2="6" y2="22"/><path d="M18 2c-1.5 0-3 1.5-3 5v4h3v11"/>',
+  activity: '<polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/>',
+};
+
+const groups = [
+  {
+    title: 'Logging that gets out of your way',
+    body: 'Logging is the part you actually have to do every day — so it needs to be fast. GutCheck ships with a curated, bilingual (EN/DE) pantry of 115+ ingredients, and meal templates so your usual breakfast is one tap.',
+    shot: `${BASE}screenshots/meal-log.png`,
+    alt: 'Meal log screen',
+    items: [
+      { icon: 'utensils', title: 'One-tap ingredients',   text: 'Tap to toggle — no quantities, no weighing, no friction.' },
+      { icon: 'layers',   title: 'Meal templates',        text: 'Save a breakfast once, log it in a second for the rest of the year.' },
+      { icon: 'heart',    title: '1-minute wellness check', text: 'Sliders for discomfort, heartburn, stress. Binary for diarrhea.' },
+    ],
+  },
+  {
+    title: 'Insights that connect the dots',
+    body: 'Once you have a week of data, GutCheck starts doing the math. Pearson correlations, delayed-effect heatmaps, and per-food radar charts surface the patterns your memory would never spot.',
+    shot: `${BASE}screenshots/correlations.png`,
+    alt: 'Correlations screen',
+    items: [
+      { icon: 'chart',    title: 'Correlation engine', text: 'Pearson r between each ingredient and each symptom, ranked by strength.' },
+      { icon: 'activity', title: 'Food fingerprint',   text: 'Radar chart per ingredient — shape tells the story at a glance.' },
+      { icon: 'sparkles', title: 'Delay heatmap',      text: 'Immediate vs. 4–12h vs. overnight. Because the body is not always prompt.' },
+    ],
+  },
+  {
+    title: 'Private by construction',
+    body: "GutCheck is local-first. Your meal log never leaves your phone — there's no server that could leak it. The app works fully offline, and exporting your own data is a single tap.",
+    shot: `${BASE}screenshots/home.png`,
+    alt: 'Home dashboard',
+    items: [
+      { icon: 'shield',   title: 'On-device only',      text: 'Isar database on your phone. No cloud, no analytics, no telemetry.' },
+      { icon: 'download', title: 'JSON export',         text: 'Export your full history anytime — it\'s your data.' },
+      { icon: 'wifi',     title: 'Offline-first',       text: 'Works on a plane, on the subway, off-grid.' },
+    ],
+  },
+];
+---
+<BaseLayout title="Features — GutCheck" description="GutCheck features: fast meal logging, wellness check-ins, correlation insights, food fingerprints, delay heatmaps, and privacy by design.">
+  <section class="container-narrow pt-20 pb-10">
+    <span class="eyebrow">Features</span>
+    <h1 class="mt-4 text-4xl sm:text-5xl font-bold tracking-tight max-w-3xl">Everything you need, nothing you don't.</h1>
+    <p class="mt-5 text-lg text-slate-600 dark:text-slate-300 max-w-2xl">
+      GutCheck is deliberately small. It logs food, it logs how you feel, and it turns the resulting data into pictures you can act on. That's the whole app.
+    </p>
+  </section>
+
+  {groups.map((g, i) => (
+    <section class="container-narrow py-16">
+      <div class={`grid gap-12 md:grid-cols-2 md:items-center ${i % 2 === 1 ? 'md:[&>*:first-child]:order-2' : ''}`}>
+        <div>
+          <h2 class="text-3xl font-bold tracking-tight">{g.title}</h2>
+          <p class="mt-4 text-slate-600 dark:text-slate-300">{g.body}</p>
+          <div class="mt-8 space-y-3">
+            {g.items.map(it => (
+              <div class="flex gap-4 rounded-xl border border-slate-200 bg-white/60 p-4 dark:border-slate-800 dark:bg-slate-900/40">
+                <div class="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-brand-50 text-brand-600 ring-1 ring-brand-200 dark:bg-brand-500/10 dark:text-brand-300 dark:ring-brand-500/30">
+                  <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" set:html={iconPaths[it.icon] || iconPaths.sparkles} />
+                </div>
+                <div>
+                  <h3 class="text-sm font-semibold">{it.title}</h3>
+                  <p class="mt-0.5 text-sm text-slate-600 dark:text-slate-400">{it.text}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+        <div class="flex justify-center"><PhoneFrame src={g.shot} alt={g.alt} /></div>
+      </div>
+    </section>
+  ))}
+
+  <section class="container-narrow py-20">
+    <h2 class="text-3xl font-bold tracking-tight">Under the hood</h2>
+    <div class="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+      <div class="card p-5"><div class="text-xs font-semibold uppercase tracking-wider text-brand-600 dark:text-brand-400">UI</div><div class="mt-2 font-semibold">Flutter 3.41</div><p class="mt-1 text-sm text-slate-600 dark:text-slate-400">Single codebase for every platform.</p></div>
+      <div class="card p-5"><div class="text-xs font-semibold uppercase tracking-wider text-brand-600 dark:text-brand-400">Database</div><div class="mt-2 font-semibold">Isar</div><p class="mt-1 text-sm text-slate-600 dark:text-slate-400">Fast local embedded DB. On-device only.</p></div>
+      <div class="card p-5"><div class="text-xs font-semibold uppercase tracking-wider text-brand-600 dark:text-brand-400">State</div><div class="mt-2 font-semibold">Riverpod</div><p class="mt-1 text-sm text-slate-600 dark:text-slate-400">Predictable, testable state management.</p></div>
+      <div class="card p-5"><div class="text-xs font-semibold uppercase tracking-wider text-brand-600 dark:text-brand-400">License</div><div class="mt-2 font-semibold">AGPLv3</div><p class="mt-1 text-sm text-slate-600 dark:text-slate-400">Free software. Modifications stay free.</p></div>
+    </div>
+  </section>
+</BaseLayout>

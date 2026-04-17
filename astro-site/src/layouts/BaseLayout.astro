@@ -1,6 +1,9 @@
 ---
 import '../styles/global.css';
-const { title = 'GutCheck', description = 'A modern digestive health tracker built with Flutter' } = Astro.props;
+import Nav from '../components/Nav.astro';
+import Footer from '../components/Footer.astro';
+const { title = 'GutCheck', description = 'A local-first digestive health tracker. Log meals, feelings, and let data reveal your gut patterns.' } = Astro.props;
+const BASE = import.meta.env.BASE_URL;
 ---
 <html lang="en">
   <head>
@@ -8,11 +11,29 @@ const { title = 'GutCheck', description = 'A modern digestive health tracker bui
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>{title}</title>
     <meta name="description" content={description} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content="website" />
+    <meta name="theme-color" content="#10b981" />
+    <link rel="icon" type="image/png" href={`${BASE}brand/logo.png`} />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    <script is:inline>
+      (function() {
+        try {
+          var saved = localStorage.getItem('theme');
+          var prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+          if (saved === 'dark' || (!saved && prefersDark)) {
+            document.documentElement.classList.add('dark');
+          }
+        } catch (_) {}
+      })();
+    </script>
   </head>
-  <body class="bg-slate-50 text-slate-900">
-    <main class="min-h-screen"><slot /></main>
+  <body>
+    <Nav />
+    <main><slot /></main>
+    <Footer />
   </body>
 </html>

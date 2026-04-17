@@ -1,38 +1,115 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import FeatureCard from '../components/FeatureCard.astro';
+import PhoneFrame from '../components/PhoneFrame.astro';
+const BASE = import.meta.env.BASE_URL;
+
+const features = [
+  { icon: 'shield',   title: 'Private by design',    text: 'Your data stays on your device. No cloud, no tracking, no account required.' },
+  { icon: 'chart',    title: 'Smart correlations',   text: 'Pearson correlations surface which foods line up with how you feel, automatically.' },
+  { icon: 'activity', title: 'Food fingerprints',    text: 'Per-ingredient symptom radars show exactly how each food tends to affect you.' },
+  { icon: 'utensils', title: 'Fast meal logging',    text: 'A curated, bilingual pantry (EN/DE) of 115+ foods. Tap to log — no typing needed.' },
+  { icon: 'heart',    title: 'Wellness check-ins',   text: 'A minute-long daily check-in captures discomfort, heartburn, stress, and more.' },
+  { icon: 'wifi',     title: 'Works offline',        text: 'Built local-first with Isar. The whole app runs without a connection.' },
+];
+
+const shots = [
+  { src: `${BASE}screenshots/home.png`,           title: 'Daily dashboard',  desc: 'See your latest wellness check, last meal, and 7-day average in one glance.' },
+  { src: `${BASE}screenshots/wellness-check.png`, title: 'Wellness check-in',desc: 'A quick guided form with sliders for discomfort, heartburn, and stress.' },
+  { src: `${BASE}screenshots/meal-log.png`,       title: 'Meal log',         desc: 'Reusable meal templates and one-tap ingredient logging.' },
+  { src: `${BASE}screenshots/fingerprint.png`,    title: 'Food fingerprint', desc: 'Radar chart per ingredient — know at a glance which symptoms each food correlates with.' },
+  { src: `${BASE}screenshots/correlations.png`,   title: 'Correlations',     desc: 'Foods that actually line up with your symptoms, ranked by strength.' },
+  { src: `${BASE}screenshots/heatmap.png`,        title: 'Delay heatmap',    desc: 'Ingredient × time-window matrix: immediate, 4–12h, overnight.' },
+];
 ---
-<BaseLayout title="GutCheck" description="GutCheck - powered by Flutter, now with a beautiful Astro site.">
-  <section style="margin: 0 auto; max-width: 1024px; padding: 64px 24px;">
-    <header style="text-align: center; margin-bottom: 48px;">
-      <p style="display:inline-block; border-radius:9999px; background:#dbeafe; color:#1d4ed8; font-weight:700; font-size:0.85rem; padding:8px 14px;">open source • AGPLv3</p>
-      <h1 style="margin-top: 16px; font-size: 3rem; line-height:1.1; font-weight:800;">GutCheck</h1>
-      <p style="margin: 16px auto 0; max-width: 720px; color:#475569; font-size:1.05rem;">A local-first, cross-platform digestive health app. Track meals, feelings, & ingredients to understand your digestion with data-driven insights.</p>
-      <div style="margin-top:24px; display:flex; flex-wrap:wrap; justify-content:center; gap:12px;">
-        <a href="#download" style="background:#2563eb; color:white; border-radius:14px; padding:12px 20px; text-decoration:none;">Get the app</a>
-        <a href="https://github.com/FreaxMATE/GutCheck" style="border:1px solid #cbd5e1; color:#0f172a; border-radius:14px; padding:12px 20px; text-decoration:none;">View source</a>
+<BaseLayout title="GutCheck — Know what your gut is telling you" description="A local-first digestive health tracker. Log meals, feelings, and let data reveal your gut patterns.">
+
+  <!-- HERO -->
+  <section class="relative overflow-hidden">
+    <div class="hero-gradient absolute inset-0 -z-10"></div>
+    <div class="absolute inset-0 -z-10 dot-grid opacity-40 [mask-image:radial-gradient(ellipse_at_center,black_30%,transparent_75%)]"></div>
+    <div class="container-narrow pt-20 pb-24 md:pt-28 md:pb-32">
+      <div class="grid gap-16 md:grid-cols-2 md:items-center">
+        <div class="max-w-xl">
+          <span class="eyebrow"><span class="h-1.5 w-1.5 rounded-full bg-brand-500"></span> Open source · AGPLv3</span>
+          <h1 class="mt-5 text-4xl sm:text-5xl md:text-6xl font-bold tracking-tight leading-[1.05]">
+            Know what your gut is telling you.
+          </h1>
+          <p class="mt-5 text-lg text-slate-600 dark:text-slate-300">
+            GutCheck is a local-first digestive health tracker. Log meals, log how you feel, and let correlation math quietly surface what's been bothering you — all without sending a byte to the cloud.
+          </p>
+          <div class="mt-8 flex flex-wrap items-center gap-3">
+            <a href={`${BASE}download`} class="btn-primary">
+              Get the app
+              <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+            </a>
+            <a href="https://github.com/FreaxMATE/GutCheck" class="btn-ghost">
+              <svg class="h-4 w-4" viewBox="0 0 24 24" fill="currentColor"><path d="M12 .5a11.5 11.5 0 0 0-3.64 22.41c.58.1.79-.25.79-.56v-2c-3.2.7-3.88-1.37-3.88-1.37-.53-1.34-1.3-1.7-1.3-1.7-1.06-.72.08-.7.08-.7 1.17.08 1.79 1.2 1.79 1.2 1.04 1.78 2.73 1.27 3.4.97.1-.75.41-1.27.74-1.56-2.55-.29-5.24-1.28-5.24-5.69 0-1.26.45-2.29 1.19-3.09-.12-.29-.52-1.46.11-3.05 0 0 .97-.31 3.19 1.18a11 11 0 0 1 5.8 0c2.22-1.49 3.19-1.18 3.19-1.18.63 1.59.23 2.76.11 3.05.74.8 1.19 1.83 1.19 3.09 0 4.42-2.69 5.39-5.25 5.68.42.36.8 1.08.8 2.18v3.24c0 .31.2.67.8.56A11.5 11.5 0 0 0 12 .5z"/></svg>
+              Star on GitHub
+            </a>
+          </div>
+          <dl class="mt-10 grid grid-cols-3 max-w-md gap-x-6 gap-y-2 text-sm">
+            <div><dt class="text-slate-500 dark:text-slate-400">Platforms</dt><dd class="font-semibold">iOS · Android · Web · Linux · macOS</dd></div>
+            <div><dt class="text-slate-500 dark:text-slate-400">Storage</dt><dd class="font-semibold">100% on-device</dd></div>
+            <div><dt class="text-slate-500 dark:text-slate-400">Languages</dt><dd class="font-semibold">English · Deutsch</dd></div>
+          </dl>
+        </div>
+        <div class="relative flex justify-center md:justify-end">
+          <div class="relative flex items-end gap-4">
+            <PhoneFrame src={`${BASE}screenshots/fingerprint.png`} alt="Food fingerprint radar chart" class="animate-float" />
+            <PhoneFrame src={`${BASE}screenshots/home.png`} alt="Daily dashboard" class="hidden sm:block -mb-8" />
+          </div>
+        </div>
       </div>
-    </header>
-
-    <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:16px;">
-      <FeatureCard icon="📱" title="Cross-platform" text="iOS, Android, Web (PWA), Linux, and macOS support." />
-      <FeatureCard icon="🔒" title="Local-first" text="Data is kept on-device first for privacy and security." />
-      <FeatureCard icon="📊" title="Smart insights" text="Charts, wellness trends, and correlations in minutes." />
-      <FeatureCard icon="💾" title="Export-friendly" text="Export to JSON, share logs, and review history." />
-      <FeatureCard icon="🧪" title="Meal lab" text="Ingredient tracking with rapid lookup and prediction." />
-      <FeatureCard icon="🌙" title="Offline-ready" text="Works even without internet connectivity." />
     </div>
-
-    <section id="download" style="margin-top:48px; border-radius:20px; border:1px solid #e2e8f0; background:white; padding:24px;">
-      <h2 style="font-size:1.6rem; font-weight:700; margin-bottom:10px;">Install & Run</h2>
-      <p style="margin:0 0 10px; color:#64748b;">Build from source or fetch the latest release from GitHub.</p>
-      <pre style="background:#0f172a; color:#e2e8f0; border-radius:12px; padding:14px;"><code>git clone https://github.com/FreaxMATE/GutCheck.git
-cd GutCheck
-flutter pub get
-flutter run</code></pre>
-      <p style="margin-top:12px; color:#94a3b8; font-size:0.95rem;">See Flutter configuration in docs for platform-specific details.</p>
-    </section>
-
-    <footer style="margin-top:56px; text-align:center; color:#64748b;">© 2026 GutCheck • Released under AGPLv3 • Built with Flutter + Astro</footer>
   </section>
+
+  <!-- FEATURES -->
+  <section id="features" class="container-narrow py-20">
+    <div class="max-w-2xl">
+      <span class="eyebrow">What it does</span>
+      <h2 class="mt-4 text-3xl sm:text-4xl font-bold tracking-tight">Your digestion, finally legible.</h2>
+      <p class="mt-4 text-slate-600 dark:text-slate-300">Six focused tools that turn "I think dairy is bothering me" into evidence you can actually see.</p>
+    </div>
+    <div class="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+      {features.map(f => <FeatureCard icon={f.icon} title={f.title} text={f.text} />)}
+    </div>
+  </section>
+
+  <!-- SCREENSHOTS -->
+  <section class="container-narrow py-20">
+    <div class="max-w-2xl">
+      <span class="eyebrow">A tour</span>
+      <h2 class="mt-4 text-3xl sm:text-4xl font-bold tracking-tight">Six screens. Zero dashboards to configure.</h2>
+      <p class="mt-4 text-slate-600 dark:text-slate-300">GutCheck shows up pre-wired with curated foods and sensible defaults so you can log your first meal in under a minute.</p>
+    </div>
+    <div class="mt-14 space-y-24">
+      {shots.map((s, i) => (
+        <div class={`grid gap-10 md:grid-cols-2 md:items-center ${i % 2 === 1 ? 'md:[&>*:first-child]:order-2' : ''}`}>
+          <div>
+            <span class="text-sm font-semibold text-brand-600 dark:text-brand-400">0{i+1}</span>
+            <h3 class="mt-2 text-2xl font-bold tracking-tight">{s.title}</h3>
+            <p class="mt-3 text-slate-600 dark:text-slate-300">{s.desc}</p>
+          </div>
+          <div class="flex justify-center"><PhoneFrame src={s.src} alt={s.title} /></div>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="container-narrow pb-20">
+    <div class="relative overflow-hidden rounded-3xl border border-slate-200 bg-gradient-to-br from-brand-600 to-brand-800 p-10 md:p-16 text-white dark:border-slate-800">
+      <div class="absolute inset-0 opacity-20 [background:radial-gradient(rgba(255,255,255,0.35)_1px,transparent_1px)_0_0/18px_18px]"></div>
+      <div class="relative max-w-2xl">
+        <h2 class="text-3xl sm:text-4xl font-bold tracking-tight">Ready to find your triggers?</h2>
+        <p class="mt-4 text-white/80">GutCheck is free and open-source. Build it yourself today, or wait for the store release — either way, your data stays yours.</p>
+        <div class="mt-8 flex flex-wrap gap-3">
+          <a href={`${BASE}download`} class="inline-flex items-center gap-2 rounded-xl bg-white text-brand-800 px-5 py-3 text-sm font-semibold hover:bg-white/90 transition">Install instructions</a>
+          <a href="https://github.com/FreaxMATE/GutCheck" class="inline-flex items-center gap-2 rounded-xl border border-white/30 px-5 py-3 text-sm font-semibold hover:bg-white/10 transition">View source</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
 </BaseLayout>
