@@ -184,7 +184,6 @@
     {"en": "Parsley", "de": "Petersilie"},
     {"en": "Parsnip", "de": "Pastinake"},
     {"en": "Passion Fruit", "de": "Maracuja"},
-    {"en": "Pasta", "de": "Pasta"},
     {"en": "Peach", "de": "Pfirsich"},
     {"en": "Peanut", "de": "Erdnuss"},
     {"en": "Peanut Butter", "de": "Erdnussbutter"},
@@ -339,6 +338,19 @@
     {"en": "Kombucha", "de": "Kombucha"},
     {"en": "Protein Powder", "de": "Proteinpulver"},
     {"en": "Vegan Protein Powder", "de": "Veganes Proteinpulver"},
-    {"en": "Quark", "de": "Quark"}
+    {"en": "Quark", "de": "Quark"},
+    {"en": "Pasta", "de": "Nudeln"},
+    {"en": "Milk Chocolate", "de": "Milchschokolade"},
+    {"en": "White Chocolate", "de": "Weiße Schokolade"},
+    {"en": "Vegan Chocolate", "de": "Vegane Schokolade"},
+    {"en": "Chocolate Bar", "de": "Schokoriegel"},
+    {"en": "Nutella", "de": "Nutella"},
+    {"en": "Whole Wheat Pasta", "de": "Vollkornnudeln"},
+    {"en": "Gluten-Free Pasta", "de": "Glutenfreie Nudeln"},
+    {"en": "Nut Butter", "de": "Nusscreme"},
+    {"en": "Pistachio Cream", "de": "Pistaziencreme"},
+    {"en": "Almond Butter", "de": "Mandelmus"},
+    {"en": "Cashew Butter", "de": "Cashewmus"},
+    {"en": "Hazelnut Cream", "de": "Haselnusscreme"}
   ]
 }

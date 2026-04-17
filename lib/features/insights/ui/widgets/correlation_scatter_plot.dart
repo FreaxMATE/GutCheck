@@ -1,22 +1,33 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:gutcheck/l10n/app_localizations.dart';
+import '../../../pantry/providers/pantry_providers.dart';
 
-class CorrelationScatterPlot extends StatelessWidget {
+class CorrelationScatterPlot extends ConsumerWidget {
+  final int ingredientId;
   final String ingredientName;
   final List<ScatterSpot> spots;
   final double medianScore;
 
   const CorrelationScatterPlot({
     super.key,
+    required this.ingredientId,
     required this.ingredientName,
     required this.spots,
     required this.medianScore,
   });
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final locale = Localizations.localeOf(context).languageCode;
+    final ingAsync = ref.watch(singleIngredientProvider(ingredientId));
+    final displayName = ingAsync.maybeWhen(
+      data: (ing) => ing?.localizedName(locale) ?? ingredientName,
+      orElse: () => ingredientName,
+    );
+
     if (spots.isEmpty) {
       return Center(
         child: Column(
@@ -25,7 +36,7 @@ class CorrelationScatterPlot extends StatelessWidget {
             const Icon(Icons.scatter_plot, size: 48, color: Colors.grey),
             const SizedBox(height: 8),
             Text(
-              'Not enough data for $ingredientName',
+              'Not enough data for $displayName',
               style: Theme.of(context).textTheme.bodyMedium,
             ),
           ],
@@ -39,7 +50,7 @@ class CorrelationScatterPlot extends StatelessWidget {
         Padding(
           padding: const EdgeInsets.all(16),
           child: Text(
-            ingredientName,
+            displayName,
             style: Theme.of(context).textTheme.titleMedium,
           ),
         ),
@@ -68,13 +79,14 @@ class CorrelationScatterPlot extends StatelessWidget {
                 titlesData: FlTitlesData(
                   leftTitles: AxisTitles(
                     axisNameWidget: Text(
-                        AppLocalizations.of(context)!.scatterWellnessScore,
+                        '${AppLocalizations.of(context)!.scatterWellnessScore} (0–10)',
                         style: const TextStyle(fontSize: 10)),
                     sideTitles: SideTitles(
                       showTitles: true,
                       reservedSize: 36,
+                      // Show 0-10 labels instead of the internal 0-100 range.
                       getTitlesWidget: (v, meta) => Text(
-                        v.toInt().toString(),
+                        '${(v / 10).round()}',
                         style: const TextStyle(fontSize: 10),
                       ),
                     ),

@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gutcheck/l10n/app_localizations.dart';
 import '../../../../core/animations/animations.dart';
 import '../../../../core/database/app_database_provider.dart';
+import '../../../wellness/domain/wellness_display.dart';
 
 /// A "your week" summary card. Appears only on Sunday / Monday to review
 /// the prior 7 days. Counts up numbers from zero on appearance.
@@ -80,7 +81,9 @@ class WeeklyDigestCard extends ConsumerWidget {
                 if (data.avgWellness != null) ...[
                   const SizedBox(height: 10),
                   Text(
-                    l10n.weeklyDigestAvgScore(data.avgWellness!.round()),
+                    l10n.weeklyDigestAvgScore(
+                      '${WellnessDisplay.format(data.avgWellness!)}${WellnessDisplay.suffix}',
+                    ),
                     style: Theme.of(context)
                         .textTheme
                         .bodySmall

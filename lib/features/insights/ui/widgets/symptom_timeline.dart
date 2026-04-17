@@ -146,6 +146,9 @@ class _TimelinePainter extends CustomPainter {
     )..layout();
     wellLabelTp.paint(canvas, Offset(-2, wellnessY - wellLabelTp.height / 2));
 
+    // Neutral steel-blue for meal dots so they don't imply a symptom severity.
+    const mealColor = Color(0xFF546E7A);
+
     // ── Meal dots ────────────────────────────────────────────────────────
     for (final meal in meals) {
       final hour = meal.consumedAt.hour + meal.consumedAt.minute / 60.0;
@@ -156,7 +159,7 @@ class _TimelinePainter extends CustomPainter {
         Offset(x, mealY + 8),
         Offset(x, axisY - 4),
         Paint()
-          ..color = Colors.orange.withValues(alpha: 0.15)
+          ..color = mealColor.withValues(alpha: 0.15)
           ..strokeWidth = 1,
       );
 
@@ -164,7 +167,7 @@ class _TimelinePainter extends CustomPainter {
       canvas.drawCircle(
         Offset(x, mealY),
         6,
-        Paint()..color = Colors.orange,
+        Paint()..color = mealColor,
       );
 
       // Ingredient count inside dot

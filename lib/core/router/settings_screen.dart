@@ -7,10 +7,12 @@ import 'package:file_picker/file_picker.dart';
 import 'package:gutcheck/l10n/app_localizations.dart';
 import '../animations/animations.dart';
 import '../animations/theme_reveal.dart';
+import '../constants/app_palette.dart';
 import '../database/app_database_provider.dart';
 import '../database/isar_provider.dart';
 import '../database/sample_data_service.dart';
 import '../providers/locale_provider.dart';
+import '../providers/palette_provider.dart';
 import '../providers/sound_provider.dart';
 import '../providers/theme_provider.dart';
 import '../utils/export_service.dart';
@@ -67,6 +69,16 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
       ),
       body: ListView(
         children: [
+          // ── Pantry ──────────────────────────────────────────────────────────
+          _SectionHeader(l10n.settingsSectionPantry),
+          ListTile(
+            leading: const Icon(Icons.kitchen_rounded),
+            title: Text(l10n.settingsPantryTitle),
+            subtitle: Text(l10n.settingsPantrySubtitle),
+            trailing: const Icon(Icons.chevron_right),
+            onTap: () => context.push('/pantry'),
+          ),
+
           // ── Appearance ──────────────────────────────────────────────────────
           _SectionHeader(l10n.settingsSectionAppearance),
           ListTile(
@@ -75,6 +87,30 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
             subtitle: Text(currentThemeLabel()),
             trailing: const Icon(Icons.chevron_right),
             onTap: () => _pickTheme(context, themeMode, l10n),
+          ),
+          const Divider(indent: 16, endIndent: 16),
+          Consumer(
+            builder: (_, pRef, __) {
+              final palette = pRef.watch(paletteProvider);
+              return ListTile(
+                leading: Container(
+                  width: 24,
+                  height: 24,
+                  decoration: BoxDecoration(
+                    color: palette.seed,
+                    shape: BoxShape.circle,
+                    border: Border.all(
+                      color: Theme.of(context).colorScheme.outlineVariant,
+                      width: 1,
+                    ),
+                  ),
+                ),
+                title: Text(l10n.settingsPaletteTitle),
+                subtitle: Text(_paletteLabel(palette, l10n)),
+                trailing: const Icon(Icons.chevron_right),
+                onTap: () => _pickPalette(context, palette, l10n),
+              );
+            },
           ),
 
           const Divider(indent: 16, endIndent: 16),
@@ -268,6 +304,29 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
     await ref
         .read(localeProvider.notifier)
         .setLocale(picked == '_auto_' ? null : Locale(picked));
+  }
+
+  String _paletteLabel(AppPalette p, AppLocalizations l10n) {
+    switch (p) {
+      case AppPalette.verdantGreen:
+        return l10n.paletteVerdantGreen;
+      case AppPalette.twilightIndigo:
+        return l10n.paletteTwilightIndigo;
+      case AppPalette.peachyPastel:
+        return l10n.palettePeachyPastel;
+      case AppPalette.warmCream:
+        return l10n.paletteWarmCream;
+    }
+  }
+
+  Future<void> _pickPalette(
+      BuildContext context, AppPalette current, AppLocalizations l10n) async {
+    final picked = await showDialog<AppPalette>(
+      context: context,
+      builder: (_) => _PaletteDialog(current: current),
+    );
+    if (picked == null || picked == current) return;
+    await ref.read(paletteProvider.notifier).setPalette(picked);
   }
 
   Future<void> _toggleSampleData(BuildContext context, SampleDataService svc,
@@ -563,6 +622,97 @@ class _ThemeDialogState extends State<_ThemeDialog> {
               title: Text(l10n.settingsThemeDark),
             ),
           ],
+        ),
+      ),
+      actions: [
+        TextButton(
+          onPressed: () => Navigator.pop(context),
+          child: Text(l10n.cancel),
+        ),
+        FilledButton(
+          onPressed: () => Navigator.pop(context, _selected),
+          child: Text(l10n.save),
+        ),
+      ],
+    );
+  }
+}
+
+// ── Palette picker dialog ─────────────────────────────────────────────────────
+
+class _PaletteDialog extends StatefulWidget {
+  final AppPalette current;
+  const _PaletteDialog({required this.current});
+
+  @override
+  State<_PaletteDialog> createState() => _PaletteDialogState();
+}
+
+class _PaletteDialogState extends State<_PaletteDialog> {
+  late AppPalette _selected;
+
+  @override
+  void initState() {
+    super.initState();
+    _selected = widget.current;
+  }
+
+  String _label(AppPalette p, AppLocalizations l10n) {
+    switch (p) {
+      case AppPalette.verdantGreen:
+        return l10n.paletteVerdantGreen;
+      case AppPalette.twilightIndigo:
+        return l10n.paletteTwilightIndigo;
+      case AppPalette.peachyPastel:
+        return l10n.palettePeachyPastel;
+      case AppPalette.warmCream:
+        return l10n.paletteWarmCream;
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+    return AlertDialog(
+      title: Text(l10n.settingsPaletteDialogTitle),
+      contentPadding: const EdgeInsets.symmetric(vertical: 8),
+      content: SizedBox(
+        width: 300,
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: AppPalette.values.map((p) {
+            final isSelected = _selected == p;
+            return InkWell(
+              onTap: () => setState(() => _selected = p),
+              child: Padding(
+                padding: const EdgeInsets.symmetric(
+                    horizontal: 20, vertical: 10),
+                child: Row(
+                  children: [
+                    Container(
+                      width: 32,
+                      height: 32,
+                      decoration: BoxDecoration(
+                        color: p.seed,
+                        shape: BoxShape.circle,
+                        border: Border.all(
+                          color: isSelected
+                              ? Theme.of(context).colorScheme.primary
+                              : Theme.of(context).colorScheme.outlineVariant,
+                          width: isSelected ? 2.5 : 1,
+                        ),
+                      ),
+                    ),
+                    const SizedBox(width: 14),
+                    Expanded(child: Text(_label(p, l10n))),
+                    if (isSelected)
+                      Icon(Icons.check_circle,
+                          color: Theme.of(context).colorScheme.primary),
+                  ],
+                ),
+              ),
+            );
+          }).toList(),
         ),
       ),
       actions: [

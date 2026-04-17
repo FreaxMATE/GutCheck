@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>GutCheck – Theme Mockups</title>
+<style>
+  :root { font-family: -apple-system, system-ui, 'Segoe UI', Roboto, sans-serif; }
+  body { margin: 0; padding: 24px; background: #2a2a2a; color: white; }
+  h1 { text-align: center; font-weight: 500; letter-spacing: -0.5px; margin: 0 0 6px; }
+  p.sub { text-align: center; margin: 0 0 28px; color: #aaa; font-size: 14px; }
+  .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px; max-width: 1400px; margin: 0 auto; }
+  .theme-card {
+    background: var(--bg);
+    color: var(--fg);
+    border-radius: 18px;
+    overflow: hidden;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.3);
+    border: 1px solid rgba(255,255,255,0.06);
+  }
+  .theme-title {
+    padding: 10px 16px;
+    font-size: 13px;
+    font-weight: 600;
+    background: rgba(0,0,0,0.85);
+    color: white;
+    display: flex; justify-content: space-between; align-items: center;
+  }
+  .theme-title small { font-weight: 400; color: #aaa; font-family: monospace; font-size: 11px; }
+  .mockup { padding: 14px; height: 460px; display: flex; flex-direction: column; gap: 12px; }
+  .appbar {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 8px 4px 12px;
+    border-bottom: 1px solid var(--outline);
+  }
+  .appbar-title { font-size: 15px; font-weight: 600; color: var(--fg); }
+  .appbar-icon {
+    width: 28px; height: 28px; border-radius: 50%;
+    background: var(--surface-high);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 14px; color: var(--fg);
+  }
+  .greeting { display: flex; gap: 10px; align-items: center; padding: 4px 2px; }
+  .mascot {
+    width: 48px; height: 48px; border-radius: 50%;
+    background: linear-gradient(135deg, #f4a6a0, #e5c3b9);
+    position: relative;
+    flex-shrink: 0;
+  }
+  .mascot::before, .mascot::after {
+    content: ''; position: absolute;
+    width: 5px; height: 5px; border-radius: 50%; background: #2e2a2a;
+    top: 18px;
+  }
+  .mascot::before { left: 14px; } .mascot::after { right: 14px; }
+  .greeting-text h4 { margin: 0; font-size: 13px; font-weight: 700; color: var(--fg); }
+  .greeting-text p { margin: 2px 0 0; font-size: 11px; color: var(--fg-dim); }
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--outline);
+    border-radius: 12px; padding: 12px;
+  }
+  .card-title { font-size: 11px; font-weight: 700; color: var(--fg-dim); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 8px; }
+  .score-row { display: flex; align-items: center; gap: 12px; }
+  .score-ring {
+    width: 64px; height: 64px; border-radius: 50%;
+    background: conic-gradient(from -135deg,
+      var(--score-color) 0% 30%, var(--outline) 30% 75%, transparent 75% 100%);
+    display: flex; align-items: center; justify-content: center; position: relative;
+  }
+  .score-ring::before {
+    content: ''; position: absolute; inset: 7px; background: var(--surface); border-radius: 50%;
+  }
+  .score-ring span { position: relative; font-size: 20px; font-weight: 800; color: var(--score-color); }
+  .score-meta p { margin: 0; font-size: 11px; color: var(--fg); font-weight: 600; }
+  .score-meta small { font-size: 10px; color: var(--fg-dim); }
+  .button-primary {
+    background: var(--primary); color: var(--on-primary);
+    border: none; border-radius: 20px;
+    padding: 9px 16px; font-weight: 600; font-size: 12px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+    align-self: flex-start;
+    display: flex; align-items: center; gap: 6px;
+  }
+  .button-primary::before { content: '+'; font-size: 14px; }
+  .slider {
+    height: 6px; background: var(--outline); border-radius: 3px; position: relative;
+    margin: 4px 0;
+  }
+  .slider::before {
+    content: ''; position: absolute; height: 6px; width: 40%; background: var(--primary); border-radius: 3px;
+  }
+  .slider::after {
+    content: ''; position: absolute; left: 38%; top: -5px;
+    width: 16px; height: 16px; background: var(--primary); border-radius: 50%;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+  }
+  .nav {
+    display: flex; justify-content: space-around; padding: 8px 0 4px;
+    border-top: 1px solid var(--outline); margin-top: auto;
+  }
+  .nav-item {
+    font-size: 10px; color: var(--fg-dim); display: flex; flex-direction: column; align-items: center; gap: 2px;
+  }
+  .nav-item.active { color: var(--primary); font-weight: 600; }
+  .nav-item .dot { width: 6px; height: 6px; border-radius: 50%; background: currentColor; }
+  .chip {
+    display: inline-block; padding: 3px 9px; border-radius: 12px;
+    background: var(--primary-container); color: var(--on-primary-container);
+    font-size: 10px; font-weight: 600;
+  }
+  .chip-row { display: flex; gap: 6px; flex-wrap: wrap; }
+
+  /* ── Themes ──────────────────────────────────────────────────────────── */
+
+  /* 1. Verdant Green (current) */
+  .t1 {
+    --bg: #FEFBFF; --fg: #1a1c1a; --fg-dim: #666;
+    --surface: #FFFFFF; --surface-high: #E7EDE3; --outline: #d5dbd3;
+    --primary: #2E7D32; --on-primary: #fff;
+    --primary-container: #b1f0ad; --on-primary-container: #00210a;
+    --score-color: #4CAF50;
+  }
+  /* 2. Deep Ocean */
+  .t2 {
+    --bg: #FAFDFF; --fg: #131c1d; --fg-dim: #5a6768;
+    --surface: #FFFFFF; --surface-high: #DAE5E7; --outline: #c6d0d2;
+    --primary: #006874; --on-primary: #fff;
+    --primary-container: #9EEFFC; --on-primary-container: #001F24;
+    --score-color: #00ACC1;
+  }
+  /* 3. Warm Sunset */
+  .t3 {
+    --bg: #FFFBFF; --fg: #201a18; --fg-dim: #6a5e5a;
+    --surface: #FFFFFF; --surface-high: #F5DED7; --outline: #e8cac1;
+    --primary: #BF360C; --on-primary: #fff;
+    --primary-container: #FFDBD1; --on-primary-container: #3B0A00;
+    --score-color: #E64A19;
+  }
+  /* 4. Twilight Indigo */
+  .t4 {
+    --bg: #FEFBFF; --fg: #1a1b23; --fg-dim: #5d5e68;
+    --surface: #FFFFFF; --surface-high: #E2E1EC; --outline: #c8c8d5;
+    --primary: #3F51B5; --on-primary: #fff;
+    --primary-container: #DEE0FF; --on-primary-container: #0E1666;
+    --score-color: #5C6BC0;
+  }
+  /* 5. Forest Moss */
+  .t5 {
+    --bg: #FBFDF6; --fg: #181d15; --fg-dim: #5d6359;
+    --surface: #FFFFFF; --surface-high: #DEE5D6; --outline: #c4cdbc;
+    --primary: #33691E; --on-primary: #fff;
+    --primary-container: #B8F1A6; --on-primary-container: #0B2000;
+    --score-color: #558B2F;
+  }
+  /* 6. Peachy Pastel */
+  .t6 {
+    --bg: #FFFBFF; --fg: #201a1b; --fg-dim: #6a5c5f;
+    --surface: #FFFFFF; --surface-high: #F7DDE0; --outline: #e7c6ca;
+    --primary: #C2185B; --on-primary: #fff;
+    --primary-container: #FFD9E0; --on-primary-container: #3C0023;
+    --score-color: #EC407A;
+  }
+  /* 7. Slate Neutral */
+  .t7 {
+    --bg: #FAFAFC; --fg: #1a1c1e; --fg-dim: #626368;
+    --surface: #FFFFFF; --surface-high: #E4E6EA; --outline: #cacdd3;
+    --primary: #455A64; --on-primary: #fff;
+    --primary-container: #CEDAE1; --on-primary-container: #0B1D25;
+    --score-color: #546E7A;
+  }
+  /* 8. Aubergine Violet */
+  .t8 {
+    --bg: #FFFBFF; --fg: #1f1a20; --fg-dim: #675a68;
+    --surface: #FFFFFF; --surface-high: #EDDDED; --outline: #d4c4d6;
+    --primary: #6A1B9A; --on-primary: #fff;
+    --primary-container: #F0DBFF; --on-primary-container: #290055;
+    --score-color: #8E24AA;
+  }
+  /* 9. Warm Cream (journal) */
+  .t9 {
+    --bg: #FAF6F0; --fg: #1a1d18; --fg-dim: #5d5f57;
+    --surface: #FFFDF8; --surface-high: #EBE6DC; --outline: #d5cfc0;
+    --primary: #1B5E20; --on-primary: #FAF6F0;
+    --primary-container: #BFE8B4; --on-primary-container: #042100;
+    --score-color: #2E7D32;
+  }
+</style>
+</head>
+<body>
+<h1>GutCheck Theme Gallery</h1>
+<p class="sub">9 mockups of the home screen. Pick your favourite(s) — I'll wire them up as selectable themes in Settings.</p>
+
+<div class="grid">
+
+<!-- Theme 1 -->
+<div class="theme-card">
+  <div class="theme-title"><span>1 · Verdant Green</span><small>CURRENT</small></div>
+  <div class="mockup t1">
+    <div class="appbar"><span class="appbar-title">GutCheck</span><div class="appbar-icon">⚙</div></div>
+    <div class="greeting"><div class="mascot"></div><div class="greeting-text"><h4>Your innards demand sustenance 🍳</h4><p>Your gut has convictions. Vociferous ones.</p></div></div>
+    <div class="card">
+      <div class="card-title">Last wellness</div>
+      <div class="score-row"><div class="score-ring"><span>3</span></div><div class="score-meta"><p>Some discomfort</p><small>14:30 · today</small></div></div>
+    </div>
+    <div class="card">
+      <div class="card-title">Gut discomfort</div>
+      <div class="slider"></div>
+      <div class="chip-row"><span class="chip">None</span><span class="chip">Mild</span></div>
+    </div>
+    <button class="button-primary">Log meal</button>
+    <div class="nav">
+      <div class="nav-item active"><div class="dot"></div>Home</div>
+      <div class="nav-item"><div class="dot"></div>Pantry</div>
+      <div class="nav-item"><div class="dot"></div>Log</div>
+      <div class="nav-item"><div class="dot"></div>Insights</div>
+    </div>
+  </div>
+</div>
+
+<!-- Theme 2 -->
+<div class="theme-card">
+  <div class="theme-title"><span>2 · Deep Ocean</span><small>#006874</small></div>
+  <div class="mockup t2">
+    <div class="appbar"><span class="appbar-title">GutCheck</span><div class="appbar-icon">⚙</div></div>
+    <div class="greeting"><div class="mascot"></div><div class="greeting-text"><h4>Your innards demand sustenance 🍳</h4><p>Your gut has convictions. Vociferous ones.</p></div></div>
+    <div class="card">
+      <div class="card-title">Last wellness</div>
+      <div class="score-row"><div class="score-ring"><span>3</span></div><div class="score-meta"><p>Some discomfort</p><small>14:30 · today</small></div></div>
+    </div>
+    <div class="card">
+      <div class="card-title">Gut discomfort</div>
+      <div class="slider"></div>
+      <div class="chip-row"><span class="chip">None</span><span class="chip">Mild</span></div>
+    </div>
+    <button class="button-primary">Log meal</button>
+    <div class="nav">
+      <div class="nav-item active"><div class="dot"></div>Home</div>
+      <div class="nav-item"><div class="dot"></div>Pantry</div>
+      <div class="nav-item"><div class="dot"></div>Log</div>
+      <div class="nav-item"><div class="dot"></div>Insights</div>
+    </div>
+  </div>
+</div>
+
+<!-- Theme 3 -->
+<div class="theme-card">
+  <div class="theme-title"><span>3 · Warm Sunset</span><small>#BF360C</small></div>
+  <div class="mockup t3">
+    <div class="appbar"><span class="appbar-title">GutCheck</span><div class="appbar-icon">⚙</div></div>
+    <div class="greeting"><div class="mascot"></div><div class="greeting-text"><h4>Your innards demand sustenance 🍳</h4><p>Your gut has convictions. Vociferous ones.</p></div></div>
+    <div class="card">
+      <div class="card-title">Last wellness</div>
+      <div class="score-row"><div class="score-ring"><span>3</span></div><div class="score-meta"><p>Some discomfort</p><small>14:30 · today</small></div></div>
+    </div>
+    <div class="card">
+      <div class="card-title">Gut discomfort</div>
+      <div class="slider"></div>
+      <div class="chip-row"><span class="chip">None</span><span class="chip">Mild</span></div>
+    </div>
+    <button class="button-primary">Log meal</button>
+    <div class="nav">
+      <div class="nav-item active"><div class="dot"></div>Home</div>
+      <div class="nav-item"><div class="dot"></div>Pantry</div>
+      <div class="nav-item"><div class="dot"></div>Log</div>
+      <div class="nav-item"><div class="dot"></div>Insights</div>
+    </div>
+  </div>
+</div>
+
+<!-- Theme 4 -->
+<div class="theme-card">
+  <div class="theme-title"><span>4 · Twilight Indigo</span><small>#3F51B5</small></div>
+  <div class="mockup t4">
+    <div class="appbar"><span class="appbar-title">GutCheck</span><div class="appbar-icon">⚙</div></div>
+    <div class="greeting"><div class="mascot"></div><div class="greeting-text"><h4>Your innards demand sustenance 🍳</h4><p>Your gut has convictions. Vociferous ones.</p></div></div>
+    <div class="card">
+      <div class="card-title">Last wellness</div>
+      <div class="score-row"><div class="score-ring"><span>3</span></div><div class="score-meta"><p>Some discomfort</p><small>14:30 · today</small></div></div>
+    </div>
+    <div class="card">
+      <div class="card-title">Gut discomfort</div>
+      <div class="slider"></div>
+      <div class="chip-row"><span class="chip">None</span><span class="chip">Mild</span></div>
+    </div>
+    <button class="button-primary">Log meal</button>
+    <div class="nav">
+      <div class="nav-item active"><div class="dot"></div>Home</div>
+      <div class="nav-item"><div class="dot"></div>Pantry</div>
+      <div class="nav-item"><div class="dot"></div>Log</div>
+      <div class="nav-item"><div class="dot"></div>Insights</div>
+    </div>
+  </div>
+</div>
+
+<!-- Theme 5 -->
+<div class="theme-card">
+  <div class="theme-title"><span>5 · Forest Moss</span><small>#33691E</small></div>
+  <div class="mockup t5">
+    <div class="appbar"><span class="appbar-title">GutCheck</span><div class="appbar-icon">⚙</div></div>
+    <div class="greeting"><div class="mascot"></div><div class="greeting-text"><h4>Your innards demand sustenance 🍳</h4><p>Your gut has convictions. Vociferous ones.</p></div></div>
+    <div class="card">
+      <div class="card-title">Last wellness</div>
+      <div class="score-row"><div class="score-ring"><span>3</span></div><div class="score-meta"><p>Some discomfort</p><small>14:30 · today</small></div></div>
+    </div>
+    <div class="card">
+      <div class="card-title">Gut discomfort</div>
+      <div class="slider"></div>
+      <div class="chip-row"><span class="chip">None</span><span class="chip">Mild</span></div>
+    </div>
+    <button class="button-primary">Log meal</button>
+    <div class="nav">
+      <div class="nav-item active"><div class="dot"></div>Home</div>
+      <div class="nav-item"><div class="dot"></div>Pantry</div>
+      <div class="nav-item"><div class="dot"></div>Log</div>
+      <div class="nav-item"><div class="dot"></div>Insights</div>
+    </div>
+  </div>
+</div>
+
+<!-- Theme 6 -->
+<div class="theme-card">
+  <div class="theme-title"><span>6 · Peachy Pastel</span><small>#C2185B</small></div>
+  <div class="mockup t6">
+    <div class="appbar"><span class="appbar-title">GutCheck</span><div class="appbar-icon">⚙</div></div>
+    <div class="greeting"><div class="mascot"></div><div class="greeting-text"><h4>Your innards demand sustenance 🍳</h4><p>Your gut has convictions. Vociferous ones.</p></div></div>
+    <div class="card">
+      <div class="card-title">Last wellness</div>
+      <div class="score-row"><div class="score-ring"><span>3</span></div><div class="score-meta"><p>Some discomfort</p><small>14:30 · today</small></div></div>
+    </div>
+    <div class="card">
+      <div class="card-title">Gut discomfort</div>
+      <div class="slider"></div>
+      <div class="chip-row"><span class="chip">None</span><span class="chip">Mild</span></div>
+    </div>
+    <button class="button-primary">Log meal</button>
+    <div class="nav">
+      <div class="nav-item active"><div class="dot"></div>Home</div>
+      <div class="nav-item"><div class="dot"></div>Pantry</div>
+      <div class="nav-item"><div class="dot"></div>Log</div>
+      <div class="nav-item"><div class="dot"></div>Insights</div>
+    </div>
+  </div>
+</div>
+
+<!-- Theme 7 -->
+<div class="theme-card">
+  <div class="theme-title"><span>7 · Slate Neutral</span><small>#455A64</small></div>
+  <div class="mockup t7">
+    <div class="appbar"><span class="appbar-title">GutCheck</span><div class="appbar-icon">⚙</div></div>
+    <div class="greeting"><div class="mascot"></div><div class="greeting-text"><h4>Your innards demand sustenance 🍳</h4><p>Your gut has convictions. Vociferous ones.</p></div></div>
+    <div class="card">
+      <div class="card-title">Last wellness</div>
+      <div class="score-row"><div class="score-ring"><span>3</span></div><div class="score-meta"><p>Some discomfort</p><small>14:30 · today</small></div></div>
+    </div>
+    <div class="card">
+      <div class="card-title">Gut discomfort</div>
+      <div class="slider"></div>
+      <div class="chip-row"><span class="chip">None</span><span class="chip">Mild</span></div>
+    </div>
+    <button class="button-primary">Log meal</button>
+    <div class="nav">
+      <div class="nav-item active"><div class="dot"></div>Home</div>
+      <div class="nav-item"><div class="dot"></div>Pantry</div>
+      <div class="nav-item"><div class="dot"></div>Log</div>
+      <div class="nav-item"><div class="dot"></div>Insights</div>
+    </div>
+  </div>
+</div>
+
+<!-- Theme 8 -->
+<div class="theme-card">
+  <div class="theme-title"><span>8 · Aubergine Violet</span><small>#6A1B9A</small></div>
+  <div class="mockup t8">
+    <div class="appbar"><span class="appbar-title">GutCheck</span><div class="appbar-icon">⚙</div></div>
+    <div class="greeting"><div class="mascot"></div><div class="greeting-text"><h4>Your innards demand sustenance 🍳</h4><p>Your gut has convictions. Vociferous ones.</p></div></div>
+    <div class="card">
+      <div class="card-title">Last wellness</div>
+      <div class="score-row"><div class="score-ring"><span>3</span></div><div class="score-meta"><p>Some discomfort</p><small>14:30 · today</small></div></div>
+    </div>
+    <div class="card">
+      <div class="card-title">Gut discomfort</div>
+      <div class="slider"></div>
+      <div class="chip-row"><span class="chip">None</span><span class="chip">Mild</span></div>
+    </div>
+    <button class="button-primary">Log meal</button>
+    <div class="nav">
+      <div class="nav-item active"><div class="dot"></div>Home</div>
+      <div class="nav-item"><div class="dot"></div>Pantry</div>
+      <div class="nav-item"><div class="dot"></div>Log</div>
+      <div class="nav-item"><div class="dot"></div>Insights</div>
+    </div>
+  </div>
+</div>
+
+<!-- Theme 9 -->
+<div class="theme-card">
+  <div class="theme-title"><span>9 · Warm Cream (Journal)</span><small>cream+green</small></div>
+  <div class="mockup t9">
+    <div class="appbar"><span class="appbar-title">GutCheck</span><div class="appbar-icon">⚙</div></div>
+    <div class="greeting"><div class="mascot"></div><div class="greeting-text"><h4>Your innards demand sustenance 🍳</h4><p>Your gut has convictions. Vociferous ones.</p></div></div>
+    <div class="card">
+      <div class="card-title">Last wellness</div>
+      <div class="score-row"><div class="score-ring"><span>3</span></div><div class="score-meta"><p>Some discomfort</p><small>14:30 · today</small></div></div>
+    </div>
+    <div class="card">
+      <div class="card-title">Gut discomfort</div>
+      <div class="slider"></div>
+      <div class="chip-row"><span class="chip">None</span><span class="chip">Mild</span></div>
+    </div>
+    <button class="button-primary">Log meal</button>
+    <div class="nav">
+      <div class="nav-item active"><div class="dot"></div>Home</div>
+      <div class="nav-item"><div class="dot"></div>Pantry</div>
+      <div class="nav-item"><div class="dot"></div>Log</div>
+      <div class="nav-item"><div class="dot"></div>Insights</div>
+    </div>
+  </div>
+</div>
+
+</div>
+</body>
+</html>

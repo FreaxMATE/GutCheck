@@ -8,14 +8,14 @@ class AppShell extends StatelessWidget {
 
   const AppShell({super.key, required this.child});
 
-  static const _tabs = ['/home', '/pantry', '/log', '/wellness', '/insights'];
+  static const _tabs = ['/home', '/log', '/wellness', '/insights'];
 
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
     final location = GoRouterState.of(context).matchedLocation;
     final selectedIndex =
-        _tabs.indexWhere((t) => location.startsWith(t)).clamp(0, 4);
+        _tabs.indexWhere((t) => location.startsWith(t)).clamp(0, 3);
 
     return Scaffold(
       body: child,
@@ -27,11 +27,6 @@ class AppShell extends StatelessWidget {
             icon: const Icon(Icons.home_outlined),
             selectedIcon: const Icon(Icons.home_rounded),
             label: l10n.navHome,
-          ),
-          NavigationDestination(
-            icon: const Icon(Icons.search_rounded),
-            selectedIcon: const Icon(Icons.search_rounded),
-            label: l10n.navPantry,
           ),
           NavigationDestination(
             icon: const Icon(Icons.restaurant_rounded),

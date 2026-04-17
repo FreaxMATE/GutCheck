@@ -581,8 +581,8 @@ abstract class AppLocalizations {
   /// No description provided for @weeklyDigestAvgScore.
   ///
   /// In en, this message translates to:
-  /// **'Average wellness score: {score}'**
-  String weeklyDigestAvgScore(int score);
+  /// **'Average wellness: {score}'**
+  String weeklyDigestAvgScore(String score);
 
   /// No description provided for @settingsTitle.
   ///
@@ -740,6 +740,24 @@ abstract class AppLocalizations {
   /// **'Database deleted. Please restart the app.'**
   String get settingsResetDbDone;
 
+  /// No description provided for @settingsSectionPantry.
+  ///
+  /// In en, this message translates to:
+  /// **'Pantry'**
+  String get settingsSectionPantry;
+
+  /// No description provided for @settingsPantryTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Smart Pantry'**
+  String get settingsPantryTitle;
+
+  /// No description provided for @settingsPantrySubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Browse ingredients and add custom foods'**
+  String get settingsPantrySubtitle;
+
   /// No description provided for @settingsSectionAppearance.
   ///
   /// In en, this message translates to:
@@ -775,6 +793,42 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Choose Theme'**
   String get settingsThemeDialogTitle;
+
+  /// No description provided for @settingsPaletteTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Color Palette'**
+  String get settingsPaletteTitle;
+
+  /// No description provided for @settingsPaletteDialogTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose Color Palette'**
+  String get settingsPaletteDialogTitle;
+
+  /// No description provided for @paletteVerdantGreen.
+  ///
+  /// In en, this message translates to:
+  /// **'Verdant Green'**
+  String get paletteVerdantGreen;
+
+  /// No description provided for @paletteTwilightIndigo.
+  ///
+  /// In en, this message translates to:
+  /// **'Twilight Indigo'**
+  String get paletteTwilightIndigo;
+
+  /// No description provided for @palettePeachyPastel.
+  ///
+  /// In en, this message translates to:
+  /// **'Peachy Pastel'**
+  String get palettePeachyPastel;
+
+  /// No description provided for @paletteWarmCream.
+  ///
+  /// In en, this message translates to:
+  /// **'Warm Cream'**
+  String get paletteWarmCream;
 
   /// No description provided for @settingsSectionLanguage.
   ///
@@ -1543,6 +1597,48 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Tap a food to view its scatter plot'**
   String get insightsScatterPrompt;
+
+  /// No description provided for @insightsCardCalendarSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Your daily wellness at a glance'**
+  String get insightsCardCalendarSubtitle;
+
+  /// No description provided for @insightsCardImpactSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Which foods affect how you feel'**
+  String get insightsCardImpactSubtitle;
+
+  /// No description provided for @insightsCardHeatmapSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Food × time-lag correlations'**
+  String get insightsCardHeatmapSubtitle;
+
+  /// No description provided for @insightsCardFingerprintSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Symptom signature per food'**
+  String get insightsCardFingerprintSubtitle;
+
+  /// No description provided for @insightsCardScatterSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Drill into any food\'s timing'**
+  String get insightsCardScatterSubtitle;
+
+  /// No description provided for @insightsCardNoData.
+  ///
+  /// In en, this message translates to:
+  /// **'Not enough data yet'**
+  String get insightsCardNoData;
+
+  /// No description provided for @insightsCardHeatmapStat.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} foods analyzed'**
+  String insightsCardHeatmapStat(int count);
 
   /// No description provided for @impactDataPoints.
   ///

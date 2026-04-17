@@ -114,10 +114,10 @@
       "hours": { "type": "String" }
     }
   },
-  "weeklyDigestAvgScore": "Average wellness score: {score}",
+  "weeklyDigestAvgScore": "Average wellness: {score}",
   "@weeklyDigestAvgScore": {
     "placeholders": {
-      "score": { "type": "int" }
+      "score": { "type": "String" }
     }
   },
 
@@ -157,12 +157,21 @@
   "settingsResetDbDialogTitle": "Reset Database?",
   "settingsResetDbDialogContent": "This will permanently delete the entire database file (all meals, wellness entries, custom foods, and settings) and close the app. You must restart it manually.",
   "settingsResetDbDone": "Database deleted. Please restart the app.",
+  "settingsSectionPantry": "Pantry",
+  "settingsPantryTitle": "Smart Pantry",
+  "settingsPantrySubtitle": "Browse ingredients and add custom foods",
   "settingsSectionAppearance": "Appearance",
   "settingsThemeTitle": "Theme",
   "settingsThemeSystem": "System default",
   "settingsThemeLight": "Light",
   "settingsThemeDark": "Dark",
   "settingsThemeDialogTitle": "Choose Theme",
+  "settingsPaletteTitle": "Color Palette",
+  "settingsPaletteDialogTitle": "Choose Color Palette",
+  "paletteVerdantGreen": "Verdant Green",
+  "paletteTwilightIndigo": "Twilight Indigo",
+  "palettePeachyPastel": "Peachy Pastel",
+  "paletteWarmCream": "Warm Cream",
 
   "settingsSectionLanguage": "Language",
   "settingsLanguageAuto": "System default",
@@ -337,6 +346,18 @@
   "insightsFingerprintEmpty": "Log at least 3 meals with the same ingredient and some wellness entries to see food fingerprints.",
   "insightsScatterEmpty": "Tap a food in the Impact tab to view its scatter plot.",
   "insightsScatterPrompt": "Tap a food to view its scatter plot",
+  "insightsCardCalendarSubtitle": "Your daily wellness at a glance",
+  "insightsCardImpactSubtitle": "Which foods affect how you feel",
+  "insightsCardHeatmapSubtitle": "Food × time-lag correlations",
+  "insightsCardFingerprintSubtitle": "Symptom signature per food",
+  "insightsCardScatterSubtitle": "Drill into any food's timing",
+  "insightsCardNoData": "Not enough data yet",
+  "insightsCardHeatmapStat": "{count} foods analyzed",
+  "@insightsCardHeatmapStat": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
   "impactDataPoints": "{count} data points \u2014 more logging will improve accuracy",
   "@impactDataPoints": {
     "placeholders": {

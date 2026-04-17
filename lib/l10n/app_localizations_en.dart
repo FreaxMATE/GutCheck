@@ -274,8 +274,8 @@ class AppLocalizationsEn extends AppLocalizations {
   String get dateYesterday => 'Yesterday';
 
   @override
-  String weeklyDigestAvgScore(int score) {
-    return 'Average wellness score: $score';
+  String weeklyDigestAvgScore(String score) {
+    return 'Average wellness: $score';
   }
 
   @override
@@ -368,6 +368,16 @@ class AppLocalizationsEn extends AppLocalizations {
   String get settingsResetDbDone => 'Database deleted. Please restart the app.';
 
   @override
+  String get settingsSectionPantry => 'Pantry';
+
+  @override
+  String get settingsPantryTitle => 'Smart Pantry';
+
+  @override
+  String get settingsPantrySubtitle =>
+      'Browse ingredients and add custom foods';
+
+  @override
   String get settingsSectionAppearance => 'Appearance';
 
   @override
@@ -384,6 +394,24 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get settingsThemeDialogTitle => 'Choose Theme';
+
+  @override
+  String get settingsPaletteTitle => 'Color Palette';
+
+  @override
+  String get settingsPaletteDialogTitle => 'Choose Color Palette';
+
+  @override
+  String get paletteVerdantGreen => 'Verdant Green';
+
+  @override
+  String get paletteTwilightIndigo => 'Twilight Indigo';
+
+  @override
+  String get palettePeachyPastel => 'Peachy Pastel';
+
+  @override
+  String get paletteWarmCream => 'Warm Cream';
 
   @override
   String get settingsSectionLanguage => 'Language';
@@ -792,6 +820,29 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get insightsScatterPrompt => 'Tap a food to view its scatter plot';
+
+  @override
+  String get insightsCardCalendarSubtitle => 'Your daily wellness at a glance';
+
+  @override
+  String get insightsCardImpactSubtitle => 'Which foods affect how you feel';
+
+  @override
+  String get insightsCardHeatmapSubtitle => 'Food × time-lag correlations';
+
+  @override
+  String get insightsCardFingerprintSubtitle => 'Symptom signature per food';
+
+  @override
+  String get insightsCardScatterSubtitle => 'Drill into any food\'s timing';
+
+  @override
+  String get insightsCardNoData => 'Not enough data yet';
+
+  @override
+  String insightsCardHeatmapStat(int count) {
+    return '$count foods analyzed';
+  }
 
   @override
   String impactDataPoints(int count) {

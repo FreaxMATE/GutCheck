@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 
 import '../../features/home/ui/screens/home_screen.dart';
 import '../../features/insights/ui/screens/insights_screen.dart';
+import '../../features/insights/ui/screens/insights_detail_screens.dart';
 import '../../features/meal_log/ui/screens/meal_log_screen.dart';
 import '../../features/pantry/ui/screens/add_custom_food_screen.dart';
 import '../../features/pantry/ui/screens/pantry_screen.dart';
@@ -61,18 +62,6 @@ final appRouterProvider = Provider<GoRouter>((ref) {
                 const NoTransitionPage(child: HomeScreen()),
           ),
           GoRoute(
-            path: '/pantry',
-            pageBuilder: (c, s) =>
-                const NoTransitionPage(child: PantryScreen()),
-            routes: [
-              GoRoute(
-                path: 'add-food',
-                pageBuilder: (c, s) =>
-                    _fadeThroughPage(const AddCustomFoodScreen()),
-              ),
-            ],
-          ),
-          GoRoute(
             path: '/log',
             pageBuilder: (c, s) =>
                 const NoTransitionPage(child: MealLogScreen()),
@@ -93,6 +82,44 @@ final appRouterProvider = Provider<GoRouter>((ref) {
             path: '/insights',
             pageBuilder: (c, s) =>
                 const NoTransitionPage(child: InsightsScreen()),
+            routes: [
+              GoRoute(
+                path: 'calendar',
+                pageBuilder: (c, s) =>
+                    _fadeThroughPage(const InsightsCalendarScreen()),
+              ),
+              GoRoute(
+                path: 'heatmap',
+                pageBuilder: (c, s) =>
+                    _fadeThroughPage(const InsightsHeatmapScreen()),
+              ),
+              GoRoute(
+                path: 'impact',
+                pageBuilder: (c, s) =>
+                    _fadeThroughPage(const InsightsImpactScreen()),
+              ),
+              GoRoute(
+                path: 'fingerprint',
+                pageBuilder: (c, s) =>
+                    _fadeThroughPage(const InsightsFingerprintScreen()),
+              ),
+              GoRoute(
+                path: 'scatter',
+                pageBuilder: (c, s) =>
+                    _fadeThroughPage(const InsightsScatterScreen()),
+              ),
+            ],
+          ),
+        ],
+      ),
+      GoRoute(
+        path: '/pantry',
+        pageBuilder: (c, s) => _fadeThroughPage(const PantryScreen()),
+        routes: [
+          GoRoute(
+            path: 'add-food',
+            pageBuilder: (c, s) =>
+                _fadeThroughPage(const AddCustomFoodScreen()),
           ),
         ],
       ),

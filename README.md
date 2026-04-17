@@ -1,218 +1,149 @@
+<div align="center">
+
+<img src="gutcheck.png" alt="GutCheck logo" width="140" />
+
 # GutCheck 🥗
 
-A local-first, cross-platform digestive health tracker built with Flutter. Track meals, wellness scores, and discover how different foods impact your digestive health.
+**Your gut, but scientific.**
+A local-first, cross-platform digestive health tracker built with Flutter.
+Log meals, track how you feel, and discover which foods are secretly plotting against you.
 
-## Features
+[![Flutter](https://img.shields.io/badge/Flutter-3.11+-02569B?logo=flutter&logoColor=white)](https://flutter.dev)
+[![License: AGPL v3](https://img.shields.io/badge/License-AGPLv3-blue.svg)](LICENSE)
+[![Local-First](https://img.shields.io/badge/Local--First-🔒-brightgreen)]()
+[![Platforms](https://img.shields.io/badge/Platforms-iOS%20·%20Android%20·%20Web%20·%20Linux%20·%20macOS-informational)]()
 
-- 📱 **Cross-Platform**: iOS, Android, Web (PWA), Linux, and macOS
-- 🔒 **Local-First**: All data stored locally on your device—no cloud sync required
-- 📊 **Analytics**: Visual charts and trends for meals and wellness scores
--  **Data Export**: Export meals and wellness data as JSON
-- 🌍 **Progressive Web App**: Install as a PWA on any device with a web browser
-- 🎯 **Ingredient Tracking**: Extensive ingredient database for quick meal logging
-- 🌙 **Offline First**: Full functionality without internet connectivity
+</div>
 
-## Architecture
+---
 
-- **Framework**: Flutter 3.11+
-- **Database**: Isar (native/mobile) + LocalStorage/Hive (web)
-- **State Management**: Riverpod 2.5+
-- **Navigation**: GoRouter 14+
-- **Charts**: FL Chart 0.68+
-- **Localization**: intl + Flutter i18n
+## ✨ Why GutCheck?
 
-## Getting Started
+Most food trackers care about calories. **GutCheck cares about how you feel.**
+It quietly correlates what you eat with how your gut reacts — no cloud, no account, no nonsense.
 
-### Prerequisites
+- 🧠 **Find hidden triggers** — Pearson correlations tell you which foods line up with symptoms
+- 🗓️ **Calendar + heatmap views** — spot weekly rhythms at a glance
+- 🔬 **Food fingerprints** — a symptom signature per ingredient
+- ⏱️ **Meal-timing analysis** — is late dinner really the culprit?
+- 🌱 **Beautifully local** — your data never leaves your device
 
-- Flutter SDK 3.11.0 or later: [Install Flutter](https://flutter.dev/docs/get-started/install)
-- For iOS: Xcode 14+ with CocoaPods
-- For Android: Android SDK, build tools 34+
-- For Web: Modern browser with PWA support
+## 📸 Screenshots
 
-### Installation
+> _Add screenshots here once the new 4-tab layout is polished._
 
-1. **Clone the repository**
-   ```bash
-   git clone https://github.com/FreaxMATE/GutCheck.git
-   cd GutCheck
-   ```
+<!-- <div align="center">
+  <img src="docs/screenshots/home.png" width="220" />
+  <img src="docs/screenshots/insights.png" width="220" />
+  <img src="docs/screenshots/log.png" width="220" />
+</div> -->
 
-2. **Get dependencies**
-   ```bash
-   flutter pub get
-   ```
+## 🚀 Quick Start
 
-3. **Generate code (Isar, localization, etc.)**
-   ```bash
-   flutter pub run build_runner build
-   ```
-
-### Running the App
-
-**Development (with hot reload)**
 ```bash
+git clone https://github.com/FreaxMATE/GutCheck.git
+cd GutCheck
+flutter pub get
+flutter pub run build_runner build --delete-conflicting-outputs
 flutter run
 ```
 
-**Specific platform**
+That's it. No API keys, no sign-up, no onboarding funnel.
+
+## 🛠️ Tech Stack
+
+| | |
+|---|---|
+| 🎨 **Framework** | Flutter 3.11+ / Dart 3.11 |
+| 💾 **Database** | [Isar](https://isar.dev) (on-device, reactive) |
+| 🔄 **State** | [Riverpod](https://riverpod.dev) 2.6 |
+| 🧭 **Routing** | [GoRouter](https://pub.dev/packages/go_router) 14 |
+| 📈 **Charts** | [FL Chart](https://pub.dev/packages/fl_chart) 0.68 |
+| 🌍 **i18n** | Flutter `intl` — English + Deutsch |
+
+## 📦 Building
+
+<details>
+<summary><b>Android</b></summary>
+
 ```bash
-flutter run -d ios      # iOS simulator/device
-flutter run -d android  # Android emulator/device
-flutter run -d chrome   # Web (Chrome)
-flutter run -d linux    # Linux desktop
+flutter build apk --release          # APK
+flutter build appbundle --release    # Play Store bundle
 ```
+</details>
 
-### Building for Production
+<details>
+<summary><b>iOS</b></summary>
 
-**Android (APK)**
-```bash
-flutter build apk --release
-```
-
-**Android (App Bundle for Play Store)**
-```bash
-flutter build appbundle --release
-```
-
-**iOS**
 ```bash
 flutter build ios --release
 ```
+</details>
 
-**Web (PWA)**
+<details>
+<summary><b>Web (PWA)</b></summary>
+
 ```bash
 flutter build web --release
 ```
+See [WEB_BUILD_NOTES.md](WEB_BUILD_NOTES.md) for platform specifics.
+</details>
 
-**Linux**
+<details>
+<summary><b>Linux desktop</b></summary>
+
 ```bash
 flutter build linux --release
 ```
+</details>
 
-## Project Structure
+## 🗂️ Project Layout
 
 ```
 lib/
-  ├── core/              # Core utilities, constants, themes
-  ├── features/          # Feature modules (meals, wellness, etc.)
-  └── main.dart          # App entry point
-
-android/               # Android platform code
-ios/                   # iOS platform code
-web/                   # Web platform code & PWA assets
-linux/                 # Linux platform code
-
-test/                  # Unit and widget tests
+├── core/                # Router, theme, database, l10n, animations
+├── features/
+│   ├── home/            # Dashboard
+│   ├── meal_log/        # Logging meals + ingredients
+│   ├── wellness/        # Symptom check-ins
+│   ├── insights/        # Correlations, heatmaps, fingerprints
+│   └── pantry/          # Ingredient browser
+└── l10n/                # ARB translation files
 ```
 
-## Configuration
+## 🧪 Development
 
-### App Icons
-Replace `gutcheck.png` in the root directory with your icon (minimum 1024×1024px), then regenerate:
 ```bash
-flutter pub run flutter_launcher_icons
+flutter analyze                                                  # lint
+flutter test                                                     # unit + widget tests
+flutter gen-l10n                                                 # regen translations
+flutter pub run build_runner build --delete-conflicting-outputs  # regen Isar models
+dart format lib/ test/                                           # format
 ```
 
-### Localization
-Add new translations in `lib/l10n/` YAML files and rebuild to generate localized strings.
+## 🌐 Landing Page
 
-### Database
-Isar models are in `lib/core/models/`. After modifying, regenerate:
+An Astro site lives in [`astro-site/`](astro-site/) and auto-deploys to GitHub Pages:
+
 ```bash
-flutter pub run build_runner build --delete-conflicting-outputs
+cd astro-site && npm install && npm run dev
 ```
 
-## Development Workflow
+## 🤝 Contributing
 
-1. **Create a feature branch**
-   ```bash
-   git checkout -b feature/your-feature-name
-   ```
+PRs are very welcome! Fork, branch, hack, push, open a PR — keep code tested and formatted, that's all.
 
-2. **Make your changes and test**
-   ```bash
-   flutter analyze
-   flutter test
-   ```
+Found a bug or have a feature idea? [Open an issue](https://github.com/FreaxMATE/GutCheck/issues) or join [discussions](https://github.com/FreaxMATE/GutCheck/discussions).
 
-3. **Format code**
-   ```bash
-   dart format lib/ test/
-   ```
+## 📜 License
 
-4. **Commit and push**
-   ```bash
-   git add .
-   git commit -m "feat: description of changes"
-   git push origin feature/your-feature-name
-   ```
+Released under the [GNU AGPLv3](LICENSE) — free as in freedom, copyleft as in karma.
 
-5. **Create a Pull Request**
+---
 
-## Known Issues & Limitations
+<div align="center">
 
-- **Web Build**: Isar has limitations on web due to JavaScript integer constraints. The current implementation uses Hive for web data persistence.
-- **iOS PWA Icons**: Requires explicit cache clearing in Safari settings for icon updates to appear on home screen.
+Made with 🦠 and Flutter.
+If GutCheck helps you, give the repo a ⭐.
 
-See [WEB_BUILD_NOTES.md](WEB_BUILD_NOTES.md) for web-specific considerations.
-
-## Testing
-
-Run all tests:
-```bash
-flutter test
-```
-
-Run tests with coverage:
-```bash
-flutter test --coverage
-```
-
-## Contributing
-
-Contributions are welcome! Please:
-
-1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
-
-Please ensure code is well-tested and follows Dart/Flutter best practices.
-
-## License
-
-This project is licensed under the GNU Affero General Public License v3 (AGPLv3)—see the [LICENSE](LICENSE) file for details.
-
-## Website
-
-A modern Astro landing page is available in the `astro-site` folder:
-- `astro-site/src/pages/index.astro`
-- `astro-site/package.json`
-- `astro-site/astro.config.mjs`
-
-Run locally:
-```bash
-cd astro-site
-npm install
-npm run dev
-```
-
-GitHub Pages deployment:
-1. Ensure branch names are `main` or `develop`.
-2. Push to repo; workflow `astro-gh-pages` deploys to `gh-pages` branch.
-3. In GitHub repo settings > Pages, set source to `gh-pages` branch / `/`.
-
-After deploy, site will be available at `https://<owner>.github.io/<repo>`.
-
-## Support
-
-For questions or issues:
-- Open an [issue](https://github.com/FreaxMATE/GutCheck/issues) on GitHub
-- Check existing [discussions](https://github.com/FreaxMATE/GutCheck/discussions)
-
-## Acknowledgments
-
-- Built with [Flutter](https://flutter.dev)
-- Database powered by [Isar](https://isar.dev) and [Hive](https://hivedb.dev)
+</div>

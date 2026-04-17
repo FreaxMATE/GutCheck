@@ -280,8 +280,8 @@ class AppLocalizationsDe extends AppLocalizations {
   String get dateYesterday => 'Gestern';
 
   @override
-  String weeklyDigestAvgScore(int score) {
-    return 'Durchschnittlicher Wohlbefindens-Score: $score';
+  String weeklyDigestAvgScore(String score) {
+    return 'Ø Wohlbefinden: $score';
   }
 
   @override
@@ -377,6 +377,16 @@ class AppLocalizationsDe extends AppLocalizations {
       'Datenbank gelöscht. Bitte starte die App neu.';
 
   @override
+  String get settingsSectionPantry => 'Vorratskammer';
+
+  @override
+  String get settingsPantryTitle => 'Smart Pantry';
+
+  @override
+  String get settingsPantrySubtitle =>
+      'Zutaten durchsuchen und eigene Lebensmittel hinzufügen';
+
+  @override
   String get settingsSectionAppearance => 'Erscheinungsbild';
 
   @override
@@ -393,6 +403,24 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get settingsThemeDialogTitle => 'Design wählen';
+
+  @override
+  String get settingsPaletteTitle => 'Farbpalette';
+
+  @override
+  String get settingsPaletteDialogTitle => 'Farbpalette wählen';
+
+  @override
+  String get paletteVerdantGreen => 'Verdant Green';
+
+  @override
+  String get paletteTwilightIndigo => 'Twilight Indigo';
+
+  @override
+  String get palettePeachyPastel => 'Peachy Pastel';
+
+  @override
+  String get paletteWarmCream => 'Warm Cream';
 
   @override
   String get settingsSectionLanguage => 'Sprache';
@@ -804,6 +832,32 @@ class AppLocalizationsDe extends AppLocalizations {
   @override
   String get insightsScatterPrompt =>
       'Tippe auf ein Lebensmittel, um das Streudiagramm anzuzeigen';
+
+  @override
+  String get insightsCardCalendarSubtitle =>
+      'Dein tägliches Wohlbefinden auf einen Blick';
+
+  @override
+  String get insightsCardImpactSubtitle => 'Welche Lebensmittel wie wirken';
+
+  @override
+  String get insightsCardHeatmapSubtitle => 'Lebensmittel × Zeitverzögerung';
+
+  @override
+  String get insightsCardFingerprintSubtitle =>
+      'Symptom-Signatur pro Lebensmittel';
+
+  @override
+  String get insightsCardScatterSubtitle =>
+      'Zeitliche Muster einzelner Lebensmittel';
+
+  @override
+  String get insightsCardNoData => 'Noch nicht genug Daten';
+
+  @override
+  String insightsCardHeatmapStat(int count) {
+    return '$count Lebensmittel analysiert';
+  }
 
   @override
   String impactDataPoints(int count) {

@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'core/constants/app_theme.dart';
 import 'core/providers/locale_provider.dart';
+import 'core/providers/palette_provider.dart';
 import 'core/providers/theme_provider.dart';
 import 'core/router/app_router.dart';
 import 'features/home/providers/home_providers.dart';
@@ -20,11 +21,12 @@ class GutCheckApp extends ConsumerWidget {
     // the seed color toward a calming blue-green. Loads async; falls back to
     // default seed until data is available.
     final weekly = ref.watch(weeklyWellnessAvgProvider);
-    final seed = AppTheme.seedFor(weekly.asData?.value);
+    final palette = ref.watch(paletteProvider);
+    final seed = AppTheme.resolveSeed(palette, weekly.asData?.value);
     return MaterialApp.router(
       title: 'GutCheck',
-      theme: AppTheme.light(seedColor: seed),
-      darkTheme: AppTheme.dark(seedColor: seed),
+      theme: AppTheme.light(palette: palette, seedColor: seed),
+      darkTheme: AppTheme.dark(palette: palette, seedColor: seed),
       themeMode: themeMode,
       routerConfig: router,
       debugShowCheckedModeBanner: false,

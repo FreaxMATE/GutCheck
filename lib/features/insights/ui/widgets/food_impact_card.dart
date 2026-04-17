@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:gutcheck/l10n/app_localizations.dart';
+import '../../../pantry/ui/widgets/localized_ingredient_name.dart';
 import '../../domain/impact_score.dart';
 import '../../providers/insights_providers.dart';
 
@@ -43,8 +44,9 @@ class FoodImpactCard extends ConsumerWidget {
                     ),
                   ),
                   Expanded(
-                    child: Text(
-                      score.ingredientName,
+                    child: LocalizedIngredientText(
+                      ingredientId: score.ingredientId,
+                      fallbackName: score.ingredientName,
                       style: Theme.of(context).textTheme.titleSmall,
                     ),
                   ),

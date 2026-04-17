@@ -13,7 +13,7 @@ class SeedService {
   SeedService(this._isar);
 
   static const _seedVersionKey = 'seed_version';
-  static const _currentSeedVersion = 6;
+  static const _currentSeedVersion = 8;
 
   Future<void> seedIfNeeded() async {
     final prefs = await SharedPreferences.getInstance();

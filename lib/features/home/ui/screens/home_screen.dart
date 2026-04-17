@@ -10,7 +10,9 @@ import '../../../../core/l10n/l10n_extensions.dart';
 import '../../../../core/utils/date_utils.dart';
 import '../../../insights/domain/impact_score.dart';
 import '../../../meal_log/data/models/meal_entry.dart';
+import '../../../pantry/ui/widgets/localized_ingredient_name.dart';
 import '../../../wellness/data/models/wellness_entry.dart';
+import '../../../wellness/domain/wellness_display.dart';
 import '../../../wellness/ui/widgets/wellness_score_ring.dart';
 import '../../providers/home_providers.dart';
 import '../widgets/greeting_banner.dart';
@@ -293,8 +295,11 @@ class _MealContent extends StatelessWidget {
           runSpacing: 4,
           children: [
             ...chips.map((i) => Chip(
-                  label: Text(i.ingredientName,
-                      style: theme.textTheme.labelSmall),
+                  label: LocalizedIngredientText(
+                    ingredientId: i.ingredientId,
+                    fallbackName: i.ingredientName,
+                    style: theme.textTheme.labelSmall,
+                  ),
                   padding: EdgeInsets.zero,
                   materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
                   visualDensity: VisualDensity.compact,
@@ -360,12 +365,24 @@ class _WeeklyTrendCard extends ConsumerWidget {
                     color: color.withValues(alpha: 0.12),
                     borderRadius: BorderRadius.circular(12),
                   ),
-                  child: Text(
-                    avg.round().toString(),
-                    style: theme.textTheme.headlineMedium?.copyWith(
-                      color: color,
-                      fontWeight: FontWeight.bold,
-                    ),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Text(
+                        WellnessDisplay.format(avg),
+                        style: theme.textTheme.headlineMedium?.copyWith(
+                          color: color,
+                          fontWeight: FontWeight.bold,
+                          height: 1,
+                        ),
+                      ),
+                      Text(
+                        WellnessDisplay.suffix,
+                        style: theme.textTheme.labelSmall?.copyWith(
+                          color: color.withValues(alpha: 0.7),
+                        ),
+                      ),
+                    ],
                   ),
                 ),
               ],

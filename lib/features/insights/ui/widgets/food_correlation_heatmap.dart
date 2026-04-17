@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:gutcheck/l10n/app_localizations.dart';
+import '../../../pantry/ui/widgets/localized_ingredient_name.dart';
 import '../../domain/correlation_engine.dart';
 import '../../domain/impact_score.dart';
 
@@ -89,8 +90,9 @@ class _DataRow extends StatelessWidget {
             width: FoodCorrelationHeatmap._labelWidth,
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 8),
-              child: Text(
-                score.ingredientName,
+              child: LocalizedIngredientText(
+                ingredientId: score.ingredientId,
+                fallbackName: score.ingredientName,
                 style: theme.textTheme.bodySmall,
                 overflow: TextOverflow.ellipsis,
               ),

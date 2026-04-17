@@ -90,7 +90,7 @@
   "calendarDayScore": "Wohlbefindens-Score",
   "dateToday": "Heute",
   "dateYesterday": "Gestern",
-  "weeklyDigestAvgScore": "Durchschnittlicher Wohlbefindens-Score: {score}",
+  "weeklyDigestAvgScore": "Ø Wohlbefinden: {score}",
 
   "settingsTitle": "Einstellungen",
   "settingsSectionData": "Daten",
@@ -128,12 +128,21 @@
   "settingsResetDbDialogTitle": "Datenbank zur\u00fccksetzen?",
   "settingsResetDbDialogContent": "Dies l\u00f6scht die gesamte Datenbankdatei dauerhaft (alle Mahlzeiten, Wohlbefindenseintr\u00e4ge, eigenen Lebensmittel und Einstellungen) und schlie\u00dft die App. Du musst sie manuell neu starten.",
   "settingsResetDbDone": "Datenbank gel\u00f6scht. Bitte starte die App neu.",
+  "settingsSectionPantry": "Vorratskammer",
+  "settingsPantryTitle": "Smart Pantry",
+  "settingsPantrySubtitle": "Zutaten durchsuchen und eigene Lebensmittel hinzufügen",
   "settingsSectionAppearance": "Erscheinungsbild",
   "settingsThemeTitle": "Design",
   "settingsThemeSystem": "Systemstandard",
   "settingsThemeLight": "Hell",
   "settingsThemeDark": "Dunkel",
   "settingsThemeDialogTitle": "Design w\u00e4hlen",
+  "settingsPaletteTitle": "Farbpalette",
+  "settingsPaletteDialogTitle": "Farbpalette wählen",
+  "paletteVerdantGreen": "Verdant Green",
+  "paletteTwilightIndigo": "Twilight Indigo",
+  "palettePeachyPastel": "Peachy Pastel",
+  "paletteWarmCream": "Warm Cream",
 
   "settingsSectionLanguage": "Sprache",
   "settingsLanguageAuto": "Systemstandard",
@@ -277,6 +286,18 @@
   "insightsFingerprintEmpty": "Trage mindestens 3 Mahlzeiten mit derselben Zutat und Wohlbefindensdaten ein, um Fingerabdrücke zu sehen.",
   "insightsScatterEmpty": "Tippe auf ein Lebensmittel im Auswirkungs-Tab, um das Streudiagramm anzuzeigen.",
   "insightsScatterPrompt": "Tippe auf ein Lebensmittel, um das Streudiagramm anzuzeigen",
+  "insightsCardCalendarSubtitle": "Dein tägliches Wohlbefinden auf einen Blick",
+  "insightsCardImpactSubtitle": "Welche Lebensmittel wie wirken",
+  "insightsCardHeatmapSubtitle": "Lebensmittel × Zeitverzögerung",
+  "insightsCardFingerprintSubtitle": "Symptom-Signatur pro Lebensmittel",
+  "insightsCardScatterSubtitle": "Zeitliche Muster einzelner Lebensmittel",
+  "insightsCardNoData": "Noch nicht genug Daten",
+  "insightsCardHeatmapStat": "{count} Lebensmittel analysiert",
+  "@insightsCardHeatmapStat": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
   "impactDataPoints": "{count} Datenpunkte \u2014 mehr Eintr\u00e4ge verbessern die Genauigkeit",
 
   "timeFilterDay": "Tag",
