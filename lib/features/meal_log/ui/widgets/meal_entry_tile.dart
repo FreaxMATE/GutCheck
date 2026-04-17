@@ -43,8 +43,9 @@ class MealEntryTile extends StatelessWidget {
                 const Spacer(),
                 Text(
                   GutDateUtils.formatTime(entry.consumedAt),
-                  style: theme.textTheme.bodySmall
-                      ?.copyWith(color: Colors.grey),
+                  style: theme.textTheme.bodySmall?.copyWith(
+                    color: Colors.grey,
+                  ),
                 ),
                 if (onSaveAsTemplate != null) ...[
                   const SizedBox(width: 4),
@@ -87,8 +88,9 @@ class MealEntryTile extends StatelessWidget {
               const SizedBox(height: 8),
               Text(
                 entry.notes!,
-                style: theme.textTheme.bodySmall
-                    ?.copyWith(color: Colors.grey[600]),
+                style: theme.textTheme.bodySmall?.copyWith(
+                  color: Colors.grey[600],
+                ),
               ),
             ],
           ],

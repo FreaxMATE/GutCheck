@@ -12,7 +12,8 @@ Future<ExportDeliveryResult> deliverExport(String jsonPayload) async {
   final file = File('${dir.path}/gutcheck_export_$ts.json');
   await file.writeAsString(jsonPayload);
 
-  final isDesktop = defaultTargetPlatform == TargetPlatform.linux ||
+  final isDesktop =
+      defaultTargetPlatform == TargetPlatform.linux ||
       defaultTargetPlatform == TargetPlatform.windows ||
       defaultTargetPlatform == TargetPlatform.macOS;
 
@@ -24,10 +25,7 @@ Future<ExportDeliveryResult> deliverExport(String jsonPayload) async {
   }
 
   await SharePlus.instance.share(
-    ShareParams(
-      files: [XFile(file.path)],
-      subject: 'GutCheck Data Export',
-    ),
+    ShareParams(files: [XFile(file.path)], subject: 'GutCheck Data Export'),
   );
 
   return const ExportDeliveryResult(showMessage: false, message: '');

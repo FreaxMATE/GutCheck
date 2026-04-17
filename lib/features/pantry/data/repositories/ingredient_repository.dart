@@ -32,11 +32,14 @@ class IngredientRepository {
         .optional(customOnly, (q) => q.isSeededEqualTo(false))
         .optional(hasCategory, (q) => q.categoryEqualTo(category!))
         .optional(
-            hasQuery,
-            (q) => q.group((g) => g
+          hasQuery,
+          (q) => q.group(
+            (g) => g
                 .nameLowerContains(lower, caseSensitive: false)
                 .or()
-                .nameDEContains(lower, caseSensitive: false)))
+                .nameDEContains(lower, caseSensitive: false),
+          ),
+        )
         .sortByNameLower()
         .offset(offset)
         .limit(limit)

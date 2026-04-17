@@ -40,13 +40,16 @@ class CalendarHeatmap extends ConsumerWidget {
         // Weekday labels
         Row(
           children: ['S', 'M', 'T', 'W', 'T', 'F', 'S']
-              .map((d) => Expanded(
-                    child: Center(
-                      child: Text(d,
-                          style: const TextStyle(
-                              fontSize: 11, color: Colors.grey)),
+              .map(
+                (d) => Expanded(
+                  child: Center(
+                    child: Text(
+                      d,
+                      style: const TextStyle(fontSize: 11, color: Colors.grey),
                     ),
-                  ))
+                  ),
+                ),
+              )
               .toList(),
         ),
         const SizedBox(height: 4),
@@ -60,15 +63,15 @@ class CalendarHeatmap extends ConsumerWidget {
                 return const Expanded(child: SizedBox(height: 36));
               }
               final day = days[dayIndex];
-              final score = dailyScores[
-                  DateTime(day.year, day.month, day.day)];
+              final score = dailyScores[DateTime(day.year, day.month, day.day)];
               final cellWidget = Container(
                 margin: const EdgeInsets.all(2),
                 height: 36,
                 decoration: BoxDecoration(
                   color: score != null
-                      ? AppColors.wellnessScoreInterpolated(score)
-                          .withValues(alpha: 0.7)
+                      ? AppColors.wellnessScoreInterpolated(
+                          score,
+                        ).withValues(alpha: 0.7)
                       : Colors.grey.withValues(alpha: 0.1),
                   borderRadius: BorderRadius.circular(6),
                 ),
@@ -99,8 +102,10 @@ class CalendarHeatmap extends ConsumerWidget {
         Row(
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
-            Text(AppLocalizations.of(context)!.heatmapLegendPoor,
-                style: const TextStyle(fontSize: 11, color: Colors.grey)),
+            Text(
+              AppLocalizations.of(context)!.heatmapLegendPoor,
+              style: const TextStyle(fontSize: 11, color: Colors.grey),
+            ),
             const SizedBox(width: 4),
             ...List.generate(5, (i) {
               final score = (i + 1) * 20.0;
@@ -109,15 +114,18 @@ class CalendarHeatmap extends ConsumerWidget {
                 height: 10,
                 margin: const EdgeInsets.symmetric(horizontal: 1),
                 decoration: BoxDecoration(
-                  color: AppColors.wellnessScoreInterpolated(score)
-                      .withValues(alpha: 0.7),
+                  color: AppColors.wellnessScoreInterpolated(
+                    score,
+                  ).withValues(alpha: 0.7),
                   borderRadius: BorderRadius.circular(2),
                 ),
               );
             }),
             const SizedBox(width: 4),
-            Text(AppLocalizations.of(context)!.heatmapLegendGreat,
-                style: const TextStyle(fontSize: 11, color: Colors.grey)),
+            Text(
+              AppLocalizations.of(context)!.heatmapLegendGreat,
+              style: const TextStyle(fontSize: 11, color: Colors.grey),
+            ),
           ],
         ),
       ],
@@ -144,9 +152,7 @@ class _CellFadeInState extends State<_CellFadeIn>
   @override
   void initState() {
     super.initState();
-    Future<void>.delayed(
-        Duration(milliseconds: 12 * widget.index),
-        () {
+    Future<void>.delayed(Duration(milliseconds: 12 * widget.index), () {
       if (mounted) _c.forward();
     });
   }
@@ -162,9 +168,10 @@ class _CellFadeInState extends State<_CellFadeIn>
     return FadeTransition(
       opacity: CurvedAnimation(parent: _c, curve: Curves.easeOut),
       child: ScaleTransition(
-        scale: Tween<double>(begin: 0.6, end: 1.0).animate(
-          CurvedAnimation(parent: _c, curve: Curves.easeOutBack),
-        ),
+        scale: Tween<double>(
+          begin: 0.6,
+          end: 1.0,
+        ).animate(CurvedAnimation(parent: _c, curve: Curves.easeOutBack)),
         child: widget.child,
       ),
     );

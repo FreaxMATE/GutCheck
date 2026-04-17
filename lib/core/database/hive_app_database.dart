@@ -21,7 +21,12 @@ class HiveAppDatabase implements AppDatabase {
   final Box<String> _wellness;
   final Box<String> _templates;
 
-  HiveAppDatabase(this._ingredients, this._meals, this._wellness, this._templates);
+  HiveAppDatabase(
+    this._ingredients,
+    this._meals,
+    this._wellness,
+    this._templates,
+  );
 
   @override
   Future<void> seedIfNeeded() async {
@@ -43,7 +48,8 @@ class HiveAppDatabase implements AppDatabase {
         ..category = _categoryFromJson(j['category'])
         ..secondaryCategoryName = j['secondaryCategory'] as String?
         ..nameDE = j['nameDE'] as String?
-        ..fodmapLevel = ((j['fodmapLevel'] ?? j['fodmap']) as String).toLowerCase()
+        ..fodmapLevel = ((j['fodmapLevel'] ?? j['fodmap']) as String)
+            .toLowerCase()
         ..isSeeded = true
         ..createdAt = DateTime.now();
       await saveIngredient(ingredient);
@@ -65,11 +71,13 @@ class HiveAppDatabase implements AppDatabase {
     var filtered = all.where((ingredient) {
       final categoryOk = category == null || ingredient.category == category;
       // Search both English (nameLower) and German (nameDE) names
-      final queryOk = lower.isEmpty || ingredient.nameLower.contains(lower) || (ingredient.nameDE?.toLowerCase().contains(lower) ?? false);
+      final queryOk =
+          lower.isEmpty ||
+          ingredient.nameLower.contains(lower) ||
+          (ingredient.nameDE?.toLowerCase().contains(lower) ?? false);
       final customOk = !customOnly || !ingredient.isSeeded;
       return categoryOk && queryOk && customOk;
-    }).toList()
-      ..sort((a, b) => a.nameLower.compareTo(b.nameLower));
+    }).toList()..sort((a, b) => a.nameLower.compareTo(b.nameLower));
 
     if (offset >= filtered.length) return [];
     final end = (offset + limit).clamp(0, filtered.length);
@@ -118,8 +126,10 @@ class HiveAppDatabase implements AppDatabase {
   @override
   Future<List<Ingredient>> allIngredients() async {
     final list = _ingredients.values
-        .map((value) =>
-            _ingredientFromJson(jsonDecode(value) as Map<String, dynamic>))
+        .map(
+          (value) =>
+              _ingredientFromJson(jsonDecode(value) as Map<String, dynamic>),
+        )
         .toList();
     list.sort((a, b) => a.nameLower.compareTo(b.nameLower));
     return list;
@@ -151,11 +161,13 @@ class HiveAppDatabase implements AppDatabase {
     required DateTime from,
     required DateTime to,
   }) async {
-    final meals = (await allMeals())
-        .where((m) =>
-            !m.consumedAt.isBefore(from) && m.consumedAt.isBefore(to))
-        .toList()
-      ..sort((a, b) => a.consumedAt.compareTo(b.consumedAt));
+    final meals =
+        (await allMeals())
+            .where(
+              (m) => !m.consumedAt.isBefore(from) && m.consumedAt.isBefore(to),
+            )
+            .toList()
+          ..sort((a, b) => a.consumedAt.compareTo(b.consumedAt));
     return meals;
   }
 
@@ -187,7 +199,9 @@ class HiveAppDatabase implements AppDatabase {
   @override
   Future<List<MealEntry>> allMeals() async {
     final list = _meals.values
-        .map((value) => _mealFromJson(jsonDecode(value) as Map<String, dynamic>))
+        .map(
+          (value) => _mealFromJson(jsonDecode(value) as Map<String, dynamic>),
+        )
         .toList();
     list.sort((a, b) => a.consumedAt.compareTo(b.consumedAt));
     return list;
@@ -225,10 +239,13 @@ class HiveAppDatabase implements AppDatabase {
     required DateTime to,
   }) async {
     final all = await allWellness();
-    final list = all
-        .where((w) => !w.recordedAt.isBefore(from) && w.recordedAt.isBefore(to))
-        .toList()
-      ..sort((a, b) => a.recordedAt.compareTo(b.recordedAt));
+    final list =
+        all
+            .where(
+              (w) => !w.recordedAt.isBefore(from) && w.recordedAt.isBefore(to),
+            )
+            .toList()
+          ..sort((a, b) => a.recordedAt.compareTo(b.recordedAt));
     return list;
   }
 
@@ -244,7 +261,10 @@ class HiveAppDatabase implements AppDatabase {
     if (entry.id <= 0) {
       entry.id = _nextId(_wellness);
     }
-    await _wellness.put(entry.id.toString(), jsonEncode(_wellnessToJson(entry)));
+    await _wellness.put(
+      entry.id.toString(),
+      jsonEncode(_wellnessToJson(entry)),
+    );
   }
 
   @override
@@ -260,8 +280,10 @@ class HiveAppDatabase implements AppDatabase {
   @override
   Future<List<WellnessEntry>> allWellness() async {
     final list = _wellness.values
-        .map((value) =>
-            _wellnessFromJson(jsonDecode(value) as Map<String, dynamic>))
+        .map(
+          (value) =>
+              _wellnessFromJson(jsonDecode(value) as Map<String, dynamic>),
+        )
         .toList();
     list.sort((a, b) => a.recordedAt.compareTo(b.recordedAt));
     return list;
@@ -281,8 +303,10 @@ class HiveAppDatabase implements AppDatabase {
   @override
   Future<List<MealTemplate>> allMealTemplates() async {
     final list = _templates.values
-        .map((value) =>
-            _templateFromJson(jsonDecode(value) as Map<String, dynamic>))
+        .map(
+          (value) =>
+              _templateFromJson(jsonDecode(value) as Map<String, dynamic>),
+        )
         .toList();
     list.sort((a, b) => b.updatedAt.compareTo(a.updatedAt));
     return list;
@@ -301,7 +325,9 @@ class HiveAppDatabase implements AppDatabase {
       template.id = _nextId(_templates);
     }
     await _templates.put(
-        template.id.toString(), jsonEncode(_templateToJson(template)));
+      template.id.toString(),
+      jsonEncode(_templateToJson(template)),
+    );
   }
 
   @override
@@ -322,24 +348,25 @@ class HiveAppDatabase implements AppDatabase {
   }
 
   static Map<String, dynamic> _ingredientToJson(Ingredient ingredient) => {
-        'id': ingredient.id,
-        'name': ingredient.name,
-        'nameLower': ingredient.nameLower,
-        'category': ingredient.category.name,
-        'fodmapLevel': ingredient.fodmapLevel,
-        'isSeeded': ingredient.isSeeded,
-        'secondaryCategoryName': ingredient.secondaryCategoryName,
-        'nameDE': ingredient.nameDE,
-        'photoPath': ingredient.photoPath,
-        'notes': ingredient.notes,
-        'createdAt': ingredient.createdAt.toIso8601String(),
-      };
+    'id': ingredient.id,
+    'name': ingredient.name,
+    'nameLower': ingredient.nameLower,
+    'category': ingredient.category.name,
+    'fodmapLevel': ingredient.fodmapLevel,
+    'isSeeded': ingredient.isSeeded,
+    'secondaryCategoryName': ingredient.secondaryCategoryName,
+    'nameDE': ingredient.nameDE,
+    'photoPath': ingredient.photoPath,
+    'notes': ingredient.notes,
+    'createdAt': ingredient.createdAt.toIso8601String(),
+  };
 
   static Ingredient _ingredientFromJson(Map<String, dynamic> json) {
     return Ingredient()
       ..id = json['id'] as int
       ..name = json['name'] as String
-      ..nameLower = (json['nameLower'] as String?) ??
+      ..nameLower =
+          (json['nameLower'] as String?) ??
           (json['name'] as String).toLowerCase()
       ..category = _categoryFromJson(json['category'])
       ..fodmapLevel = (json['fodmapLevel'] as String?) ?? 'moderate'
@@ -348,41 +375,48 @@ class HiveAppDatabase implements AppDatabase {
       ..nameDE = json['nameDE'] as String?
       ..photoPath = json['photoPath'] as String?
       ..notes = json['notes'] as String?
-      ..createdAt = DateTime.tryParse(json['createdAt'] as String? ?? '') ??
+      ..createdAt =
+          DateTime.tryParse(json['createdAt'] as String? ?? '') ??
           DateTime.now();
   }
 
   static Map<String, dynamic> _mealToJson(MealEntry meal) => {
-        'id': meal.id,
-        'consumedAt': meal.consumedAt.toIso8601String(),
-        'mealLabel': meal.mealLabel,
-        'ingredients': meal.ingredients
-            .map((ingredient) => {
-                  'ingredientId': ingredient.ingredientId,
-                  'ingredientName': ingredient.ingredientName,
-                  'quantity': ingredient.quantity,
-                })
-            .toList(),
-        'photoPath': meal.photoPath,
-        'notes': meal.notes,
-        'isSample': meal.isSample,
-        'createdAt': meal.createdAt.toIso8601String(),
-      };
+    'id': meal.id,
+    'consumedAt': meal.consumedAt.toIso8601String(),
+    'mealLabel': meal.mealLabel,
+    'ingredients': meal.ingredients
+        .map(
+          (ingredient) => {
+            'ingredientId': ingredient.ingredientId,
+            'ingredientName': ingredient.ingredientName,
+            'quantity': ingredient.quantity,
+          },
+        )
+        .toList(),
+    'photoPath': meal.photoPath,
+    'notes': meal.notes,
+    'isSample': meal.isSample,
+    'createdAt': meal.createdAt.toIso8601String(),
+  };
 
   static MealEntry _mealFromJson(Map<String, dynamic> json) {
     final ingredientsJson = (json['ingredients'] as List<dynamic>? ?? []);
     return MealEntry()
       ..id = json['id'] as int
-      ..consumedAt = DateTime.tryParse(json['consumedAt'] as String? ?? '') ??
+      ..consumedAt =
+          DateTime.tryParse(json['consumedAt'] as String? ?? '') ??
           DateTime.now()
       ..mealLabel = json['mealLabel'] as String?
       ..ingredients = ingredientsJson
-          .map((value) => _mealIngredientFromJson(value as Map<String, dynamic>))
+          .map(
+            (value) => _mealIngredientFromJson(value as Map<String, dynamic>),
+          )
           .toList()
       ..photoPath = json['photoPath'] as String?
       ..notes = json['notes'] as String?
       ..isSample = (json['isSample'] as bool?) ?? false
-      ..createdAt = DateTime.tryParse(json['createdAt'] as String? ?? '') ??
+      ..createdAt =
+          DateTime.tryParse(json['createdAt'] as String? ?? '') ??
           DateTime.now();
   }
 
@@ -394,23 +428,24 @@ class HiveAppDatabase implements AppDatabase {
   }
 
   static Map<String, dynamic> _wellnessToJson(WellnessEntry entry) => {
-        'id': entry.id,
-        'recordedAt': entry.recordedAt.toIso8601String(),
-        'gutPeace': entry.gutPeace,
-        'heartburn': entry.heartburn,
-        'stressLevel': entry.stressLevel,
-        'diarrhea': entry.diarrhea,
-        'wellnessScore': entry.wellnessScore,
-        'linkedMealIds': entry.linkedMealIds,
-        'notes': entry.notes,
-        'isSample': entry.isSample,
-        'createdAt': entry.createdAt.toIso8601String(),
-      };
+    'id': entry.id,
+    'recordedAt': entry.recordedAt.toIso8601String(),
+    'gutPeace': entry.gutPeace,
+    'heartburn': entry.heartburn,
+    'stressLevel': entry.stressLevel,
+    'diarrhea': entry.diarrhea,
+    'wellnessScore': entry.wellnessScore,
+    'linkedMealIds': entry.linkedMealIds,
+    'notes': entry.notes,
+    'isSample': entry.isSample,
+    'createdAt': entry.createdAt.toIso8601String(),
+  };
 
   static WellnessEntry _wellnessFromJson(Map<String, dynamic> json) {
     return WellnessEntry()
       ..id = json['id'] as int
-      ..recordedAt = DateTime.tryParse(json['recordedAt'] as String? ?? '') ??
+      ..recordedAt =
+          DateTime.tryParse(json['recordedAt'] as String? ?? '') ??
           DateTime.now()
       ..gutPeace = (json['gutPeace'] as int?) ?? 0
       ..heartburn = (json['heartburn'] as int?) ?? 0
@@ -422,24 +457,27 @@ class HiveAppDatabase implements AppDatabase {
           .toList()
       ..notes = json['notes'] as String?
       ..isSample = (json['isSample'] as bool?) ?? false
-      ..createdAt = DateTime.tryParse(json['createdAt'] as String? ?? '') ??
+      ..createdAt =
+          DateTime.tryParse(json['createdAt'] as String? ?? '') ??
           DateTime.now();
   }
 
   static Map<String, dynamic> _templateToJson(MealTemplate template) => {
-        'id': template.id,
-        'name': template.name,
-        'mealLabel': template.mealLabel,
-        'ingredients': template.ingredients
-            .map((i) => {
-                  'ingredientId': i.ingredientId,
-                  'ingredientName': i.ingredientName,
-                  'quantity': i.quantity,
-                })
-            .toList(),
-        'createdAt': template.createdAt.toIso8601String(),
-        'updatedAt': template.updatedAt.toIso8601String(),
-      };
+    'id': template.id,
+    'name': template.name,
+    'mealLabel': template.mealLabel,
+    'ingredients': template.ingredients
+        .map(
+          (i) => {
+            'ingredientId': i.ingredientId,
+            'ingredientName': i.ingredientName,
+            'quantity': i.quantity,
+          },
+        )
+        .toList(),
+    'createdAt': template.createdAt.toIso8601String(),
+    'updatedAt': template.updatedAt.toIso8601String(),
+  };
 
   static MealTemplate _templateFromJson(Map<String, dynamic> json) {
     final ingredientsJson = (json['ingredients'] as List<dynamic>? ?? []);
@@ -448,11 +486,15 @@ class HiveAppDatabase implements AppDatabase {
       ..name = json['name'] as String
       ..mealLabel = json['mealLabel'] as String?
       ..ingredients = ingredientsJson
-          .map((value) => _mealIngredientFromJson(value as Map<String, dynamic>))
+          .map(
+            (value) => _mealIngredientFromJson(value as Map<String, dynamic>),
+          )
           .toList()
-      ..createdAt = DateTime.tryParse(json['createdAt'] as String? ?? '') ??
+      ..createdAt =
+          DateTime.tryParse(json['createdAt'] as String? ?? '') ??
           DateTime.now()
-      ..updatedAt = DateTime.tryParse(json['updatedAt'] as String? ?? '') ??
+      ..updatedAt =
+          DateTime.tryParse(json['updatedAt'] as String? ?? '') ??
           DateTime.now();
   }
 

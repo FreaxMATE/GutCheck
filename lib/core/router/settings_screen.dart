@@ -45,8 +45,10 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
     String currentLocaleLabel() {
       if (currentLocale == null) return l10n.settingsLanguageAuto;
       return _supportedLocales
-              .firstWhere((e) => e.code == currentLocale.languageCode,
-                  orElse: () => (code: null, label: null))
+              .firstWhere(
+                (e) => e.code == currentLocale.languageCode,
+                orElse: () => (code: null, label: null),
+              )
               .label ??
           currentLocale.languageCode;
     }
@@ -164,7 +166,11 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
                     onChanged: _sampleLoading
                         ? null
                         : (on) => _toggleSampleData(
-                            context, sampleService, on, l10n),
+                            context,
+                            sampleService,
+                            on,
+                            l10n,
+                          ),
                   );
                 },
               );
@@ -202,18 +208,24 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
           ),
           const Divider(indent: 16, endIndent: 16),
           ListTile(
-            leading:
-                const Icon(Icons.delete_outline_rounded, color: Colors.red),
-            title: Text(l10n.settingsClearTitle,
-                style: const TextStyle(color: Colors.red)),
+            leading: const Icon(
+              Icons.delete_outline_rounded,
+              color: Colors.red,
+            ),
+            title: Text(
+              l10n.settingsClearTitle,
+              style: const TextStyle(color: Colors.red),
+            ),
             subtitle: Text(l10n.settingsClearSubtitle),
             onTap: () => _confirmClear(context, l10n),
           ),
           const Divider(indent: 16, endIndent: 16),
           ListTile(
             leading: const Icon(Icons.dangerous_outlined, color: Colors.red),
-            title: Text(l10n.settingsResetDbTitle,
-                style: const TextStyle(color: Colors.red)),
+            title: Text(
+              l10n.settingsResetDbTitle,
+              style: const TextStyle(color: Colors.red),
+            ),
             subtitle: Text(l10n.settingsResetDbSubtitle),
             onTap: () => _confirmResetDatabase(context, l10n),
           ),
@@ -221,7 +233,10 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
           // ── Achievements ────────────────────────────────────────────────────
           const Divider(indent: 16, endIndent: 16),
           ListTile(
-            leading: const Icon(Icons.emoji_events_rounded, color: Colors.amber),
+            leading: const Icon(
+              Icons.emoji_events_rounded,
+              color: Colors.amber,
+            ),
             title: Text(l10n.settingsTrophiesTitle),
             subtitle: Text(l10n.settingsTrophiesSubtitle),
             trailing: const Icon(Icons.chevron_right),
@@ -243,7 +258,8 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
                 ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(
                     content: Text(
-                        '${5 - _versionTapCount} more tap(s) for dev mode…'),
+                      '${5 - _versionTapCount} more tap(s) for dev mode…',
+                    ),
                     duration: const Duration(milliseconds: 1200),
                   ),
                 );
@@ -261,7 +277,10 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
   }
 
   Future<void> _pickTheme(
-      BuildContext context, ThemeMode current, AppLocalizations l10n) async {
+    BuildContext context,
+    ThemeMode current,
+    AppLocalizations l10n,
+  ) async {
     final picked = await showDialog<ThemeMode>(
       context: context,
       builder: (_) => _ThemeDialog(current: current),
@@ -277,7 +296,9 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
       ThemeMode.light => false,
       ThemeMode.system => scheme == Brightness.dark,
     };
-    final fill = isDarkAfter ? const Color(0xFF121212) : const Color(0xFFF7F7F7);
+    final fill = isDarkAfter
+        ? const Color(0xFF121212)
+        : const Color(0xFFF7F7F7);
     final size = MediaQuery.of(context).size;
     final origin = Offset(size.width * 0.85, 120); // near the theme tile
     final enabled = ref.read(animationsEnabledProvider);
@@ -295,7 +316,10 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
   }
 
   Future<void> _pickLanguage(
-      BuildContext context, Locale? current, AppLocalizations l10n) async {
+    BuildContext context,
+    Locale? current,
+    AppLocalizations l10n,
+  ) async {
     final picked = await showDialog<String?>(
       context: context,
       builder: (_) => _LanguageDialog(current: current),
@@ -316,7 +340,10 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
   }
 
   Future<void> _pickPalette(
-      BuildContext context, AppPalette current, AppLocalizations l10n) async {
+    BuildContext context,
+    AppPalette current,
+    AppLocalizations l10n,
+  ) async {
     final picked = await showDialog<AppPalette>(
       context: context,
       builder: (_) => _PaletteDialog(current: current),
@@ -325,8 +352,12 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
     await ref.read(paletteProvider.notifier).setPalette(picked);
   }
 
-  Future<void> _toggleSampleData(BuildContext context, SampleDataService svc,
-      bool on, AppLocalizations l10n) async {
+  Future<void> _toggleSampleData(
+    BuildContext context,
+    SampleDataService svc,
+    bool on,
+    AppLocalizations l10n,
+  ) async {
     final messenger = ScaffoldMessenger.of(context);
     setState(() => _sampleLoading = true);
     try {
@@ -355,11 +386,10 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
         SnackBar(content: Text(l10n.settingsExportSuccess)),
       );
     } catch (e) {
-      final errorMsg =
-          e is ExportResult ? e.message : l10n.settingsExportError(e);
-      messenger.showSnackBar(
-        SnackBar(content: Text(errorMsg)),
-      );
+      final errorMsg = e is ExportResult
+          ? e.message
+          : l10n.settingsExportError(e);
+      messenger.showSnackBar(SnackBar(content: Text(errorMsg)));
     }
   }
 
@@ -382,9 +412,9 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
     final json = await _pickJsonFile(context, l10n);
     if (json == null) {
       if (mounted && context.mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text(l10n.settingsImportCancelled)),
-        );
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text(l10n.settingsImportCancelled)));
       }
       return;
     }
@@ -393,17 +423,19 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
       if (mounted && context.mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text(result.success
-                ? result.message
-                : l10n.settingsImportError(result.message)),
+            content: Text(
+              result.success
+                  ? result.message
+                  : l10n.settingsImportError(result.message),
+            ),
           ),
         );
       }
     } catch (e) {
       if (mounted && context.mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text(l10n.settingsImportError(e))),
-        );
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text(l10n.settingsImportError(e))));
       }
     }
   }
@@ -420,9 +452,9 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
     final json = await _pickJsonFile(context, l10n);
     if (json == null) {
       if (mounted && context.mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text(l10n.settingsImportCancelled)),
-        );
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text(l10n.settingsImportCancelled)));
       }
       return;
     }
@@ -432,9 +464,9 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
       final result = await ImportService.importFromJson(ref, json, mode);
       if (mounted && context.mounted) {
         if (result.success) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text(result.message)),
-          );
+          ScaffoldMessenger.of(
+            context,
+          ).showSnackBar(SnackBar(content: Text(result.message)));
         } else {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(content: Text(l10n.settingsImportError(result.message))),
@@ -443,15 +475,17 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
       }
     } catch (e) {
       if (mounted && context.mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text(l10n.settingsImportError(e))),
-        );
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text(l10n.settingsImportError(e))));
       }
     }
   }
 
   Future<ImportMode?> _showImportModeDialog(
-      BuildContext context, AppLocalizations l10n) async {
+    BuildContext context,
+    AppLocalizations l10n,
+  ) async {
     return showDialog<ImportMode>(
       context: context,
       builder: (ctx) {
@@ -478,7 +512,10 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
     );
   }
 
-  Future<String?> _pickJsonFile(BuildContext context, AppLocalizations l10n) async {
+  Future<String?> _pickJsonFile(
+    BuildContext context,
+    AppLocalizations l10n,
+  ) async {
     try {
       final result = await FilePicker.platform.pickFiles(
         withData: true,
@@ -500,7 +537,9 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
   }
 
   Future<void> _confirmClear(
-      BuildContext context, AppLocalizations l10n) async {
+    BuildContext context,
+    AppLocalizations l10n,
+  ) async {
     final messenger = ScaffoldMessenger.of(context);
     final confirmed = await showDialog<bool>(
       context: context,
@@ -511,8 +550,9 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
           content: Text(ctxL10n.settingsClearDialogContent),
           actions: [
             TextButton(
-                onPressed: () => Navigator.pop(ctx, false),
-                child: Text(ctxL10n.cancel)),
+              onPressed: () => Navigator.pop(ctx, false),
+              child: Text(ctxL10n.cancel),
+            ),
             FilledButton(
               style: FilledButton.styleFrom(backgroundColor: Colors.red),
               onPressed: () => Navigator.pop(ctx, true),
@@ -533,7 +573,9 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
   }
 
   Future<void> _confirmResetDatabase(
-      BuildContext context, AppLocalizations l10n) async {
+    BuildContext context,
+    AppLocalizations l10n,
+  ) async {
     final messenger = ScaffoldMessenger.of(context);
     final confirmed = await showDialog<bool>(
       context: context,
@@ -544,8 +586,9 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
           content: Text(ctxL10n.settingsResetDbDialogContent),
           actions: [
             TextButton(
-                onPressed: () => Navigator.pop(ctx, false),
-                child: Text(ctxL10n.cancel)),
+              onPressed: () => Navigator.pop(ctx, false),
+              child: Text(ctxL10n.cancel),
+            ),
             FilledButton(
               style: FilledButton.styleFrom(backgroundColor: Colors.red),
               onPressed: () => Navigator.pop(ctx, true),
@@ -678,7 +721,9 @@ class _PaletteDialogState extends State<_PaletteDialog> {
               onTap: () => setState(() => _selected = p),
               child: Padding(
                 padding: const EdgeInsets.symmetric(
-                    horizontal: 20, vertical: 10),
+                  horizontal: 20,
+                  vertical: 10,
+                ),
                 child: Row(
                   children: [
                     Container(
@@ -698,8 +743,10 @@ class _PaletteDialogState extends State<_PaletteDialog> {
                     const SizedBox(width: 14),
                     Expanded(child: Text(_label(p, l10n))),
                     if (isSelected)
-                      Icon(Icons.check_circle,
-                          color: Theme.of(context).colorScheme.primary),
+                      Icon(
+                        Icons.check_circle,
+                        color: Theme.of(context).colorScheme.primary,
+                      ),
                   ],
                 ),
               ),
@@ -757,8 +804,7 @@ class _LanguageDialogState extends State<_LanguageDialog> {
               title: Text(l10n.settingsLanguageAuto),
               subtitle: const Text('🌐'),
             ),
-            for (final locale
-                in _supportedLocales.where((e) => e.code != null))
+            for (final locale in _supportedLocales.where((e) => e.code != null))
               RadioListTile<String?>(
                 value: locale.code,
                 title: Text(locale.label!),
@@ -792,10 +838,9 @@ class _SectionHeader extends StatelessWidget {
       padding: const EdgeInsets.fromLTRB(16, 20, 16, 4),
       child: Text(
         text,
-        style: Theme.of(context)
-            .textTheme
-            .labelLarge
-            ?.copyWith(color: Theme.of(context).colorScheme.primary),
+        style: Theme.of(context).textTheme.labelLarge?.copyWith(
+          color: Theme.of(context).colorScheme.primary,
+        ),
       ),
     );
   }

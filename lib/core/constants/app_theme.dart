@@ -8,6 +8,7 @@ class AppTheme {
 
   /// Default neutral seed (used by adaptive tint).
   static const _baseSeed = AppColors.seedGreen;
+
   /// Calm seed used when recent wellness scores are low.
   static const _calmSeed = Color(0xFF3E7FA3);
 
@@ -31,17 +32,15 @@ class AppTheme {
     return palette.seed;
   }
 
-  static ThemeData light({
-    required AppPalette palette,
-    Color? seedColor,
-  }) {
-    final colorScheme = ColorScheme.fromSeed(
-      seedColor: seedColor ?? palette.seed,
-      brightness: Brightness.light,
-    ).copyWith(
-      surface: palette.lightSurfaceOverride,
-      surfaceContainerLowest: palette.lightSurfaceOverride,
-    );
+  static ThemeData light({required AppPalette palette, Color? seedColor}) {
+    final colorScheme =
+        ColorScheme.fromSeed(
+          seedColor: seedColor ?? palette.seed,
+          brightness: Brightness.light,
+        ).copyWith(
+          surface: palette.lightSurfaceOverride,
+          surfaceContainerLowest: palette.lightSurfaceOverride,
+        );
 
     final scaffoldBg = palette.lightBackgroundOverride;
 
@@ -77,10 +76,7 @@ class AppTheme {
     );
   }
 
-  static ThemeData dark({
-    required AppPalette palette,
-    Color? seedColor,
-  }) {
+  static ThemeData dark({required AppPalette palette, Color? seedColor}) {
     final colorScheme = ColorScheme.fromSeed(
       seedColor: seedColor ?? palette.seed,
       brightness: Brightness.dark,

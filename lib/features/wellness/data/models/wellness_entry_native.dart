@@ -49,6 +49,7 @@ class WellnessEntry {
 
   /// Set from a 0.0-10.0 display value.
   void setGutPeaceDisplay(double v) => gutPeace = (v * 2).round().clamp(0, 20);
-  void setHeartburnDisplay(double v) => heartburn = (v * 2).round().clamp(0, 20);
+  void setHeartburnDisplay(double v) =>
+      heartburn = (v * 2).round().clamp(0, 20);
   void setStressDisplay(double v) => stressLevel = (v * 2).round().clamp(0, 20);
 }

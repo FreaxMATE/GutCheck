@@ -45,13 +45,15 @@ class FoodCorrelationHeatmap extends StatelessWidget {
                         children: [
                           Text(
                             z.label,
-                            style: theme.textTheme.labelSmall
-                                ?.copyWith(fontWeight: FontWeight.bold),
+                            style: theme.textTheme.labelSmall?.copyWith(
+                              fontWeight: FontWeight.bold,
+                            ),
                           ),
                           Text(
                             z.shortLabel,
-                            style: theme.textTheme.labelSmall
-                                ?.copyWith(color: Colors.grey),
+                            style: theme.textTheme.labelSmall?.copyWith(
+                              color: Colors.grey,
+                            ),
                           ),
                         ],
                       ),
@@ -142,8 +144,8 @@ class _Cell extends StatelessWidget {
               color: r == null
                   ? Colors.grey
                   : r.abs() > 0.4
-                      ? Colors.white
-                      : Colors.black87,
+                  ? Colors.white
+                  : Colors.black87,
             ),
           ),
         ),
@@ -179,26 +181,35 @@ class _Legend extends StatelessWidget {
         children: [
           _legendSwatch(const Color(0xFFD32F2F)),
           const SizedBox(width: 4),
-          Text(AppLocalizations.of(context)!.heatmapHarmful, style: Theme.of(context).textTheme.labelSmall),
+          Text(
+            AppLocalizations.of(context)!.heatmapHarmful,
+            style: Theme.of(context).textTheme.labelSmall,
+          ),
           const SizedBox(width: 16),
           _legendSwatch(const Color(0xFF388E3C)),
           const SizedBox(width: 4),
-          Text(AppLocalizations.of(context)!.heatmapBeneficial, style: Theme.of(context).textTheme.labelSmall),
+          Text(
+            AppLocalizations.of(context)!.heatmapBeneficial,
+            style: Theme.of(context).textTheme.labelSmall,
+          ),
           const SizedBox(width: 16),
           _legendSwatch(Colors.grey.shade300),
           const SizedBox(width: 4),
-          Text(AppLocalizations.of(context)!.heatmapNoData, style: Theme.of(context).textTheme.labelSmall),
+          Text(
+            AppLocalizations.of(context)!.heatmapNoData,
+            style: Theme.of(context).textTheme.labelSmall,
+          ),
         ],
       ),
     );
   }
 
   Widget _legendSwatch(Color color) => Container(
-        width: 14,
-        height: 14,
-        decoration: BoxDecoration(
-          color: color,
-          borderRadius: BorderRadius.circular(3),
-        ),
-      );
+    width: 14,
+    height: 14,
+    decoration: BoxDecoration(
+      color: color,
+      borderRadius: BorderRadius.circular(3),
+    ),
+  );
 }

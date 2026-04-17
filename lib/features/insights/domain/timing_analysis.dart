@@ -80,15 +80,17 @@ class TimingAnalyzer {
       final windowStart = meal.consumedAt.add(const Duration(hours: 4));
       final windowEnd = meal.consumedAt.add(const Duration(hours: 12));
 
-      final matched = wellness.where((w) =>
-          !w.recordedAt.isBefore(windowStart) &&
-          w.recordedAt.isBefore(windowEnd));
+      final matched = wellness.where(
+        (w) =>
+            !w.recordedAt.isBefore(windowStart) &&
+            w.recordedAt.isBefore(windowEnd),
+      );
 
       if (matched.isNotEmpty) {
         // Use display values (0.0-10.0) for the average.
         final avgD =
             matched.map((w) => w.gutPeaceDisplay).reduce((a, b) => a + b) /
-                matched.length;
+            matched.length;
         bucketDiscomforts.putIfAbsent(bucketIdx, () => []).add(avgD);
       }
     }
@@ -100,27 +102,27 @@ class TimingAnalyzer {
       final scores = bucketDiscomforts[i];
       if (scores == null || scores.isEmpty) continue;
       final avgD = scores.reduce((a, b) => a + b) / scores.length;
-      results.add(TimingBucketResult(
-        label: def.label,
-        shortLabel: def.short,
-        startHour: def.start,
-        endHour: def.end,
-        mealCount: scores.length,
-        avgDiscomfort: avgD,
-        avgWellnessScore: ((10 - avgD) / 10) * 100,
-      ));
+      results.add(
+        TimingBucketResult(
+          label: def.label,
+          shortLabel: def.short,
+          startHour: def.start,
+          endHour: def.end,
+          mealCount: scores.length,
+          avgDiscomfort: avgD,
+          avgWellnessScore: ((10 - avgD) / 10) * 100,
+        ),
+      );
     }
 
     results.sort((a, b) => a.startHour.compareTo(b.startHour));
 
     final best = results.isEmpty
         ? null
-        : results.reduce((a, b) =>
-            a.avgDiscomfort <= b.avgDiscomfort ? a : b);
+        : results.reduce((a, b) => a.avgDiscomfort <= b.avgDiscomfort ? a : b);
     final worst = results.isEmpty
         ? null
-        : results.reduce((a, b) =>
-            a.avgDiscomfort >= b.avgDiscomfort ? a : b);
+        : results.reduce((a, b) => a.avgDiscomfort >= b.avgDiscomfort ? a : b);
 
     // Average meal gap.
     double? avgGap;
@@ -130,8 +132,7 @@ class TimingAnalyzer {
       double totalGap = 0;
       int gapCount = 0;
       for (int i = 1; i < sorted.length; i++) {
-        final gap = sorted[i]
-            .consumedAt
+        final gap = sorted[i].consumedAt
             .difference(sorted[i - 1].consumedAt)
             .inMinutes;
         // Only count intra-day gaps (< 18h).

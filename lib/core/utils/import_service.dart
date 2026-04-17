@@ -210,15 +210,14 @@ class ImportService {
         final meals = payload['mealEntries'] as List;
         for (final item in meals) {
           try {
-            final mealIngredients = (item['ingredients'] as List?)
-                    ?.map((i) {
-                      final mi = MealIngredient()
-                        ..ingredientId = i['ingredientId'] as int
-                        ..ingredientName = i['ingredientName'] as String
-                        ..quantity = i['quantity'] as String?;
-                      return mi;
-                    })
-                    .toList() ??
+            final mealIngredients =
+                (item['ingredients'] as List?)?.map((i) {
+                  final mi = MealIngredient()
+                    ..ingredientId = i['ingredientId'] as int
+                    ..ingredientName = i['ingredientName'] as String
+                    ..quantity = i['quantity'] as String?;
+                  return mi;
+                }).toList() ??
                 [];
 
             final meal = MealEntry()
@@ -241,10 +240,8 @@ class ImportService {
         final wellness = payload['wellnessEntries'] as List;
         for (final item in wellness) {
           try {
-            final linkedMealIds = (item['linkedMealIds'] as List?)
-                    ?.cast<int>()
-                    .toList() ??
-                [];
+            final linkedMealIds =
+                (item['linkedMealIds'] as List?)?.cast<int>().toList() ?? [];
 
             final rawGut =
                 item['gutPeace'] as int? ?? (payloadVersion >= 2 ? 0 : 5);
@@ -253,8 +250,9 @@ class ImportService {
             final rawStress = item['stressLevel'] as int? ?? 0;
             final migratedGut = _migrateGutPeace(rawGut, payloadVersion);
             final migratedHb = _migrateHeartburn(rawHb, payloadVersion);
-            final migratedStress =
-                payloadVersion >= 3 ? rawStress.clamp(0, 20) : rawStress.clamp(0, 10) * 2;
+            final migratedStress = payloadVersion >= 3
+                ? rawStress.clamp(0, 20)
+                : rawStress.clamp(0, 10) * 2;
             final entry = WellnessEntry()
               ..id = item['id'] as int
               ..recordedAt = DateTime.parse(item['recordedAt'] as String)
@@ -280,15 +278,14 @@ class ImportService {
         final templates = payload['mealTemplates'] as List;
         for (final item in templates) {
           try {
-            final templateIngredients = (item['ingredients'] as List?)
-                    ?.map((i) {
-                      final mi = MealIngredient()
-                        ..ingredientId = i['ingredientId'] as int
-                        ..ingredientName = i['ingredientName'] as String
-                        ..quantity = i['quantity'] as String?;
-                      return mi;
-                    })
-                    .toList() ??
+            final templateIngredients =
+                (item['ingredients'] as List?)?.map((i) {
+                  final mi = MealIngredient()
+                    ..ingredientId = i['ingredientId'] as int
+                    ..ingredientName = i['ingredientName'] as String
+                    ..quantity = i['quantity'] as String?;
+                  return mi;
+                }).toList() ??
                 [];
 
             final template = MealTemplate()
@@ -374,15 +371,14 @@ class ImportService {
 
             // Only add if not already present
             if (existing == null) {
-              final mealIngredients = (item['ingredients'] as List?)
-                      ?.map((i) {
-                        final mi = MealIngredient()
-                          ..ingredientId = i['ingredientId'] as int
-                          ..ingredientName = i['ingredientName'] as String
-                          ..quantity = i['quantity'] as String?;
-                        return mi;
-                      })
-                      .toList() ??
+              final mealIngredients =
+                  (item['ingredients'] as List?)?.map((i) {
+                    final mi = MealIngredient()
+                      ..ingredientId = i['ingredientId'] as int
+                      ..ingredientName = i['ingredientName'] as String
+                      ..quantity = i['quantity'] as String?;
+                    return mi;
+                  }).toList() ??
                   [];
 
               final meal = MealEntry()
@@ -413,15 +409,15 @@ class ImportService {
             final id = item['id'] as int;
             // Only add if not already present
             if (!existingIds.contains(id)) {
-              final linkedMealIds = (item['linkedMealIds'] as List?)
-                      ?.cast<int>()
-                      .toList() ??
-                  [];
+              final linkedMealIds =
+                  (item['linkedMealIds'] as List?)?.cast<int>().toList() ?? [];
 
               final rawGutPeace =
                   item['gutPeace'] as int? ?? (payloadVersion >= 2 ? 0 : 5);
-              final migratedGutPeace =
-                  _migrateGutPeace(rawGutPeace, payloadVersion);
+              final migratedGutPeace = _migrateGutPeace(
+                rawGutPeace,
+                payloadVersion,
+              );
               final entry = WellnessEntry()
                 ..id = id
                 ..recordedAt = DateTime.parse(item['recordedAt'] as String)
@@ -445,22 +441,20 @@ class ImportService {
       if (payload['mealTemplates'] is List) {
         final templates = payload['mealTemplates'] as List;
         final existingTemplates = await db.allMealTemplates();
-        final existingTemplateIds =
-            existingTemplates.map((t) => t.id).toSet();
+        final existingTemplateIds = existingTemplates.map((t) => t.id).toSet();
 
         for (final item in templates) {
           try {
             final id = item['id'] as int;
             if (!existingTemplateIds.contains(id)) {
-              final templateIngredients = (item['ingredients'] as List?)
-                      ?.map((i) {
-                        final mi = MealIngredient()
-                          ..ingredientId = i['ingredientId'] as int
-                          ..ingredientName = i['ingredientName'] as String
-                          ..quantity = i['quantity'] as String?;
-                        return mi;
-                      })
-                      .toList() ??
+              final templateIngredients =
+                  (item['ingredients'] as List?)?.map((i) {
+                    final mi = MealIngredient()
+                      ..ingredientId = i['ingredientId'] as int
+                      ..ingredientName = i['ingredientName'] as String
+                      ..quantity = i['quantity'] as String?;
+                    return mi;
+                  }).toList() ??
                   [];
 
               final template = MealTemplate()

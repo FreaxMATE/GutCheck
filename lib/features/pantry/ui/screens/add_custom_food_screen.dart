@@ -77,8 +77,7 @@ class _AddCustomFoodScreenState extends ConsumerState<AddCustomFoodScreen> {
   }
 
   /// Whether the user is currently typing in German.
-  bool get _isGerman =>
-      Localizations.localeOf(context).languageCode == 'de';
+  bool get _isGerman => Localizations.localeOf(context).languageCode == 'de';
 
   @override
   Widget build(BuildContext context) {
@@ -103,8 +102,9 @@ class _AddCustomFoodScreenState extends ConsumerState<AddCustomFoodScreen> {
                 prefixIcon: const Icon(Icons.fastfood_rounded),
               ),
               textCapitalization: TextCapitalization.words,
-              validator: (v) =>
-                  v == null || v.trim().isEmpty ? l10n.addFoodNameRequired : null,
+              validator: (v) => v == null || v.trim().isEmpty
+                  ? l10n.addFoodNameRequired
+                  : null,
             ),
             const SizedBox(height: 16),
 
@@ -119,8 +119,7 @@ class _AddCustomFoodScreenState extends ConsumerState<AddCustomFoodScreen> {
                     ? l10n.addFoodNameENHint
                     : l10n.addFoodNameDEHint,
                 prefixIcon: const Icon(Icons.translate_rounded),
-                helperText:
-                    _autoTranslated ? l10n.addFoodAutoTranslated : null,
+                helperText: _autoTranslated ? l10n.addFoodAutoTranslated : null,
               ),
               textCapitalization: TextCapitalization.words,
               onChanged: (_) {
@@ -139,16 +138,18 @@ class _AddCustomFoodScreenState extends ConsumerState<AddCustomFoodScreen> {
                 prefixIcon: const Icon(Icons.category_rounded),
               ),
               items: FoodCategory.values
-                  .map((cat) => DropdownMenuItem(
-                        value: cat,
-                        child: Row(
-                          children: [
-                            Icon(cat.icon, color: cat.color, size: 20),
-                            const SizedBox(width: 8),
-                            Text(cat.localizedName(l10n)),
-                          ],
-                        ),
-                      ))
+                  .map(
+                    (cat) => DropdownMenuItem(
+                      value: cat,
+                      child: Row(
+                        children: [
+                          Icon(cat.icon, color: cat.color, size: 20),
+                          const SizedBox(width: 8),
+                          Text(cat.localizedName(l10n)),
+                        ],
+                      ),
+                    ),
+                  )
                   .toList(),
               onChanged: (v) => setState(() => _category = v!),
             ),
@@ -160,9 +161,18 @@ class _AddCustomFoodScreenState extends ConsumerState<AddCustomFoodScreen> {
                 prefixIcon: const Icon(Icons.warning_amber_rounded),
               ),
               items: [
-                DropdownMenuItem(value: 'low', child: Text(l10n.addFoodFodmapLow)),
-                DropdownMenuItem(value: 'moderate', child: Text(l10n.addFoodFodmapModerate)),
-                DropdownMenuItem(value: 'high', child: Text(l10n.addFoodFodmapHigh)),
+                DropdownMenuItem(
+                  value: 'low',
+                  child: Text(l10n.addFoodFodmapLow),
+                ),
+                DropdownMenuItem(
+                  value: 'moderate',
+                  child: Text(l10n.addFoodFodmapModerate),
+                ),
+                DropdownMenuItem(
+                  value: 'high',
+                  child: Text(l10n.addFoodFodmapHigh),
+                ),
               ],
               onChanged: (v) => setState(() => _fodmapLevel = v!),
             ),

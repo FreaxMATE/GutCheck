@@ -16,7 +16,9 @@ class TimeFilterBar extends ConsumerWidget {
 
     return SegmentedButton<TimeFilter>(
       segments: TimeFilter.values
-          .map((f) => ButtonSegment(value: f, label: Text(f.localizedLabel(l10n))))
+          .map(
+            (f) => ButtonSegment(value: f, label: Text(f.localizedLabel(l10n))),
+          )
           .toList(),
       selected: {selected},
       onSelectionChanged: (s) =>

@@ -27,13 +27,12 @@ class ThemeModeNotifier extends StateNotifier<ThemeMode> {
     final value = mode == ThemeMode.light
         ? 'light'
         : mode == ThemeMode.dark
-            ? 'dark'
-            : 'system';
+        ? 'dark'
+        : 'system';
     await prefs.setString(_key, value);
   }
 }
 
-final themeModeProvider =
-    StateNotifierProvider<ThemeModeNotifier, ThemeMode>(
+final themeModeProvider = StateNotifierProvider<ThemeModeNotifier, ThemeMode>(
   (ref) => ThemeModeNotifier(),
 );

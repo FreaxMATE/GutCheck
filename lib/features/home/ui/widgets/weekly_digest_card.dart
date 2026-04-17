@@ -37,15 +37,17 @@ class WeeklyDigestCard extends ConsumerWidget {
               children: [
                 Row(
                   children: [
-                    const Icon(Icons.insights_rounded,
-                        color: Colors.deepPurple, size: 20),
+                    const Icon(
+                      Icons.insights_rounded,
+                      color: Colors.deepPurple,
+                      size: 20,
+                    ),
                     const SizedBox(width: 8),
                     Text(
                       l10n.weeklyDigestTitle,
-                      style: Theme.of(context)
-                          .textTheme
-                          .titleSmall
-                          ?.copyWith(fontWeight: FontWeight.w700),
+                      style: Theme.of(context).textTheme.titleSmall?.copyWith(
+                        fontWeight: FontWeight.w700,
+                      ),
                     ),
                   ],
                 ),
@@ -84,10 +86,9 @@ class WeeklyDigestCard extends ConsumerWidget {
                     l10n.weeklyDigestAvgScore(
                       '${WellnessDisplay.format(data.avgWellness!)}${WellnessDisplay.suffix}',
                     ),
-                    style: Theme.of(context)
-                        .textTheme
-                        .bodySmall
-                        ?.copyWith(color: Colors.grey),
+                    style: Theme.of(
+                      context,
+                    ).textTheme.bodySmall?.copyWith(color: Colors.grey),
                   ),
                 ],
               ],
@@ -108,7 +109,7 @@ class WeeklyDigestCard extends ConsumerWidget {
     final avg = wellness.isEmpty
         ? null
         : wellness.fold<double>(0, (a, w) => a + w.wellnessScore) /
-            wellness.length;
+              wellness.length;
 
     // Compute streak (consecutive days with any log).
     final days = <DateTime>{
@@ -185,7 +186,10 @@ class _CountTile extends ConsumerWidget {
             : Text(
                 value.toString(),
                 style: TextStyle(
-                    fontSize: 24, fontWeight: FontWeight.w800, color: color),
+                  fontSize: 24,
+                  fontWeight: FontWeight.w800,
+                  color: color,
+                ),
               ),
         Text(
           label,

@@ -34,21 +34,24 @@ class TimingAnalysisCard extends StatelessWidget {
           children: [
             Row(
               children: [
-                Icon(Icons.schedule_rounded,
-                    size: 20, color: theme.colorScheme.primary),
+                Icon(
+                  Icons.schedule_rounded,
+                  size: 20,
+                  color: theme.colorScheme.primary,
+                ),
                 const SizedBox(width: 8),
                 Text(
                   l10n.timingTitle,
-                  style: theme.textTheme.titleSmall
-                      ?.copyWith(fontWeight: FontWeight.w700),
+                  style: theme.textTheme.titleSmall?.copyWith(
+                    fontWeight: FontWeight.w700,
+                  ),
                 ),
               ],
             ),
             const SizedBox(height: 4),
             Text(
               l10n.timingSubtitle,
-              style: theme.textTheme.bodySmall
-                  ?.copyWith(color: Colors.grey),
+              style: theme.textTheme.bodySmall?.copyWith(color: Colors.grey),
             ),
             const SizedBox(height: 14),
 
@@ -59,7 +62,8 @@ class TimingAnalysisCard extends StatelessWidget {
             ],
 
             // Summary insights
-            if (analysis.bestBucket != null && analysis.worstBucket != null &&
+            if (analysis.bestBucket != null &&
+                analysis.worstBucket != null &&
                 analysis.bestBucket != analysis.worstBucket) ...[
               const Divider(height: 24),
               _InsightRow(
@@ -94,7 +98,8 @@ class TimingAnalysisCard extends StatelessWidget {
                     : Colors.green,
                 text: analysis.lateEatingPenalty! > 0.5
                     ? l10n.timingLateEatingBad(
-                        analysis.lateEatingPenalty!.toStringAsFixed(1))
+                        analysis.lateEatingPenalty!.toStringAsFixed(1),
+                      )
                     : l10n.timingLateEatingOk,
               ),
             ],
@@ -105,7 +110,8 @@ class TimingAnalysisCard extends StatelessWidget {
                 icon: Icons.timelapse_rounded,
                 color: Colors.blueGrey,
                 text: l10n.timingAvgGap(
-                    analysis.avgMealGapHours!.toStringAsFixed(1)),
+                  analysis.avgMealGapHours!.toStringAsFixed(1),
+                ),
               ),
             ],
           ],
@@ -171,8 +177,9 @@ class _TimingBar extends StatelessWidget {
           width: 32,
           child: Text(
             bucket.avgDiscomfort.toStringAsFixed(1),
-            style: theme.textTheme.labelSmall
-                ?.copyWith(fontWeight: FontWeight.w600),
+            style: theme.textTheme.labelSmall?.copyWith(
+              fontWeight: FontWeight.w600,
+            ),
             textAlign: TextAlign.right,
           ),
         ),
@@ -206,10 +213,9 @@ class _InsightRow extends StatelessWidget {
         Expanded(
           child: Text(
             text,
-            style: Theme.of(context)
-                .textTheme
-                .bodySmall
-                ?.copyWith(color: Colors.grey[700]),
+            style: Theme.of(
+              context,
+            ).textTheme.bodySmall?.copyWith(color: Colors.grey[700]),
           ),
         ),
       ],

@@ -27,9 +27,9 @@ class CategoryFilterChips extends ConsumerWidget {
               avatar: const Icon(Icons.person, size: 16),
               label: Text(l10n.pantryMyFoods),
               selected: customOnly,
-              onSelected: (_) => ref
-                  .read(pantryCustomOnlyProvider.notifier)
-                  .state = !customOnly,
+              onSelected: (_) =>
+                  ref.read(pantryCustomOnlyProvider.notifier).state =
+                      !customOnly,
             ),
           ),
           Padding(
@@ -41,19 +41,21 @@ class CategoryFilterChips extends ConsumerWidget {
                   ref.read(pantryCategoryFilterProvider.notifier).state = null,
             ),
           ),
-          ...FoodCategory.values.map((cat) => Padding(
-                padding: const EdgeInsets.only(right: 8),
-                child: FilterChip(
-                  avatar: Icon(cat.icon, size: 16, color: cat.color),
-                  label: Text(cat.localizedName(l10n)),
-                  selected: selected == cat,
-                  selectedColor: cat.color.withOpacity(0.2),
-                  checkmarkColor: cat.color,
-                  onSelected: (_) => ref
-                      .read(pantryCategoryFilterProvider.notifier)
-                      .state = selected == cat ? null : cat,
-                ),
-              )),
+          ...FoodCategory.values.map(
+            (cat) => Padding(
+              padding: const EdgeInsets.only(right: 8),
+              child: FilterChip(
+                avatar: Icon(cat.icon, size: 16, color: cat.color),
+                label: Text(cat.localizedName(l10n)),
+                selected: selected == cat,
+                selectedColor: cat.color.withOpacity(0.2),
+                checkmarkColor: cat.color,
+                onSelected: (_) =>
+                    ref.read(pantryCategoryFilterProvider.notifier).state =
+                        selected == cat ? null : cat,
+              ),
+            ),
+          ),
         ],
       ),
     );

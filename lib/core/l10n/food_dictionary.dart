@@ -10,8 +10,8 @@ class FoodDictionary {
   FoodDictionary._({
     required Map<String, String> enToDe,
     required Map<String, String> deToEn,
-  })  : _enToDe = enToDe,
-        _deToEn = deToEn;
+  }) : _enToDe = enToDe,
+       _deToEn = deToEn;
 
   final Map<String, String> _enToDe;
   final Map<String, String> _deToEn;
@@ -22,8 +22,7 @@ class FoodDictionary {
   static Future<FoodDictionary> load() async {
     if (_instance != null) return _instance!;
 
-    final raw =
-        await rootBundle.loadString('assets/seed/food_dictionary.json');
+    final raw = await rootBundle.loadString('assets/seed/food_dictionary.json');
     final json = jsonDecode(raw) as Map<String, dynamic>;
     final entries = (json['entries'] as List).cast<Map<String, dynamic>>();
 

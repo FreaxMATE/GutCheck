@@ -33,31 +33,15 @@ const IngredientSchema = CollectionSchema(
       name: r'fodmapLevel',
       type: IsarType.string,
     ),
-    r'isSeeded': PropertySchema(
-      id: 3,
-      name: r'isSeeded',
-      type: IsarType.bool,
-    ),
-    r'name': PropertySchema(
-      id: 4,
-      name: r'name',
-      type: IsarType.string,
-    ),
-    r'nameDE': PropertySchema(
-      id: 5,
-      name: r'nameDE',
-      type: IsarType.string,
-    ),
+    r'isSeeded': PropertySchema(id: 3, name: r'isSeeded', type: IsarType.bool),
+    r'name': PropertySchema(id: 4, name: r'name', type: IsarType.string),
+    r'nameDE': PropertySchema(id: 5, name: r'nameDE', type: IsarType.string),
     r'nameLower': PropertySchema(
       id: 6,
       name: r'nameLower',
       type: IsarType.string,
     ),
-    r'notes': PropertySchema(
-      id: 7,
-      name: r'notes',
-      type: IsarType.string,
-    ),
+    r'notes': PropertySchema(id: 7, name: r'notes', type: IsarType.string),
     r'photoPath': PropertySchema(
       id: 8,
       name: r'photoPath',
@@ -67,7 +51,7 @@ const IngredientSchema = CollectionSchema(
       id: 9,
       name: r'secondaryCategoryName',
       type: IsarType.string,
-    )
+    ),
   },
   estimateSize: _ingredientEstimateSize,
   serialize: _ingredientSerialize,
@@ -85,7 +69,7 @@ const IngredientSchema = CollectionSchema(
           name: r'name',
           type: IndexType.value,
           caseSensitive: false,
-        )
+        ),
       ],
     ),
     r'isSeeded': IndexSchema(
@@ -98,9 +82,9 @@ const IngredientSchema = CollectionSchema(
           name: r'isSeeded',
           type: IndexType.value,
           caseSensitive: false,
-        )
+        ),
       ],
-    )
+    ),
   },
   links: {},
   embeddedSchemas: {},
@@ -173,7 +157,7 @@ Ingredient _ingredientDeserialize(
   final object = Ingredient();
   object.category =
       _IngredientcategoryValueEnumMap[reader.readByteOrNull(offsets[0])] ??
-          FoodCategory.vegetable;
+      FoodCategory.vegetable;
   object.createdAt = reader.readDateTime(offsets[1]);
   object.fodmapLevel = reader.readString(offsets[2]);
   object.id = id;
@@ -196,7 +180,8 @@ P _ingredientDeserializeProp<P>(
   switch (propertyId) {
     case 0:
       return (_IngredientcategoryValueEnumMap[reader.readByteOrNull(offset)] ??
-          FoodCategory.vegetable) as P;
+              FoodCategory.vegetable)
+          as P;
     case 1:
       return (reader.readDateTime(offset)) as P;
     case 2:
@@ -288,10 +273,7 @@ extension IngredientQueryWhere
     on QueryBuilder<Ingredient, Ingredient, QWhereClause> {
   QueryBuilder<Ingredient, Ingredient, QAfterWhereClause> idEqualTo(Id id) {
     return QueryBuilder.apply(this, (query) {
-      return query.addWhereClause(IdWhereClause.between(
-        lower: id,
-        upper: id,
-      ));
+      return query.addWhereClause(IdWhereClause.between(lower: id, upper: id));
     });
   }
 
@@ -317,8 +299,10 @@ extension IngredientQueryWhere
     });
   }
 
-  QueryBuilder<Ingredient, Ingredient, QAfterWhereClause> idGreaterThan(Id id,
-      {bool include = false}) {
+  QueryBuilder<Ingredient, Ingredient, QAfterWhereClause> idGreaterThan(
+    Id id, {
+    bool include = false,
+  }) {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(
         IdWhereClause.greaterThan(lower: id, includeLower: include),
@@ -326,8 +310,10 @@ extension IngredientQueryWhere
     });
   }
 
-  QueryBuilder<Ingredient, Ingredient, QAfterWhereClause> idLessThan(Id id,
-      {bool include = false}) {
+  QueryBuilder<Ingredient, Ingredient, QAfterWhereClause> idLessThan(
+    Id id, {
+    bool include = false,
+  }) {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(
         IdWhereClause.lessThan(upper: id, includeUpper: include),
@@ -342,56 +328,67 @@ extension IngredientQueryWhere
     bool includeUpper = true,
   }) {
     return QueryBuilder.apply(this, (query) {
-      return query.addWhereClause(IdWhereClause.between(
-        lower: lowerId,
-        includeLower: includeLower,
-        upper: upperId,
-        includeUpper: includeUpper,
-      ));
+      return query.addWhereClause(
+        IdWhereClause.between(
+          lower: lowerId,
+          includeLower: includeLower,
+          upper: upperId,
+          includeUpper: includeUpper,
+        ),
+      );
     });
   }
 
   QueryBuilder<Ingredient, Ingredient, QAfterWhereClause> nameEqualTo(
-      String name) {
+    String name,
+  ) {
     return QueryBuilder.apply(this, (query) {
-      return query.addWhereClause(IndexWhereClause.equalTo(
-        indexName: r'name',
-        value: [name],
-      ));
+      return query.addWhereClause(
+        IndexWhereClause.equalTo(indexName: r'name', value: [name]),
+      );
     });
   }
 
   QueryBuilder<Ingredient, Ingredient, QAfterWhereClause> nameNotEqualTo(
-      String name) {
+    String name,
+  ) {
     return QueryBuilder.apply(this, (query) {
       if (query.whereSort == Sort.asc) {
         return query
-            .addWhereClause(IndexWhereClause.between(
-              indexName: r'name',
-              lower: [],
-              upper: [name],
-              includeUpper: false,
-            ))
-            .addWhereClause(IndexWhereClause.between(
-              indexName: r'name',
-              lower: [name],
-              includeLower: false,
-              upper: [],
-            ));
+            .addWhereClause(
+              IndexWhereClause.between(
+                indexName: r'name',
+                lower: [],
+                upper: [name],
+                includeUpper: false,
+              ),
+            )
+            .addWhereClause(
+              IndexWhereClause.between(
+                indexName: r'name',
+                lower: [name],
+                includeLower: false,
+                upper: [],
+              ),
+            );
       } else {
         return query
-            .addWhereClause(IndexWhereClause.between(
-              indexName: r'name',
-              lower: [name],
-              includeLower: false,
-              upper: [],
-            ))
-            .addWhereClause(IndexWhereClause.between(
-              indexName: r'name',
-              lower: [],
-              upper: [name],
-              includeUpper: false,
-            ));
+            .addWhereClause(
+              IndexWhereClause.between(
+                indexName: r'name',
+                lower: [name],
+                includeLower: false,
+                upper: [],
+              ),
+            )
+            .addWhereClause(
+              IndexWhereClause.between(
+                indexName: r'name',
+                lower: [],
+                upper: [name],
+                includeUpper: false,
+              ),
+            );
       }
     });
   }
@@ -401,12 +398,14 @@ extension IngredientQueryWhere
     bool include = false,
   }) {
     return QueryBuilder.apply(this, (query) {
-      return query.addWhereClause(IndexWhereClause.between(
-        indexName: r'name',
-        lower: [name],
-        includeLower: include,
-        upper: [],
-      ));
+      return query.addWhereClause(
+        IndexWhereClause.between(
+          indexName: r'name',
+          lower: [name],
+          includeLower: include,
+          upper: [],
+        ),
+      );
     });
   }
 
@@ -415,12 +414,14 @@ extension IngredientQueryWhere
     bool include = false,
   }) {
     return QueryBuilder.apply(this, (query) {
-      return query.addWhereClause(IndexWhereClause.between(
-        indexName: r'name',
-        lower: [],
-        upper: [name],
-        includeUpper: include,
-      ));
+      return query.addWhereClause(
+        IndexWhereClause.between(
+          indexName: r'name',
+          lower: [],
+          upper: [name],
+          includeUpper: include,
+        ),
+      );
     });
   }
 
@@ -431,33 +432,37 @@ extension IngredientQueryWhere
     bool includeUpper = true,
   }) {
     return QueryBuilder.apply(this, (query) {
-      return query.addWhereClause(IndexWhereClause.between(
-        indexName: r'name',
-        lower: [lowerName],
-        includeLower: includeLower,
-        upper: [upperName],
-        includeUpper: includeUpper,
-      ));
+      return query.addWhereClause(
+        IndexWhereClause.between(
+          indexName: r'name',
+          lower: [lowerName],
+          includeLower: includeLower,
+          upper: [upperName],
+          includeUpper: includeUpper,
+        ),
+      );
     });
   }
 
   QueryBuilder<Ingredient, Ingredient, QAfterWhereClause> nameStartsWith(
-      String NamePrefix) {
+    String NamePrefix,
+  ) {
     return QueryBuilder.apply(this, (query) {
-      return query.addWhereClause(IndexWhereClause.between(
-        indexName: r'name',
-        lower: [NamePrefix],
-        upper: ['$NamePrefix\u{FFFFF}'],
-      ));
+      return query.addWhereClause(
+        IndexWhereClause.between(
+          indexName: r'name',
+          lower: [NamePrefix],
+          upper: ['$NamePrefix\u{FFFFF}'],
+        ),
+      );
     });
   }
 
   QueryBuilder<Ingredient, Ingredient, QAfterWhereClause> nameIsEmpty() {
     return QueryBuilder.apply(this, (query) {
-      return query.addWhereClause(IndexWhereClause.equalTo(
-        indexName: r'name',
-        value: [''],
-      ));
+      return query.addWhereClause(
+        IndexWhereClause.equalTo(indexName: r'name', value: ['']),
+      );
     });
   }
 
@@ -465,69 +470,74 @@ extension IngredientQueryWhere
     return QueryBuilder.apply(this, (query) {
       if (query.whereSort == Sort.asc) {
         return query
-            .addWhereClause(IndexWhereClause.lessThan(
-              indexName: r'name',
-              upper: [''],
-            ))
-            .addWhereClause(IndexWhereClause.greaterThan(
-              indexName: r'name',
-              lower: [''],
-            ));
+            .addWhereClause(
+              IndexWhereClause.lessThan(indexName: r'name', upper: ['']),
+            )
+            .addWhereClause(
+              IndexWhereClause.greaterThan(indexName: r'name', lower: ['']),
+            );
       } else {
         return query
-            .addWhereClause(IndexWhereClause.greaterThan(
-              indexName: r'name',
-              lower: [''],
-            ))
-            .addWhereClause(IndexWhereClause.lessThan(
-              indexName: r'name',
-              upper: [''],
-            ));
+            .addWhereClause(
+              IndexWhereClause.greaterThan(indexName: r'name', lower: ['']),
+            )
+            .addWhereClause(
+              IndexWhereClause.lessThan(indexName: r'name', upper: ['']),
+            );
       }
     });
   }
 
   QueryBuilder<Ingredient, Ingredient, QAfterWhereClause> isSeededEqualTo(
-      bool isSeeded) {
+    bool isSeeded,
+  ) {
     return QueryBuilder.apply(this, (query) {
-      return query.addWhereClause(IndexWhereClause.equalTo(
-        indexName: r'isSeeded',
-        value: [isSeeded],
-      ));
+      return query.addWhereClause(
+        IndexWhereClause.equalTo(indexName: r'isSeeded', value: [isSeeded]),
+      );
     });
   }
 
   QueryBuilder<Ingredient, Ingredient, QAfterWhereClause> isSeededNotEqualTo(
-      bool isSeeded) {
+    bool isSeeded,
+  ) {
     return QueryBuilder.apply(this, (query) {
       if (query.whereSort == Sort.asc) {
         return query
-            .addWhereClause(IndexWhereClause.between(
-              indexName: r'isSeeded',
-              lower: [],
-              upper: [isSeeded],
-              includeUpper: false,
-            ))
-            .addWhereClause(IndexWhereClause.between(
-              indexName: r'isSeeded',
-              lower: [isSeeded],
-              includeLower: false,
-              upper: [],
-            ));
+            .addWhereClause(
+              IndexWhereClause.between(
+                indexName: r'isSeeded',
+                lower: [],
+                upper: [isSeeded],
+                includeUpper: false,
+              ),
+            )
+            .addWhereClause(
+              IndexWhereClause.between(
+                indexName: r'isSeeded',
+                lower: [isSeeded],
+                includeLower: false,
+                upper: [],
+              ),
+            );
       } else {
         return query
-            .addWhereClause(IndexWhereClause.between(
-              indexName: r'isSeeded',
-              lower: [isSeeded],
-              includeLower: false,
-              upper: [],
-            ))
-            .addWhereClause(IndexWhereClause.between(
-              indexName: r'isSeeded',
-              lower: [],
-              upper: [isSeeded],
-              includeUpper: false,
-            ));
+            .addWhereClause(
+              IndexWhereClause.between(
+                indexName: r'isSeeded',
+                lower: [isSeeded],
+                includeLower: false,
+                upper: [],
+              ),
+            )
+            .addWhereClause(
+              IndexWhereClause.between(
+                indexName: r'isSeeded',
+                lower: [],
+                upper: [isSeeded],
+                includeUpper: false,
+              ),
+            );
       }
     });
   }
@@ -536,26 +546,25 @@ extension IngredientQueryWhere
 extension IngredientQueryFilter
     on QueryBuilder<Ingredient, Ingredient, QFilterCondition> {
   QueryBuilder<Ingredient, Ingredient, QAfterFilterCondition> categoryEqualTo(
-      FoodCategory value) {
+    FoodCategory value,
+  ) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.equalTo(
-        property: r'category',
-        value: value,
-      ));
+      return query.addFilterCondition(
+        FilterCondition.equalTo(property: r'category', value: value),
+      );
     });
   }
 
   QueryBuilder<Ingredient, Ingredient, QAfterFilterCondition>
-      categoryGreaterThan(
-    FoodCategory value, {
-    bool include = false,
-  }) {
+  categoryGreaterThan(FoodCategory value, {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.greaterThan(
-        include: include,
-        property: r'category',
-        value: value,
-      ));
+      return query.addFilterCondition(
+        FilterCondition.greaterThan(
+          include: include,
+          property: r'category',
+          value: value,
+        ),
+      );
     });
   }
 
@@ -564,11 +573,13 @@ extension IngredientQueryFilter
     bool include = false,
   }) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.lessThan(
-        include: include,
-        property: r'category',
-        value: value,
-      ));
+      return query.addFilterCondition(
+        FilterCondition.lessThan(
+          include: include,
+          property: r'category',
+          value: value,
+        ),
+      );
     });
   }
 
@@ -579,37 +590,38 @@ extension IngredientQueryFilter
     bool includeUpper = true,
   }) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.between(
-        property: r'category',
-        lower: lower,
-        includeLower: includeLower,
-        upper: upper,
-        includeUpper: includeUpper,
-      ));
+      return query.addFilterCondition(
+        FilterCondition.between(
+          property: r'category',
+          lower: lower,
+          includeLower: includeLower,
+          upper: upper,
+          includeUpper: includeUpper,
+        ),
+      );
     });
   }
 
   QueryBuilder<Ingredient, Ingredient, QAfterFilterCondition> createdAtEqualTo(
-      DateTime value) {
+    DateTime value,
+  ) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.equalTo(
-        property: r'createdAt',
-        value: value,
-      ));
+      return query.addFilterCondition(
+        FilterCondition.equalTo(property: r'createdAt', value: value),
+      );
     });
   }
 
   QueryBuilder<Ingredient, Ingredient, QAfterFilterCondition>
-      createdAtGreaterThan(
-    DateTime value, {
-    bool include = false,
-  }) {
+  createdAtGreaterThan(DateTime value, {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.greaterThan(
-        include: include,
-        property: r'createdAt',
-        value: value,
-      ));
+      return query.addFilterCondition(
+        FilterCondition.greaterThan(
+          include: include,
+          property: r'createdAt',
+          value: value,
+        ),
+      );
     });
   }
 
@@ -618,11 +630,13 @@ extension IngredientQueryFilter
     bool include = false,
   }) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.lessThan(
-        include: include,
-        property: r'createdAt',
-        value: value,
-      ));
+      return query.addFilterCondition(
+        FilterCondition.lessThan(
+          include: include,
+          property: r'createdAt',
+          value: value,
+        ),
+      );
     });
   }
 
@@ -633,64 +647,69 @@ extension IngredientQueryFilter
     bool includeUpper = true,
   }) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.between(
-        property: r'createdAt',
-        lower: lower,
-        includeLower: includeLower,
-        upper: upper,
-        includeUpper: includeUpper,
-      ));
+      return query.addFilterCondition(
+        FilterCondition.between(
+          property: r'createdAt',
+          lower: lower,
+          includeLower: includeLower,
+          upper: upper,
+          includeUpper: includeUpper,
+        ),
+      );
     });
   }
 
   QueryBuilder<Ingredient, Ingredient, QAfterFilterCondition>
-      fodmapLevelEqualTo(
-    String value, {
-    bool caseSensitive = true,
-  }) {
+  fodmapLevelEqualTo(String value, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.equalTo(
-        property: r'fodmapLevel',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
+      return query.addFilterCondition(
+        FilterCondition.equalTo(
+          property: r'fodmapLevel',
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
     });
   }
 
   QueryBuilder<Ingredient, Ingredient, QAfterFilterCondition>
-      fodmapLevelGreaterThan(
-    String value, {
-    bool include = false,
-    bool caseSensitive = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.greaterThan(
-        include: include,
-        property: r'fodmapLevel',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<Ingredient, Ingredient, QAfterFilterCondition>
-      fodmapLevelLessThan(
+  fodmapLevelGreaterThan(
     String value, {
     bool include = false,
     bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.lessThan(
-        include: include,
-        property: r'fodmapLevel',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
+      return query.addFilterCondition(
+        FilterCondition.greaterThan(
+          include: include,
+          property: r'fodmapLevel',
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
     });
   }
 
   QueryBuilder<Ingredient, Ingredient, QAfterFilterCondition>
-      fodmapLevelBetween(
+  fodmapLevelLessThan(
+    String value, {
+    bool include = false,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.lessThan(
+          include: include,
+          property: r'fodmapLevel',
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Ingredient, Ingredient, QAfterFilterCondition>
+  fodmapLevelBetween(
     String lower,
     String upper, {
     bool includeLower = true,
@@ -698,94 +717,96 @@ extension IngredientQueryFilter
     bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.between(
-        property: r'fodmapLevel',
-        lower: lower,
-        includeLower: includeLower,
-        upper: upper,
-        includeUpper: includeUpper,
-        caseSensitive: caseSensitive,
-      ));
+      return query.addFilterCondition(
+        FilterCondition.between(
+          property: r'fodmapLevel',
+          lower: lower,
+          includeLower: includeLower,
+          upper: upper,
+          includeUpper: includeUpper,
+          caseSensitive: caseSensitive,
+        ),
+      );
     });
   }
 
   QueryBuilder<Ingredient, Ingredient, QAfterFilterCondition>
-      fodmapLevelStartsWith(
-    String value, {
-    bool caseSensitive = true,
-  }) {
+  fodmapLevelStartsWith(String value, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.startsWith(
-        property: r'fodmapLevel',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
+      return query.addFilterCondition(
+        FilterCondition.startsWith(
+          property: r'fodmapLevel',
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
     });
   }
 
   QueryBuilder<Ingredient, Ingredient, QAfterFilterCondition>
-      fodmapLevelEndsWith(
-    String value, {
-    bool caseSensitive = true,
-  }) {
+  fodmapLevelEndsWith(String value, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.endsWith(
-        property: r'fodmapLevel',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
+      return query.addFilterCondition(
+        FilterCondition.endsWith(
+          property: r'fodmapLevel',
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
     });
   }
 
   QueryBuilder<Ingredient, Ingredient, QAfterFilterCondition>
-      fodmapLevelContains(String value, {bool caseSensitive = true}) {
+  fodmapLevelContains(String value, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.contains(
-        property: r'fodmapLevel',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
+      return query.addFilterCondition(
+        FilterCondition.contains(
+          property: r'fodmapLevel',
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
     });
   }
 
   QueryBuilder<Ingredient, Ingredient, QAfterFilterCondition>
-      fodmapLevelMatches(String pattern, {bool caseSensitive = true}) {
+  fodmapLevelMatches(String pattern, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.matches(
-        property: r'fodmapLevel',
-        wildcard: pattern,
-        caseSensitive: caseSensitive,
-      ));
+      return query.addFilterCondition(
+        FilterCondition.matches(
+          property: r'fodmapLevel',
+          wildcard: pattern,
+          caseSensitive: caseSensitive,
+        ),
+      );
     });
   }
 
   QueryBuilder<Ingredient, Ingredient, QAfterFilterCondition>
-      fodmapLevelIsEmpty() {
+  fodmapLevelIsEmpty() {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.equalTo(
-        property: r'fodmapLevel',
-        value: '',
-      ));
+      return query.addFilterCondition(
+        FilterCondition.equalTo(property: r'fodmapLevel', value: ''),
+      );
     });
   }
 
   QueryBuilder<Ingredient, Ingredient, QAfterFilterCondition>
-      fodmapLevelIsNotEmpty() {
+  fodmapLevelIsNotEmpty() {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.greaterThan(
-        property: r'fodmapLevel',
-        value: '',
-      ));
+      return query.addFilterCondition(
+        FilterCondition.greaterThan(property: r'fodmapLevel', value: ''),
+      );
     });
   }
 
   QueryBuilder<Ingredient, Ingredient, QAfterFilterCondition> idEqualTo(
-      Id value) {
+    Id value,
+  ) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.equalTo(
-        property: r'id',
-        value: value,
-      ));
+      return query.addFilterCondition(
+        FilterCondition.equalTo(property: r'id', value: value),
+      );
     });
   }
 
@@ -794,11 +815,13 @@ extension IngredientQueryFilter
     bool include = false,
   }) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.greaterThan(
-        include: include,
-        property: r'id',
-        value: value,
-      ));
+      return query.addFilterCondition(
+        FilterCondition.greaterThan(
+          include: include,
+          property: r'id',
+          value: value,
+        ),
+      );
     });
   }
 
@@ -807,11 +830,13 @@ extension IngredientQueryFilter
     bool include = false,
   }) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.lessThan(
-        include: include,
-        property: r'id',
-        value: value,
-      ));
+      return query.addFilterCondition(
+        FilterCondition.lessThan(
+          include: include,
+          property: r'id',
+          value: value,
+        ),
+      );
     });
   }
 
@@ -822,23 +847,25 @@ extension IngredientQueryFilter
     bool includeUpper = true,
   }) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.between(
-        property: r'id',
-        lower: lower,
-        includeLower: includeLower,
-        upper: upper,
-        includeUpper: includeUpper,
-      ));
+      return query.addFilterCondition(
+        FilterCondition.between(
+          property: r'id',
+          lower: lower,
+          includeLower: includeLower,
+          upper: upper,
+          includeUpper: includeUpper,
+        ),
+      );
     });
   }
 
   QueryBuilder<Ingredient, Ingredient, QAfterFilterCondition> isSeededEqualTo(
-      bool value) {
+    bool value,
+  ) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.equalTo(
-        property: r'isSeeded',
-        value: value,
-      ));
+      return query.addFilterCondition(
+        FilterCondition.equalTo(property: r'isSeeded', value: value),
+      );
     });
   }
 
@@ -847,11 +874,13 @@ extension IngredientQueryFilter
     bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.equalTo(
-        property: r'name',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
+      return query.addFilterCondition(
+        FilterCondition.equalTo(
+          property: r'name',
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
     });
   }
 
@@ -861,12 +890,14 @@ extension IngredientQueryFilter
     bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.greaterThan(
-        include: include,
-        property: r'name',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
+      return query.addFilterCondition(
+        FilterCondition.greaterThan(
+          include: include,
+          property: r'name',
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
     });
   }
 
@@ -876,12 +907,14 @@ extension IngredientQueryFilter
     bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.lessThan(
-        include: include,
-        property: r'name',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
+      return query.addFilterCondition(
+        FilterCondition.lessThan(
+          include: include,
+          property: r'name',
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
     });
   }
 
@@ -893,14 +926,16 @@ extension IngredientQueryFilter
     bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.between(
-        property: r'name',
-        lower: lower,
-        includeLower: includeLower,
-        upper: upper,
-        includeUpper: includeUpper,
-        caseSensitive: caseSensitive,
-      ));
+      return query.addFilterCondition(
+        FilterCondition.between(
+          property: r'name',
+          lower: lower,
+          includeLower: includeLower,
+          upper: upper,
+          includeUpper: includeUpper,
+          caseSensitive: caseSensitive,
+        ),
+      );
     });
   }
 
@@ -909,11 +944,13 @@ extension IngredientQueryFilter
     bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.startsWith(
-        property: r'name',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
+      return query.addFilterCondition(
+        FilterCondition.startsWith(
+          property: r'name',
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
     });
   }
 
@@ -922,70 +959,76 @@ extension IngredientQueryFilter
     bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.endsWith(
-        property: r'name',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
+      return query.addFilterCondition(
+        FilterCondition.endsWith(
+          property: r'name',
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
     });
   }
 
   QueryBuilder<Ingredient, Ingredient, QAfterFilterCondition> nameContains(
-      String value,
-      {bool caseSensitive = true}) {
+    String value, {
+    bool caseSensitive = true,
+  }) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.contains(
-        property: r'name',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
+      return query.addFilterCondition(
+        FilterCondition.contains(
+          property: r'name',
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
     });
   }
 
   QueryBuilder<Ingredient, Ingredient, QAfterFilterCondition> nameMatches(
-      String pattern,
-      {bool caseSensitive = true}) {
+    String pattern, {
+    bool caseSensitive = true,
+  }) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.matches(
-        property: r'name',
-        wildcard: pattern,
-        caseSensitive: caseSensitive,
-      ));
+      return query.addFilterCondition(
+        FilterCondition.matches(
+          property: r'name',
+          wildcard: pattern,
+          caseSensitive: caseSensitive,
+        ),
+      );
     });
   }
 
   QueryBuilder<Ingredient, Ingredient, QAfterFilterCondition> nameIsEmpty() {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.equalTo(
-        property: r'name',
-        value: '',
-      ));
+      return query.addFilterCondition(
+        FilterCondition.equalTo(property: r'name', value: ''),
+      );
     });
   }
 
   QueryBuilder<Ingredient, Ingredient, QAfterFilterCondition> nameIsNotEmpty() {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.greaterThan(
-        property: r'name',
-        value: '',
-      ));
+      return query.addFilterCondition(
+        FilterCondition.greaterThan(property: r'name', value: ''),
+      );
     });
   }
 
   QueryBuilder<Ingredient, Ingredient, QAfterFilterCondition> nameDEIsNull() {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(const FilterCondition.isNull(
-        property: r'nameDE',
-      ));
+      return query.addFilterCondition(
+        const FilterCondition.isNull(property: r'nameDE'),
+      );
     });
   }
 
   QueryBuilder<Ingredient, Ingredient, QAfterFilterCondition>
-      nameDEIsNotNull() {
+  nameDEIsNotNull() {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(const FilterCondition.isNotNull(
-        property: r'nameDE',
-      ));
+      return query.addFilterCondition(
+        const FilterCondition.isNotNull(property: r'nameDE'),
+      );
     });
   }
 
@@ -994,11 +1037,13 @@ extension IngredientQueryFilter
     bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.equalTo(
-        property: r'nameDE',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
+      return query.addFilterCondition(
+        FilterCondition.equalTo(
+          property: r'nameDE',
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
     });
   }
 
@@ -1008,12 +1053,14 @@ extension IngredientQueryFilter
     bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.greaterThan(
-        include: include,
-        property: r'nameDE',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
+      return query.addFilterCondition(
+        FilterCondition.greaterThan(
+          include: include,
+          property: r'nameDE',
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
     });
   }
 
@@ -1023,12 +1070,14 @@ extension IngredientQueryFilter
     bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.lessThan(
-        include: include,
-        property: r'nameDE',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
+      return query.addFilterCondition(
+        FilterCondition.lessThan(
+          include: include,
+          property: r'nameDE',
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
     });
   }
 
@@ -1040,14 +1089,16 @@ extension IngredientQueryFilter
     bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.between(
-        property: r'nameDE',
-        lower: lower,
-        includeLower: includeLower,
-        upper: upper,
-        includeUpper: includeUpper,
-        caseSensitive: caseSensitive,
-      ));
+      return query.addFilterCondition(
+        FilterCondition.between(
+          property: r'nameDE',
+          lower: lower,
+          includeLower: includeLower,
+          upper: upper,
+          includeUpper: includeUpper,
+          caseSensitive: caseSensitive,
+        ),
+      );
     });
   }
 
@@ -1056,11 +1107,13 @@ extension IngredientQueryFilter
     bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.startsWith(
-        property: r'nameDE',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
+      return query.addFilterCondition(
+        FilterCondition.startsWith(
+          property: r'nameDE',
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
     });
   }
 
@@ -1069,54 +1122,60 @@ extension IngredientQueryFilter
     bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.endsWith(
-        property: r'nameDE',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
+      return query.addFilterCondition(
+        FilterCondition.endsWith(
+          property: r'nameDE',
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
     });
   }
 
   QueryBuilder<Ingredient, Ingredient, QAfterFilterCondition> nameDEContains(
-      String value,
-      {bool caseSensitive = true}) {
+    String value, {
+    bool caseSensitive = true,
+  }) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.contains(
-        property: r'nameDE',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
+      return query.addFilterCondition(
+        FilterCondition.contains(
+          property: r'nameDE',
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
     });
   }
 
   QueryBuilder<Ingredient, Ingredient, QAfterFilterCondition> nameDEMatches(
-      String pattern,
-      {bool caseSensitive = true}) {
+    String pattern, {
+    bool caseSensitive = true,
+  }) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.matches(
-        property: r'nameDE',
-        wildcard: pattern,
-        caseSensitive: caseSensitive,
-      ));
+      return query.addFilterCondition(
+        FilterCondition.matches(
+          property: r'nameDE',
+          wildcard: pattern,
+          caseSensitive: caseSensitive,
+        ),
+      );
     });
   }
 
   QueryBuilder<Ingredient, Ingredient, QAfterFilterCondition> nameDEIsEmpty() {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.equalTo(
-        property: r'nameDE',
-        value: '',
-      ));
+      return query.addFilterCondition(
+        FilterCondition.equalTo(property: r'nameDE', value: ''),
+      );
     });
   }
 
   QueryBuilder<Ingredient, Ingredient, QAfterFilterCondition>
-      nameDEIsNotEmpty() {
+  nameDEIsNotEmpty() {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.greaterThan(
-        property: r'nameDE',
-        value: '',
-      ));
+      return query.addFilterCondition(
+        FilterCondition.greaterThan(property: r'nameDE', value: ''),
+      );
     });
   }
 
@@ -1125,27 +1184,31 @@ extension IngredientQueryFilter
     bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.equalTo(
-        property: r'nameLower',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
+      return query.addFilterCondition(
+        FilterCondition.equalTo(
+          property: r'nameLower',
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
     });
   }
 
   QueryBuilder<Ingredient, Ingredient, QAfterFilterCondition>
-      nameLowerGreaterThan(
+  nameLowerGreaterThan(
     String value, {
     bool include = false,
     bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.greaterThan(
-        include: include,
-        property: r'nameLower',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
+      return query.addFilterCondition(
+        FilterCondition.greaterThan(
+          include: include,
+          property: r'nameLower',
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
     });
   }
 
@@ -1155,12 +1218,14 @@ extension IngredientQueryFilter
     bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.lessThan(
-        include: include,
-        property: r'nameLower',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
+      return query.addFilterCondition(
+        FilterCondition.lessThan(
+          include: include,
+          property: r'nameLower',
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
     });
   }
 
@@ -1172,28 +1237,29 @@ extension IngredientQueryFilter
     bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.between(
-        property: r'nameLower',
-        lower: lower,
-        includeLower: includeLower,
-        upper: upper,
-        includeUpper: includeUpper,
-        caseSensitive: caseSensitive,
-      ));
+      return query.addFilterCondition(
+        FilterCondition.between(
+          property: r'nameLower',
+          lower: lower,
+          includeLower: includeLower,
+          upper: upper,
+          includeUpper: includeUpper,
+          caseSensitive: caseSensitive,
+        ),
+      );
     });
   }
 
   QueryBuilder<Ingredient, Ingredient, QAfterFilterCondition>
-      nameLowerStartsWith(
-    String value, {
-    bool caseSensitive = true,
-  }) {
+  nameLowerStartsWith(String value, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.startsWith(
-        property: r'nameLower',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
+      return query.addFilterCondition(
+        FilterCondition.startsWith(
+          property: r'nameLower',
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
     });
   }
 
@@ -1202,71 +1268,77 @@ extension IngredientQueryFilter
     bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.endsWith(
-        property: r'nameLower',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
+      return query.addFilterCondition(
+        FilterCondition.endsWith(
+          property: r'nameLower',
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
     });
   }
 
   QueryBuilder<Ingredient, Ingredient, QAfterFilterCondition> nameLowerContains(
-      String value,
-      {bool caseSensitive = true}) {
+    String value, {
+    bool caseSensitive = true,
+  }) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.contains(
-        property: r'nameLower',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
+      return query.addFilterCondition(
+        FilterCondition.contains(
+          property: r'nameLower',
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
     });
   }
 
   QueryBuilder<Ingredient, Ingredient, QAfterFilterCondition> nameLowerMatches(
-      String pattern,
-      {bool caseSensitive = true}) {
+    String pattern, {
+    bool caseSensitive = true,
+  }) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.matches(
-        property: r'nameLower',
-        wildcard: pattern,
-        caseSensitive: caseSensitive,
-      ));
+      return query.addFilterCondition(
+        FilterCondition.matches(
+          property: r'nameLower',
+          wildcard: pattern,
+          caseSensitive: caseSensitive,
+        ),
+      );
     });
   }
 
   QueryBuilder<Ingredient, Ingredient, QAfterFilterCondition>
-      nameLowerIsEmpty() {
+  nameLowerIsEmpty() {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.equalTo(
-        property: r'nameLower',
-        value: '',
-      ));
+      return query.addFilterCondition(
+        FilterCondition.equalTo(property: r'nameLower', value: ''),
+      );
     });
   }
 
   QueryBuilder<Ingredient, Ingredient, QAfterFilterCondition>
-      nameLowerIsNotEmpty() {
+  nameLowerIsNotEmpty() {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.greaterThan(
-        property: r'nameLower',
-        value: '',
-      ));
+      return query.addFilterCondition(
+        FilterCondition.greaterThan(property: r'nameLower', value: ''),
+      );
     });
   }
 
   QueryBuilder<Ingredient, Ingredient, QAfterFilterCondition> notesIsNull() {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(const FilterCondition.isNull(
-        property: r'notes',
-      ));
+      return query.addFilterCondition(
+        const FilterCondition.isNull(property: r'notes'),
+      );
     });
   }
 
   QueryBuilder<Ingredient, Ingredient, QAfterFilterCondition> notesIsNotNull() {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(const FilterCondition.isNotNull(
-        property: r'notes',
-      ));
+      return query.addFilterCondition(
+        const FilterCondition.isNotNull(property: r'notes'),
+      );
     });
   }
 
@@ -1275,11 +1347,13 @@ extension IngredientQueryFilter
     bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.equalTo(
-        property: r'notes',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
+      return query.addFilterCondition(
+        FilterCondition.equalTo(
+          property: r'notes',
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
     });
   }
 
@@ -1289,12 +1363,14 @@ extension IngredientQueryFilter
     bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.greaterThan(
-        include: include,
-        property: r'notes',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
+      return query.addFilterCondition(
+        FilterCondition.greaterThan(
+          include: include,
+          property: r'notes',
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
     });
   }
 
@@ -1304,12 +1380,14 @@ extension IngredientQueryFilter
     bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.lessThan(
-        include: include,
-        property: r'notes',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
+      return query.addFilterCondition(
+        FilterCondition.lessThan(
+          include: include,
+          property: r'notes',
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
     });
   }
 
@@ -1321,14 +1399,16 @@ extension IngredientQueryFilter
     bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.between(
-        property: r'notes',
-        lower: lower,
-        includeLower: includeLower,
-        upper: upper,
-        includeUpper: includeUpper,
-        caseSensitive: caseSensitive,
-      ));
+      return query.addFilterCondition(
+        FilterCondition.between(
+          property: r'notes',
+          lower: lower,
+          includeLower: includeLower,
+          upper: upper,
+          includeUpper: includeUpper,
+          caseSensitive: caseSensitive,
+        ),
+      );
     });
   }
 
@@ -1337,11 +1417,13 @@ extension IngredientQueryFilter
     bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.startsWith(
-        property: r'notes',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
+      return query.addFilterCondition(
+        FilterCondition.startsWith(
+          property: r'notes',
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
     });
   }
 
@@ -1350,72 +1432,78 @@ extension IngredientQueryFilter
     bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.endsWith(
-        property: r'notes',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
+      return query.addFilterCondition(
+        FilterCondition.endsWith(
+          property: r'notes',
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
     });
   }
 
   QueryBuilder<Ingredient, Ingredient, QAfterFilterCondition> notesContains(
-      String value,
-      {bool caseSensitive = true}) {
+    String value, {
+    bool caseSensitive = true,
+  }) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.contains(
-        property: r'notes',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
+      return query.addFilterCondition(
+        FilterCondition.contains(
+          property: r'notes',
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
     });
   }
 
   QueryBuilder<Ingredient, Ingredient, QAfterFilterCondition> notesMatches(
-      String pattern,
-      {bool caseSensitive = true}) {
+    String pattern, {
+    bool caseSensitive = true,
+  }) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.matches(
-        property: r'notes',
-        wildcard: pattern,
-        caseSensitive: caseSensitive,
-      ));
+      return query.addFilterCondition(
+        FilterCondition.matches(
+          property: r'notes',
+          wildcard: pattern,
+          caseSensitive: caseSensitive,
+        ),
+      );
     });
   }
 
   QueryBuilder<Ingredient, Ingredient, QAfterFilterCondition> notesIsEmpty() {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.equalTo(
-        property: r'notes',
-        value: '',
-      ));
+      return query.addFilterCondition(
+        FilterCondition.equalTo(property: r'notes', value: ''),
+      );
     });
   }
 
   QueryBuilder<Ingredient, Ingredient, QAfterFilterCondition>
-      notesIsNotEmpty() {
+  notesIsNotEmpty() {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.greaterThan(
-        property: r'notes',
-        value: '',
-      ));
+      return query.addFilterCondition(
+        FilterCondition.greaterThan(property: r'notes', value: ''),
+      );
     });
   }
 
   QueryBuilder<Ingredient, Ingredient, QAfterFilterCondition>
-      photoPathIsNull() {
+  photoPathIsNull() {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(const FilterCondition.isNull(
-        property: r'photoPath',
-      ));
+      return query.addFilterCondition(
+        const FilterCondition.isNull(property: r'photoPath'),
+      );
     });
   }
 
   QueryBuilder<Ingredient, Ingredient, QAfterFilterCondition>
-      photoPathIsNotNull() {
+  photoPathIsNotNull() {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(const FilterCondition.isNotNull(
-        property: r'photoPath',
-      ));
+      return query.addFilterCondition(
+        const FilterCondition.isNotNull(property: r'photoPath'),
+      );
     });
   }
 
@@ -1424,27 +1512,31 @@ extension IngredientQueryFilter
     bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.equalTo(
-        property: r'photoPath',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
+      return query.addFilterCondition(
+        FilterCondition.equalTo(
+          property: r'photoPath',
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
     });
   }
 
   QueryBuilder<Ingredient, Ingredient, QAfterFilterCondition>
-      photoPathGreaterThan(
+  photoPathGreaterThan(
     String? value, {
     bool include = false,
     bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.greaterThan(
-        include: include,
-        property: r'photoPath',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
+      return query.addFilterCondition(
+        FilterCondition.greaterThan(
+          include: include,
+          property: r'photoPath',
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
     });
   }
 
@@ -1454,12 +1546,14 @@ extension IngredientQueryFilter
     bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.lessThan(
-        include: include,
-        property: r'photoPath',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
+      return query.addFilterCondition(
+        FilterCondition.lessThan(
+          include: include,
+          property: r'photoPath',
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
     });
   }
 
@@ -1471,28 +1565,29 @@ extension IngredientQueryFilter
     bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.between(
-        property: r'photoPath',
-        lower: lower,
-        includeLower: includeLower,
-        upper: upper,
-        includeUpper: includeUpper,
-        caseSensitive: caseSensitive,
-      ));
+      return query.addFilterCondition(
+        FilterCondition.between(
+          property: r'photoPath',
+          lower: lower,
+          includeLower: includeLower,
+          upper: upper,
+          includeUpper: includeUpper,
+          caseSensitive: caseSensitive,
+        ),
+      );
     });
   }
 
   QueryBuilder<Ingredient, Ingredient, QAfterFilterCondition>
-      photoPathStartsWith(
-    String value, {
-    bool caseSensitive = true,
-  }) {
+  photoPathStartsWith(String value, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.startsWith(
-        property: r'photoPath',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
+      return query.addFilterCondition(
+        FilterCondition.startsWith(
+          property: r'photoPath',
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
     });
   }
 
@@ -1501,124 +1596,133 @@ extension IngredientQueryFilter
     bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.endsWith(
-        property: r'photoPath',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
+      return query.addFilterCondition(
+        FilterCondition.endsWith(
+          property: r'photoPath',
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
     });
   }
 
   QueryBuilder<Ingredient, Ingredient, QAfterFilterCondition> photoPathContains(
-      String value,
-      {bool caseSensitive = true}) {
+    String value, {
+    bool caseSensitive = true,
+  }) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.contains(
-        property: r'photoPath',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
+      return query.addFilterCondition(
+        FilterCondition.contains(
+          property: r'photoPath',
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
     });
   }
 
   QueryBuilder<Ingredient, Ingredient, QAfterFilterCondition> photoPathMatches(
-      String pattern,
-      {bool caseSensitive = true}) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.matches(
-        property: r'photoPath',
-        wildcard: pattern,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<Ingredient, Ingredient, QAfterFilterCondition>
-      photoPathIsEmpty() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.equalTo(
-        property: r'photoPath',
-        value: '',
-      ));
-    });
-  }
-
-  QueryBuilder<Ingredient, Ingredient, QAfterFilterCondition>
-      photoPathIsNotEmpty() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.greaterThan(
-        property: r'photoPath',
-        value: '',
-      ));
-    });
-  }
-
-  QueryBuilder<Ingredient, Ingredient, QAfterFilterCondition>
-      secondaryCategoryNameIsNull() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(const FilterCondition.isNull(
-        property: r'secondaryCategoryName',
-      ));
-    });
-  }
-
-  QueryBuilder<Ingredient, Ingredient, QAfterFilterCondition>
-      secondaryCategoryNameIsNotNull() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(const FilterCondition.isNotNull(
-        property: r'secondaryCategoryName',
-      ));
-    });
-  }
-
-  QueryBuilder<Ingredient, Ingredient, QAfterFilterCondition>
-      secondaryCategoryNameEqualTo(
-    String? value, {
+    String pattern, {
     bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.equalTo(
-        property: r'secondaryCategoryName',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
+      return query.addFilterCondition(
+        FilterCondition.matches(
+          property: r'photoPath',
+          wildcard: pattern,
+          caseSensitive: caseSensitive,
+        ),
+      );
     });
   }
 
   QueryBuilder<Ingredient, Ingredient, QAfterFilterCondition>
-      secondaryCategoryNameGreaterThan(
-    String? value, {
-    bool include = false,
-    bool caseSensitive = true,
-  }) {
+  photoPathIsEmpty() {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.greaterThan(
-        include: include,
-        property: r'secondaryCategoryName',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
+      return query.addFilterCondition(
+        FilterCondition.equalTo(property: r'photoPath', value: ''),
+      );
     });
   }
 
   QueryBuilder<Ingredient, Ingredient, QAfterFilterCondition>
-      secondaryCategoryNameLessThan(
+  photoPathIsNotEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.greaterThan(property: r'photoPath', value: ''),
+      );
+    });
+  }
+
+  QueryBuilder<Ingredient, Ingredient, QAfterFilterCondition>
+  secondaryCategoryNameIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        const FilterCondition.isNull(property: r'secondaryCategoryName'),
+      );
+    });
+  }
+
+  QueryBuilder<Ingredient, Ingredient, QAfterFilterCondition>
+  secondaryCategoryNameIsNotNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        const FilterCondition.isNotNull(property: r'secondaryCategoryName'),
+      );
+    });
+  }
+
+  QueryBuilder<Ingredient, Ingredient, QAfterFilterCondition>
+  secondaryCategoryNameEqualTo(String? value, {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.equalTo(
+          property: r'secondaryCategoryName',
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Ingredient, Ingredient, QAfterFilterCondition>
+  secondaryCategoryNameGreaterThan(
     String? value, {
     bool include = false,
     bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.lessThan(
-        include: include,
-        property: r'secondaryCategoryName',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
+      return query.addFilterCondition(
+        FilterCondition.greaterThan(
+          include: include,
+          property: r'secondaryCategoryName',
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
     });
   }
 
   QueryBuilder<Ingredient, Ingredient, QAfterFilterCondition>
-      secondaryCategoryNameBetween(
+  secondaryCategoryNameLessThan(
+    String? value, {
+    bool include = false,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.lessThan(
+          include: include,
+          property: r'secondaryCategoryName',
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Ingredient, Ingredient, QAfterFilterCondition>
+  secondaryCategoryNameBetween(
     String? lower,
     String? upper, {
     bool includeLower = true,
@@ -1626,85 +1730,89 @@ extension IngredientQueryFilter
     bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.between(
-        property: r'secondaryCategoryName',
-        lower: lower,
-        includeLower: includeLower,
-        upper: upper,
-        includeUpper: includeUpper,
-        caseSensitive: caseSensitive,
-      ));
+      return query.addFilterCondition(
+        FilterCondition.between(
+          property: r'secondaryCategoryName',
+          lower: lower,
+          includeLower: includeLower,
+          upper: upper,
+          includeUpper: includeUpper,
+          caseSensitive: caseSensitive,
+        ),
+      );
     });
   }
 
   QueryBuilder<Ingredient, Ingredient, QAfterFilterCondition>
-      secondaryCategoryNameStartsWith(
-    String value, {
-    bool caseSensitive = true,
-  }) {
+  secondaryCategoryNameStartsWith(String value, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.startsWith(
-        property: r'secondaryCategoryName',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
+      return query.addFilterCondition(
+        FilterCondition.startsWith(
+          property: r'secondaryCategoryName',
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
     });
   }
 
   QueryBuilder<Ingredient, Ingredient, QAfterFilterCondition>
-      secondaryCategoryNameEndsWith(
-    String value, {
-    bool caseSensitive = true,
-  }) {
+  secondaryCategoryNameEndsWith(String value, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.endsWith(
-        property: r'secondaryCategoryName',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
+      return query.addFilterCondition(
+        FilterCondition.endsWith(
+          property: r'secondaryCategoryName',
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
     });
   }
 
   QueryBuilder<Ingredient, Ingredient, QAfterFilterCondition>
-      secondaryCategoryNameContains(String value, {bool caseSensitive = true}) {
+  secondaryCategoryNameContains(String value, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.contains(
-        property: r'secondaryCategoryName',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
+      return query.addFilterCondition(
+        FilterCondition.contains(
+          property: r'secondaryCategoryName',
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
     });
   }
 
   QueryBuilder<Ingredient, Ingredient, QAfterFilterCondition>
-      secondaryCategoryNameMatches(String pattern,
-          {bool caseSensitive = true}) {
+  secondaryCategoryNameMatches(String pattern, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.matches(
-        property: r'secondaryCategoryName',
-        wildcard: pattern,
-        caseSensitive: caseSensitive,
-      ));
+      return query.addFilterCondition(
+        FilterCondition.matches(
+          property: r'secondaryCategoryName',
+          wildcard: pattern,
+          caseSensitive: caseSensitive,
+        ),
+      );
     });
   }
 
   QueryBuilder<Ingredient, Ingredient, QAfterFilterCondition>
-      secondaryCategoryNameIsEmpty() {
+  secondaryCategoryNameIsEmpty() {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.equalTo(
-        property: r'secondaryCategoryName',
-        value: '',
-      ));
+      return query.addFilterCondition(
+        FilterCondition.equalTo(property: r'secondaryCategoryName', value: ''),
+      );
     });
   }
 
   QueryBuilder<Ingredient, Ingredient, QAfterFilterCondition>
-      secondaryCategoryNameIsNotEmpty() {
+  secondaryCategoryNameIsNotEmpty() {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.greaterThan(
-        property: r'secondaryCategoryName',
-        value: '',
-      ));
+      return query.addFilterCondition(
+        FilterCondition.greaterThan(
+          property: r'secondaryCategoryName',
+          value: '',
+        ),
+      );
     });
   }
 }
@@ -1826,14 +1934,14 @@ extension IngredientQuerySortBy
   }
 
   QueryBuilder<Ingredient, Ingredient, QAfterSortBy>
-      sortBySecondaryCategoryName() {
+  sortBySecondaryCategoryName() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'secondaryCategoryName', Sort.asc);
     });
   }
 
   QueryBuilder<Ingredient, Ingredient, QAfterSortBy>
-      sortBySecondaryCategoryNameDesc() {
+  sortBySecondaryCategoryNameDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'secondaryCategoryName', Sort.desc);
     });
@@ -1963,14 +2071,14 @@ extension IngredientQuerySortThenBy
   }
 
   QueryBuilder<Ingredient, Ingredient, QAfterSortBy>
-      thenBySecondaryCategoryName() {
+  thenBySecondaryCategoryName() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'secondaryCategoryName', Sort.asc);
     });
   }
 
   QueryBuilder<Ingredient, Ingredient, QAfterSortBy>
-      thenBySecondaryCategoryNameDesc() {
+  thenBySecondaryCategoryNameDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'secondaryCategoryName', Sort.desc);
     });
@@ -1991,8 +2099,9 @@ extension IngredientQueryWhereDistinct
     });
   }
 
-  QueryBuilder<Ingredient, Ingredient, QDistinct> distinctByFodmapLevel(
-      {bool caseSensitive = true}) {
+  QueryBuilder<Ingredient, Ingredient, QDistinct> distinctByFodmapLevel({
+    bool caseSensitive = true,
+  }) {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'fodmapLevel', caseSensitive: caseSensitive);
     });
@@ -2004,46 +2113,53 @@ extension IngredientQueryWhereDistinct
     });
   }
 
-  QueryBuilder<Ingredient, Ingredient, QDistinct> distinctByName(
-      {bool caseSensitive = true}) {
+  QueryBuilder<Ingredient, Ingredient, QDistinct> distinctByName({
+    bool caseSensitive = true,
+  }) {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'name', caseSensitive: caseSensitive);
     });
   }
 
-  QueryBuilder<Ingredient, Ingredient, QDistinct> distinctByNameDE(
-      {bool caseSensitive = true}) {
+  QueryBuilder<Ingredient, Ingredient, QDistinct> distinctByNameDE({
+    bool caseSensitive = true,
+  }) {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'nameDE', caseSensitive: caseSensitive);
     });
   }
 
-  QueryBuilder<Ingredient, Ingredient, QDistinct> distinctByNameLower(
-      {bool caseSensitive = true}) {
+  QueryBuilder<Ingredient, Ingredient, QDistinct> distinctByNameLower({
+    bool caseSensitive = true,
+  }) {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'nameLower', caseSensitive: caseSensitive);
     });
   }
 
-  QueryBuilder<Ingredient, Ingredient, QDistinct> distinctByNotes(
-      {bool caseSensitive = true}) {
+  QueryBuilder<Ingredient, Ingredient, QDistinct> distinctByNotes({
+    bool caseSensitive = true,
+  }) {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'notes', caseSensitive: caseSensitive);
     });
   }
 
-  QueryBuilder<Ingredient, Ingredient, QDistinct> distinctByPhotoPath(
-      {bool caseSensitive = true}) {
+  QueryBuilder<Ingredient, Ingredient, QDistinct> distinctByPhotoPath({
+    bool caseSensitive = true,
+  }) {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'photoPath', caseSensitive: caseSensitive);
     });
   }
 
   QueryBuilder<Ingredient, Ingredient, QDistinct>
-      distinctBySecondaryCategoryName({bool caseSensitive = true}) {
+  distinctBySecondaryCategoryName({bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
-      return query.addDistinctBy(r'secondaryCategoryName',
-          caseSensitive: caseSensitive);
+      return query.addDistinctBy(
+        r'secondaryCategoryName',
+        caseSensitive: caseSensitive,
+      );
     });
   }
 }
@@ -2111,7 +2227,7 @@ extension IngredientQueryProperty
   }
 
   QueryBuilder<Ingredient, String?, QQueryOperations>
-      secondaryCategoryNameProperty() {
+  secondaryCategoryNameProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'secondaryCategoryName');
     });

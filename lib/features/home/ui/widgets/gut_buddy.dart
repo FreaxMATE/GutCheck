@@ -13,11 +13,7 @@ class GutBuddy extends ConsumerStatefulWidget {
   final int? discomfort;
   final double size;
 
-  const GutBuddy({
-    super.key,
-    this.discomfort,
-    this.size = 120,
-  });
+  const GutBuddy({super.key, this.discomfort, this.size = 120});
 
   @override
   ConsumerState<GutBuddy> createState() => _GutBuddyState();
@@ -106,20 +102,19 @@ class _GutBuddyPainter extends CustomPainter {
       height: h * 0.72,
     );
     final bodyPath = Path()
-      ..addRRect(RRect.fromRectAndRadius(
-        bodyRect,
-        Radius.circular(w * 0.32),
-      ));
+      ..addRRect(RRect.fromRectAndRadius(bodyRect, Radius.circular(w * 0.32)));
     canvas.drawShadow(bodyPath, Colors.black.withValues(alpha: 0.15), 6, false);
     canvas.drawPath(bodyPath, Paint()..color = bodyColor);
 
     // Subtle highlight for body
     final highlight = Path()
-      ..addOval(Rect.fromCenter(
-        center: Offset(cx - w * 0.14, cy - h * 0.12),
-        width: w * 0.22,
-        height: h * 0.14,
-      ));
+      ..addOval(
+        Rect.fromCenter(
+          center: Offset(cx - w * 0.14, cy - h * 0.12),
+          width: w * 0.22,
+          height: h * 0.14,
+        ),
+      );
     canvas.drawPath(
       highlight,
       Paint()..color = Colors.white.withValues(alpha: 0.25),
@@ -140,9 +135,15 @@ class _GutBuddyPainter extends CustomPainter {
       for (final side in [-1, 1]) {
         final ex = cx + side * eyeDX;
         canvas.drawLine(
-            Offset(ex - 5, eyeY - 5), Offset(ex + 5, eyeY + 5), xPaint);
+          Offset(ex - 5, eyeY - 5),
+          Offset(ex + 5, eyeY + 5),
+          xPaint,
+        );
         canvas.drawLine(
-            Offset(ex - 5, eyeY + 5), Offset(ex + 5, eyeY - 5), xPaint);
+          Offset(ex - 5, eyeY + 5),
+          Offset(ex + 5, eyeY - 5),
+          xPaint,
+        );
       }
     } else {
       canvas.drawCircle(Offset(cx - eyeDX, eyeY), eyeRadius, eyePaint);
@@ -150,16 +151,15 @@ class _GutBuddyPainter extends CustomPainter {
       // Tiny white glint for liveliness (happy only)
       if (mood == _Mood.happy) {
         final glint = Paint()..color = Colors.white;
-        canvas.drawCircle(
-            Offset(cx - eyeDX + 1.5, eyeY - 1.5), 1.2, glint);
-        canvas.drawCircle(
-            Offset(cx + eyeDX + 1.5, eyeY - 1.5), 1.2, glint);
+        canvas.drawCircle(Offset(cx - eyeDX + 1.5, eyeY - 1.5), 1.2, glint);
+        canvas.drawCircle(Offset(cx + eyeDX + 1.5, eyeY - 1.5), 1.2, glint);
       }
     }
 
     // ── Cheeks (soft blush when happy) ────────────────────────────────────
     if (mood == _Mood.happy) {
-      final blush = Paint()..color = const Color(0xFFE8837B).withValues(alpha: 0.5);
+      final blush = Paint()
+        ..color = const Color(0xFFE8837B).withValues(alpha: 0.5);
       canvas.drawCircle(Offset(cx - w * 0.24, cy + h * 0.02), w * 0.05, blush);
       canvas.drawCircle(Offset(cx + w * 0.24, cy + h * 0.02), w * 0.05, blush);
     }
@@ -178,8 +178,10 @@ class _GutBuddyPainter extends CustomPainter {
       case _Mood.happy:
         mouthPath.moveTo(mouthCenter.dx - mouthWidth, mouthCenter.dy - 3);
         mouthPath.quadraticBezierTo(
-          mouthCenter.dx, mouthCenter.dy + mouthWidth * 0.55,
-          mouthCenter.dx + mouthWidth, mouthCenter.dy - 3,
+          mouthCenter.dx,
+          mouthCenter.dy + mouthWidth * 0.55,
+          mouthCenter.dx + mouthWidth,
+          mouthCenter.dy - 3,
         );
         break;
       case _Mood.neutral:
@@ -188,12 +190,15 @@ class _GutBuddyPainter extends CustomPainter {
         break;
       case _Mood.worried:
         // Small upside-down arc
-        mouthPath.moveTo(mouthCenter.dx - mouthWidth * 0.8,
-            mouthCenter.dy + mouthWidth * 0.25);
+        mouthPath.moveTo(
+          mouthCenter.dx - mouthWidth * 0.8,
+          mouthCenter.dy + mouthWidth * 0.25,
+        );
         mouthPath.quadraticBezierTo(
-          mouthCenter.dx, mouthCenter.dy - mouthWidth * 0.3,
+          mouthCenter.dx,
+          mouthCenter.dy - mouthWidth * 0.3,
           mouthCenter.dx + mouthWidth * 0.8,
-              mouthCenter.dy + mouthWidth * 0.25,
+          mouthCenter.dy + mouthWidth * 0.25,
         );
         break;
       case _Mood.miserable:
@@ -203,7 +208,8 @@ class _GutBuddyPainter extends CustomPainter {
         for (int i = 1; i <= 4; i++) {
           final x = mouthCenter.dx - mouthWidth + step * i;
           final y =
-              mouthCenter.dy + (i.isOdd ? mouthWidth * 0.18 : -mouthWidth * 0.18);
+              mouthCenter.dy +
+              (i.isOdd ? mouthWidth * 0.18 : -mouthWidth * 0.18);
           mouthPath.lineTo(x, y);
         }
         break;
@@ -215,10 +221,18 @@ class _GutBuddyPainter extends CustomPainter {
       final drop = Paint()..color = const Color(0xFF8FC8E6);
       final dropPath = Path()
         ..moveTo(cx + w * 0.34, cy - h * 0.14)
-        ..quadraticBezierTo(cx + w * 0.40, cy - h * 0.08,
-            cx + w * 0.34, cy - h * 0.04)
         ..quadraticBezierTo(
-            cx + w * 0.28, cy - h * 0.08, cx + w * 0.34, cy - h * 0.14)
+          cx + w * 0.40,
+          cy - h * 0.08,
+          cx + w * 0.34,
+          cy - h * 0.04,
+        )
+        ..quadraticBezierTo(
+          cx + w * 0.28,
+          cy - h * 0.08,
+          cx + w * 0.34,
+          cy - h * 0.14,
+        )
         ..close();
       canvas.drawPath(dropPath, drop);
     }

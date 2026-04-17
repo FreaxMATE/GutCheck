@@ -47,9 +47,8 @@ class WellnessDraftState {
   /// Convert display double (0.0-10.0) → storage int (0-20).
   static int toStored(double v) => (v * 2).round().clamp(0, 20);
 
-  double get liveScore => CorrelationEngine.computeWellnessScore(
-        gutPeace: toStored(gutPeace),
-      );
+  double get liveScore =>
+      CorrelationEngine.computeWellnessScore(gutPeace: toStored(gutPeace));
 }
 
 // ── Notifier ─────────────────────────────────────────────────────────────────
@@ -99,29 +98,27 @@ class WellnessDraftNotifier extends StateNotifier<WellnessDraftState> {
 
 final wellnessDraftProvider =
     StateNotifierProvider<WellnessDraftNotifier, WellnessDraftState>(
-  (ref) => WellnessDraftNotifier(ref),
-);
+      (ref) => WellnessDraftNotifier(ref),
+    );
 
 // ── History ──────────────────────────────────────────────────────────────────
 
-final wellnessHistoryProvider =
-    FutureProvider.autoDispose.family<List<WellnessEntry>, _DateRangeArg>(
-  (ref, arg) async {
-    final db = await ref.watch(appDatabaseProvider.future);
-    return db.wellnessInRange(from: arg.from, to: arg.to);
-  },
-);
+final wellnessHistoryProvider = FutureProvider.autoDispose
+    .family<List<WellnessEntry>, _DateRangeArg>((ref, arg) async {
+      final db = await ref.watch(appDatabaseProvider.future);
+      return db.wellnessInRange(from: arg.from, to: arg.to);
+    });
 
 /// All wellness entries for the last year, newest first.
 final wellnessAllHistoryProvider =
     FutureProvider.autoDispose<List<WellnessEntry>>((ref) async {
-  final db = await ref.watch(appDatabaseProvider.future);
-  final now = DateTime.now();
-  final from = DateTime(now.year - 1, now.month, now.day);
-  final to = DateTime(now.year, now.month, now.day + 1);
-  final entries = await db.wellnessInRange(from: from, to: to);
-  return entries.reversed.toList();
-});
+      final db = await ref.watch(appDatabaseProvider.future);
+      final now = DateTime.now();
+      final from = DateTime(now.year - 1, now.month, now.day);
+      final to = DateTime(now.year, now.month, now.day + 1);
+      final entries = await db.wellnessInRange(from: from, to: to);
+      return entries.reversed.toList();
+    });
 
 // ── History edit/delete notifier ─────────────────────────────────────────────
 
@@ -137,8 +134,8 @@ class WellnessHistoryNotifier extends StateNotifier<void> {
 
 final wellnessHistoryNotifierProvider =
     StateNotifierProvider<WellnessHistoryNotifier, void>(
-  (ref) => WellnessHistoryNotifier(ref),
-);
+      (ref) => WellnessHistoryNotifier(ref),
+    );
 
 class _DateRangeArg {
   final DateTime from;

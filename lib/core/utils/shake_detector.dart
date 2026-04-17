@@ -23,17 +23,23 @@ class ShakeDetector {
 
   void start() {
     _sub?.cancel();
-    _sub = accelerometerEventStream().listen((event) {
-      final magnitude =
-          sqrt(event.x * event.x + event.y * event.y + event.z * event.z);
-      if (magnitude > threshold) {
-        final now = DateTime.now();
-        if (now.difference(_lastFired) > debounce) {
-          _lastFired = now;
-          onShake();
+    _sub = accelerometerEventStream().listen(
+      (event) {
+        final magnitude = sqrt(
+          event.x * event.x + event.y * event.y + event.z * event.z,
+        );
+        if (magnitude > threshold) {
+          final now = DateTime.now();
+          if (now.difference(_lastFired) > debounce) {
+            _lastFired = now;
+            onShake();
+          }
         }
-      }
-    }, onError: (_) {/* sensor unavailable on desktop — no-op */});
+      },
+      onError: (_) {
+        /* sensor unavailable on desktop — no-op */
+      },
+    );
   }
 
   Future<void> stop() async {

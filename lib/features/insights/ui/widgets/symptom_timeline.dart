@@ -32,10 +32,10 @@ class SymptomTimeline extends StatelessWidget {
           child: Text(
             _formatDate(date, l10n),
             style: theme.textTheme.labelLarge?.copyWith(
-                  color: _isToday(date)
-                      ? theme.colorScheme.primary
-                      : Colors.grey[700],
-                ),
+              color: _isToday(date)
+                  ? theme.colorScheme.primary
+                  : Colors.grey[700],
+            ),
           ),
         ),
         SizedBox(
@@ -103,19 +103,15 @@ class _TimelinePainter extends CustomPainter {
     for (int hour = 0; hour <= 24; hour += 3) {
       final x = (hour / 24.0) * w;
       // Tick
-      canvas.drawLine(
-        Offset(x, axisY - 3),
-        Offset(x, axisY + 3),
-        axisPaint,
-      );
+      canvas.drawLine(Offset(x, axisY - 3), Offset(x, axisY + 3), axisPaint);
       // Label
       final label = hour == 0
           ? '0h'
           : hour == 12
-              ? '12h'
-              : hour == 24
-                  ? '24h'
-                  : '${hour}h';
+          ? '12h'
+          : hour == 24
+          ? '24h'
+          : '${hour}h';
       final tp = TextPainter(
         text: TextSpan(
           text: label,
@@ -128,20 +124,14 @@ class _TimelinePainter extends CustomPainter {
 
     // ── "Meals" label ────────────────────────────────────────────────────
     final mealLabelTp = TextPainter(
-      text: TextSpan(
-        text: '🍽️',
-        style: const TextStyle(fontSize: 11),
-      ),
+      text: TextSpan(text: '🍽️', style: const TextStyle(fontSize: 11)),
       textDirection: TextDirection.ltr,
     )..layout();
     mealLabelTp.paint(canvas, Offset(-2, mealY - mealLabelTp.height / 2));
 
     // ── "Wellness" label ─────────────────────────────────────────────────
     final wellLabelTp = TextPainter(
-      text: TextSpan(
-        text: '❤️',
-        style: const TextStyle(fontSize: 11),
-      ),
+      text: TextSpan(text: '❤️', style: const TextStyle(fontSize: 11)),
       textDirection: TextDirection.ltr,
     )..layout();
     wellLabelTp.paint(canvas, Offset(-2, wellnessY - wellLabelTp.height / 2));
@@ -164,29 +154,29 @@ class _TimelinePainter extends CustomPainter {
       );
 
       // Meal dot
-      canvas.drawCircle(
-        Offset(x, mealY),
-        6,
-        Paint()..color = mealColor,
-      );
+      canvas.drawCircle(Offset(x, mealY), 6, Paint()..color = mealColor);
 
       // Ingredient count inside dot
       final countTp = TextPainter(
         text: TextSpan(
           text: '${meal.ingredients.length}',
           style: const TextStyle(
-              fontSize: 8, color: Colors.white, fontWeight: FontWeight.bold),
+            fontSize: 8,
+            color: Colors.white,
+            fontWeight: FontWeight.bold,
+          ),
         ),
         textDirection: TextDirection.ltr,
       )..layout();
       countTp.paint(
-          canvas, Offset(x - countTp.width / 2, mealY - countTp.height / 2));
+        canvas,
+        Offset(x - countTp.width / 2, mealY - countTp.height / 2),
+      );
     }
 
     // ── Wellness dots ────────────────────────────────────────────────────
     for (final entry in wellness) {
-      final hour =
-          entry.recordedAt.hour + entry.recordedAt.minute / 60.0;
+      final hour = entry.recordedAt.hour + entry.recordedAt.minute / 60.0;
       final x = (hour / 24.0) * w;
       final score = entry.wellnessScore;
       final color = AppColors.wellnessScoreInterpolated(score);
@@ -201,11 +191,7 @@ class _TimelinePainter extends CustomPainter {
       );
 
       // Wellness dot
-      canvas.drawCircle(
-        Offset(x, wellnessY),
-        7,
-        Paint()..color = color,
-      );
+      canvas.drawCircle(Offset(x, wellnessY), 7, Paint()..color = color);
 
       // Display value
       final d = entry.gutPeaceDisplay;
@@ -213,18 +199,22 @@ class _TimelinePainter extends CustomPainter {
         text: TextSpan(
           text: d == d.roundToDouble() ? '${d.round()}' : d.toStringAsFixed(1),
           style: const TextStyle(
-              fontSize: 7, color: Colors.white, fontWeight: FontWeight.bold),
+            fontSize: 7,
+            color: Colors.white,
+            fontWeight: FontWeight.bold,
+          ),
         ),
         textDirection: TextDirection.ltr,
       )..layout();
       valTp.paint(
-          canvas, Offset(x - valTp.width / 2, wellnessY - valTp.height / 2));
+        canvas,
+        Offset(x - valTp.width / 2, wellnessY - valTp.height / 2),
+      );
     }
 
     // ── Connection lines: meal → nearest wellness ────────────────────────
     for (final meal in meals) {
-      final mealHour =
-          meal.consumedAt.hour + meal.consumedAt.minute / 60.0;
+      final mealHour = meal.consumedAt.hour + meal.consumedAt.minute / 60.0;
       final mealX = (mealHour / 24.0) * w;
 
       // Find wellness entries 2-12h after this meal.

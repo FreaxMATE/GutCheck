@@ -31,16 +31,16 @@ class MealLogNotifier extends AsyncNotifier<List<MealEntry>> {
   }
 }
 
-final mealLogProvider =
-    AsyncNotifierProvider<MealLogNotifier, List<MealEntry>>(
+final mealLogProvider = AsyncNotifierProvider<MealLogNotifier, List<MealEntry>>(
   MealLogNotifier.new,
 );
 
 // ── Recent history (last 14 days, newest first) ─────────────────────────────
 
 /// Returns meal entries for the last 14 days, newest-day first.
-final mealHistoryProvider =
-    FutureProvider.autoDispose<List<MealEntry>>((ref) async {
+final mealHistoryProvider = FutureProvider.autoDispose<List<MealEntry>>((
+  ref,
+) async {
   final db = await ref.watch(appDatabaseProvider.future);
   final now = DateTime.now();
   final from = DateTime(now.year, now.month, now.day - 13);
@@ -51,13 +51,11 @@ final mealHistoryProvider =
 
 // ── Range query (used by Insights) ─────────────────────────────────────────
 
-final mealsInRangeProvider =
-    FutureProvider.autoDispose.family<List<MealEntry>, _DateRangeArg>(
-  (ref, arg) async {
-    final db = await ref.watch(appDatabaseProvider.future);
-    return db.mealsInRange(from: arg.from, to: arg.to);
-  },
-);
+final mealsInRangeProvider = FutureProvider.autoDispose
+    .family<List<MealEntry>, _DateRangeArg>((ref, arg) async {
+      final db = await ref.watch(appDatabaseProvider.future);
+      return db.mealsInRange(from: arg.from, to: arg.to);
+    });
 
 class _DateRangeArg {
   final DateTime from;

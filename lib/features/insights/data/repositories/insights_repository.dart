@@ -15,7 +15,10 @@ class InsightsRepository {
 
     for (final e in entries) {
       final day = DateTime(
-          e.recordedAt.year, e.recordedAt.month, e.recordedAt.day);
+        e.recordedAt.year,
+        e.recordedAt.month,
+        e.recordedAt.day,
+      );
       groups.putIfAbsent(day, () => []).add(extract(e));
     }
 

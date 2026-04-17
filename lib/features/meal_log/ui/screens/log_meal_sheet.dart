@@ -23,7 +23,11 @@ class LogMealSheet extends ConsumerStatefulWidget {
   /// creates a new meal on save (used when applying a template).
   final bool isNewFromTemplate;
 
-  const LogMealSheet({super.key, this.initialEntry, this.isNewFromTemplate = false});
+  const LogMealSheet({
+    super.key,
+    this.initialEntry,
+    this.isNewFromTemplate = false,
+  });
 
   @override
   ConsumerState<LogMealSheet> createState() => _LogMealSheetState();
@@ -158,7 +162,8 @@ class _LogMealSheetState extends ConsumerState<LogMealSheet> {
                         ? const SizedBox(
                             width: 18,
                             height: 18,
-                            child: CircularProgressIndicator(strokeWidth: 2))
+                            child: CircularProgressIndicator(strokeWidth: 2),
+                          )
                         : Text(l10n.save),
                   ),
                 ],
@@ -171,14 +176,15 @@ class _LogMealSheetState extends ConsumerState<LogMealSheet> {
               padding: const EdgeInsets.symmetric(horizontal: 16),
               child: SegmentedButton<String>(
                 segments: _mealLabels
-                    .map((lbl) => ButtonSegment(
-                          value: lbl,
-                          label: Text(localizedMealLabel(lbl, l10n)),
-                        ))
+                    .map(
+                      (lbl) => ButtonSegment(
+                        value: lbl,
+                        label: Text(localizedMealLabel(lbl, l10n)),
+                      ),
+                    )
                     .toList(),
                 selected: {_mealLabel},
-                onSelectionChanged: (s) =>
-                    setState(() => _mealLabel = s.first),
+                onSelectionChanged: (s) => setState(() => _mealLabel = s.first),
               ),
             ),
             const SizedBox(height: 4),
@@ -234,9 +240,11 @@ class _LogMealSheetState extends ConsumerState<LogMealSheet> {
                     return Padding(
                       padding: const EdgeInsets.only(right: 6),
                       child: FilterChip(
-                        avatar: Icon(cat.icon,
-                            size: 16,
-                            color: selected ? null : cat.color),
+                        avatar: Icon(
+                          cat.icon,
+                          size: 16,
+                          color: selected ? null : cat.color,
+                        ),
                         label: Text(cat.localizedName(l10n)),
                         selected: selected,
                         onSelected: (_) => _selectCategory(cat),
@@ -259,8 +267,10 @@ class _LogMealSheetState extends ConsumerState<LogMealSheet> {
             if (_selectedIngredients.isNotEmpty) ...[
               const Divider(height: 1),
               Padding(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 16,
+                  vertical: 8,
+                ),
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -270,24 +280,28 @@ class _LogMealSheetState extends ConsumerState<LogMealSheet> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(l10n.logMealAdded,
-                              style:
-                                  Theme.of(context).textTheme.labelLarge),
+                          Text(
+                            l10n.logMealAdded,
+                            style: Theme.of(context).textTheme.labelLarge,
+                          ),
                           const SizedBox(height: 6),
                           Wrap(
                             spacing: 6,
                             runSpacing: 4,
                             children: _selectedIngredients
-                                .map((i) => MealIngredientChip(
-                                      item: i,
-                                      onDelete: () {
-                                        setState(() {
-                                          _selectedIngredients.remove(i);
-                                          _categoryByIngredientId
-                                              .remove(i.ingredientId);
-                                        });
-                                      },
-                                    ))
+                                .map(
+                                  (i) => MealIngredientChip(
+                                    item: i,
+                                    onDelete: () {
+                                      setState(() {
+                                        _selectedIngredients.remove(i);
+                                        _categoryByIngredientId.remove(
+                                          i.ingredientId,
+                                        );
+                                      });
+                                    },
+                                  ),
+                                )
                                 .toList(),
                           ),
                         ],
@@ -327,8 +341,9 @@ class _LogMealSheetState extends ConsumerState<LogMealSheet> {
       itemBuilder: (_, i) => _IngredientTile(
         ingredient: _browseResults[i],
         l10n: l10n,
-        isAdded: _selectedIngredients
-            .any((s) => s.ingredientId == _browseResults[i].id),
+        isAdded: _selectedIngredients.any(
+          (s) => s.ingredientId == _browseResults[i].id,
+        ),
         onTap: () => _toggleIngredient(_browseResults[i]),
       ),
     );
@@ -339,8 +354,7 @@ class _LogMealSheetState extends ConsumerState<LogMealSheet> {
       return const Center(child: CircularProgressIndicator());
     }
     if (_searchResults.isEmpty) {
-      return Center(
-          child: Text(l10n.pantryNoResults(_searchController.text)));
+      return Center(child: Text(l10n.pantryNoResults(_searchController.text)));
     }
     return ListView.builder(
       padding: const EdgeInsets.symmetric(horizontal: 4),
@@ -348,8 +362,9 @@ class _LogMealSheetState extends ConsumerState<LogMealSheet> {
       itemBuilder: (_, i) => _IngredientTile(
         ingredient: _searchResults[i],
         l10n: l10n,
-        isAdded: _selectedIngredients
-            .any((s) => s.ingredientId == _searchResults[i].id),
+        isAdded: _selectedIngredients.any(
+          (s) => s.ingredientId == _searchResults[i].id,
+        ),
         onTap: () => _toggleIngredient(_searchResults[i]),
       ),
     );
@@ -387,16 +402,20 @@ class _LogMealSheetState extends ConsumerState<LogMealSheet> {
 
   void _toggleIngredient(Ingredient ingredient) {
     setState(() {
-      final alreadyAdded =
-          _selectedIngredients.any((s) => s.ingredientId == ingredient.id);
+      final alreadyAdded = _selectedIngredients.any(
+        (s) => s.ingredientId == ingredient.id,
+      );
       if (alreadyAdded) {
-        _selectedIngredients
-            .removeWhere((s) => s.ingredientId == ingredient.id);
+        _selectedIngredients.removeWhere(
+          (s) => s.ingredientId == ingredient.id,
+        );
         _categoryByIngredientId.remove(ingredient.id);
       } else {
-        _selectedIngredients.add(MealIngredient()
-          ..ingredientId = ingredient.id
-          ..ingredientName = ingredient.name);
+        _selectedIngredients.add(
+          MealIngredient()
+            ..ingredientId = ingredient.id
+            ..ingredientName = ingredient.name,
+        );
         _categoryByIngredientId[ingredient.id] = ingredient.category;
         // Playful gurgle on add (opt-in, off by default).
         playGurgle(ref);
@@ -437,9 +456,9 @@ class _LogMealSheetState extends ConsumerState<LogMealSheet> {
   Future<void> _save() async {
     final l10n = AppLocalizations.of(context)!;
     if (_selectedIngredients.isEmpty) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(l10n.logMealValidation)),
-      );
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text(l10n.logMealValidation)));
       return;
     }
 
@@ -497,12 +516,11 @@ class _IngredientTile extends StatelessWidget {
     final fodmapColor = fodmap == 'low'
         ? Colors.green
         : fodmap == 'moderate'
-            ? Colors.orange
-            : Colors.red;
+        ? Colors.orange
+        : Colors.red;
 
     return ListTile(
-      leading:
-          Icon(ingredient.category.icon, color: ingredient.category.color),
+      leading: Icon(ingredient.category.icon, color: ingredient.category.color),
       title: Text(ingredient.localizedName(locale)),
       subtitle: Text(ingredient.category.localizedName(l10n)),
       trailing: Row(
@@ -517,9 +535,10 @@ class _IngredientTile extends StatelessWidget {
             child: Text(
               fodmap.toUpperCase(),
               style: TextStyle(
-                  fontSize: 10,
-                  fontWeight: FontWeight.w600,
-                  color: fodmapColor),
+                fontSize: 10,
+                fontWeight: FontWeight.w600,
+                color: fodmapColor,
+              ),
             ),
           ),
           const SizedBox(width: 8),

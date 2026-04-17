@@ -43,7 +43,7 @@ void main() {
       final scores = CorrelationEngine.computeImpactScores(
         meals: [],
         wellnessEntries: _fakeWellness(5),
-              );
+      );
       expect(scores, isEmpty);
     });
 
@@ -51,19 +51,19 @@ void main() {
       final scores = CorrelationEngine.computeImpactScores(
         meals: _fakeMeals(5, ingredientId: 1, name: 'Onion'),
         wellnessEntries: [],
-              );
+      );
       expect(scores, isEmpty);
     });
 
     test('returns empty list when fewer than 3 co-occurrences', () {
       final meals = _fakeMeals(2, ingredientId: 42, name: 'Garlic');
       final wellness = _fakeWellnessAt(
-          meals.map((m) => m.consumedAt.add(const Duration(hours: 4))).toList());
+        meals.map((m) => m.consumedAt.add(const Duration(hours: 4))).toList(),
+      );
 
       final scores = CorrelationEngine.computeImpactScores(
         meals: meals,
         wellnessEntries: wellness,
-
       );
       expect(scores, isEmpty);
     });
@@ -73,19 +73,21 @@ void main() {
       // Pearson r is undefined; the engine should return 0 and omit the result.
       final base = DateTime(2025, 1, 1, 12, 0);
       final meals = List.generate(
-          10,
-          (i) => _mealAt(
-              base.add(Duration(days: i)), ingredientId: 1, name: 'Onion'));
+        10,
+        (i) => _mealAt(
+          base.add(Duration(days: i)),
+          ingredientId: 1,
+          name: 'Onion',
+        ),
+      );
       final wellness = List.generate(
-          10,
-          (i) => _wellnessAt(
-              base.add(Duration(days: i, hours: 4)),
-              score: 20.0)); // constant — zero variance
+        10,
+        (i) => _wellnessAt(base.add(Duration(days: i, hours: 4)), score: 20.0),
+      ); // constant — zero variance
 
       final scores = CorrelationEngine.computeImpactScores(
         meals: meals,
         wellnessEntries: wellness,
-
       );
       // r=0 due to zero y-variance, so no impact score is returned.
       expect(scores, isEmpty);
@@ -98,20 +100,26 @@ void main() {
       final wellness = <WellnessEntry>[];
       for (int i = 0; i < 10; i++) {
         if (i.isEven) {
-          meals.add(_mealAt(base.add(Duration(days: i)),
-              ingredientId: 1, name: 'Garlic'));
+          meals.add(
+            _mealAt(
+              base.add(Duration(days: i)),
+              ingredientId: 1,
+              name: 'Garlic',
+            ),
+          );
         }
         // Wellness is low on days garlic was eaten 4h earlier, high otherwise
-        wellness.add(_wellnessAt(
-          base.add(Duration(days: i, hours: 4)),
-          score: i.isEven ? 20.0 : 80.0,
-        ));
+        wellness.add(
+          _wellnessAt(
+            base.add(Duration(days: i, hours: 4)),
+            score: i.isEven ? 20.0 : 80.0,
+          ),
+        );
       }
 
       final scores = CorrelationEngine.computeImpactScores(
         meals: meals,
         wellnessEntries: wellness,
-
       );
       // Should produce at least one impact score with a negative correlation
       if (scores.isNotEmpty) {
@@ -124,15 +132,27 @@ void main() {
 
 // ── Helpers ──────────────────────────────────────────────────────────────────
 
-List<MealEntry> _fakeMeals(int count,
-    {required int ingredientId, required String name}) {
+List<MealEntry> _fakeMeals(
+  int count, {
+  required int ingredientId,
+  required String name,
+}) {
   final base = DateTime(2025, 6, 1, 12, 0);
   return List.generate(
-      count, (i) => _mealAt(base.add(Duration(days: i)), ingredientId: ingredientId, name: name));
+    count,
+    (i) => _mealAt(
+      base.add(Duration(days: i)),
+      ingredientId: ingredientId,
+      name: name,
+    ),
+  );
 }
 
-MealEntry _mealAt(DateTime time,
-    {required int ingredientId, required String name}) {
+MealEntry _mealAt(
+  DateTime time, {
+  required int ingredientId,
+  required String name,
+}) {
   final entry = MealEntry()
     ..consumedAt = time
     ..mealLabel = 'Lunch'
@@ -148,9 +168,9 @@ MealEntry _mealAt(DateTime time,
 List<WellnessEntry> _fakeWellness(int count) {
   final base = DateTime(2025, 6, 1, 16, 0);
   return List.generate(
-      count,
-      (i) => _wellnessAt(base.add(Duration(days: i)),
-          score: 60.0 + (i % 3) * 10));
+    count,
+    (i) => _wellnessAt(base.add(Duration(days: i)), score: 60.0 + (i % 3) * 10),
+  );
 }
 
 List<WellnessEntry> _fakeWellnessAt(List<DateTime> times) {

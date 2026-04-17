@@ -35,7 +35,10 @@ class MealTemplatesSection extends ConsumerWidget {
               height: 100,
               child: ListView.builder(
                 scrollDirection: Axis.horizontal,
-                padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 12,
+                  vertical: 8,
+                ),
                 itemCount: templates.length + 1,
                 itemBuilder: (context, index) {
                   if (index == 0) {
@@ -58,10 +61,9 @@ class MealTemplatesSection extends ConsumerWidget {
                 padding: const EdgeInsets.fromLTRB(16, 0, 16, 8),
                 child: Text(
                   l10n.mealTemplatesEmpty,
-                  style: Theme.of(context)
-                      .textTheme
-                      .bodySmall
-                      ?.copyWith(color: Colors.grey),
+                  style: Theme.of(
+                    context,
+                  ).textTheme.bodySmall?.copyWith(color: Colors.grey),
                 ),
               ),
             const Divider(height: 1),
@@ -80,8 +82,12 @@ class MealTemplatesSection extends ConsumerWidget {
     ).then((_) => ref.invalidate(mealTemplateProvider));
   }
 
-  void _showTemplateOptions(BuildContext context, WidgetRef ref,
-      MealTemplate template, AppLocalizations l10n) {
+  void _showTemplateOptions(
+    BuildContext context,
+    WidgetRef ref,
+    MealTemplate template,
+    AppLocalizations l10n,
+  ) {
     showModalBottomSheet(
       context: context,
       builder: (ctx) => SafeArea(
@@ -97,15 +103,16 @@ class MealTemplatesSection extends ConsumerWidget {
                   context: context,
                   isScrollControlled: true,
                   useSafeArea: true,
-                  builder: (_) =>
-                      EditTemplateSheet(initialTemplate: template),
+                  builder: (_) => EditTemplateSheet(initialTemplate: template),
                 ).then((_) => ref.invalidate(mealTemplateProvider));
               },
             ),
             ListTile(
               leading: const Icon(Icons.delete_outline, color: Colors.red),
-              title: Text(l10n.mealTemplateDeleteTitle,
-                  style: const TextStyle(color: Colors.red)),
+              title: Text(
+                l10n.mealTemplateDeleteTitle,
+                style: const TextStyle(color: Colors.red),
+              ),
               onTap: () {
                 Navigator.pop(ctx);
                 _confirmDelete(context, ref, template, l10n);
@@ -117,8 +124,12 @@ class MealTemplatesSection extends ConsumerWidget {
     );
   }
 
-  Future<void> _confirmDelete(BuildContext context, WidgetRef ref,
-      MealTemplate template, AppLocalizations l10n) async {
+  Future<void> _confirmDelete(
+    BuildContext context,
+    WidgetRef ref,
+    MealTemplate template,
+    AppLocalizations l10n,
+  ) async {
     final confirmed = await showDialog<bool>(
       context: context,
       builder: (ctx) => AlertDialog(
@@ -126,8 +137,9 @@ class MealTemplatesSection extends ConsumerWidget {
         content: Text(l10n.mealTemplateDeleteContent),
         actions: [
           TextButton(
-              onPressed: () => Navigator.pop(ctx, false),
-              child: Text(l10n.cancel)),
+            onPressed: () => Navigator.pop(ctx, false),
+            child: Text(l10n.cancel),
+          ),
           FilledButton(
             style: FilledButton.styleFrom(backgroundColor: Colors.red),
             onPressed: () => Navigator.pop(ctx, true),
@@ -139,9 +151,9 @@ class MealTemplatesSection extends ConsumerWidget {
     if (confirmed == true) {
       await ref.read(mealTemplateProvider.notifier).deleteTemplate(template.id);
       if (context.mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text(l10n.mealTemplateDeleted)),
-        );
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text(l10n.mealTemplateDeleted)));
       }
     }
   }
@@ -168,14 +180,16 @@ class _NewTemplateCard extends StatelessWidget {
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  Icon(Icons.add_rounded,
-                      color: Theme.of(context).colorScheme.primary),
+                  Icon(
+                    Icons.add_rounded,
+                    color: Theme.of(context).colorScheme.primary,
+                  ),
                   const SizedBox(height: 4),
                   Text(
                     l10n.mealTemplateNew,
                     style: Theme.of(context).textTheme.labelSmall?.copyWith(
-                          color: Theme.of(context).colorScheme.primary,
-                        ),
+                      color: Theme.of(context).colorScheme.primary,
+                    ),
                     textAlign: TextAlign.center,
                   ),
                 ],
@@ -238,15 +252,18 @@ class _TemplateCard extends StatelessWidget {
                   if (template.mealLabel != null)
                     Text(
                       localizedMealLabel(template.mealLabel, l10n),
-                      style: theme.textTheme.bodySmall
-                          ?.copyWith(color: Colors.grey[600]),
+                      style: theme.textTheme.bodySmall?.copyWith(
+                        color: Colors.grey[600],
+                      ),
                     ),
                   const Spacer(),
                   Text(
                     l10n.mealTemplateIngredientCount(
-                        template.ingredients.length),
-                    style: theme.textTheme.bodySmall
-                        ?.copyWith(color: Colors.grey),
+                      template.ingredients.length,
+                    ),
+                    style: theme.textTheme.bodySmall?.copyWith(
+                      color: Colors.grey,
+                    ),
                   ),
                 ],
               ),

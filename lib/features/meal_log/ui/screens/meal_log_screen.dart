@@ -80,10 +80,9 @@ class _MealLogScreenState extends ConsumerState<MealLogScreen> {
             Text(l10n.mealLogTitle),
             Text(
               GutDateUtils.formatDay(DateTime.now()),
-              style: Theme.of(context)
-                  .textTheme
-                  .bodySmall
-                  ?.copyWith(color: Colors.grey),
+              style: Theme.of(
+                context,
+              ).textTheme.bodySmall?.copyWith(color: Colors.grey),
             ),
           ],
         ),
@@ -111,17 +110,18 @@ class _MealLogScreenState extends ConsumerState<MealLogScreen> {
                           mainAxisSize: MainAxisSize.min,
                           children: [
                             const PulseIcon(
-                                icon: Icons.restaurant_rounded, size: 64),
+                              icon: Icons.restaurant_rounded,
+                              size: 64,
+                            ),
                             const SizedBox(height: 16),
-                            Text(l10n.mealLogEmpty,
-                                style:
-                                    Theme.of(context).textTheme.titleMedium),
+                            Text(
+                              l10n.mealLogEmpty,
+                              style: Theme.of(context).textTheme.titleMedium,
+                            ),
                             const SizedBox(height: 8),
                             Text(
                               l10n.mealLogEmptyHint,
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .bodyMedium
+                              style: Theme.of(context).textTheme.bodyMedium
                                   ?.copyWith(color: Colors.grey),
                             ),
                           ],
@@ -137,33 +137,34 @@ class _MealLogScreenState extends ConsumerState<MealLogScreen> {
                           _jumpDay(forward: vx < 0);
                         },
                         child: ListView.builder(
-                        controller: _scrollController,
-                        padding: const EdgeInsets.only(top: 8, bottom: 80),
-                        itemCount: items.length,
-                        itemBuilder: (ctx, i) {
-                          final item = items[i];
-                          if (item is DateTime) {
+                          controller: _scrollController,
+                          padding: const EdgeInsets.only(top: 8, bottom: 80),
+                          itemCount: items.length,
+                          itemBuilder: (ctx, i) {
+                            final item = items[i];
+                            if (item is DateTime) {
+                              return StaggeredEntrance(
+                                index: i,
+                                baseDelay: const Duration(milliseconds: 25),
+                                child: _DateHeader(date: item),
+                              );
+                            }
+                            final entry = item as MealEntry;
                             return StaggeredEntrance(
                               index: i,
                               baseDelay: const Duration(milliseconds: 25),
-                              child: _DateHeader(date: item),
+                              child: MealEntryTile(
+                                entry: entry,
+                                onEdit: () => _editMeal(ctx, ref, entry),
+                                onDelete: () =>
+                                    _confirmDelete(ctx, ref, entry.id, l10n),
+                                onSaveAsTemplate: () =>
+                                    _saveAsTemplate(ctx, ref, entry),
+                              ),
                             );
-                          }
-                          final entry = item as MealEntry;
-                          return StaggeredEntrance(
-                            index: i,
-                            baseDelay: const Duration(milliseconds: 25),
-                            child: MealEntryTile(
-                              entry: entry,
-                              onEdit: () => _editMeal(ctx, ref, entry),
-                              onDelete: () =>
-                                  _confirmDelete(ctx, ref, entry.id, l10n),
-                              onSaveAsTemplate: () =>
-                                  _saveAsTemplate(ctx, ref, entry),
-                            ),
-                          );
-                        },
-                      )),
+                          },
+                        ),
+                      ),
               ),
             ],
           );
@@ -207,16 +208,21 @@ class _MealLogScreenState extends ConsumerState<MealLogScreen> {
   }
 
   void _applyTemplate(
-      BuildContext context, WidgetRef ref, MealTemplate template) {
+    BuildContext context,
+    WidgetRef ref,
+    MealTemplate template,
+  ) {
     // Build a prefill MealEntry from the template
     final prefill = MealEntry()
       ..mealLabel = template.mealLabel
       ..consumedAt = DateTime.now()
       ..ingredients = template.ingredients
-          .map((i) => MealIngredient()
-            ..ingredientId = i.ingredientId
-            ..ingredientName = i.ingredientName
-            ..quantity = i.quantity)
+          .map(
+            (i) => MealIngredient()
+              ..ingredientId = i.ingredientId
+              ..ingredientName = i.ingredientName
+              ..quantity = i.quantity,
+          )
           .toList();
 
     showModalBottomSheet(
@@ -228,16 +234,17 @@ class _MealLogScreenState extends ConsumerState<MealLogScreen> {
     ).then((_) => ref.invalidate(mealHistoryProvider));
   }
 
-  void _saveAsTemplate(
-      BuildContext context, WidgetRef ref, MealEntry entry) {
+  void _saveAsTemplate(BuildContext context, WidgetRef ref, MealEntry entry) {
     final prefill = MealTemplate()
       ..name = ''
       ..mealLabel = entry.mealLabel
       ..ingredients = entry.ingredients
-          .map((i) => MealIngredient()
-            ..ingredientId = i.ingredientId
-            ..ingredientName = i.ingredientName
-            ..quantity = i.quantity)
+          .map(
+            (i) => MealIngredient()
+              ..ingredientId = i.ingredientId
+              ..ingredientName = i.ingredientName
+              ..quantity = i.quantity,
+          )
           .toList();
 
     showModalBottomSheet(
@@ -257,8 +264,12 @@ class _MealLogScreenState extends ConsumerState<MealLogScreen> {
     ).then((_) => ref.invalidate(mealHistoryProvider));
   }
 
-  Future<void> _confirmDelete(BuildContext context, WidgetRef ref, int id,
-      AppLocalizations l10n) async {
+  Future<void> _confirmDelete(
+    BuildContext context,
+    WidgetRef ref,
+    int id,
+    AppLocalizations l10n,
+  ) async {
     final confirmed = await showDialog<bool>(
       context: context,
       builder: (ctx) {
@@ -268,8 +279,9 @@ class _MealLogScreenState extends ConsumerState<MealLogScreen> {
           content: Text(ctxL10n.mealDeleteContent),
           actions: [
             TextButton(
-                onPressed: () => Navigator.pop(ctx, false),
-                child: Text(ctxL10n.cancel)),
+              onPressed: () => Navigator.pop(ctx, false),
+              child: Text(ctxL10n.cancel),
+            ),
             FilledButton(
               style: FilledButton.styleFrom(backgroundColor: Colors.red),
               onPressed: () => Navigator.pop(ctx, true),
@@ -295,27 +307,25 @@ class _DateHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final now = DateTime.now();
-    final today =
-        DateTime(now.year, now.month, now.day) == date;
-    final yesterday =
-        DateTime(now.year, now.month, now.day - 1) == date;
+    final today = DateTime(now.year, now.month, now.day) == date;
+    final yesterday = DateTime(now.year, now.month, now.day - 1) == date;
 
     final l10n = AppLocalizations.of(context)!;
     final label = today
         ? '${l10n.dateToday} · ${GutDateUtils.formatDay(date)}'
         : yesterday
-            ? '${l10n.dateYesterday} · ${GutDateUtils.formatDay(date)}'
-            : GutDateUtils.formatDay(date);
+        ? '${l10n.dateYesterday} · ${GutDateUtils.formatDay(date)}'
+        : GutDateUtils.formatDay(date);
 
     return Padding(
       padding: const EdgeInsets.fromLTRB(16, 16, 16, 4),
       child: Text(
         label,
         style: Theme.of(context).textTheme.labelLarge?.copyWith(
-              color: today
-                  ? Theme.of(context).colorScheme.primary
-                  : Theme.of(context).colorScheme.onSurfaceVariant,
-            ),
+          color: today
+              ? Theme.of(context).colorScheme.primary
+              : Theme.of(context).colorScheme.onSurfaceVariant,
+        ),
       ),
     );
   }

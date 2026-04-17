@@ -23,9 +23,8 @@ class FoodImpactCard extends ConsumerWidget {
       margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
       child: InkWell(
         borderRadius: BorderRadius.circular(12),
-        onTap: () => ref
-            .read(selectedImpactScoreProvider.notifier)
-            .state = score,
+        onTap: () =>
+            ref.read(selectedImpactScoreProvider.notifier).state = score,
         child: Padding(
           padding: const EdgeInsets.all(16),
           child: Column(
@@ -53,9 +52,13 @@ class FoodImpactCard extends ConsumerWidget {
                   // Lag badge
                   Container(
                     padding: const EdgeInsets.symmetric(
-                        horizontal: 8, vertical: 2),
+                      horizontal: 8,
+                      vertical: 2,
+                    ),
                     decoration: BoxDecoration(
-                      color: Theme.of(context).colorScheme.surfaceContainerHighest,
+                      color: Theme.of(
+                        context,
+                      ).colorScheme.surfaceContainerHighest,
                       borderRadius: BorderRadius.circular(12),
                     ),
                     child: Text(
@@ -104,18 +107,16 @@ class FoodImpactCard extends ConsumerWidget {
               const SizedBox(height: 6),
               Text(
                 _localizedImpactSummary(score, l10n),
-                style: Theme.of(context)
-                    .textTheme
-                    .bodySmall
-                    ?.copyWith(color: Colors.grey[600]),
+                style: Theme.of(
+                  context,
+                ).textTheme.bodySmall?.copyWith(color: Colors.grey[600]),
               ),
               if (score.sampleCount < 10)
                 Padding(
                   padding: const EdgeInsets.only(top: 4),
                   child: Text(
                     l10n.impactDataPoints(score.sampleCount),
-                    style: TextStyle(
-                        fontSize: 10, color: Colors.orange[700]),
+                    style: TextStyle(fontSize: 10, color: Colors.orange[700]),
                   ),
                 ),
             ],
@@ -129,8 +130,7 @@ class FoodImpactCard extends ConsumerWidget {
 String _localizedImpactSummary(ImpactScore score, AppLocalizations l10n) {
   if (score.sampleCount < 3) return l10n.impactNotEnoughData;
   final pct = score.correlationPercent;
-  final direction =
-      score.isHarmful ? l10n.impactDrop : l10n.impactImprovement;
+  final direction = score.isHarmful ? l10n.impactDrop : l10n.impactImprovement;
   final lag = score.bestLagHours == 1
       ? l10n.impactOneHour
       : l10n.impactHours(score.bestLagHours);

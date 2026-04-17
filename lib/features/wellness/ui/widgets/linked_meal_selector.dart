@@ -16,7 +16,8 @@ class LinkedMealSelector extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final l10n = AppLocalizations.of(context)!;
     final linkedIds = ref.watch(
-        wellnessDraftProvider.select((s) => s.linkedMealIds));
+      wellnessDraftProvider.select((s) => s.linkedMealIds),
+    );
 
     return FutureBuilder(
       future: _loadRecentMeals(ref),
@@ -50,7 +51,9 @@ class LinkedMealSelector extends ConsumerWidget {
                 child: AnimatedContainer(
                   duration: const Duration(milliseconds: 150),
                   padding: const EdgeInsets.symmetric(
-                      horizontal: 12, vertical: 8),
+                    horizontal: 12,
+                    vertical: 8,
+                  ),
                   decoration: BoxDecoration(
                     color: isLinked
                         ? Theme.of(context).colorScheme.primaryContainer
@@ -79,10 +82,7 @@ class LinkedMealSelector extends ConsumerWidget {
                       ),
                       Text(
                         GutDateUtils.timeAgoLocalized(meal.consumedAt, l10n),
-                        style: TextStyle(
-                          fontSize: 11,
-                          color: Colors.grey[600],
-                        ),
+                        style: TextStyle(fontSize: 11, color: Colors.grey[600]),
                       ),
                       if (meal.ingredients.isNotEmpty)
                         _IngredientSummary(ingredients: meal.ingredients),
@@ -113,13 +113,15 @@ class _IngredientSummary extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final locale = Localizations.localeOf(context).languageCode;
     final preview = ingredients.take(2);
-    final names = preview.map((i) {
-      final async = ref.watch(singleIngredientProvider(i.ingredientId));
-      return async.maybeWhen(
-        data: (ing) => ing?.localizedName(locale) ?? i.ingredientName,
-        orElse: () => i.ingredientName,
-      );
-    }).join(', ');
+    final names = preview
+        .map((i) {
+          final async = ref.watch(singleIngredientProvider(i.ingredientId));
+          return async.maybeWhen(
+            data: (ing) => ing?.localizedName(locale) ?? i.ingredientName,
+            orElse: () => i.ingredientName,
+          );
+        })
+        .join(', ');
     return Text(
       names,
       style: const TextStyle(fontSize: 10, color: Colors.grey),

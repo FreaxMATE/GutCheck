@@ -12,11 +12,7 @@ class MealPlate extends StatelessWidget {
   final Map<FoodCategory, int> categoryCounts;
   final double size;
 
-  const MealPlate({
-    super.key,
-    required this.categoryCounts,
-    this.size = 90,
-  });
+  const MealPlate({super.key, required this.categoryCounts, this.size = 90});
 
   @override
   Widget build(BuildContext context) {
@@ -80,11 +76,14 @@ class _MealPlatePainter extends CustomPainter {
         ..style = PaintingStyle.stroke
         ..strokeWidth = 1.4;
       for (double a = 0; a < 2 * pi; a += pi / 8) {
-        final p1 = center +
-            Offset(cos(a) * (radius - 10), sin(a) * (radius - 10));
-        final p2 = center +
-            Offset(cos(a + pi / 16) * (radius - 10),
-                sin(a + pi / 16) * (radius - 10));
+        final p1 =
+            center + Offset(cos(a) * (radius - 10), sin(a) * (radius - 10));
+        final p2 =
+            center +
+            Offset(
+              cos(a + pi / 16) * (radius - 10),
+              sin(a + pi / 16) * (radius - 10),
+            );
         canvas.drawLine(p1, p2, dashPaint);
       }
       return;

@@ -62,7 +62,8 @@ class IsarAppDatabase implements AppDatabase {
       IngredientRepository(_isar).delete(id);
 
   @override
-  Future<List<Ingredient>> allIngredients() => IngredientRepository(_isar).all();
+  Future<List<Ingredient>> allIngredients() =>
+      IngredientRepository(_isar).all();
 
   @override
   Future<List<Ingredient>> allCustomIngredients() =>
@@ -77,8 +78,10 @@ class IsarAppDatabase implements AppDatabase {
       MealRepository(_isar).forDate(date);
 
   @override
-  Future<List<MealEntry>> mealsInRange({required DateTime from, required DateTime to}) =>
-      MealRepository(_isar).inRange(from: from, to: to);
+  Future<List<MealEntry>> mealsInRange({
+    required DateTime from,
+    required DateTime to,
+  }) => MealRepository(_isar).inRange(from: from, to: to);
 
   @override
   Future<MealEntry?> findMealById(int id) => MealRepository(_isar).findById(id);
@@ -119,8 +122,7 @@ class IsarAppDatabase implements AppDatabase {
   Future<List<WellnessEntry>> wellnessInRange({
     required DateTime from,
     required DateTime to,
-  }) =>
-      WellnessRepository(_isar).inRange(from: from, to: to);
+  }) => WellnessRepository(_isar).inRange(from: from, to: to);
 
   @override
   Future<WellnessEntry?> findWellnessById(int id) async {
@@ -181,10 +183,12 @@ class IsarAppDatabase implements AppDatabase {
 
 Future<AppDatabase> createAppDatabase() async {
   final dir = await getApplicationDocumentsDirectory();
-  final isar = await Isar.open(
-    [IngredientSchema, MealEntrySchema, MealTemplateSchema, WellnessEntrySchema],
-    directory: dir.path,
-  );
+  final isar = await Isar.open([
+    IngredientSchema,
+    MealEntrySchema,
+    MealTemplateSchema,
+    WellnessEntrySchema,
+  ], directory: dir.path);
   final db = IsarAppDatabase(isar);
   await db.seedIfNeeded();
   return db;

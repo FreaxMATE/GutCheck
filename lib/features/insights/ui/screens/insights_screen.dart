@@ -143,23 +143,26 @@ class _OverviewCard extends StatelessWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(title,
-                            style: theme.textTheme.titleMedium?.copyWith(
-                                fontWeight: FontWeight.w600)),
+                        Text(
+                          title,
+                          style: theme.textTheme.titleMedium?.copyWith(
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
                         const SizedBox(height: 2),
-                        Text(subtitle,
-                            style: theme.textTheme.bodySmall
-                                ?.copyWith(color: Colors.grey)),
+                        Text(
+                          subtitle,
+                          style: theme.textTheme.bodySmall?.copyWith(
+                            color: Colors.grey,
+                          ),
+                        ),
                       ],
                     ),
                   ),
                   const Icon(Icons.chevron_right, color: Colors.grey),
                 ],
               ),
-              if (preview != null) ...[
-                const SizedBox(height: 14),
-                preview!,
-              ],
+              if (preview != null) ...[const SizedBox(height: 14), preview!],
             ],
           ),
         ),
@@ -233,10 +236,14 @@ class _ImpactPreview extends ConsumerWidget {
     return scores.maybeWhen(
       data: (items) {
         if (items.isEmpty) return const _PreviewEmpty();
-        final harmful = items.firstWhere((s) => s.isHarmful,
-            orElse: () => items.first);
-        final beneficial = items.firstWhere((s) => !s.isHarmful,
-            orElse: () => items.first);
+        final harmful = items.firstWhere(
+          (s) => s.isHarmful,
+          orElse: () => items.first,
+        );
+        final beneficial = items.firstWhere(
+          (s) => !s.isHarmful,
+          orElse: () => items.first,
+        );
         final theme = Theme.of(context);
         return Column(
           children: [
@@ -290,8 +297,9 @@ class _MiniImpactRow extends StatelessWidget {
           child: LocalizedIngredientText(
             ingredientId: score.ingredientId,
             fallbackName: score.ingredientName,
-            style: theme.textTheme.bodyMedium
-                ?.copyWith(fontWeight: FontWeight.w600),
+            style: theme.textTheme.bodyMedium?.copyWith(
+              fontWeight: FontWeight.w600,
+            ),
           ),
         ),
         Text(
@@ -315,10 +323,9 @@ class _HeatmapPreview extends ConsumerWidget {
         if (items.isEmpty) return const _PreviewEmpty();
         return Text(
           l10n.insightsCardHeatmapStat(items.length),
-          style: Theme.of(context)
-              .textTheme
-              .bodySmall
-              ?.copyWith(color: Colors.grey),
+          style: Theme.of(
+            context,
+          ).textTheme.bodySmall?.copyWith(color: Colors.grey),
         );
       },
       orElse: () => const _PreviewLoading(),
@@ -356,10 +363,10 @@ class _FingerprintPreview extends ConsumerWidget {
             ),
             Text(
               top.value.dangerScore.toStringAsFixed(1),
-              style: Theme.of(context)
-                  .textTheme
-                  .bodySmall
-                  ?.copyWith(color: color, fontWeight: FontWeight.w700),
+              style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                color: color,
+                fontWeight: FontWeight.w700,
+              ),
             ),
           ],
         );
@@ -376,8 +383,9 @@ class _PreviewEmpty extends StatelessWidget {
     final l10n = AppLocalizations.of(context)!;
     return Text(
       l10n.insightsCardNoData,
-      style:
-          Theme.of(context).textTheme.bodySmall?.copyWith(color: Colors.grey),
+      style: Theme.of(
+        context,
+      ).textTheme.bodySmall?.copyWith(color: Colors.grey),
     );
   }
 }
@@ -435,15 +443,20 @@ class _DayView extends StatelessWidget {
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
     final today = DateTime(
-        DateTime.now().year, DateTime.now().month, DateTime.now().day);
+      DateTime.now().year,
+      DateTime.now().month,
+      DateTime.now().day,
+    );
     final score = scores[today];
 
     return Center(
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Text(GutDateUtils.formatDay(today),
-              style: Theme.of(context).textTheme.titleMedium),
+          Text(
+            GutDateUtils.formatDay(today),
+            style: Theme.of(context).textTheme.titleMedium,
+          ),
           const SizedBox(height: 20),
           Container(
             width: 140,
@@ -451,8 +464,9 @@ class _DayView extends StatelessWidget {
             decoration: BoxDecoration(
               shape: BoxShape.circle,
               color: score != null
-                  ? AppColors.wellnessScoreInterpolated(score)
-                      .withValues(alpha: 0.2)
+                  ? AppColors.wellnessScoreInterpolated(
+                      score,
+                    ).withValues(alpha: 0.2)
                   : Colors.grey.withValues(alpha: 0.1),
             ),
             child: Center(
@@ -475,9 +489,9 @@ class _DayView extends StatelessWidget {
                       WellnessDisplay.suffix,
                       style: TextStyle(
                         fontSize: 14,
-                        color:
-                            AppColors.wellnessScoreInterpolated(score)
-                                .withValues(alpha: 0.7),
+                        color: AppColors.wellnessScoreInterpolated(
+                          score,
+                        ).withValues(alpha: 0.7),
                       ),
                     ),
                 ],
@@ -487,10 +501,9 @@ class _DayView extends StatelessWidget {
           const SizedBox(height: 8),
           Text(
             score != null ? l10n.calendarDayScore : l10n.calendarDayNoData,
-            style: Theme.of(context)
-                .textTheme
-                .bodySmall
-                ?.copyWith(color: Colors.grey),
+            style: Theme.of(
+              context,
+            ).textTheme.bodySmall?.copyWith(color: Colors.grey),
           ),
         ],
       ),
@@ -524,7 +537,8 @@ class _WeekView extends StatelessWidget {
               final color = score != null
                   ? AppColors.wellnessScoreInterpolated(score)
                   : Colors.grey.withValues(alpha: 0.15);
-              final isToday = day.day == now.day &&
+              final isToday =
+                  day.day == now.day &&
                   day.month == now.month &&
                   day.year == now.year;
               return Expanded(
@@ -539,8 +553,9 @@ class _WeekView extends StatelessWidget {
                           color: isToday
                               ? Theme.of(context).colorScheme.primary
                               : Colors.grey,
-                          fontWeight:
-                              isToday ? FontWeight.bold : FontWeight.normal,
+                          fontWeight: isToday
+                              ? FontWeight.bold
+                              : FontWeight.normal,
                         ),
                       ),
                       const SizedBox(height: 6),
@@ -555,9 +570,9 @@ class _WeekView extends StatelessWidget {
                           borderRadius: BorderRadius.circular(8),
                           border: isToday
                               ? Border.all(
-                                  color:
-                                      Theme.of(context).colorScheme.primary,
-                                  width: 2)
+                                  color: Theme.of(context).colorScheme.primary,
+                                  width: 2,
+                                )
                               : null,
                         ),
                         child: Center(
@@ -621,15 +636,19 @@ class _YearView extends StatelessWidget {
   Widget build(BuildContext context) {
     final now = DateTime.now();
     final months = List.generate(
-        12, (i) => DateTime(now.year, now.month - 11 + i, 1));
+      12,
+      (i) => DateTime(now.year, now.month - 11 + i, 1),
+    );
 
     return ListView(
       padding: const EdgeInsets.symmetric(horizontal: 16),
       children: months
-          .map((m) => Padding(
-                padding: const EdgeInsets.only(bottom: 24),
-                child: CalendarHeatmap(dailyScores: scores, month: m),
-              ))
+          .map(
+            (m) => Padding(
+              padding: const EdgeInsets.only(bottom: 24),
+              child: CalendarHeatmap(dailyScores: scores, month: m),
+            ),
+          )
           .toList(),
     );
   }
@@ -665,10 +684,9 @@ class InsightsHeatmapView extends ConsumerWidget {
               const SizedBox(height: 4),
               Text(
                 l10n.heatmapFoodTimeLagDesc,
-                style: Theme.of(context)
-                    .textTheme
-                    .bodySmall
-                    ?.copyWith(color: Colors.grey),
+                style: Theme.of(
+                  context,
+                ).textTheme.bodySmall?.copyWith(color: Colors.grey),
               ),
               const SizedBox(height: 16),
               FoodCorrelationHeatmap(scores: items),
@@ -753,8 +771,12 @@ class InsightsFingerprintView extends ConsumerWidget {
 
         if (selectedId != null && fingerprints.containsKey(selectedId)) {
           final fp = fingerprints[selectedId]!;
-          final name =
-              _resolveIngredientName(ref, selectedId, fp.fallbackName, locale);
+          final name = _resolveIngredientName(
+            ref,
+            selectedId,
+            fp.fallbackName,
+            locale,
+          );
           return SingleChildScrollView(
             padding: const EdgeInsets.all(16),
             child: Column(
@@ -764,9 +786,11 @@ class InsightsFingerprintView extends ConsumerWidget {
                   child: TextButton.icon(
                     icon: const Icon(Icons.arrow_back),
                     label: Text(l10n.insightsScatterPrompt),
-                    onPressed: () => ref
-                        .read(selectedFingerprintFoodProvider.notifier)
-                        .state = null,
+                    onPressed: () =>
+                        ref
+                                .read(selectedFingerprintFoodProvider.notifier)
+                                .state =
+                            null,
                   ),
                 ),
                 const SizedBox(height: 8),
@@ -782,8 +806,12 @@ class InsightsFingerprintView extends ConsumerWidget {
           itemBuilder: (ctx, i) {
             final entry = sorted[i];
             final fp = entry.value;
-            final name =
-                _resolveIngredientName(ref, entry.key, fp.fallbackName, locale);
+            final name = _resolveIngredientName(
+              ref,
+              entry.key,
+              fp.fallbackName,
+              locale,
+            );
             final danger = fp.dangerScore;
             final color = Color.lerp(
               Colors.green,
@@ -808,9 +836,9 @@ class InsightsFingerprintView extends ConsumerWidget {
                     style: const TextStyle(fontSize: 12),
                   ),
                   trailing: const Icon(Icons.chevron_right),
-                  onTap: () => ref
-                      .read(selectedFingerprintFoodProvider.notifier)
-                      .state = entry.key,
+                  onTap: () =>
+                      ref.read(selectedFingerprintFoodProvider.notifier).state =
+                          entry.key,
                 ),
               ),
             );
@@ -861,22 +889,25 @@ class InsightsScatterView extends ConsumerWidget {
             children: [
               Text(
                 l10n.insightsScatterPrompt,
-                style: Theme.of(context)
-                    .textTheme
-                    .bodyMedium
-                    ?.copyWith(color: Colors.grey),
+                style: Theme.of(
+                  context,
+                ).textTheme.bodyMedium?.copyWith(color: Colors.grey),
               ),
               const SizedBox(height: 16),
-              ...items.take(5).map((s) => ListTile(
-                    title: LocalizedIngredientText(
-                      ingredientId: s.ingredientId,
-                      fallbackName: s.ingredientName,
+              ...items
+                  .take(5)
+                  .map(
+                    (s) => ListTile(
+                      title: LocalizedIngredientText(
+                        ingredientId: s.ingredientId,
+                        fallbackName: s.ingredientName,
+                      ),
+                      trailing: const Icon(Icons.chevron_right),
+                      onTap: () =>
+                          ref.read(selectedImpactScoreProvider.notifier).state =
+                              s,
                     ),
-                    trailing: const Icon(Icons.chevron_right),
-                    onTap: () => ref
-                        .read(selectedImpactScoreProvider.notifier)
-                        .state = s,
-                  )),
+                  ),
             ],
           );
         },
@@ -910,7 +941,7 @@ class InsightsScatterView extends ConsumerWidget {
                 final median = dailyScores.isEmpty
                     ? 50.0
                     : dailyScores.values.reduce((a, b) => a + b) /
-                        dailyScores.length;
+                          dailyScores.length;
                 final spots = CorrelationScatterPlot.buildSpots(
                   mealTimes: times,
                   dailyScores: dailyScores,
@@ -956,10 +987,9 @@ class InsightsEmptyState extends StatelessWidget {
             Text(
               message,
               textAlign: TextAlign.center,
-              style: Theme.of(context)
-                  .textTheme
-                  .bodyMedium
-                  ?.copyWith(color: Colors.grey),
+              style: Theme.of(
+                context,
+              ).textTheme.bodyMedium?.copyWith(color: Colors.grey),
             ),
           ],
         ),
@@ -1017,8 +1047,7 @@ class InsightsMetricToggleBar extends ConsumerWidget {
 String _localizedImpactSummary(ImpactScore score, AppLocalizations l10n) {
   if (score.sampleCount < 3) return l10n.impactNotEnoughData;
   final pct = score.correlationPercent;
-  final direction =
-      score.isHarmful ? l10n.impactDrop : l10n.impactImprovement;
+  final direction = score.isHarmful ? l10n.impactDrop : l10n.impactImprovement;
   final lag = score.bestZone.shortLabel;
   return l10n.impactSummary(pct, direction, lag);
 }

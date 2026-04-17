@@ -46,8 +46,7 @@ class SeedService {
 
     // Upsert the seeded set. Because IDs are deterministic, `putAll` updates
     // existing rows in place and preserves references from meals/templates.
-    final jsonStr =
-        await rootBundle.loadString('assets/seed/ingredients.json');
+    final jsonStr = await rootBundle.loadString('assets/seed/ingredients.json');
     final data = jsonDecode(jsonStr) as Map<String, dynamic>;
     final items = (data['ingredients'] as List)
         .map((e) => _fromJson(e as Map<String, dynamic>))
@@ -61,8 +60,10 @@ class SeedService {
           .filter()
           .isSeededEqualTo(true)
           .findAll();
-      final toDelete =
-          stale.where((s) => !newIds.contains(s.id)).map((s) => s.id).toList();
+      final toDelete = stale
+          .where((s) => !newIds.contains(s.id))
+          .map((s) => s.id)
+          .toList();
       if (toDelete.isNotEmpty) {
         await _isar.ingredients.deleteAll(toDelete);
       }

@@ -18,17 +18,27 @@ class DiarrheaToggle extends StatelessWidget {
     final theme = Theme.of(context);
     return Row(
       children: [
-        Icon(Icons.water_drop_rounded,
-            size: 20,
-            color: value ? Colors.blue : theme.colorScheme.onSurfaceVariant),
+        Icon(
+          Icons.water_drop_rounded,
+          size: 20,
+          color: value ? Colors.blue : theme.colorScheme.onSurfaceVariant,
+        ),
         const SizedBox(width: 12),
-        Expanded(
-          child: Text(label, style: theme.textTheme.bodyLarge),
+        Expanded(child: Text(label, style: theme.textTheme.bodyLarge)),
+        const SizedBox(width: 8),
+        _Chip(
+          label: 'No',
+          selected: !value,
+          color: Colors.green,
+          onTap: () => onChanged(false),
         ),
         const SizedBox(width: 8),
-        _Chip(label: 'No',  selected: !value, color: Colors.green, onTap: () => onChanged(false)),
-        const SizedBox(width: 8),
-        _Chip(label: 'Yes', selected: value,  color: Colors.red,   onTap: () => onChanged(true)),
+        _Chip(
+          label: 'Yes',
+          selected: value,
+          color: Colors.red,
+          onTap: () => onChanged(true),
+        ),
       ],
     );
   }

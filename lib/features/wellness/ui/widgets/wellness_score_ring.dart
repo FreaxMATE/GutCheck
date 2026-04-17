@@ -33,8 +33,7 @@ class WellnessScoreRing extends ConsumerWidget {
       height: size,
       child: TweenAnimationBuilder<double>(
         tween: Tween<double>(begin: 0, end: fraction),
-        duration:
-            enabled ? const Duration(milliseconds: 600) : Duration.zero,
+        duration: enabled ? const Duration(milliseconds: 600) : Duration.zero,
         curve: Curves.easeOutCubic,
         builder: (_, t, __) {
           return CustomPaint(

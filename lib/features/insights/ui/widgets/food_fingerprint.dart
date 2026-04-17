@@ -27,19 +27,22 @@ class FoodFingerprint extends StatelessWidget {
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
-        Text(foodName,
-            style:
-                theme.textTheme.titleSmall?.copyWith(fontWeight: FontWeight.w700)),
+        Text(
+          foodName,
+          style: theme.textTheme.titleSmall?.copyWith(
+            fontWeight: FontWeight.w700,
+          ),
+        ),
         const SizedBox(height: 4),
-        Text('${data.sampleCount} data points',
-            style: theme.textTheme.bodySmall?.copyWith(color: Colors.grey)),
+        Text(
+          '${data.sampleCount} data points',
+          style: theme.textTheme.bodySmall?.copyWith(color: Colors.grey),
+        ),
         const SizedBox(height: 8),
         SizedBox(
           width: size,
           height: size,
-          child: CustomPaint(
-            painter: _RadarPainter(data: data),
-          ),
+          child: CustomPaint(painter: _RadarPainter(data: data)),
         ),
       ],
     );
@@ -91,9 +94,11 @@ Map<int, FoodFingerprintData> computeFingerprints({
     final windowEnd = meal.consumedAt.add(const Duration(hours: 12));
 
     final matched = wellness
-        .where((w) =>
-            !w.recordedAt.isBefore(windowStart) &&
-            w.recordedAt.isBefore(windowEnd))
+        .where(
+          (w) =>
+              !w.recordedAt.isBefore(windowStart) &&
+              w.recordedAt.isBefore(windowEnd),
+        )
         .toList();
 
     if (matched.isEmpty) continue;
@@ -114,15 +119,15 @@ Map<int, FoodFingerprintData> computeFingerprints({
 
     final avgDiscomfort =
         entries.map((e) => e.gutPeaceDisplay).reduce((a, b) => a + b) /
-            entries.length;
+        entries.length;
     final avgHeartburn =
         entries.map((e) => e.heartburnDisplay).reduce((a, b) => a + b) /
-            entries.length;
+        entries.length;
     final diarrheaRate =
         entries.where((e) => e.diarrhea).length / entries.length * 10.0;
     final avgStress =
         entries.map((e) => e.stressDisplay).reduce((a, b) => a + b) /
-            entries.length;
+        entries.length;
 
     results[entry.key] = FoodFingerprintData(
       discomfort: avgDiscomfort,
@@ -176,7 +181,8 @@ class _RadarPainter extends CustomPainter {
       ..strokeWidth = 0.8;
     for (int i = 0; i < _axisCount; i++) {
       final angle = _angleFor(i);
-      final end = center + Offset(cos(angle) * maxRadius, sin(angle) * maxRadius);
+      final end =
+          center + Offset(cos(angle) * maxRadius, sin(angle) * maxRadius);
       canvas.drawLine(center, end, axisPaint);
     }
 
@@ -224,7 +230,8 @@ class _RadarPainter extends CustomPainter {
     // Axis labels.
     for (int i = 0; i < _axisCount; i++) {
       final angle = _angleFor(i);
-      final pos = center + Offset(cos(angle) * labelRadius, sin(angle) * labelRadius);
+      final pos =
+          center + Offset(cos(angle) * labelRadius, sin(angle) * labelRadius);
       final tp = TextPainter(
         text: TextSpan(
           text: _axisLabels[i],
@@ -236,8 +243,7 @@ class _RadarPainter extends CustomPainter {
     }
   }
 
-  double _angleFor(int index) =>
-      -pi / 2 + (2 * pi / _axisCount) * index;
+  double _angleFor(int index) => -pi / 2 + (2 * pi / _axisCount) * index;
 
   @override
   bool shouldRepaint(covariant _RadarPainter old) => old.data != data;

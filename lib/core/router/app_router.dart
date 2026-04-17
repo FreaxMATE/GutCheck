@@ -36,8 +36,7 @@ Page<T> _fadeThroughPage<T>(Widget child) {
           position: Tween<Offset>(
             begin: const Offset(0, 0.025),
             end: Offset.zero,
-          ).animate(
-              CurvedAnimation(parent: anim, curve: Curves.easeOutCubic)),
+          ).animate(CurvedAnimation(parent: anim, curve: Curves.easeOutCubic)),
           child: child,
         ),
       );
@@ -58,8 +57,7 @@ final appRouterProvider = Provider<GoRouter>((ref) {
         routes: [
           GoRoute(
             path: '/home',
-            pageBuilder: (c, s) =>
-                const NoTransitionPage(child: HomeScreen()),
+            pageBuilder: (c, s) => const NoTransitionPage(child: HomeScreen()),
           ),
           GoRoute(
             path: '/log',

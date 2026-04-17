@@ -88,9 +88,9 @@ class DevScreen extends ConsumerWidget {
       final latest = all.isEmpty ? null : all.last;
       if (!ctx.mounted) return;
       if (latest == null) {
-        ScaffoldMessenger.of(ctx).showSnackBar(
-          const SnackBar(content: Text('No wellness entries')),
-        );
+        ScaffoldMessenger.of(
+          ctx,
+        ).showSnackBar(const SnackBar(content: Text('No wellness entries')));
         return;
       }
       await showErrorDialog(
@@ -119,9 +119,9 @@ class DevScreen extends ConsumerWidget {
       final latest = all.isEmpty ? null : all.last;
       if (!ctx.mounted) return;
       if (latest == null) {
-        ScaffoldMessenger.of(ctx).showSnackBar(
-          const SnackBar(content: Text('No meal entries')),
-        );
+        ScaffoldMessenger.of(
+          ctx,
+        ).showSnackBar(const SnackBar(content: Text('No meal entries')));
         return;
       }
       await showErrorDialog(
@@ -131,11 +131,13 @@ class DevScreen extends ConsumerWidget {
           'consumedAt': latest.consumedAt.toIso8601String(),
           'mealLabel': latest.mealLabel,
           'ingredients': latest.ingredients
-              .map((i) => {
-                    'id': i.ingredientId,
-                    'name': i.ingredientName,
-                    'quantity': i.quantity,
-                  })
+              .map(
+                (i) => {
+                  'id': i.ingredientId,
+                  'name': i.ingredientName,
+                  'quantity': i.quantity,
+                },
+              )
               .toList(),
           'notes': latest.notes,
         }),
@@ -165,8 +167,10 @@ class _KVTile extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListTile(
       title: Text(k),
-      trailing: Text(v,
-          style: const TextStyle(fontFamily: 'monospace', fontSize: 14)),
+      trailing: Text(
+        v,
+        style: const TextStyle(fontFamily: 'monospace', fontSize: 14),
+      ),
       dense: true,
     );
   }
@@ -182,10 +186,9 @@ class _SectionHeader extends StatelessWidget {
       padding: const EdgeInsets.fromLTRB(16, 20, 16, 4),
       child: Text(
         text,
-        style: Theme.of(context)
-            .textTheme
-            .labelLarge
-            ?.copyWith(color: Theme.of(context).colorScheme.primary),
+        style: Theme.of(context).textTheme.labelLarge?.copyWith(
+          color: Theme.of(context).colorScheme.primary,
+        ),
       ),
     );
   }

@@ -27,7 +27,7 @@ const MealIngredientSchema = Schema(
       id: 2,
       name: r'quantity',
       type: IsarType.string,
-    )
+    ),
   },
   estimateSize: _mealIngredientEstimateSize,
   serialize: _mealIngredientSerialize,
@@ -96,109 +96,111 @@ P _mealIngredientDeserializeProp<P>(
 extension MealIngredientQueryFilter
     on QueryBuilder<MealIngredient, MealIngredient, QFilterCondition> {
   QueryBuilder<MealIngredient, MealIngredient, QAfterFilterCondition>
-      ingredientIdEqualTo(int value) {
+  ingredientIdEqualTo(int value) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.equalTo(
-        property: r'ingredientId',
-        value: value,
-      ));
+      return query.addFilterCondition(
+        FilterCondition.equalTo(property: r'ingredientId', value: value),
+      );
     });
   }
 
   QueryBuilder<MealIngredient, MealIngredient, QAfterFilterCondition>
-      ingredientIdGreaterThan(
-    int value, {
-    bool include = false,
-  }) {
+  ingredientIdGreaterThan(int value, {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.greaterThan(
-        include: include,
-        property: r'ingredientId',
-        value: value,
-      ));
+      return query.addFilterCondition(
+        FilterCondition.greaterThan(
+          include: include,
+          property: r'ingredientId',
+          value: value,
+        ),
+      );
     });
   }
 
   QueryBuilder<MealIngredient, MealIngredient, QAfterFilterCondition>
-      ingredientIdLessThan(
-    int value, {
-    bool include = false,
-  }) {
+  ingredientIdLessThan(int value, {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.lessThan(
-        include: include,
-        property: r'ingredientId',
-        value: value,
-      ));
+      return query.addFilterCondition(
+        FilterCondition.lessThan(
+          include: include,
+          property: r'ingredientId',
+          value: value,
+        ),
+      );
     });
   }
 
   QueryBuilder<MealIngredient, MealIngredient, QAfterFilterCondition>
-      ingredientIdBetween(
+  ingredientIdBetween(
     int lower,
     int upper, {
     bool includeLower = true,
     bool includeUpper = true,
   }) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.between(
-        property: r'ingredientId',
-        lower: lower,
-        includeLower: includeLower,
-        upper: upper,
-        includeUpper: includeUpper,
-      ));
+      return query.addFilterCondition(
+        FilterCondition.between(
+          property: r'ingredientId',
+          lower: lower,
+          includeLower: includeLower,
+          upper: upper,
+          includeUpper: includeUpper,
+        ),
+      );
     });
   }
 
   QueryBuilder<MealIngredient, MealIngredient, QAfterFilterCondition>
-      ingredientNameEqualTo(
-    String value, {
-    bool caseSensitive = true,
-  }) {
+  ingredientNameEqualTo(String value, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.equalTo(
-        property: r'ingredientName',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
+      return query.addFilterCondition(
+        FilterCondition.equalTo(
+          property: r'ingredientName',
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
     });
   }
 
   QueryBuilder<MealIngredient, MealIngredient, QAfterFilterCondition>
-      ingredientNameGreaterThan(
-    String value, {
-    bool include = false,
-    bool caseSensitive = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.greaterThan(
-        include: include,
-        property: r'ingredientName',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<MealIngredient, MealIngredient, QAfterFilterCondition>
-      ingredientNameLessThan(
+  ingredientNameGreaterThan(
     String value, {
     bool include = false,
     bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.lessThan(
-        include: include,
-        property: r'ingredientName',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
+      return query.addFilterCondition(
+        FilterCondition.greaterThan(
+          include: include,
+          property: r'ingredientName',
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
     });
   }
 
   QueryBuilder<MealIngredient, MealIngredient, QAfterFilterCondition>
-      ingredientNameBetween(
+  ingredientNameLessThan(
+    String value, {
+    bool include = false,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.lessThan(
+          include: include,
+          property: r'ingredientName',
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<MealIngredient, MealIngredient, QAfterFilterCondition>
+  ingredientNameBetween(
     String lower,
     String upper, {
     bool includeLower = true,
@@ -206,153 +208,158 @@ extension MealIngredientQueryFilter
     bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.between(
-        property: r'ingredientName',
-        lower: lower,
-        includeLower: includeLower,
-        upper: upper,
-        includeUpper: includeUpper,
-        caseSensitive: caseSensitive,
-      ));
+      return query.addFilterCondition(
+        FilterCondition.between(
+          property: r'ingredientName',
+          lower: lower,
+          includeLower: includeLower,
+          upper: upper,
+          includeUpper: includeUpper,
+          caseSensitive: caseSensitive,
+        ),
+      );
     });
   }
 
   QueryBuilder<MealIngredient, MealIngredient, QAfterFilterCondition>
-      ingredientNameStartsWith(
-    String value, {
-    bool caseSensitive = true,
-  }) {
+  ingredientNameStartsWith(String value, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.startsWith(
-        property: r'ingredientName',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
+      return query.addFilterCondition(
+        FilterCondition.startsWith(
+          property: r'ingredientName',
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
     });
   }
 
   QueryBuilder<MealIngredient, MealIngredient, QAfterFilterCondition>
-      ingredientNameEndsWith(
-    String value, {
-    bool caseSensitive = true,
-  }) {
+  ingredientNameEndsWith(String value, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.endsWith(
-        property: r'ingredientName',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
+      return query.addFilterCondition(
+        FilterCondition.endsWith(
+          property: r'ingredientName',
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
     });
   }
 
   QueryBuilder<MealIngredient, MealIngredient, QAfterFilterCondition>
-      ingredientNameContains(String value, {bool caseSensitive = true}) {
+  ingredientNameContains(String value, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.contains(
-        property: r'ingredientName',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
+      return query.addFilterCondition(
+        FilterCondition.contains(
+          property: r'ingredientName',
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
     });
   }
 
   QueryBuilder<MealIngredient, MealIngredient, QAfterFilterCondition>
-      ingredientNameMatches(String pattern, {bool caseSensitive = true}) {
+  ingredientNameMatches(String pattern, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.matches(
-        property: r'ingredientName',
-        wildcard: pattern,
-        caseSensitive: caseSensitive,
-      ));
+      return query.addFilterCondition(
+        FilterCondition.matches(
+          property: r'ingredientName',
+          wildcard: pattern,
+          caseSensitive: caseSensitive,
+        ),
+      );
     });
   }
 
   QueryBuilder<MealIngredient, MealIngredient, QAfterFilterCondition>
-      ingredientNameIsEmpty() {
+  ingredientNameIsEmpty() {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.equalTo(
-        property: r'ingredientName',
-        value: '',
-      ));
+      return query.addFilterCondition(
+        FilterCondition.equalTo(property: r'ingredientName', value: ''),
+      );
     });
   }
 
   QueryBuilder<MealIngredient, MealIngredient, QAfterFilterCondition>
-      ingredientNameIsNotEmpty() {
+  ingredientNameIsNotEmpty() {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.greaterThan(
-        property: r'ingredientName',
-        value: '',
-      ));
+      return query.addFilterCondition(
+        FilterCondition.greaterThan(property: r'ingredientName', value: ''),
+      );
     });
   }
 
   QueryBuilder<MealIngredient, MealIngredient, QAfterFilterCondition>
-      quantityIsNull() {
+  quantityIsNull() {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(const FilterCondition.isNull(
-        property: r'quantity',
-      ));
+      return query.addFilterCondition(
+        const FilterCondition.isNull(property: r'quantity'),
+      );
     });
   }
 
   QueryBuilder<MealIngredient, MealIngredient, QAfterFilterCondition>
-      quantityIsNotNull() {
+  quantityIsNotNull() {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(const FilterCondition.isNotNull(
-        property: r'quantity',
-      ));
+      return query.addFilterCondition(
+        const FilterCondition.isNotNull(property: r'quantity'),
+      );
     });
   }
 
   QueryBuilder<MealIngredient, MealIngredient, QAfterFilterCondition>
-      quantityEqualTo(
-    String? value, {
-    bool caseSensitive = true,
-  }) {
+  quantityEqualTo(String? value, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.equalTo(
-        property: r'quantity',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
+      return query.addFilterCondition(
+        FilterCondition.equalTo(
+          property: r'quantity',
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
     });
   }
 
   QueryBuilder<MealIngredient, MealIngredient, QAfterFilterCondition>
-      quantityGreaterThan(
-    String? value, {
-    bool include = false,
-    bool caseSensitive = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.greaterThan(
-        include: include,
-        property: r'quantity',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<MealIngredient, MealIngredient, QAfterFilterCondition>
-      quantityLessThan(
+  quantityGreaterThan(
     String? value, {
     bool include = false,
     bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.lessThan(
-        include: include,
-        property: r'quantity',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
+      return query.addFilterCondition(
+        FilterCondition.greaterThan(
+          include: include,
+          property: r'quantity',
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
     });
   }
 
   QueryBuilder<MealIngredient, MealIngredient, QAfterFilterCondition>
-      quantityBetween(
+  quantityLessThan(
+    String? value, {
+    bool include = false,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.lessThan(
+          include: include,
+          property: r'quantity',
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<MealIngredient, MealIngredient, QAfterFilterCondition>
+  quantityBetween(
     String? lower,
     String? upper, {
     bool includeLower = true,
@@ -360,84 +367,86 @@ extension MealIngredientQueryFilter
     bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.between(
-        property: r'quantity',
-        lower: lower,
-        includeLower: includeLower,
-        upper: upper,
-        includeUpper: includeUpper,
-        caseSensitive: caseSensitive,
-      ));
+      return query.addFilterCondition(
+        FilterCondition.between(
+          property: r'quantity',
+          lower: lower,
+          includeLower: includeLower,
+          upper: upper,
+          includeUpper: includeUpper,
+          caseSensitive: caseSensitive,
+        ),
+      );
     });
   }
 
   QueryBuilder<MealIngredient, MealIngredient, QAfterFilterCondition>
-      quantityStartsWith(
-    String value, {
-    bool caseSensitive = true,
-  }) {
+  quantityStartsWith(String value, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.startsWith(
-        property: r'quantity',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
+      return query.addFilterCondition(
+        FilterCondition.startsWith(
+          property: r'quantity',
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
     });
   }
 
   QueryBuilder<MealIngredient, MealIngredient, QAfterFilterCondition>
-      quantityEndsWith(
-    String value, {
-    bool caseSensitive = true,
-  }) {
+  quantityEndsWith(String value, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.endsWith(
-        property: r'quantity',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
+      return query.addFilterCondition(
+        FilterCondition.endsWith(
+          property: r'quantity',
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
     });
   }
 
   QueryBuilder<MealIngredient, MealIngredient, QAfterFilterCondition>
-      quantityContains(String value, {bool caseSensitive = true}) {
+  quantityContains(String value, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.contains(
-        property: r'quantity',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
+      return query.addFilterCondition(
+        FilterCondition.contains(
+          property: r'quantity',
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
     });
   }
 
   QueryBuilder<MealIngredient, MealIngredient, QAfterFilterCondition>
-      quantityMatches(String pattern, {bool caseSensitive = true}) {
+  quantityMatches(String pattern, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.matches(
-        property: r'quantity',
-        wildcard: pattern,
-        caseSensitive: caseSensitive,
-      ));
+      return query.addFilterCondition(
+        FilterCondition.matches(
+          property: r'quantity',
+          wildcard: pattern,
+          caseSensitive: caseSensitive,
+        ),
+      );
     });
   }
 
   QueryBuilder<MealIngredient, MealIngredient, QAfterFilterCondition>
-      quantityIsEmpty() {
+  quantityIsEmpty() {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.equalTo(
-        property: r'quantity',
-        value: '',
-      ));
+      return query.addFilterCondition(
+        FilterCondition.equalTo(property: r'quantity', value: ''),
+      );
     });
   }
 
   QueryBuilder<MealIngredient, MealIngredient, QAfterFilterCondition>
-      quantityIsNotEmpty() {
+  quantityIsNotEmpty() {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.greaterThan(
-        property: r'quantity',
-        value: '',
-      ));
+      return query.addFilterCondition(
+        FilterCondition.greaterThan(property: r'quantity', value: ''),
+      );
     });
   }
 }

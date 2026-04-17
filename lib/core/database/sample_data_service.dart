@@ -81,23 +81,40 @@ class SampleDataService {
       // Breakfast times vary by cycle so the 12 h lag window hits different
       // wellness entries across the three cycle types.
       final breakfastTime = DateTime(
-        date.year, date.month, date.day,
-        cycleDay == 1 ? 7 : 8,          // 07:00 / 08:00 / 08:00
-        cycleDay == 0 ? 30 : cycleDay == 1 ? 0 : 15, // :30 / :00 / :15
+        date.year,
+        date.month,
+        date.day,
+        cycleDay == 1 ? 7 : 8, // 07:00 / 08:00 / 08:00
+        cycleDay == 0
+            ? 30
+            : cycleDay == 1
+            ? 0
+            : 15, // :30 / :00 / :15
       );
       // Lunch times differ so lag windows 4 h and 6 h each get coverage.
       final lunchTime = DateTime(
-        date.year, date.month, date.day,
-        cycleDay == 0 ? 12 : 13,        // 12:xx / 13:xx / 13:xx
-        cycleDay == 0 ? 15 : cycleDay == 1 ? 0 : 30, // :15 / :00 / :30
+        date.year,
+        date.month,
+        date.day,
+        cycleDay == 0 ? 12 : 13, // 12:xx / 13:xx / 13:xx
+        cycleDay == 0
+            ? 15
+            : cycleDay == 1
+            ? 0
+            : 30, // :15 / :00 / :30
       );
-      final snackTime =
-          DateTime(date.year, date.month, date.day, 15, 30);
+      final snackTime = DateTime(date.year, date.month, date.day, 15, 30);
       // Dinner times vary so the 2 h post-dinner check falls in the right window.
       final dinnerTime = DateTime(
-        date.year, date.month, date.day,
-        cycleDay == 1 ? 18 : 19,        // 19:00 / 18:xx / 19:xx
-        cycleDay == 0 ? 0 : cycleDay == 1 ? 30 : 0,  // :00 / :30 / :00
+        date.year,
+        date.month,
+        date.day,
+        cycleDay == 1 ? 18 : 19, // 19:00 / 18:xx / 19:xx
+        cycleDay == 0
+            ? 0
+            : cycleDay == 1
+            ? 30
+            : 0, // :00 / :30 / :00
       );
 
       // Four wellness check-in times per day:
@@ -105,176 +122,284 @@ class SampleDataService {
       //   16:30  ~4 h after lunch  (captures 4 h lag)
       //   19:30  ~6–7 h after lunch (captures 6 h lag / 12 h after early breakfast)
       //   21:00  ~2 h after dinner  (captures 2 h lag / 8 h after lunch)
-      final morningWellness =
-          DateTime(date.year, date.month, date.day, 9, 0);
-      final postLunchWellness =
-          DateTime(date.year, date.month, date.day, 16, 30);
-      final eveningWellness =
-          DateTime(date.year, date.month, date.day, 19, 30);
-      final postDinnerWellness =
-          DateTime(date.year, date.month, date.day, 21, 0);
+      final morningWellness = DateTime(date.year, date.month, date.day, 9, 0);
+      final postLunchWellness = DateTime(
+        date.year,
+        date.month,
+        date.day,
+        16,
+        30,
+      );
+      final eveningWellness = DateTime(date.year, date.month, date.day, 19, 30);
+      final postDinnerWellness = DateTime(
+        date.year,
+        date.month,
+        date.day,
+        21,
+        0,
+      );
 
       if (cycleDay == 0) {
         // ─── Day A: High-FODMAP ───────────────────────────────────────────
 
         // Breakfast: egg + wheat bread + milk coffee
-        meals.add(_meal(breakfastTime, 'Breakfast', [
-          if (egg != null) _mi(egg, 'Egg', '2 eggs'),
-          if (wheatBread != null) _mi(wheatBread, 'Wheat Bread', '2 slices'),
-          if (cowsMilk != null) _mi(cowsMilk, "Cow's Milk", '200 ml'),
-        ]));
+        meals.add(
+          _meal(breakfastTime, 'Breakfast', [
+            if (egg != null) _mi(egg, 'Egg', '2 eggs'),
+            if (wheatBread != null) _mi(wheatBread, 'Wheat Bread', '2 slices'),
+            if (cowsMilk != null) _mi(cowsMilk, "Cow's Milk", '200 ml'),
+          ]),
+        );
 
         // Lunch: pasta with onion & garlic sauce + mushroom
-        meals.add(_meal(lunchTime, 'Lunch', [
-          if (pasta != null) _mi(pasta, 'Pasta', '200 g'),
-          if (onion != null) _mi(onion, 'Onion', '1 medium'),
-          if (garlic != null) _mi(garlic, 'Garlic', '3 cloves'),
-          if (mushroom != null) _mi(mushroom, 'Mushroom', 'handful'),
-        ], notes: 'Had pasta with garlic-onion sauce'));
+        meals.add(
+          _meal(lunchTime, 'Lunch', [
+            if (pasta != null) _mi(pasta, 'Pasta', '200 g'),
+            if (onion != null) _mi(onion, 'Onion', '1 medium'),
+            if (garlic != null) _mi(garlic, 'Garlic', '3 cloves'),
+            if (mushroom != null) _mi(mushroom, 'Mushroom', 'handful'),
+          ], notes: 'Had pasta with garlic-onion sauce'),
+        );
 
         // Snack: apple
-        meals.add(_meal(snackTime, 'Snack', [
-          if (apple != null) _mi(apple, 'Apple', '1 large'),
-        ]));
+        meals.add(
+          _meal(snackTime, 'Snack', [
+            if (apple != null) _mi(apple, 'Apple', '1 large'),
+          ]),
+        );
 
         // Dinner: chicken + broccoli + rice
-        meals.add(_meal(dinnerTime, 'Dinner', [
-          if (chicken != null) _mi(chicken, 'Chicken Breast', '150 g'),
-          if (broccoli != null) _mi(broccoli, 'Broccoli', '1 cup'),
-          if (whiteRice != null) _mi(whiteRice, 'White Rice', '150 g'),
-        ]));
+        meals.add(
+          _meal(dinnerTime, 'Dinner', [
+            if (chicken != null) _mi(chicken, 'Chicken Breast', '150 g'),
+            if (broccoli != null) _mi(broccoli, 'Broccoli', '1 cup'),
+            if (whiteRice != null) _mi(whiteRice, 'White Rice', '150 g'),
+          ]),
+        );
 
         // On off-days the high-FODMAP meal causes little trouble (tolerance
         // varies day-to-day).  Normal days show typical gut distress.
-        final morning    = _noisy(rng, 7, spread: 1);
-        final postLunch  = isOffDay ? _noisy(rng, 7, spread: 1) : _noisy(rng, 5, spread: 1);
-        final evening    = isOffDay ? _noisy(rng, 7, spread: 1) : _noisy(rng, 3, spread: 2);
-        final postDinner = isOffDay ? _noisy(rng, 6, spread: 1) : _noisy(rng, 4, spread: 1);
+        final morning = _noisy(rng, 7, spread: 1);
+        final postLunch = isOffDay
+            ? _noisy(rng, 7, spread: 1)
+            : _noisy(rng, 5, spread: 1);
+        final evening = isOffDay
+            ? _noisy(rng, 7, spread: 1)
+            : _noisy(rng, 3, spread: 2);
+        final postDinner = isOffDay
+            ? _noisy(rng, 6, spread: 1)
+            : _noisy(rng, 4, spread: 1);
         // Heartburn: garlic/onion/milk → high heartburn on normal days.
-        final hbMorning    = _noisy(rng, 2, spread: 1);
-        final hbPostLunch  = isOffDay ? _noisy(rng, 2, spread: 1) : _noisy(rng, 6, spread: 2);
-        final hbEvening    = isOffDay ? _noisy(rng, 2, spread: 1) : _noisy(rng, 7, spread: 2);
-        final hbPostDinner = isOffDay ? _noisy(rng, 3, spread: 1) : _noisy(rng, 5, spread: 1);
+        final hbMorning = _noisy(rng, 2, spread: 1);
+        final hbPostLunch = isOffDay
+            ? _noisy(rng, 2, spread: 1)
+            : _noisy(rng, 6, spread: 2);
+        final hbEvening = isOffDay
+            ? _noisy(rng, 2, spread: 1)
+            : _noisy(rng, 7, spread: 2);
+        final hbPostDinner = isOffDay
+            ? _noisy(rng, 3, spread: 1)
+            : _noisy(rng, 5, spread: 1);
 
         // Diarrhea: triggered by onion/garlic on non-off days, ~50% chance.
-        final dPostLunch  = !isOffDay && rng.nextBool();
-        final dEvening    = !isOffDay && rng.nextBool();
+        final dPostLunch = !isOffDay && rng.nextBool();
+        final dEvening = !isOffDay && rng.nextBool();
         final dPostDinner = !isOffDay && rng.nextDouble() < 0.3;
 
-        wellness.add(_wellness(morningWellness, gutPeace: morning, heartburn: hbMorning));
-        wellness.add(_wellness(postLunchWellness, gutPeace: postLunch, heartburn: hbPostLunch, diarrhea: dPostLunch));
-        wellness.add(_wellness(
-          eveningWellness,
-          gutPeace: evening,
-          heartburn: hbEvening,
-          diarrhea: dEvening,
-          notes: (!isOffDay && day % 6 == 0) ? 'Bloating and discomfort after lunch' : null,
-        ));
-        wellness.add(_wellness(postDinnerWellness, gutPeace: postDinner, heartburn: hbPostDinner, diarrhea: dPostDinner));
-
+        wellness.add(
+          _wellness(morningWellness, gutPeace: morning, heartburn: hbMorning),
+        );
+        wellness.add(
+          _wellness(
+            postLunchWellness,
+            gutPeace: postLunch,
+            heartburn: hbPostLunch,
+            diarrhea: dPostLunch,
+          ),
+        );
+        wellness.add(
+          _wellness(
+            eveningWellness,
+            gutPeace: evening,
+            heartburn: hbEvening,
+            diarrhea: dEvening,
+            notes: (!isOffDay && day % 6 == 0)
+                ? 'Bloating and discomfort after lunch'
+                : null,
+          ),
+        );
+        wellness.add(
+          _wellness(
+            postDinnerWellness,
+            gutPeace: postDinner,
+            heartburn: hbPostDinner,
+            diarrhea: dPostDinner,
+          ),
+        );
       } else if (cycleDay == 1) {
         // ─── Day B: Low-FODMAP / good day ────────────────────────────────
 
         // Breakfast: oats + blueberry + green tea
-        meals.add(_meal(breakfastTime, 'Breakfast', [
-          if (oats != null) _mi(oats, 'Oats', '60 g'),
-          if (blueberry != null) _mi(blueberry, 'Blueberry', 'handful'),
-          if (greenTea != null) _mi(greenTea, 'Green Tea', '300 ml'),
-        ]));
+        meals.add(
+          _meal(breakfastTime, 'Breakfast', [
+            if (oats != null) _mi(oats, 'Oats', '60 g'),
+            if (blueberry != null) _mi(blueberry, 'Blueberry', 'handful'),
+            if (greenTea != null) _mi(greenTea, 'Green Tea', '300 ml'),
+          ]),
+        );
 
         // Lunch: salmon + rice + spinach + tomato
-        meals.add(_meal(lunchTime, 'Lunch', [
-          if (salmon != null) _mi(salmon, 'Salmon', '180 g'),
-          if (whiteRice != null) _mi(whiteRice, 'White Rice', '150 g'),
-          if (spinach != null) _mi(spinach, 'Spinach', '2 cups'),
-          if (tomato != null) _mi(tomato, 'Tomato', '2 medium'),
-        ]));
+        meals.add(
+          _meal(lunchTime, 'Lunch', [
+            if (salmon != null) _mi(salmon, 'Salmon', '180 g'),
+            if (whiteRice != null) _mi(whiteRice, 'White Rice', '150 g'),
+            if (spinach != null) _mi(spinach, 'Spinach', '2 cups'),
+            if (tomato != null) _mi(tomato, 'Tomato', '2 medium'),
+          ]),
+        );
 
         // Snack: carrot + avocado
-        meals.add(_meal(snackTime, 'Snack', [
-          if (carrot != null) _mi(carrot, 'Carrot', '2 medium'),
-          if (avocado != null) _mi(avocado, 'Avocado', '½ avocado'),
-        ]));
+        meals.add(
+          _meal(snackTime, 'Snack', [
+            if (carrot != null) _mi(carrot, 'Carrot', '2 medium'),
+            if (avocado != null) _mi(avocado, 'Avocado', '½ avocado'),
+          ]),
+        );
 
         // Dinner: turkey + brown rice + zucchini
-        meals.add(_meal(dinnerTime, 'Dinner', [
-          if (turkey != null) _mi(turkey, 'Turkey', '150 g'),
-          if (brownRice != null) _mi(brownRice, 'Brown Rice', '150 g'),
-          if (zucchini != null) _mi(zucchini, 'Zucchini', '1 medium'),
-        ], notes: day % 7 == 0 ? 'Felt great today!' : null));
+        meals.add(
+          _meal(dinnerTime, 'Dinner', [
+            if (turkey != null) _mi(turkey, 'Turkey', '150 g'),
+            if (brownRice != null) _mi(brownRice, 'Brown Rice', '150 g'),
+            if (zucchini != null) _mi(zucchini, 'Zucchini', '1 medium'),
+          ], notes: day % 7 == 0 ? 'Felt great today!' : null),
+        );
 
         // Off-days: something else caused mild issues despite the good diet.
-        final morning    = _noisy(rng, 8, spread: 1);
-        final postLunch  = isOffDay ? _noisy(rng, 4, spread: 1) : _noisy(rng, 8, spread: 1);
-        final evening    = isOffDay ? _noisy(rng, 4, spread: 2) : _noisy(rng, 8, spread: 1);
-        final postDinner = isOffDay ? _noisy(rng, 5, spread: 1) : _noisy(rng, 8, spread: 1);
+        final morning = _noisy(rng, 8, spread: 1);
+        final postLunch = isOffDay
+            ? _noisy(rng, 4, spread: 1)
+            : _noisy(rng, 8, spread: 1);
+        final evening = isOffDay
+            ? _noisy(rng, 4, spread: 2)
+            : _noisy(rng, 8, spread: 1);
+        final postDinner = isOffDay
+            ? _noisy(rng, 5, spread: 1)
+            : _noisy(rng, 8, spread: 1);
         // Heartburn: clean low-FODMAP day → minimal heartburn.
-        final hbMorning    = _noisy(rng, 1, spread: 1);
-        final hbPostLunch  = isOffDay ? _noisy(rng, 5, spread: 1) : _noisy(rng, 1, spread: 1);
-        final hbEvening    = isOffDay ? _noisy(rng, 4, spread: 2) : _noisy(rng, 2, spread: 1);
-        final hbPostDinner = isOffDay ? _noisy(rng, 4, spread: 1) : _noisy(rng, 1, spread: 1);
+        final hbMorning = _noisy(rng, 1, spread: 1);
+        final hbPostLunch = isOffDay
+            ? _noisy(rng, 5, spread: 1)
+            : _noisy(rng, 1, spread: 1);
+        final hbEvening = isOffDay
+            ? _noisy(rng, 4, spread: 2)
+            : _noisy(rng, 2, spread: 1);
+        final hbPostDinner = isOffDay
+            ? _noisy(rng, 4, spread: 1)
+            : _noisy(rng, 1, spread: 1);
 
-        wellness.add(_wellness(morningWellness, gutPeace: morning, heartburn: hbMorning));
-        wellness.add(_wellness(postLunchWellness, gutPeace: postLunch, heartburn: hbPostLunch));
-        wellness.add(_wellness(
-          eveningWellness,
-          gutPeace: evening,
-          heartburn: hbEvening,
-          notes: (!isOffDay && day % 7 == 1) ? 'Feeling really good, no issues' : null,
-        ));
-        wellness.add(_wellness(postDinnerWellness, gutPeace: postDinner, heartburn: hbPostDinner));
-
+        wellness.add(
+          _wellness(morningWellness, gutPeace: morning, heartburn: hbMorning),
+        );
+        wellness.add(
+          _wellness(
+            postLunchWellness,
+            gutPeace: postLunch,
+            heartburn: hbPostLunch,
+          ),
+        );
+        wellness.add(
+          _wellness(
+            eveningWellness,
+            gutPeace: evening,
+            heartburn: hbEvening,
+            notes: (!isOffDay && day % 7 == 1)
+                ? 'Feeling really good, no issues'
+                : null,
+          ),
+        );
+        wellness.add(
+          _wellness(
+            postDinnerWellness,
+            gutPeace: postDinner,
+            heartburn: hbPostDinner,
+          ),
+        );
       } else {
         // ─── Day C: Moderate / mixed day ─────────────────────────────────
 
         // Breakfast: egg + oats + black coffee
-        meals.add(_meal(breakfastTime, 'Breakfast', [
-          if (egg != null) _mi(egg, 'Egg', '1 egg'),
-          if (oats != null) _mi(oats, 'Oats', '50 g'),
-          if (blackCoffee != null) _mi(blackCoffee, 'Black Coffee', '250 ml'),
-        ]));
+        meals.add(
+          _meal(breakfastTime, 'Breakfast', [
+            if (egg != null) _mi(egg, 'Egg', '1 egg'),
+            if (oats != null) _mi(oats, 'Oats', '50 g'),
+            if (blackCoffee != null) _mi(blackCoffee, 'Black Coffee', '250 ml'),
+          ]),
+        );
 
         // Lunch: chicken + lentils (moderate FODMAP) + spinach + carrot
-        meals.add(_meal(lunchTime, 'Lunch', [
-          if (chicken != null) _mi(chicken, 'Chicken Breast', '150 g'),
-          if (lentils != null) _mi(lentils, 'Lentils', '120 g'),
-          if (spinach != null) _mi(spinach, 'Spinach', '1 cup'),
-          if (carrot != null) _mi(carrot, 'Carrot', '1 medium'),
-        ]));
+        meals.add(
+          _meal(lunchTime, 'Lunch', [
+            if (chicken != null) _mi(chicken, 'Chicken Breast', '150 g'),
+            if (lentils != null) _mi(lentils, 'Lentils', '120 g'),
+            if (spinach != null) _mi(spinach, 'Spinach', '1 cup'),
+            if (carrot != null) _mi(carrot, 'Carrot', '1 medium'),
+          ]),
+        );
 
         // Snack: blueberry
-        meals.add(_meal(snackTime, 'Snack', [
-          if (blueberry != null) _mi(blueberry, 'Blueberry', 'large handful'),
-        ]));
+        meals.add(
+          _meal(snackTime, 'Snack', [
+            if (blueberry != null) _mi(blueberry, 'Blueberry', 'large handful'),
+          ]),
+        );
 
         // Dinner: salmon + quinoa + zucchini + tomato
-        meals.add(_meal(dinnerTime, 'Dinner', [
-          if (salmon != null) _mi(salmon, 'Salmon', '160 g'),
-          if (quinoa != null) _mi(quinoa, 'Quinoa', '120 g'),
-          if (zucchini != null) _mi(zucchini, 'Zucchini', '1 medium'),
-          if (tomato != null) _mi(tomato, 'Tomato', '1 large'),
-        ]));
+        meals.add(
+          _meal(dinnerTime, 'Dinner', [
+            if (salmon != null) _mi(salmon, 'Salmon', '160 g'),
+            if (quinoa != null) _mi(quinoa, 'Quinoa', '120 g'),
+            if (zucchini != null) _mi(zucchini, 'Zucchini', '1 medium'),
+            if (tomato != null) _mi(tomato, 'Tomato', '1 large'),
+          ]),
+        );
 
         // Moderate day: scores cluster around 6 with ±2 spread.
-        final morning    = _noisy(rng, 7, spread: 1);
-        final postLunch  = _noisy(rng, 6, spread: 2);
-        final evening    = _noisy(rng, 6, spread: 2);
+        final morning = _noisy(rng, 7, spread: 1);
+        final postLunch = _noisy(rng, 6, spread: 2);
+        final evening = _noisy(rng, 6, spread: 2);
         final postDinner = _noisy(rng, 6, spread: 1);
         // Heartburn: moderate — lentils can cause mild heartburn.
-        final hbMorning    = _noisy(rng, 2, spread: 1);
-        final hbPostLunch  = _noisy(rng, 3, spread: 1);
-        final hbEvening    = _noisy(rng, 4, spread: 2);
+        final hbMorning = _noisy(rng, 2, spread: 1);
+        final hbPostLunch = _noisy(rng, 3, spread: 1);
+        final hbEvening = _noisy(rng, 4, spread: 2);
         final hbPostDinner = _noisy(rng, 3, spread: 1);
 
-        wellness.add(_wellness(morningWellness, gutPeace: morning, heartburn: hbMorning));
-        wellness.add(_wellness(postLunchWellness, gutPeace: postLunch, heartburn: hbPostLunch));
-        wellness.add(_wellness(
-          eveningWellness,
-          gutPeace: evening,
-          heartburn: hbEvening,
-          notes: day % 9 == 2 ? 'Some mild bloating in the evening' : null,
-        ));
-        wellness.add(_wellness(postDinnerWellness, gutPeace: postDinner, heartburn: hbPostDinner));
+        wellness.add(
+          _wellness(morningWellness, gutPeace: morning, heartburn: hbMorning),
+        );
+        wellness.add(
+          _wellness(
+            postLunchWellness,
+            gutPeace: postLunch,
+            heartburn: hbPostLunch,
+          ),
+        );
+        wellness.add(
+          _wellness(
+            eveningWellness,
+            gutPeace: evening,
+            heartburn: hbEvening,
+            notes: day % 9 == 2 ? 'Some mild bloating in the evening' : null,
+          ),
+        );
+        wellness.add(
+          _wellness(
+            postDinnerWellness,
+            gutPeace: postDinner,
+            heartburn: hbPostDinner,
+          ),
+        );
       }
     }
 
@@ -316,21 +441,19 @@ class SampleDataService {
 
   // ── Helpers ─────────────────────────────────────────────────────────────────
 
-  Future<Ingredient?> _byName(String name) =>
-      _db.findIngredientByName(name);
+  Future<Ingredient?> _byName(String name) => _db.findIngredientByName(name);
 
   MealEntry _meal(
     DateTime at,
     String label,
     List<MealIngredient> ings, {
     String? notes,
-  }) =>
-      MealEntry()
-        ..consumedAt = at
-        ..mealLabel = label
-        ..ingredients = ings
-        ..notes = notes
-        ..isSample = true;
+  }) => MealEntry()
+    ..consumedAt = at
+    ..mealLabel = label
+    ..ingredients = ings
+    ..notes = notes
+    ..isSample = true;
 
   WellnessEntry _wellness(
     DateTime at, {

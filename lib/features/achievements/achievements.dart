@@ -155,8 +155,8 @@ class UnlockedAchievementsNotifier extends StateNotifier<Set<String>> {
 
 final unlockedAchievementsProvider =
     StateNotifierProvider<UnlockedAchievementsNotifier, Set<String>>(
-  (ref) => UnlockedAchievementsNotifier(),
-);
+      (ref) => UnlockedAchievementsNotifier(),
+    );
 
 // ── Evaluator ────────────────────────────────────────────────────────────────
 
@@ -218,9 +218,7 @@ Future<List<Achievement>> evaluateAchievements(WidgetRef ref) async {
 /// Toast-style overlay showing an unlocked achievement.
 void showAchievementToast(BuildContext context, Achievement a) {
   final overlay = Overlay.of(context, rootOverlay: true);
-  final entry = OverlayEntry(
-    builder: (_) => _AchievementToast(achievement: a),
-  );
+  final entry = OverlayEntry(builder: (_) => _AchievementToast(achievement: a));
   overlay.insert(entry);
   Future<void>.delayed(const Duration(milliseconds: 3200)).then((_) {
     entry.remove();
@@ -259,13 +257,18 @@ class _AchievementToastState extends State<_AchievementToast>
         child: AnimatedBuilder(
           animation: _c,
           builder: (ctx, _) {
-            final slideIn = const Interval(0.0, 0.15, curve: Curves.easeOutBack)
-                .transform(_c.value);
-            final slideOut = const Interval(0.85, 1.0, curve: Curves.easeIn)
-                .transform(_c.value);
+            final slideIn = const Interval(
+              0.0,
+              0.15,
+              curve: Curves.easeOutBack,
+            ).transform(_c.value);
+            final slideOut = const Interval(
+              0.85,
+              1.0,
+              curve: Curves.easeIn,
+            ).transform(_c.value);
             final offset = Offset(0, (1 - slideIn) * -1.0 + slideOut * -0.2);
-            final opacity =
-                (slideIn * (1 - slideOut)).clamp(0.0, 1.0);
+            final opacity = (slideIn * (1 - slideOut)).clamp(0.0, 1.0);
             return FractionalTranslation(
               translation: offset,
               child: Opacity(
@@ -302,8 +305,7 @@ class _AchievementCard extends StatelessWidget {
                 color: achievement.color.withValues(alpha: 0.15),
                 shape: BoxShape.circle,
               ),
-              child:
-                  Icon(achievement.icon, color: achievement.color, size: 24),
+              child: Icon(achievement.icon, color: achievement.color, size: 24),
             ),
             const SizedBox(width: 12),
             Expanded(
@@ -311,13 +313,17 @@ class _AchievementCard extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  Text('🏆  ${achievement.title}',
-                      style: theme.textTheme.titleSmall
-                          ?.copyWith(fontWeight: FontWeight.w700)),
+                  Text(
+                    '🏆  ${achievement.title}',
+                    style: theme.textTheme.titleSmall?.copyWith(
+                      fontWeight: FontWeight.w700,
+                    ),
+                  ),
                   Text(
                     achievement.description,
-                    style: theme.textTheme.bodySmall
-                        ?.copyWith(color: theme.colorScheme.onSurfaceVariant),
+                    style: theme.textTheme.bodySmall?.copyWith(
+                      color: theme.colorScheme.onSurfaceVariant,
+                    ),
                     maxLines: 2,
                     overflow: TextOverflow.ellipsis,
                   ),
@@ -340,9 +346,7 @@ class TrophyCaseScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final unlocked = ref.watch(unlockedAchievementsProvider);
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Trophies'),
-      ),
+      appBar: AppBar(title: const Text('Trophies')),
       body: ListView.builder(
         padding: const EdgeInsets.all(16),
         itemCount: Achievements.all.length,
@@ -358,9 +362,12 @@ class TrophyCaseScreen extends ConsumerWidget {
                   backgroundColor: a.color.withValues(alpha: 0.15),
                   child: Icon(a.icon, color: a.color),
                 ),
-                title: Text(a.title,
-                    style: theme.textTheme.titleSmall
-                        ?.copyWith(fontWeight: FontWeight.w600)),
+                title: Text(
+                  a.title,
+                  style: theme.textTheme.titleSmall?.copyWith(
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
                 subtitle: Text(a.description),
                 trailing: isUnlocked
                     ? const Icon(Icons.check_circle, color: Colors.green)

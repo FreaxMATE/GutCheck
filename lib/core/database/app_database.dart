@@ -25,7 +25,10 @@ abstract class AppDatabase {
   Future<void> deleteAllCustomIngredients();
 
   Future<List<MealEntry>> mealsForDate(DateTime date);
-  Future<List<MealEntry>> mealsInRange({required DateTime from, required DateTime to});
+  Future<List<MealEntry>> mealsInRange({
+    required DateTime from,
+    required DateTime to,
+  });
   Future<MealEntry?> findMealById(int id);
   Future<void> saveMeal(MealEntry meal);
   Future<void> saveMeals(List<MealEntry> meals);

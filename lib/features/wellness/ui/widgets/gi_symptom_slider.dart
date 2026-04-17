@@ -61,8 +61,9 @@ class GiSymptomSlider extends StatelessWidget {
                   displayValue == displayValue.roundToDouble()
                       ? '${displayValue.round()}'
                       : displayValue.toStringAsFixed(1),
-                  style: theme.textTheme.titleMedium
-                      ?.copyWith(color: _thumbColor),
+                  style: theme.textTheme.titleMedium?.copyWith(
+                    color: _thumbColor,
+                  ),
                 ),
               ),
             ],
@@ -103,12 +104,18 @@ class GiSymptomSlider extends StatelessWidget {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text(minLabel,
-                    style: theme.textTheme.bodySmall
-                        ?.copyWith(color: Colors.grey)),
-                Text(maxLabel,
-                    style: theme.textTheme.bodySmall
-                        ?.copyWith(color: Colors.grey)),
+                Text(
+                  minLabel,
+                  style: theme.textTheme.bodySmall?.copyWith(
+                    color: Colors.grey,
+                  ),
+                ),
+                Text(
+                  maxLabel,
+                  style: theme.textTheme.bodySmall?.copyWith(
+                    color: Colors.grey,
+                  ),
+                ),
               ],
             ),
           ),

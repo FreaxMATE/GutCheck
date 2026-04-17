@@ -87,18 +87,21 @@ class _LastWellnessCard extends ConsumerWidget {
             AnimatedAsyncSwitcher(
               child: async.when(
                 loading: () => const Center(
-                    key: ValueKey('loading'),
-                    child: CircularProgressIndicator()),
-                error: (e, _) => Text(l10n.genericError(e),
-                    key: const ValueKey('error')),
+                  key: ValueKey('loading'),
+                  child: CircularProgressIndicator(),
+                ),
+                error: (e, _) =>
+                    Text(l10n.genericError(e), key: const ValueKey('error')),
                 data: (entry) => entry == null
                     ? _EmptyCardContent(
                         key: const ValueKey('empty'),
-                        message: l10n.homeNoWellnessYet)
+                        message: l10n.homeNoWellnessYet,
+                      )
                     : _WellnessContent(
                         key: ValueKey('wellness-${entry.id}'),
                         entry: entry,
-                        l10n: l10n),
+                        l10n: l10n,
+                      ),
               ),
             ),
             const SizedBox(height: 12),
@@ -132,9 +135,15 @@ class _WellnessContent extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final heartburnColor = Color.lerp(
-        Colors.green, Colors.red, (entry.heartburn - 1) / 9.0)!;
+      Colors.green,
+      Colors.red,
+      (entry.heartburn - 1) / 9.0,
+    )!;
     final gutColor = Color.lerp(
-        Colors.red, Colors.green, (entry.gutPeace - 1) / 9.0)!;
+      Colors.red,
+      Colors.green,
+      (entry.gutPeace - 1) / 9.0,
+    )!;
 
     return Row(
       crossAxisAlignment: CrossAxisAlignment.center,
@@ -161,8 +170,11 @@ class _WellnessContent extends StatelessWidget {
               const SizedBox(height: 4),
               Row(
                 children: [
-                  Icon(Icons.local_fire_department_rounded,
-                      size: 16, color: heartburnColor),
+                  Icon(
+                    Icons.local_fire_department_rounded,
+                    size: 16,
+                    color: heartburnColor,
+                  ),
                   const SizedBox(width: 4),
                   Text(
                     '${l10n.wellnessHeartburn}: ${entry.heartburn}/10',
@@ -174,13 +186,17 @@ class _WellnessContent extends StatelessWidget {
                 const SizedBox(height: 4),
                 Row(
                   children: [
-                    const Icon(Icons.water_drop_rounded,
-                        size: 16, color: Colors.orange),
+                    const Icon(
+                      Icons.water_drop_rounded,
+                      size: 16,
+                      color: Colors.orange,
+                    ),
                     const SizedBox(width: 4),
                     Text(
                       l10n.wellnessDiarrhea,
-                      style: theme.textTheme.bodyMedium
-                          ?.copyWith(color: Colors.orange),
+                      style: theme.textTheme.bodyMedium?.copyWith(
+                        color: Colors.orange,
+                      ),
                     ),
                   ],
                 ),
@@ -189,8 +205,9 @@ class _WellnessContent extends StatelessWidget {
                 const SizedBox(height: 6),
                 Text(
                   entry.notes!,
-                  style: theme.textTheme.bodySmall
-                      ?.copyWith(color: Colors.grey[600]),
+                  style: theme.textTheme.bodySmall?.copyWith(
+                    color: Colors.grey[600],
+                  ),
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,
                 ),
@@ -226,18 +243,21 @@ class _LastMealCard extends ConsumerWidget {
             AnimatedAsyncSwitcher(
               child: async.when(
                 loading: () => const Center(
-                    key: ValueKey('loading'),
-                    child: CircularProgressIndicator()),
-                error: (e, _) => Text(l10n.genericError(e),
-                    key: const ValueKey('error')),
+                  key: ValueKey('loading'),
+                  child: CircularProgressIndicator(),
+                ),
+                error: (e, _) =>
+                    Text(l10n.genericError(e), key: const ValueKey('error')),
                 data: (meal) => meal == null
                     ? _EmptyCardContent(
                         key: const ValueKey('empty'),
-                        message: l10n.homeNoMealsYet)
+                        message: l10n.homeNoMealsYet,
+                      )
                     : _MealContent(
                         key: ValueKey('meal-${meal.id}'),
                         meal: meal,
-                        l10n: l10n),
+                        l10n: l10n,
+                      ),
               ),
             ),
             const SizedBox(height: 12),
@@ -279,9 +299,12 @@ class _MealContent extends StatelessWidget {
       children: [
         Row(
           children: [
-            Text(label,
-                style: theme.textTheme.bodyMedium
-                    ?.copyWith(fontWeight: FontWeight.w600)),
+            Text(
+              label,
+              style: theme.textTheme.bodyMedium?.copyWith(
+                fontWeight: FontWeight.w600,
+              ),
+            ),
             const SizedBox(width: 8),
             Text(
               GutDateUtils.timeAgoLocalized(meal.consumedAt, l10n),
@@ -294,21 +317,26 @@ class _MealContent extends StatelessWidget {
           spacing: 6,
           runSpacing: 4,
           children: [
-            ...chips.map((i) => Chip(
-                  label: LocalizedIngredientText(
-                    ingredientId: i.ingredientId,
-                    fallbackName: i.ingredientName,
-                    style: theme.textTheme.labelSmall,
-                  ),
-                  padding: EdgeInsets.zero,
-                  materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                  visualDensity: VisualDensity.compact,
-                )),
+            ...chips.map(
+              (i) => Chip(
+                label: LocalizedIngredientText(
+                  ingredientId: i.ingredientId,
+                  fallbackName: i.ingredientName,
+                  style: theme.textTheme.labelSmall,
+                ),
+                padding: EdgeInsets.zero,
+                materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                visualDensity: VisualDensity.compact,
+              ),
+            ),
             if (overflow > 0)
               Chip(
-                label: Text('+$overflow',
-                    style: theme.textTheme.labelSmall
-                        ?.copyWith(color: Colors.grey)),
+                label: Text(
+                  '+$overflow',
+                  style: theme.textTheme.labelSmall?.copyWith(
+                    color: Colors.grey,
+                  ),
+                ),
                 padding: EdgeInsets.zero,
                 materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
                 visualDensity: VisualDensity.compact,
@@ -351,8 +379,9 @@ class _WeeklyTrendCard extends ConsumerWidget {
                       const SizedBox(height: 4),
                       Text(
                         _weekDescription(avg, l10n),
-                        style: theme.textTheme.bodySmall
-                            ?.copyWith(color: Colors.grey),
+                        style: theme.textTheme.bodySmall?.copyWith(
+                          color: Colors.grey,
+                        ),
                       ),
                     ],
                   ),
@@ -360,7 +389,9 @@ class _WeeklyTrendCard extends ConsumerWidget {
                 const SizedBox(width: 16),
                 Container(
                   padding: const EdgeInsets.symmetric(
-                      horizontal: 16, vertical: 10),
+                    horizontal: 16,
+                    vertical: 10,
+                  ),
                   decoration: BoxDecoration(
                     color: color.withValues(alpha: 0.12),
                     borderRadius: BorderRadius.circular(12),
@@ -429,10 +460,9 @@ class _TopInsightCard extends ConsumerWidget {
                   const SizedBox(height: 8),
                   Text(
                     l10n.homeNoInsightYet,
-                    style: Theme.of(context)
-                        .textTheme
-                        .bodySmall
-                        ?.copyWith(color: Colors.grey),
+                    style: Theme.of(
+                      context,
+                    ).textTheme.bodySmall?.copyWith(color: Colors.grey),
                   ),
                 ],
               ),
@@ -448,7 +478,9 @@ class _TopInsightCard extends ConsumerWidget {
               children: [
                 Row(
                   children: [
-                    Expanded(child: _SectionLabel(label: l10n.homeTopInsightTitle)),
+                    Expanded(
+                      child: _SectionLabel(label: l10n.homeTopInsightTitle),
+                    ),
                     TextButton(
                       onPressed: () => context.go('/insights'),
                       child: Text(l10n.homeViewInsights),
@@ -498,7 +530,9 @@ class _InsightRow extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final color = isHarmful ? Colors.red : Colors.green;
-    final icon = isHarmful ? Icons.warning_amber_rounded : Icons.check_circle_rounded;
+    final icon = isHarmful
+        ? Icons.warning_amber_rounded
+        : Icons.check_circle_rounded;
 
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
@@ -517,14 +551,17 @@ class _InsightRow extends StatelessWidget {
               children: [
                 Text(
                   score.ingredientName,
-                  style: theme.textTheme.bodyMedium
-                      ?.copyWith(fontWeight: FontWeight.w600),
+                  style: theme.textTheme.bodyMedium?.copyWith(
+                    fontWeight: FontWeight.w600,
+                  ),
                 ),
                 Text(
                   '$label · ${score.correlationPercent}% '
                   '${isHarmful ? l10n.impactDrop : l10n.impactImprovement} '
                   '(${score.bestZone.shortLabel})',
-                  style: theme.textTheme.bodySmall?.copyWith(color: Colors.grey[600]),
+                  style: theme.textTheme.bodySmall?.copyWith(
+                    color: Colors.grey[600],
+                  ),
                 ),
               ],
             ),
@@ -546,10 +583,10 @@ class _SectionLabel extends StatelessWidget {
     return Text(
       label,
       style: Theme.of(context).textTheme.labelMedium?.copyWith(
-            color: Theme.of(context).colorScheme.primary,
-            fontWeight: FontWeight.w600,
-            letterSpacing: 0.5,
-          ),
+        color: Theme.of(context).colorScheme.primary,
+        fontWeight: FontWeight.w600,
+        letterSpacing: 0.5,
+      ),
     );
   }
 }
@@ -562,10 +599,9 @@ class _EmptyCardContent extends StatelessWidget {
   Widget build(BuildContext context) {
     return Text(
       message,
-      style: Theme.of(context)
-          .textTheme
-          .bodySmall
-          ?.copyWith(color: Colors.grey),
+      style: Theme.of(
+        context,
+      ).textTheme.bodySmall?.copyWith(color: Colors.grey),
     );
   }
 }

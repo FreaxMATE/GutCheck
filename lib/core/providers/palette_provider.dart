@@ -22,5 +22,6 @@ class PaletteNotifier extends StateNotifier<AppPalette> {
   }
 }
 
-final paletteProvider =
-    StateNotifierProvider<PaletteNotifier, AppPalette>((ref) => PaletteNotifier());
+final paletteProvider = StateNotifierProvider<PaletteNotifier, AppPalette>(
+  (ref) => PaletteNotifier(),
+);

@@ -23,8 +23,7 @@ class SoundEnabledNotifier extends StateNotifier<bool> {
   }
 }
 
-final soundEnabledProvider =
-    StateNotifierProvider<SoundEnabledNotifier, bool>(
+final soundEnabledProvider = StateNotifierProvider<SoundEnabledNotifier, bool>(
   (ref) => SoundEnabledNotifier(),
 );
 

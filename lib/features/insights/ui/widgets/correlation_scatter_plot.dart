@@ -79,8 +79,9 @@ class CorrelationScatterPlot extends ConsumerWidget {
                 titlesData: FlTitlesData(
                   leftTitles: AxisTitles(
                     axisNameWidget: Text(
-                        '${AppLocalizations.of(context)!.scatterWellnessScore} (0–10)',
-                        style: const TextStyle(fontSize: 10)),
+                      '${AppLocalizations.of(context)!.scatterWellnessScore} (0–10)',
+                      style: const TextStyle(fontSize: 10),
+                    ),
                     sideTitles: SideTitles(
                       showTitles: true,
                       reservedSize: 36,
@@ -93,8 +94,9 @@ class CorrelationScatterPlot extends ConsumerWidget {
                   ),
                   bottomTitles: AxisTitles(
                     axisNameWidget: Text(
-                        AppLocalizations.of(context)!.scatterTimeOfDay,
-                        style: const TextStyle(fontSize: 10)),
+                      AppLocalizations.of(context)!.scatterTimeOfDay,
+                      style: const TextStyle(fontSize: 10),
+                    ),
                     sideTitles: SideTitles(
                       showTitles: true,
                       reservedSize: 24,
@@ -105,19 +107,21 @@ class CorrelationScatterPlot extends ConsumerWidget {
                           h == 0
                               ? '12am'
                               : h == 12
-                                  ? '12pm'
-                                  : h < 12
-                                      ? '${h}am'
-                                      : '${h - 12}pm',
+                              ? '12pm'
+                              : h < 12
+                              ? '${h}am'
+                              : '${h - 12}pm',
                           style: const TextStyle(fontSize: 10),
                         );
                       },
                     ),
                   ),
                   topTitles: const AxisTitles(
-                      sideTitles: SideTitles(showTitles: false)),
+                    sideTitles: SideTitles(showTitles: false),
+                  ),
                   rightTitles: const AxisTitles(
-                      sideTitles: SideTitles(showTitles: false)),
+                    sideTitles: SideTitles(showTitles: false),
+                  ),
                 ),
                 // ScatterChartData does not support extraLinesData;
                 // median reference is shown via a custom ScatterSpot row instead.

@@ -28,16 +28,17 @@ class SymptomTimelineCard extends ConsumerWidget {
                   padding: const EdgeInsets.fromLTRB(16, 4, 16, 0),
                   child: Row(
                     children: [
-                      Icon(Icons.timeline_rounded,
-                          size: 18,
-                          color: Theme.of(context).colorScheme.primary),
+                      Icon(
+                        Icons.timeline_rounded,
+                        size: 18,
+                        color: Theme.of(context).colorScheme.primary,
+                      ),
                       const SizedBox(width: 8),
                       Text(
                         'Symptom Timeline',
-                        style: Theme.of(context)
-                            .textTheme
-                            .titleSmall
-                            ?.copyWith(fontWeight: FontWeight.w700),
+                        style: Theme.of(context).textTheme.titleSmall?.copyWith(
+                          fontWeight: FontWeight.w700,
+                        ),
                       ),
                     ],
                   ),

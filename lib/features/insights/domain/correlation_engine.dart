@@ -13,8 +13,8 @@ class CorrelationEngine {
   /// Named time windows for food–wellness correlation.
   /// [from]/[to] are hours after meal time (inclusive start, exclusive end).
   static const timeZones = [
-    (from: 0,  to: 4,  label: 'Immediate', shortLabel: '0–4h'),
-    (from: 4,  to: 12, label: 'Delayed',   shortLabel: '4–12h'),
+    (from: 0, to: 4, label: 'Immediate', shortLabel: '0–4h'),
+    (from: 4, to: 12, label: 'Delayed', shortLabel: '4–12h'),
     (from: 12, to: 24, label: 'Overnight', shortLabel: '12–24h'),
   ];
 
@@ -48,8 +48,7 @@ class CorrelationEngine {
     final hbScore = heartburnAsY(e);
     final diarrheaScore = e.diarrhea ? 0.0 : 100.0;
     // Stress: 0-20 (2× encoding), invert to wellness: higher stress → lower score.
-    final stressScore =
-        ((20 - e.stressLevel.clamp(0, 20)) / 20.0) * 100.0;
+    final stressScore = ((20 - e.stressLevel.clamp(0, 20)) / 20.0) * 100.0;
     return (0.40 * gutScore +
             0.25 * hbScore +
             0.15 * diarrheaScore +
@@ -139,16 +138,18 @@ class CorrelationEngine {
 
       final confidence = (bestN / 20.0).clamp(0.0, 1.0);
 
-      scores.add(ImpactScore(
-        ingredientId: ingredientId,
-        ingredientName: name,
-        category: category,
-        pearsonR: bestR,
-        bestLagHours: bestZoneFrom,
-        sampleCount: bestN,
-        confidenceLevel: confidence,
-        pearsonByLag: pearsonByLag,
-      ));
+      scores.add(
+        ImpactScore(
+          ingredientId: ingredientId,
+          ingredientName: name,
+          category: category,
+          pearsonR: bestR,
+          bestLagHours: bestZoneFrom,
+          sampleCount: bestN,
+          confidenceLevel: confidence,
+          pearsonByLag: pearsonByLag,
+        ),
+      );
     }
 
     scores.sort((a, b) => b.rankScore.compareTo(a.rankScore));

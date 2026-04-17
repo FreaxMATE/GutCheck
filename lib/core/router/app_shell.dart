@@ -14,8 +14,9 @@ class AppShell extends StatelessWidget {
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
     final location = GoRouterState.of(context).matchedLocation;
-    final selectedIndex =
-        _tabs.indexWhere((t) => location.startsWith(t)).clamp(0, 3);
+    final selectedIndex = _tabs
+        .indexWhere((t) => location.startsWith(t))
+        .clamp(0, 3);
 
     return Scaffold(
       body: child,

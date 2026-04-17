@@ -8,10 +8,7 @@ class _InsightsDetailScaffold extends StatelessWidget {
   final String title;
   final Widget child;
 
-  const _InsightsDetailScaffold({
-    required this.title,
-    required this.child,
-  });
+  const _InsightsDetailScaffold({required this.title, required this.child});
 
   @override
   Widget build(BuildContext context) {

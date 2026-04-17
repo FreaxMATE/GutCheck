@@ -6,13 +6,15 @@ import '../data/models/ingredient.dart';
 
 final pantrySearchQueryProvider = StateProvider<String>((ref) => '');
 
-final pantryCategoryFilterProvider =
-    StateProvider<FoodCategory?>((ref) => null);
+final pantryCategoryFilterProvider = StateProvider<FoodCategory?>(
+  (ref) => null,
+);
 
 final pantryCustomOnlyProvider = StateProvider<bool>((ref) => false);
 
-final pagedIngredientsProvider =
-    FutureProvider.autoDispose<List<Ingredient>>((ref) async {
+final pagedIngredientsProvider = FutureProvider.autoDispose<List<Ingredient>>((
+  ref,
+) async {
   final db = await ref.watch(appDatabaseProvider.future);
   final query = ref.watch(pantrySearchQueryProvider);
   final category = ref.watch(pantryCategoryFilterProvider);
@@ -30,8 +32,8 @@ final ingredientCountProvider = FutureProvider<int>((ref) async {
   return db.ingredientCount();
 });
 
-final singleIngredientProvider =
-    FutureProvider.autoDispose.family<Ingredient?, int>((ref, id) async {
-  final db = await ref.watch(appDatabaseProvider.future);
-  return db.findIngredientById(id);
-});
+final singleIngredientProvider = FutureProvider.autoDispose
+    .family<Ingredient?, int>((ref, id) async {
+      final db = await ref.watch(appDatabaseProvider.future);
+      return db.findIngredientById(id);
+    });

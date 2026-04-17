@@ -60,11 +60,10 @@ class _PantryScreenState extends ConsumerState<PantryScreen> {
                           icon: const Icon(Icons.close),
                           onPressed: () {
                             _searchController.clear();
-                            ref
-                                .read(pantrySearchQueryProvider.notifier)
-                                .state = '';
+                            ref.read(pantrySearchQueryProvider.notifier).state =
+                                '';
                           },
-                        )
+                        ),
                       ]
                     : null,
                 onChanged: (v) =>
@@ -75,8 +74,7 @@ class _PantryScreenState extends ConsumerState<PantryScreen> {
             const SizedBox(height: 4),
             Expanded(
               child: ingredients.when(
-                loading: () =>
-                    const Center(child: CircularProgressIndicator()),
+                loading: () => const Center(child: CircularProgressIndicator()),
                 error: (e, _) => Center(child: Text(l10n.genericError(e))),
                 data: (items) {
                   if (items.isEmpty) {
@@ -85,7 +83,9 @@ class _PantryScreenState extends ConsumerState<PantryScreen> {
                         mainAxisSize: MainAxisSize.min,
                         children: [
                           const PulseIcon(
-                              icon: Icons.search_off_rounded, size: 48),
+                            icon: Icons.search_off_rounded,
+                            size: 48,
+                          ),
                           const SizedBox(height: 12),
                           Text(
                             searchQuery.isNotEmpty
@@ -119,7 +119,10 @@ class _PantryScreenState extends ConsumerState<PantryScreen> {
   }
 
   void _showIngredientDetail(
-      BuildContext context, WidgetRef ref, int id) async {
+    BuildContext context,
+    WidgetRef ref,
+    int id,
+  ) async {
     final db = await ref.read(appDatabaseProvider.future);
     final ingredient = await db.findIngredientById(id);
     if (ingredient == null || !context.mounted) return;
@@ -158,10 +161,14 @@ class _PantryScreenState extends ConsumerState<PantryScreen> {
                       type: MaterialType.transparency,
                       child: CircleAvatar(
                         radius: 28,
-                        backgroundColor:
-                            ingredient.category.color.withValues(alpha: 0.15),
-                        child: Icon(ingredient.category.icon,
-                            color: ingredient.category.color, size: 28),
+                        backgroundColor: ingredient.category.color.withValues(
+                          alpha: 0.15,
+                        ),
+                        child: Icon(
+                          ingredient.category.icon,
+                          color: ingredient.category.color,
+                          size: 28,
+                        ),
                       ),
                     ),
                   ),
@@ -170,13 +177,17 @@ class _PantryScreenState extends ConsumerState<PantryScreen> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(ingredient.localizedName(locale),
-                            style:
-                                Theme.of(ctx).textTheme.headlineSmall),
-                        Text(ingredient.category.localizedName(sheetL10n),
-                            style: TextStyle(
-                                color: ingredient.category.color,
-                                fontWeight: FontWeight.w600)),
+                        Text(
+                          ingredient.localizedName(locale),
+                          style: Theme.of(ctx).textTheme.headlineSmall,
+                        ),
+                        Text(
+                          ingredient.category.localizedName(sheetL10n),
+                          style: TextStyle(
+                            color: ingredient.category.color,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
                       ],
                     ),
                   ),
@@ -185,18 +196,25 @@ class _PantryScreenState extends ConsumerState<PantryScreen> {
                       icon: const Icon(Icons.delete_outline),
                       color: Colors.red,
                       tooltip: sheetL10n.delete,
-                      onPressed: () =>
-                          _confirmDeleteIngredient(ctx, ref, ingredient.id,
-                              ingredient.localizedName(locale)),
+                      onPressed: () => _confirmDeleteIngredient(
+                        ctx,
+                        ref,
+                        ingredient.id,
+                        ingredient.localizedName(locale),
+                      ),
                     ),
                 ],
               ),
               const SizedBox(height: 24),
-              _DetailRow(sheetL10n.pantryFodmapLevel,
-                  ingredient.fodmapLevel.toUpperCase()),
+              _DetailRow(
+                sheetL10n.pantryFodmapLevel,
+                ingredient.fodmapLevel.toUpperCase(),
+              ),
               if (ingredient.secondaryCategory != null)
-                _DetailRow(sheetL10n.pantryAlsoClassifiedAs,
-                    ingredient.secondaryCategory!.localizedName(sheetL10n)),
+                _DetailRow(
+                  sheetL10n.pantryAlsoClassifiedAs,
+                  ingredient.secondaryCategory!.localizedName(sheetL10n),
+                ),
               if (ingredient.notes != null)
                 _DetailRow(sheetL10n.pantryNotes, ingredient.notes!),
               if (!ingredient.isSeeded) ...[
@@ -214,7 +232,11 @@ class _PantryScreenState extends ConsumerState<PantryScreen> {
   }
 
   Future<void> _confirmDeleteIngredient(
-      BuildContext sheetCtx, WidgetRef ref, int id, String displayName) async {
+    BuildContext sheetCtx,
+    WidgetRef ref,
+    int id,
+    String displayName,
+  ) async {
     final l10n = AppLocalizations.of(sheetCtx)!;
     final confirmed = await showDialog<bool>(
       context: sheetCtx,
@@ -254,9 +276,9 @@ class _PantryScreenState extends ConsumerState<PantryScreen> {
       }
     } catch (e) {
       if (sheetCtx.mounted) {
-        ScaffoldMessenger.of(sheetCtx).showSnackBar(
-          SnackBar(content: Text(l10n.genericError(e))),
-        );
+        ScaffoldMessenger.of(
+          sheetCtx,
+        ).showSnackBar(SnackBar(content: Text(l10n.genericError(e))));
       }
     }
   }
@@ -276,15 +298,15 @@ class _DetailRow extends StatelessWidget {
         children: [
           SizedBox(
             width: 140,
-            child: Text(label,
-                style: Theme.of(context)
-                    .textTheme
-                    .bodySmall
-                    ?.copyWith(color: Colors.grey)),
+            child: Text(
+              label,
+              style: Theme.of(
+                context,
+              ).textTheme.bodySmall?.copyWith(color: Colors.grey),
+            ),
           ),
           Expanded(
-            child: Text(value,
-                style: Theme.of(context).textTheme.bodyMedium),
+            child: Text(value, style: Theme.of(context).textTheme.bodyMedium),
           ),
         ],
       ),

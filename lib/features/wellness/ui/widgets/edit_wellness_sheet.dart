@@ -78,8 +78,10 @@ class _EditWellnessSheetState extends ConsumerState<EditWellnessSheet> {
               // Title + save
               Row(
                 children: [
-                  Text(l10n.wellnessEditTitle,
-                      style: Theme.of(context).textTheme.headlineSmall),
+                  Text(
+                    l10n.wellnessEditTitle,
+                    style: Theme.of(context).textTheme.headlineSmall,
+                  ),
                   const Spacer(),
                   TextButton(
                     onPressed: _saving ? null : _save,
@@ -87,7 +89,8 @@ class _EditWellnessSheetState extends ConsumerState<EditWellnessSheet> {
                         ? const SizedBox(
                             width: 18,
                             height: 18,
-                            child: CircularProgressIndicator(strokeWidth: 2))
+                            child: CircularProgressIndicator(strokeWidth: 2),
+                          )
                         : Text(l10n.save),
                   ),
                 ],
@@ -225,8 +228,7 @@ class _EditWellnessSheetState extends ConsumerState<EditWellnessSheet> {
         ..heartburn = WellnessDraftState.toStored(_heartburn)
         ..stressLevel = WellnessDraftState.toStored(_stress)
         ..diarrhea = _diarrhea
-        ..wellnessScore =
-            ((20 - storedGut) / 20.0) * 100.0
+        ..wellnessScore = ((20 - storedGut) / 20.0) * 100.0
         ..linkedMealIds = List.from(widget.entry.linkedMealIds)
         ..notes = _notesController.text.trim().isEmpty
             ? null

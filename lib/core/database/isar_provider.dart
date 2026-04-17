@@ -14,7 +14,12 @@ final isarProvider = FutureProvider<Isar>((ref) async {
   final dir = await getApplicationDocumentsDirectory();
   final isar = await Isar.open(
     // MealIngredient is @embedded so it doesn't need a separate schema entry.
-    [IngredientSchema, MealEntrySchema, MealTemplateSchema, WellnessEntrySchema],
+    [
+      IngredientSchema,
+      MealEntrySchema,
+      MealTemplateSchema,
+      WellnessEntrySchema,
+    ],
     directory: dir.path,
   );
 

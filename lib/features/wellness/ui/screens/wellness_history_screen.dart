@@ -28,10 +28,14 @@ class WellnessHistoryScreen extends ConsumerWidget {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   const PulseIcon(
-                      icon: Icons.sentiment_satisfied_alt_rounded, size: 64),
+                    icon: Icons.sentiment_satisfied_alt_rounded,
+                    size: 64,
+                  ),
                   const SizedBox(height: 16),
-                  Text(l10n.wellnessHistoryEmpty,
-                      style: Theme.of(context).textTheme.titleMedium),
+                  Text(
+                    l10n.wellnessHistoryEmpty,
+                    style: Theme.of(context).textTheme.titleMedium,
+                  ),
                 ],
               ),
             );
@@ -95,7 +99,11 @@ class WellnessHistoryScreen extends ConsumerWidget {
   }
 
   Future<void> _confirmDelete(
-      BuildContext context, WidgetRef ref, int id, AppLocalizations l10n) async {
+    BuildContext context,
+    WidgetRef ref,
+    int id,
+    AppLocalizations l10n,
+  ) async {
     final confirmed = await showDialog<bool>(
       context: context,
       builder: (ctx) {
@@ -105,8 +113,9 @@ class WellnessHistoryScreen extends ConsumerWidget {
           content: Text(ctxL10n.wellnessDeleteContent),
           actions: [
             TextButton(
-                onPressed: () => Navigator.pop(ctx, false),
-                child: Text(ctxL10n.cancel)),
+              onPressed: () => Navigator.pop(ctx, false),
+              child: Text(ctxL10n.cancel),
+            ),
             FilledButton(
               style: FilledButton.styleFrom(backgroundColor: Colors.red),
               onPressed: () => Navigator.pop(ctx, true),
@@ -138,18 +147,18 @@ class _DateHeader extends StatelessWidget {
     final label = today
         ? '${l10n.dateToday} · ${GutDateUtils.formatDay(date)}'
         : yesterday
-            ? '${l10n.dateYesterday} · ${GutDateUtils.formatDay(date)}'
-            : GutDateUtils.formatDay(date);
+        ? '${l10n.dateYesterday} · ${GutDateUtils.formatDay(date)}'
+        : GutDateUtils.formatDay(date);
 
     return Padding(
       padding: const EdgeInsets.fromLTRB(16, 16, 16, 4),
       child: Text(
         label,
         style: Theme.of(context).textTheme.labelLarge?.copyWith(
-              color: today
-                  ? Theme.of(context).colorScheme.primary
-                  : Theme.of(context).colorScheme.onSurfaceVariant,
-            ),
+          color: today
+              ? Theme.of(context).colorScheme.primary
+              : Theme.of(context).colorScheme.onSurfaceVariant,
+        ),
       ),
     );
   }
@@ -178,8 +187,8 @@ class _WellnessEntryTile extends StatelessWidget {
     final badgeColor = dRound <= 2
         ? Colors.green
         : d <= 5
-            ? Colors.orange
-            : Colors.red;
+        ? Colors.orange
+        : Colors.red;
 
     return Card(
       margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
@@ -202,7 +211,9 @@ class _WellnessEntryTile extends StatelessWidget {
                       ? '${d.round()}'
                       : d.toStringAsFixed(1),
                   style: theme.textTheme.titleMedium?.copyWith(
-                      color: badgeColor, fontWeight: FontWeight.bold),
+                    color: badgeColor,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
               ),
             ),
@@ -214,9 +225,12 @@ class _WellnessEntryTile extends StatelessWidget {
                 children: [
                   Row(
                     children: [
-                      Text(GutDateUtils.formatTime(entry.recordedAt),
-                          style: theme.textTheme.bodyMedium
-                              ?.copyWith(fontWeight: FontWeight.w600)),
+                      Text(
+                        GutDateUtils.formatTime(entry.recordedAt),
+                        style: theme.textTheme.bodyMedium?.copyWith(
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
                       const SizedBox(width: 8),
                       _SliderBadge(
                         icon: Icons.medical_information_outlined,
@@ -247,8 +261,9 @@ class _WellnessEntryTile extends StatelessWidget {
                     const SizedBox(height: 4),
                     Text(
                       entry.notes!,
-                      style: theme.textTheme.bodySmall
-                          ?.copyWith(color: Colors.grey[600]),
+                      style: theme.textTheme.bodySmall?.copyWith(
+                        color: Colors.grey[600],
+                      ),
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,
                     ),
@@ -312,11 +327,13 @@ class _SliderBadge extends StatelessWidget {
         children: [
           Icon(icon, size: 14, color: badgeColor),
           const SizedBox(width: 2),
-          Text(display,
-              style: Theme.of(context)
-                  .textTheme
-                  .labelSmall
-                  ?.copyWith(color: badgeColor, fontWeight: FontWeight.w600)),
+          Text(
+            display,
+            style: Theme.of(context).textTheme.labelSmall?.copyWith(
+              color: badgeColor,
+              fontWeight: FontWeight.w600,
+            ),
+          ),
         ],
       ),
     );

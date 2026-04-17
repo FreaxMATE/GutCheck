@@ -26,5 +26,5 @@ class MealTemplateNotifier extends AsyncNotifier<List<MealTemplate>> {
 
 final mealTemplateProvider =
     AsyncNotifierProvider<MealTemplateNotifier, List<MealTemplate>>(
-  MealTemplateNotifier.new,
-);
+      MealTemplateNotifier.new,
+    );

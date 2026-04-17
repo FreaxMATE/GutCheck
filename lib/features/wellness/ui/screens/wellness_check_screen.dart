@@ -51,23 +51,27 @@ class WellnessCheckScreen extends ConsumerWidget {
               children: [
                 GutBuddy(size: 110, discomfort: draft.gutPeace.round()),
                 const SizedBox(width: 12),
-                WellnessScoreRing(discomfort: draft.gutPeace.round(), size: 120),
+                WellnessScoreRing(
+                  discomfort: draft.gutPeace.round(),
+                  size: 120,
+                ),
               ],
             ),
             const SizedBox(height: 8),
             Center(
               child: Text(
                 _discomfortLabel(draft.gutPeace.round(), l10n),
-                style: Theme.of(context)
-                    .textTheme
-                    .bodyMedium
-                    ?.copyWith(color: Colors.grey),
+                style: Theme.of(
+                  context,
+                ).textTheme.bodyMedium?.copyWith(color: Colors.grey),
               ),
             ),
             const SizedBox(height: 28),
 
-            Text(l10n.wellnessGutPeace,
-                style: Theme.of(context).textTheme.titleMedium),
+            Text(
+              l10n.wellnessGutPeace,
+              style: Theme.of(context).textTheme.titleMedium,
+            ),
             const SizedBox(height: 4),
             const Divider(),
 
@@ -111,15 +115,16 @@ class WellnessCheckScreen extends ConsumerWidget {
 
             const SizedBox(height: 24),
 
-            Text(l10n.wellnessLinkMealsTitle,
-                style: Theme.of(context).textTheme.titleMedium),
+            Text(
+              l10n.wellnessLinkMealsTitle,
+              style: Theme.of(context).textTheme.titleMedium,
+            ),
             const SizedBox(height: 4),
             Text(
               l10n.wellnessLinkMealsHint,
-              style: Theme.of(context)
-                  .textTheme
-                  .bodySmall
-                  ?.copyWith(color: Colors.grey),
+              style: Theme.of(
+                context,
+              ).textTheme.bodySmall?.copyWith(color: Colors.grey),
             ),
             const SizedBox(height: 10),
             const LinkedMealSelector(),
@@ -168,9 +173,9 @@ class WellnessCheckScreen extends ConsumerWidget {
       if (context.mounted) {
         // Fire-and-forget — burst auto-removes. SnackBar shows immediately.
         unawaited(showSuccessBurst(context));
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text(l10n.wellnessSaved)),
-        );
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text(l10n.wellnessSaved)));
       }
       // Evaluate achievements — any newly unlocked show a toast.
       final newlyUnlocked = await evaluateAchievements(ref);
@@ -187,4 +192,3 @@ class WellnessCheckScreen extends ConsumerWidget {
     }
   }
 }
-

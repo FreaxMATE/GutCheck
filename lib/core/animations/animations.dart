@@ -4,8 +4,9 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 /// Mirrors [animationsEnabledProvider] for callers that can't read Riverpod
 /// (e.g. go_router page builders). Kept in sync by [AnimationsEnabledNotifier].
-final ValueNotifier<bool> animationsEnabledListenable =
-    ValueNotifier<bool>(true);
+final ValueNotifier<bool> animationsEnabledListenable = ValueNotifier<bool>(
+  true,
+);
 
 class AnimationsEnabledNotifier extends StateNotifier<bool> {
   static const _key = 'animations_enabled';
@@ -31,8 +32,8 @@ class AnimationsEnabledNotifier extends StateNotifier<bool> {
 
 final animationsEnabledProvider =
     StateNotifierProvider<AnimationsEnabledNotifier, bool>(
-  (ref) => AnimationsEnabledNotifier(),
-);
+      (ref) => AnimationsEnabledNotifier(),
+    );
 
 // ─── Helpers ──────────────────────────────────────────────────────────────────
 
@@ -80,10 +81,14 @@ class _OneShotEntrance extends StatefulWidget {
 
 class _OneShotEntranceState extends State<_OneShotEntrance>
     with SingleTickerProviderStateMixin {
-  late final AnimationController _c =
-      AnimationController(vsync: this, duration: widget.duration);
-  late final Animation<double> _fade =
-      CurvedAnimation(parent: _c, curve: Curves.easeOut);
+  late final AnimationController _c = AnimationController(
+    vsync: this,
+    duration: widget.duration,
+  );
+  late final Animation<double> _fade = CurvedAnimation(
+    parent: _c,
+    curve: Curves.easeOut,
+  );
   late final Animation<Offset> _offset = Tween<Offset>(
     begin: const Offset(0, 0.12),
     end: Offset.zero,
@@ -118,12 +123,7 @@ class PulseIcon extends ConsumerStatefulWidget {
   final double size;
   final Color? color;
 
-  const PulseIcon({
-    super.key,
-    required this.icon,
-    this.size = 64,
-    this.color,
-  });
+  const PulseIcon({super.key, required this.icon, this.size = 64, this.color});
 
   @override
   ConsumerState<PulseIcon> createState() => _PulseIconState();
@@ -149,9 +149,10 @@ class _PulseIconState extends ConsumerState<PulseIcon>
     final icon = Icon(widget.icon, size: widget.size, color: color);
     if (!enabled) return icon;
     return ScaleTransition(
-      scale: Tween<double>(begin: 0.94, end: 1.08).animate(
-        CurvedAnimation(parent: _c, curve: Curves.easeInOut),
-      ),
+      scale: Tween<double>(
+        begin: 0.94,
+        end: 1.08,
+      ).animate(CurvedAnimation(parent: _c, curve: Curves.easeInOut)),
       child: icon,
     );
   }
@@ -227,8 +228,10 @@ class AnimatedToggleIcon extends ConsumerWidget {
 /// Plays a brief centered check-mark burst over the current screen as a
 /// positive confirmation. Silently no-ops when animations are disabled.
 Future<void> showSuccessBurst(BuildContext context) async {
-  final enabled = ProviderScope.containerOf(context, listen: false)
-      .read(animationsEnabledProvider);
+  final enabled = ProviderScope.containerOf(
+    context,
+    listen: false,
+  ).read(animationsEnabledProvider);
   if (!enabled) return;
   final overlay = Overlay.of(context, rootOverlay: true);
   final entry = OverlayEntry(builder: (_) => const _SuccessBurst());
@@ -262,12 +265,21 @@ class _SuccessBurstState extends State<_SuccessBurst>
       child: AnimatedBuilder(
         animation: _c,
         builder: (_, __) {
-          final fadeIn = const Interval(0, 0.35, curve: Curves.easeOut)
-              .transform(_c.value);
-          final fadeOut = const Interval(0.7, 1, curve: Curves.easeIn)
-              .transform(_c.value);
-          final scale = const Interval(0, 0.55, curve: Curves.elasticOut)
-              .transform(_c.value);
+          final fadeIn = const Interval(
+            0,
+            0.35,
+            curve: Curves.easeOut,
+          ).transform(_c.value);
+          final fadeOut = const Interval(
+            0.7,
+            1,
+            curve: Curves.easeIn,
+          ).transform(_c.value);
+          final scale = const Interval(
+            0,
+            0.55,
+            curve: Curves.elasticOut,
+          ).transform(_c.value);
           final opacity = (fadeIn * (1 - fadeOut)).clamp(0.0, 1.0);
           return Center(
             child: Opacity(
@@ -288,8 +300,11 @@ class _SuccessBurstState extends State<_SuccessBurst>
                       ),
                     ],
                   ),
-                  child: const Icon(Icons.check_rounded,
-                      size: 62, color: Colors.white),
+                  child: const Icon(
+                    Icons.check_rounded,
+                    size: 62,
+                    color: Colors.white,
+                  ),
                 ),
               ),
             ),
