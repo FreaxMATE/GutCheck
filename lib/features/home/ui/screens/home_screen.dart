@@ -14,6 +14,7 @@ import '../../../wellness/data/models/wellness_entry.dart';
 import '../../../wellness/ui/widgets/wellness_score_ring.dart';
 import '../../providers/home_providers.dart';
 import '../widgets/greeting_banner.dart';
+import '../widgets/symptom_timeline_card.dart';
 import '../widgets/weekly_digest_card.dart';
 
 class HomeScreen extends ConsumerWidget {
@@ -54,6 +55,8 @@ class HomeScreen extends ConsumerWidget {
             StaggeredEntrance(index: 3, child: _WeeklyTrendCard(l10n: l10n)),
             const SizedBox(height: 12),
             StaggeredEntrance(index: 4, child: _TopInsightCard(l10n: l10n)),
+            const SizedBox(height: 12),
+            const StaggeredEntrance(index: 5, child: SymptomTimelineCard()),
           ],
         ),
       ),
@@ -194,7 +197,7 @@ class _WellnessContent extends StatelessWidget {
           ),
         ),
         const SizedBox(width: 16),
-        WellnessScoreRing(discomfort: entry.gutPeace, size: 80),
+        WellnessScoreRing(discomfort: entry.gutPeaceDisplay.round(), size: 80),
       ],
     );
   }

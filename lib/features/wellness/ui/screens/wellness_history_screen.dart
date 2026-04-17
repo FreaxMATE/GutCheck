@@ -134,10 +134,11 @@ class _DateHeader extends StatelessWidget {
     final now = DateTime.now();
     final today = DateTime(now.year, now.month, now.day) == date;
     final yesterday = DateTime(now.year, now.month, now.day - 1) == date;
+    final l10n = AppLocalizations.of(context)!;
     final label = today
-        ? 'Today · ${GutDateUtils.formatDay(date)}'
+        ? '${l10n.dateToday} · ${GutDateUtils.formatDay(date)}'
         : yesterday
-            ? 'Yesterday · ${GutDateUtils.formatDay(date)}'
+            ? '${l10n.dateYesterday} · ${GutDateUtils.formatDay(date)}'
             : GutDateUtils.formatDay(date);
 
     return Padding(
@@ -170,10 +171,11 @@ class _WellnessEntryTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    // Show discomfort 0-10 (the actual gutPeace value).
-    final d = entry.gutPeace.clamp(0, 10);
+    // Show discomfort 0.0-10.0 from stored 0-20 encoding.
+    final d = entry.gutPeaceDisplay;
+    final dRound = d.round().clamp(0, 10);
     // Color: 0-2 green, 3-5 orange, 6+ red.
-    final badgeColor = d <= 2
+    final badgeColor = dRound <= 2
         ? Colors.green
         : d <= 5
             ? Colors.orange
@@ -196,7 +198,9 @@ class _WellnessEntryTile extends StatelessWidget {
               ),
               child: Center(
                 child: Text(
-                  '$d',
+                  d == d.roundToDouble()
+                      ? '${d.round()}'
+                      : d.toStringAsFixed(1),
                   style: theme.textTheme.titleMedium?.copyWith(
                       color: badgeColor, fontWeight: FontWeight.bold),
                 ),
@@ -217,19 +221,24 @@ class _WellnessEntryTile extends StatelessWidget {
                       _SliderBadge(
                         icon: Icons.medical_information_outlined,
                         color: Colors.red,
-                        value: entry.gutPeace,
-                        min: 0,
-                        max: 10,
+                        value: entry.gutPeaceDisplay,
                         tooltip: 'Gut discomfort',
-                        inverted: true, // high value = bad (red)
+                        inverted: true,
                       ),
                       const SizedBox(width: 4),
                       _SliderBadge(
                         icon: Icons.local_fire_department_rounded,
                         color: Colors.orange,
-                        value: entry.heartburn,
-                        max: 10,
+                        value: entry.heartburnDisplay,
                         tooltip: 'Heartburn',
+                        inverted: true,
+                      ),
+                      const SizedBox(width: 4),
+                      _SliderBadge(
+                        icon: Icons.psychology_rounded,
+                        color: Colors.purple,
+                        value: entry.stressDisplay,
+                        tooltip: 'Stress',
                         inverted: true,
                       ),
                     ],
@@ -274,9 +283,7 @@ class _WellnessEntryTile extends StatelessWidget {
 class _SliderBadge extends StatelessWidget {
   final IconData icon;
   final Color color;
-  final int value;
-  final int min;
-  final int max;
+  final double value; // display value 0.0-10.0
   final String tooltip;
   final bool inverted;
 
@@ -284,28 +291,28 @@ class _SliderBadge extends StatelessWidget {
     required this.icon,
     required this.color,
     required this.value,
-    required this.max,
     required this.tooltip,
-    this.min = 1,
     this.inverted = false,
   });
 
   @override
   Widget build(BuildContext context) {
-    final range = (max - min).clamp(1, 1000);
-    final t = ((value - min) / range).clamp(0.0, 1.0);
+    final t = (value / 10.0).clamp(0.0, 1.0);
     final badgeColor = inverted
         ? Color.lerp(Colors.green, Colors.red, t)!
         : Color.lerp(Colors.red, Colors.green, t)!;
+    final display = value == value.roundToDouble()
+        ? '${value.round()}'
+        : value.toStringAsFixed(1);
 
     return Tooltip(
-      message: '$tooltip: $value/$max',
+      message: '$tooltip: $display/10',
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
           Icon(icon, size: 14, color: badgeColor),
           const SizedBox(width: 2),
-          Text('$value',
+          Text(display,
               style: Theme.of(context)
                   .textTheme
                   .labelSmall

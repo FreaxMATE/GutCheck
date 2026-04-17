@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import 'package:gutcheck/l10n/app_localizations.dart';
 import '../../domain/correlation_engine.dart';
 import '../../domain/impact_score.dart';
 
@@ -176,15 +177,15 @@ class _Legend extends StatelessWidget {
         children: [
           _legendSwatch(const Color(0xFFD32F2F)),
           const SizedBox(width: 4),
-          Text('Harmful', style: Theme.of(context).textTheme.labelSmall),
+          Text(AppLocalizations.of(context)!.heatmapHarmful, style: Theme.of(context).textTheme.labelSmall),
           const SizedBox(width: 16),
           _legendSwatch(const Color(0xFF388E3C)),
           const SizedBox(width: 4),
-          Text('Beneficial', style: Theme.of(context).textTheme.labelSmall),
+          Text(AppLocalizations.of(context)!.heatmapBeneficial, style: Theme.of(context).textTheme.labelSmall),
           const SizedBox(width: 16),
           _legendSwatch(Colors.grey.shade300),
           const SizedBox(width: 4),
-          Text('No data', style: Theme.of(context).textTheme.labelSmall),
+          Text(AppLocalizations.of(context)!.heatmapNoData, style: Theme.of(context).textTheme.labelSmall),
         ],
       ),
     );

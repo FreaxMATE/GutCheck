@@ -6,24 +6,30 @@ import '../data/models/wellness_entry.dart';
 
 // ── Draft state ──────────────────────────────────────────────────────────────
 
+/// All slider values use 2× half-step encoding: stored 0-20 int = display
+/// 0.0-10.0 in 0.5 steps. The draft state stores display doubles; conversion
+/// to storage ints happens at submit time.
 class WellnessDraftState {
-  final int gutPeace;
-  final int heartburn;
+  final double gutPeace; // display 0.0-10.0
+  final double heartburn; // display 0.0-10.0
+  final double stress; // display 0.0-10.0
   final bool diarrhea;
   final String? notes;
   final List<int> linkedMealIds;
 
   const WellnessDraftState({
-    this.gutPeace = 0, // 0 = no discomfort (new semantic)
-    this.heartburn = 1,
+    this.gutPeace = 0, // 0 = no discomfort
+    this.heartburn = 0, // 0 = no heartburn
+    this.stress = 0, // 0 = no stress
     this.diarrhea = false,
     this.notes,
     this.linkedMealIds = const [],
   });
 
   WellnessDraftState copyWith({
-    int? gutPeace,
-    int? heartburn,
+    double? gutPeace,
+    double? heartburn,
+    double? stress,
     bool? diarrhea,
     String? notes,
     List<int>? linkedMealIds,
@@ -31,14 +37,18 @@ class WellnessDraftState {
     return WellnessDraftState(
       gutPeace: gutPeace ?? this.gutPeace,
       heartburn: heartburn ?? this.heartburn,
+      stress: stress ?? this.stress,
       diarrhea: diarrhea ?? this.diarrhea,
       notes: notes ?? this.notes,
       linkedMealIds: linkedMealIds ?? this.linkedMealIds,
     );
   }
 
+  /// Convert display double (0.0-10.0) → storage int (0-20).
+  static int toStored(double v) => (v * 2).round().clamp(0, 20);
+
   double get liveScore => CorrelationEngine.computeWellnessScore(
-        gutPeace: gutPeace,
+        gutPeace: toStored(gutPeace),
       );
 }
 
@@ -49,8 +59,9 @@ class WellnessDraftNotifier extends StateNotifier<WellnessDraftState> {
 
   WellnessDraftNotifier(this._ref) : super(const WellnessDraftState());
 
-  void setGutPeace(int v) => state = state.copyWith(gutPeace: v);
-  void setHeartburn(int v) => state = state.copyWith(heartburn: v);
+  void setGutPeace(double v) => state = state.copyWith(gutPeace: v);
+  void setHeartburn(double v) => state = state.copyWith(heartburn: v);
+  void setStress(double v) => state = state.copyWith(stress: v);
   void setDiarrhea(bool v) => state = state.copyWith(diarrhea: v);
   void setNotes(String n) => state = state.copyWith(notes: n);
 
@@ -72,8 +83,9 @@ class WellnessDraftNotifier extends StateNotifier<WellnessDraftState> {
 
     final entry = WellnessEntry()
       ..recordedAt = DateTime.now()
-      ..gutPeace = draft.gutPeace
-      ..heartburn = draft.heartburn
+      ..gutPeace = WellnessDraftState.toStored(draft.gutPeace)
+      ..heartburn = WellnessDraftState.toStored(draft.heartburn)
+      ..stressLevel = WellnessDraftState.toStored(draft.stress)
       ..diarrhea = draft.diarrhea
       ..wellnessScore = draft.liveScore
       ..linkedMealIds = List<int>.from(draft.linkedMealIds)

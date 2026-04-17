@@ -234,6 +234,46 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
+  String get heatmapLegendPoor => 'Poor';
+
+  @override
+  String get heatmapLegendGreat => 'Great';
+
+  @override
+  String get heatmapHarmful => 'Harmful';
+
+  @override
+  String get heatmapBeneficial => 'Beneficial';
+
+  @override
+  String get heatmapNoData => 'No data';
+
+  @override
+  String get heatmapFoodTimeLag => 'Food × Time Lag';
+
+  @override
+  String get heatmapFoodTimeLagDesc =>
+      'Pearson r correlation between food consumption and wellness at each lag window';
+
+  @override
+  String get scatterWellnessScore => 'Wellness Score';
+
+  @override
+  String get scatterTimeOfDay => 'Time of Day';
+
+  @override
+  String get calendarDayNoData => 'No data today';
+
+  @override
+  String get calendarDayScore => 'wellness score';
+
+  @override
+  String get dateToday => 'Today';
+
+  @override
+  String get dateYesterday => 'Yesterday';
+
+  @override
   String weeklyDigestAvgScore(int score) {
     return 'Average wellness score: $score';
   }
@@ -677,6 +717,18 @@ class AppLocalizationsEn extends AppLocalizations {
   String get wellnessSevereDiscomfort => 'Severe discomfort';
 
   @override
+  String get wellnessStress => 'Stress Level';
+
+  @override
+  String get wellnessStressMin => 'Zen';
+
+  @override
+  String get wellnessStressMax => 'Maxed out';
+
+  @override
+  String get insightsMetricStress => 'Stress';
+
+  @override
   String get wellnessDiarrhea => 'Diarrhea';
 
   @override
@@ -726,6 +778,13 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get insightsImpactEmpty =>
       'Log at least 3 meals with the same ingredient and some wellness entries to see correlations.';
+
+  @override
+  String get insightsTabFingerprint => 'Fingerprint';
+
+  @override
+  String get insightsFingerprintEmpty =>
+      'Log at least 3 meals with the same ingredient and some wellness entries to see food fingerprints.';
 
   @override
   String get insightsScatterEmpty =>

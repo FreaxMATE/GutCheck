@@ -334,21 +334,25 @@ class SampleDataService {
 
   WellnessEntry _wellness(
     DateTime at, {
-    required int gutPeace, // legacy arg name; callers pass "peace" (10 = great day)
+    required int gutPeace, // legacy: callers pass "peace" (10 = great day)
     int heartburn = 1,
+    int stress = 0, // 0-10 display value
     bool diarrhea = false,
     String? notes,
   }) {
-    // Convert legacy peace (1=bad, 10=good) to new discomfort (0=good, 10=bad)
-    // using the same formula as MigrationService._flipGutPeaceSemantics.
+    // Convert legacy peace (1=bad, 10=good) → discomfort (0=good, 10=bad) → 2× encoding
     final peace = gutPeace.clamp(1, 10);
     final discomfort = ((10 - peace) * 10 / 9).round().clamp(0, 10);
+    final storedGut = discomfort * 2; // 0-20
+    final storedHb = (heartburn.clamp(1, 10) - 1) * 2; // 0-18
+    final storedStress = stress.clamp(0, 10) * 2; // 0-20
     return WellnessEntry()
       ..recordedAt = at
-      ..gutPeace = discomfort
-      ..heartburn = heartburn.clamp(1, 10)
+      ..gutPeace = storedGut
+      ..heartburn = storedHb
+      ..stressLevel = storedStress
       ..diarrhea = diarrhea
-      ..wellnessScore = ((10 - discomfort) / 10.0) * 100.0
+      ..wellnessScore = ((20 - storedGut) / 20.0) * 100.0
       ..linkedMealIds = []
       ..notes = notes
       ..isSample = true;

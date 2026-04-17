@@ -300,10 +300,11 @@ class _DateHeader extends StatelessWidget {
     final yesterday =
         DateTime(now.year, now.month, now.day - 1) == date;
 
+    final l10n = AppLocalizations.of(context)!;
     final label = today
-        ? 'Today · ${GutDateUtils.formatDay(date)}'
+        ? '${l10n.dateToday} · ${GutDateUtils.formatDay(date)}'
         : yesterday
-            ? 'Yesterday · ${GutDateUtils.formatDay(date)}'
+            ? '${l10n.dateYesterday} · ${GutDateUtils.formatDay(date)}'
             : GutDateUtils.formatDay(date);
 
     return Padding(

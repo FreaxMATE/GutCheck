@@ -20,41 +20,46 @@ class CorrelationEngine {
 
   // ── Wellness Score ─────────────────────────────────────────────────────────
 
-  /// Compute a 0–100 wellness score from the gut discomfort value (0–10).
+  /// Compute a 0–100 wellness score from the stored gut discomfort value.
   ///
-  /// Field is still named `gutPeace` in the DB but the semantic is now
-  /// "gut discomfort": 0 = no discomfort, 10 = extreme discomfort.
+  /// Values use 2× half-step encoding: stored 0-20 = display 0.0-10.0.
   /// Higher score = better wellness, so we invert.
   static double computeWellnessScore({
-    required int gutPeace, // 0–10, higher = WORSE
+    required int gutPeace, // 0–20 (2× encoding)
   }) {
-    return ((10 - gutPeace) / 10.0) * 100.0;
+    return ((20 - gutPeace.clamp(0, 20)) / 20.0) * 100.0;
   }
 
   // ── Impact Scores ──────────────────────────────────────────────────────────
 
-  /// Converts heartburn (1–10, higher = worse) to a 0–100 "wellness" score
-  /// where HIGHER = better (no heartburn). Clamped for consistent 0-100 range.
-  ///   heartburn  1 → 100 (no heartburn)
-  ///   heartburn 10 →   0 (severe)
+  /// Converts heartburn (stored 0-20, 2× encoding) to a 0–100 "wellness" score.
+  /// HIGHER = better (no heartburn).
   static double heartburnAsY(WellnessEntry e) =>
-      (((10 - e.heartburn.clamp(1, 10)) / 9.0) * 100.0).clamp(0.0, 100.0);
+      ((20 - e.heartburn.clamp(0, 20)) / 20.0) * 100.0;
 
   /// Diarrhea as a 0–100 score: 100 = no diarrhea (good), 0 = diarrhea (bad).
   /// [isHarmful] logic (pearsonR < 0) stays correct: high food → low score → harmful.
   static double diarrheaAsY(WellnessEntry e) => e.diarrhea ? 0.0 : 100.0;
 
-  /// Combined gut health index (0–100) weighting all three symptoms:
-  ///   50 % gut peace · 30 % (inverted heartburn) · 20 % no diarrhea.
+  /// Combined gut health index (0–100) weighting all four inputs:
+  ///   40% gut discomfort · 25% heartburn · 15% diarrhea · 20% stress context.
   static double combinedAsY(WellnessEntry e) {
     final gutScore = computeWellnessScore(gutPeace: e.gutPeace);
-    final heartburnScore = (e.heartburn - 1) / 9.0 * 100.0;
+    final hbScore = heartburnAsY(e);
     final diarrheaScore = e.diarrhea ? 0.0 : 100.0;
-    return (0.5 * gutScore +
-            0.3 * (100.0 - heartburnScore) +
-            0.2 * diarrheaScore)
+    // Stress: 0-20 (2× encoding), invert to wellness: higher stress → lower score.
+    final stressScore =
+        ((20 - e.stressLevel.clamp(0, 20)) / 20.0) * 100.0;
+    return (0.40 * gutScore +
+            0.25 * hbScore +
+            0.15 * diarrheaScore +
+            0.20 * stressScore)
         .clamp(0.0, 100.0);
   }
+
+  /// Stress level as a wellness-like 0-100 score (higher = less stress = better).
+  static double stressAsY(WellnessEntry e) =>
+      ((20 - e.stressLevel.clamp(0, 20)) / 20.0) * 100.0;
 
   /// For each ingredient that appears in [meals], compute a Pearson r
   /// correlation against wellness scores in [wellnessEntries] across the three

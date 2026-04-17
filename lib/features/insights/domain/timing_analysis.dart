@@ -85,8 +85,9 @@ class TimingAnalyzer {
           w.recordedAt.isBefore(windowEnd));
 
       if (matched.isNotEmpty) {
+        // Use display values (0.0-10.0) for the average.
         final avgD =
-            matched.map((w) => w.gutPeace.toDouble()).reduce((a, b) => a + b) /
+            matched.map((w) => w.gutPeaceDisplay).reduce((a, b) => a + b) /
                 matched.length;
         bucketDiscomforts.putIfAbsent(bucketIdx, () => []).add(avgD);
       }

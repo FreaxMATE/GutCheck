@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import 'package:gutcheck/l10n/app_localizations.dart';
 import '../../../../core/animations/animations.dart';
 import '../../../../core/constants/app_colors.dart';
 import '../../../../core/utils/date_utils.dart';
@@ -98,8 +99,8 @@ class CalendarHeatmap extends ConsumerWidget {
         Row(
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
-            const Text('Poor',
-                style: TextStyle(fontSize: 11, color: Colors.grey)),
+            Text(AppLocalizations.of(context)!.heatmapLegendPoor,
+                style: const TextStyle(fontSize: 11, color: Colors.grey)),
             const SizedBox(width: 4),
             ...List.generate(5, (i) {
               final score = (i + 1) * 20.0;
@@ -115,8 +116,8 @@ class CalendarHeatmap extends ConsumerWidget {
               );
             }),
             const SizedBox(width: 4),
-            const Text('Great',
-                style: TextStyle(fontSize: 11, color: Colors.grey)),
+            Text(AppLocalizations.of(context)!.heatmapLegendGreat,
+                style: const TextStyle(fontSize: 11, color: Colors.grey)),
           ],
         ),
       ],

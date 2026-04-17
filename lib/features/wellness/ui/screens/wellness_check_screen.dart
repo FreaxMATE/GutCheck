@@ -49,15 +49,15 @@ class WellnessCheckScreen extends ConsumerWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                GutBuddy(size: 110, discomfort: draft.gutPeace),
+                GutBuddy(size: 110, discomfort: draft.gutPeace.round()),
                 const SizedBox(width: 12),
-                WellnessScoreRing(discomfort: draft.gutPeace, size: 120),
+                WellnessScoreRing(discomfort: draft.gutPeace.round(), size: 120),
               ],
             ),
             const SizedBox(height: 8),
             Center(
               child: Text(
-                _discomfortLabel(draft.gutPeace, l10n),
+                _discomfortLabel(draft.gutPeace.round(), l10n),
                 style: Theme.of(context)
                     .textTheme
                     .bodyMedium
@@ -76,9 +76,7 @@ class WellnessCheckScreen extends ConsumerWidget {
               minLabel: l10n.wellnessGutPeaceMin,
               maxLabel: l10n.wellnessGutPeaceMax,
               value: draft.gutPeace,
-              min: 0,
-              max: 10,
-              inverted: true, // 0 = good (green), 10 = bad (red)
+              inverted: true,
               onChanged: notifier.setGutPeace,
             ),
 
@@ -91,6 +89,17 @@ class WellnessCheckScreen extends ConsumerWidget {
               value: draft.heartburn,
               inverted: true,
               onChanged: notifier.setHeartburn,
+            ),
+
+            const SizedBox(height: 16),
+
+            GiSymptomSlider(
+              label: l10n.wellnessStress,
+              minLabel: l10n.wellnessStressMin,
+              maxLabel: l10n.wellnessStressMax,
+              value: draft.stress,
+              inverted: true,
+              onChanged: notifier.setStress,
             ),
 
             const SizedBox(height: 16),

@@ -44,7 +44,7 @@ class ImportService {
 
       // Validate version. We currently support v1 (legacy) and v2 (current).
       final version = payload['version'] as int? ?? 1;
-      if (version < 1 || version > 2) {
+      if (version < 1 || version > 3) {
         throw FormatException('Unsupported backup version: $version');
       }
 
@@ -138,17 +138,31 @@ class ImportService {
     }
   }
 
-  /// Converts a legacy (v1) gutPeace value (1-10, higher = better) to the
-  /// current v2 discomfort value (0-10, higher = worse).
-  /// For v2+ payloads, returns the value unchanged.
+  /// Converts a gutPeace value from any export version to the current
+  /// v3 2× half-step encoding (stored 0-20).
+  ///
+  /// v1: 1-10 higher=better → flip to discomfort then 2×
+  /// v2: 0-10 discomfort → 2×
+  /// v3: already 0-20 2× encoding
   static int _migrateGutPeace(int value, int payloadVersion) {
-    if (payloadVersion >= 2) return value.clamp(0, 10);
+    if (payloadVersion >= 3) return value.clamp(0, 20);
+    if (payloadVersion >= 2) return (value.clamp(0, 10)) * 2;
     final peace = value.clamp(1, 10);
-    return ((10 - peace) * 10 / 9).round().clamp(0, 10);
+    final discomfort = ((10 - peace) * 10 / 9).round().clamp(0, 10);
+    return discomfort * 2;
   }
 
-  static double _wellnessScoreFor(int discomfort) =>
-      ((10 - discomfort.clamp(0, 10)) / 10.0) * 100.0;
+  /// Converts heartburn from export version to v3 encoding.
+  static int _migrateHeartburn(int value, int payloadVersion) {
+    if (payloadVersion >= 3) return value.clamp(0, 20);
+    if (payloadVersion >= 2) return (value.clamp(0, 10)) * 2;
+    // v1: 1-10 → shift to 0-based then 2×
+    final hb = value.clamp(1, 10);
+    return (hb <= 1 ? 0 : (hb - 1)) * 2;
+  }
+
+  static double _wellnessScoreFor(int storedGutPeace) =>
+      ((20 - storedGutPeace.clamp(0, 20)) / 20.0) * 100.0;
 
   /// Replace mode: clear all existing data and restore from backup
   static Future<ImportResult> _importReplace(
@@ -232,19 +246,23 @@ class ImportService {
                     .toList() ??
                 [];
 
-            final rawGutPeace =
+            final rawGut =
                 item['gutPeace'] as int? ?? (payloadVersion >= 2 ? 0 : 5);
-            final migratedGutPeace =
-                _migrateGutPeace(rawGutPeace, payloadVersion);
+            final rawHb =
+                item['heartburn'] as int? ?? (payloadVersion <= 1 ? 1 : 0);
+            final rawStress = item['stressLevel'] as int? ?? 0;
+            final migratedGut = _migrateGutPeace(rawGut, payloadVersion);
+            final migratedHb = _migrateHeartburn(rawHb, payloadVersion);
+            final migratedStress =
+                payloadVersion >= 3 ? rawStress.clamp(0, 20) : rawStress.clamp(0, 10) * 2;
             final entry = WellnessEntry()
               ..id = item['id'] as int
               ..recordedAt = DateTime.parse(item['recordedAt'] as String)
-              ..gutPeace = migratedGutPeace
-              ..heartburn = item['heartburn'] as int? ?? 1
+              ..gutPeace = migratedGut
+              ..heartburn = migratedHb
+              ..stressLevel = migratedStress
               ..diarrhea = item['diarrhea'] as bool? ?? false
-              // Recompute wellnessScore from the migrated gutPeace so legacy
-              // imports get a consistent value matching the new semantics.
-              ..wellnessScore = _wellnessScoreFor(migratedGutPeace)
+              ..wellnessScore = _wellnessScoreFor(migratedGut)
               ..linkedMealIds = linkedMealIds
               ..notes = item['notes'] as String?
               ..createdAt = DateTime.parse(item['createdAt'] as String);

@@ -500,6 +500,84 @@ abstract class AppLocalizations {
   /// **'Avg gap between meals: {hours}h'**
   String timingAvgGap(String hours);
 
+  /// No description provided for @heatmapLegendPoor.
+  ///
+  /// In en, this message translates to:
+  /// **'Poor'**
+  String get heatmapLegendPoor;
+
+  /// No description provided for @heatmapLegendGreat.
+  ///
+  /// In en, this message translates to:
+  /// **'Great'**
+  String get heatmapLegendGreat;
+
+  /// No description provided for @heatmapHarmful.
+  ///
+  /// In en, this message translates to:
+  /// **'Harmful'**
+  String get heatmapHarmful;
+
+  /// No description provided for @heatmapBeneficial.
+  ///
+  /// In en, this message translates to:
+  /// **'Beneficial'**
+  String get heatmapBeneficial;
+
+  /// No description provided for @heatmapNoData.
+  ///
+  /// In en, this message translates to:
+  /// **'No data'**
+  String get heatmapNoData;
+
+  /// No description provided for @heatmapFoodTimeLag.
+  ///
+  /// In en, this message translates to:
+  /// **'Food × Time Lag'**
+  String get heatmapFoodTimeLag;
+
+  /// No description provided for @heatmapFoodTimeLagDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Pearson r correlation between food consumption and wellness at each lag window'**
+  String get heatmapFoodTimeLagDesc;
+
+  /// No description provided for @scatterWellnessScore.
+  ///
+  /// In en, this message translates to:
+  /// **'Wellness Score'**
+  String get scatterWellnessScore;
+
+  /// No description provided for @scatterTimeOfDay.
+  ///
+  /// In en, this message translates to:
+  /// **'Time of Day'**
+  String get scatterTimeOfDay;
+
+  /// No description provided for @calendarDayNoData.
+  ///
+  /// In en, this message translates to:
+  /// **'No data today'**
+  String get calendarDayNoData;
+
+  /// No description provided for @calendarDayScore.
+  ///
+  /// In en, this message translates to:
+  /// **'wellness score'**
+  String get calendarDayScore;
+
+  /// No description provided for @dateToday.
+  ///
+  /// In en, this message translates to:
+  /// **'Today'**
+  String get dateToday;
+
+  /// No description provided for @dateYesterday.
+  ///
+  /// In en, this message translates to:
+  /// **'Yesterday'**
+  String get dateYesterday;
+
   /// No description provided for @weeklyDigestAvgScore.
   ///
   /// In en, this message translates to:
@@ -1322,6 +1400,30 @@ abstract class AppLocalizations {
   /// **'Severe discomfort'**
   String get wellnessSevereDiscomfort;
 
+  /// No description provided for @wellnessStress.
+  ///
+  /// In en, this message translates to:
+  /// **'Stress Level'**
+  String get wellnessStress;
+
+  /// No description provided for @wellnessStressMin.
+  ///
+  /// In en, this message translates to:
+  /// **'Zen'**
+  String get wellnessStressMin;
+
+  /// No description provided for @wellnessStressMax.
+  ///
+  /// In en, this message translates to:
+  /// **'Maxed out'**
+  String get wellnessStressMax;
+
+  /// No description provided for @insightsMetricStress.
+  ///
+  /// In en, this message translates to:
+  /// **'Stress'**
+  String get insightsMetricStress;
+
   /// No description provided for @wellnessDiarrhea.
   ///
   /// In en, this message translates to:
@@ -1417,6 +1519,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Log at least 3 meals with the same ingredient and some wellness entries to see correlations.'**
   String get insightsImpactEmpty;
+
+  /// No description provided for @insightsTabFingerprint.
+  ///
+  /// In en, this message translates to:
+  /// **'Fingerprint'**
+  String get insightsTabFingerprint;
+
+  /// No description provided for @insightsFingerprintEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'Log at least 3 meals with the same ingredient and some wellness entries to see food fingerprints.'**
+  String get insightsFingerprintEmpty;
 
   /// No description provided for @insightsScatterEmpty.
   ///

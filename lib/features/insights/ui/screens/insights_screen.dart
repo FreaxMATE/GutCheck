@@ -10,6 +10,8 @@ import '../../providers/insights_providers.dart';
 import '../widgets/calendar_heatmap.dart';
 import '../widgets/correlation_scatter_plot.dart';
 import '../widgets/food_correlation_heatmap.dart';
+import '../../../pantry/providers/pantry_providers.dart';
+import '../widgets/food_fingerprint.dart';
 import '../widgets/food_impact_card.dart';
 import '../widgets/time_filter_bar.dart';
 import '../widgets/timing_analysis_card.dart';
@@ -22,15 +24,17 @@ class InsightsScreen extends ConsumerWidget {
     final l10n = AppLocalizations.of(context)!;
 
     return DefaultTabController(
-      length: 4,
+      length: 5,
       child: Scaffold(
         appBar: AppBar(
           title: Text(l10n.insightsTitle),
           bottom: TabBar(
+            isScrollable: true,
             tabs: [
               Tab(icon: const Icon(Icons.calendar_month_rounded), text: l10n.insightsTabCalendar),
               Tab(icon: const Icon(Icons.grid_on_rounded), text: l10n.insightsTabHeatmap),
               Tab(icon: const Icon(Icons.format_list_bulleted_rounded), text: l10n.insightsTabImpact),
+              Tab(icon: const Icon(Icons.fingerprint_rounded), text: l10n.insightsTabFingerprint),
               Tab(icon: const Icon(Icons.scatter_plot_rounded), text: l10n.insightsTabScatter),
             ],
           ),
@@ -51,6 +55,7 @@ class InsightsScreen extends ConsumerWidget {
                   _CalendarTab(),
                   _HeatmapTab(),
                   _ImpactTab(),
+                  _FingerprintTab(),
                   _ScatterTab(),
                 ],
               ),
@@ -102,6 +107,7 @@ class _DayView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     final today = DateTime(
         DateTime.now().year, DateTime.now().month, DateTime.now().day);
     final score = scores[today];
@@ -138,7 +144,7 @@ class _DayView extends StatelessWidget {
           ),
           const SizedBox(height: 8),
           Text(
-            score != null ? 'wellness score' : 'No data today',
+            score != null ? l10n.calendarDayScore : l10n.calendarDayNoData,
             style: Theme.of(context)
                 .textTheme
                 .bodySmall
@@ -315,12 +321,12 @@ class _HeatmapTab extends ConsumerWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                'Food × Time Lag',
+                l10n.heatmapFoodTimeLag,
                 style: Theme.of(context).textTheme.titleSmall,
               ),
               const SizedBox(height: 4),
               Text(
-                'Pearson r correlation between food consumption and wellness at each lag window',
+                l10n.heatmapFoodTimeLagDesc,
                 style: Theme.of(context)
                     .textTheme
                     .bodySmall
@@ -384,6 +390,118 @@ class _ImpactTab extends ConsumerWidget {
           },
         );
       },
+    );
+  }
+}
+
+// ── Fingerprint Tab ──────────────────────────────────────────────────────────
+
+class _FingerprintTab extends ConsumerWidget {
+  const _FingerprintTab();
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final l10n = AppLocalizations.of(context)!;
+    final locale = Localizations.localeOf(context).languageCode;
+    final fpData = ref.watch(foodFingerprintProvider);
+    final selectedId = ref.watch(selectedFingerprintFoodProvider);
+
+    return fpData.when(
+      loading: () => const Center(child: CircularProgressIndicator()),
+      error: (e, _) => Center(child: Text(l10n.genericError(e))),
+      data: (fingerprints) {
+        if (fingerprints.isEmpty) {
+          return _EmptyState(
+            icon: Icons.fingerprint_rounded,
+            message: l10n.insightsFingerprintEmpty,
+          );
+        }
+
+        // Sort by danger score descending (worst offenders first).
+        final sorted = fingerprints.entries.toList()
+          ..sort((a, b) => b.value.dangerScore.compareTo(a.value.dangerScore));
+
+        // If a food is selected, show its radar chart.
+        if (selectedId != null && fingerprints.containsKey(selectedId)) {
+          final fp = fingerprints[selectedId]!;
+          final name = _resolveIngredientName(
+              ref, selectedId, sorted, locale);
+          return SingleChildScrollView(
+            padding: const EdgeInsets.all(16),
+            child: Column(
+              children: [
+                Align(
+                  alignment: Alignment.centerLeft,
+                  child: TextButton.icon(
+                    icon: const Icon(Icons.arrow_back),
+                    label: Text(l10n.insightsScatterPrompt),
+                    onPressed: () => ref
+                        .read(selectedFingerprintFoodProvider.notifier)
+                        .state = null,
+                  ),
+                ),
+                const SizedBox(height: 8),
+                FoodFingerprint(foodName: name, data: fp, size: 260),
+              ],
+            ),
+          );
+        }
+
+        // List view of all foods.
+        return ListView.builder(
+          padding: const EdgeInsets.all(16),
+          itemCount: sorted.length,
+          itemBuilder: (ctx, i) {
+            final entry = sorted[i];
+            final name =
+                _resolveIngredientName(ref, entry.key, sorted, locale);
+            final fp = entry.value;
+            final danger = fp.dangerScore;
+            final color = Color.lerp(
+              Colors.green,
+              Colors.red,
+              (danger / 10).clamp(0.0, 1.0),
+            )!;
+
+            return StaggeredEntrance(
+              index: i,
+              baseDelay: const Duration(milliseconds: 30),
+              child: Card(
+                child: ListTile(
+                  leading: CircleAvatar(
+                    backgroundColor: color.withValues(alpha: 0.15),
+                    child: Icon(Icons.fingerprint_rounded, color: color),
+                  ),
+                  title: Text(name),
+                  subtitle: Text(
+                    'Discomfort ${fp.discomfort.toStringAsFixed(1)} · '
+                    'Heartburn ${fp.heartburn.toStringAsFixed(1)} · '
+                    '${fp.sampleCount} pts',
+                    style: const TextStyle(fontSize: 12),
+                  ),
+                  trailing: const Icon(Icons.chevron_right),
+                  onTap: () => ref
+                      .read(selectedFingerprintFoodProvider.notifier)
+                      .state = entry.key,
+                ),
+              ),
+            );
+          },
+        );
+      },
+    );
+  }
+
+  String _resolveIngredientName(
+    WidgetRef ref,
+    int ingredientId,
+    List<MapEntry<int, FoodFingerprintData>> sorted,
+    String locale,
+  ) {
+    final ingAsync = ref.watch(singleIngredientProvider(ingredientId));
+    return ingAsync.maybeWhen(
+      data: (ing) => ing?.localizedName(locale) ?? 'Unknown',
+      orElse: () => 'Unknown',
     );
   }
 }
@@ -546,6 +664,11 @@ class _MetricToggleBar extends ConsumerWidget {
             value: WellnessMetric.diarrhea,
             label: Text(l10n.insightsMetricDiarrhea),
             icon: const Icon(Icons.water_drop_rounded),
+          ),
+          ButtonSegment(
+            value: WellnessMetric.stress,
+            label: Text(l10n.insightsMetricStress),
+            icon: const Icon(Icons.psychology_rounded),
           ),
           ButtonSegment(
             value: WellnessMetric.combined,

@@ -1,6 +1,8 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 
+import 'package:gutcheck/l10n/app_localizations.dart';
+
 class CorrelationScatterPlot extends StatelessWidget {
   final String ingredientName;
   final List<ScatterSpot> spots;
@@ -65,8 +67,9 @@ class CorrelationScatterPlot extends StatelessWidget {
                 ),
                 titlesData: FlTitlesData(
                   leftTitles: AxisTitles(
-                    axisNameWidget: const Text('Wellness Score',
-                        style: TextStyle(fontSize: 10)),
+                    axisNameWidget: Text(
+                        AppLocalizations.of(context)!.scatterWellnessScore,
+                        style: const TextStyle(fontSize: 10)),
                     sideTitles: SideTitles(
                       showTitles: true,
                       reservedSize: 36,
@@ -77,8 +80,9 @@ class CorrelationScatterPlot extends StatelessWidget {
                     ),
                   ),
                   bottomTitles: AxisTitles(
-                    axisNameWidget: const Text('Time of Day',
-                        style: TextStyle(fontSize: 10)),
+                    axisNameWidget: Text(
+                        AppLocalizations.of(context)!.scatterTimeOfDay,
+                        style: const TextStyle(fontSize: 10)),
                     sideTitles: SideTitles(
                       showTitles: true,
                       reservedSize: 24,

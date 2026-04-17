@@ -398,6 +398,7 @@ class HiveAppDatabase implements AppDatabase {
         'recordedAt': entry.recordedAt.toIso8601String(),
         'gutPeace': entry.gutPeace,
         'heartburn': entry.heartburn,
+        'stressLevel': entry.stressLevel,
         'diarrhea': entry.diarrhea,
         'wellnessScore': entry.wellnessScore,
         'linkedMealIds': entry.linkedMealIds,
@@ -411,8 +412,9 @@ class HiveAppDatabase implements AppDatabase {
       ..id = json['id'] as int
       ..recordedAt = DateTime.tryParse(json['recordedAt'] as String? ?? '') ??
           DateTime.now()
-      ..gutPeace = (json['gutPeace'] as int?) ?? 5
-      ..heartburn = (json['heartburn'] as int?) ?? 1
+      ..gutPeace = (json['gutPeace'] as int?) ?? 0
+      ..heartburn = (json['heartburn'] as int?) ?? 0
+      ..stressLevel = (json['stressLevel'] as int?) ?? 0
       ..diarrhea = (json['diarrhea'] as bool?) ?? false
       ..wellnessScore = (json['wellnessScore'] as num?)?.toDouble() ?? 50.0
       ..linkedMealIds = (json['linkedMealIds'] as List<dynamic>? ?? [])

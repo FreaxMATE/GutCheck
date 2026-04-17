@@ -57,8 +57,13 @@ const WellnessEntrySchema = CollectionSchema(
       name: r'recordedAt',
       type: IsarType.dateTime,
     ),
-    r'wellnessScore': PropertySchema(
+    r'stressLevel': PropertySchema(
       id: 8,
+      name: r'stressLevel',
+      type: IsarType.long,
+    ),
+    r'wellnessScore': PropertySchema(
+      id: 9,
       name: r'wellnessScore',
       type: IsarType.double,
     )
@@ -121,7 +126,8 @@ void _wellnessEntrySerialize(
   writer.writeLongList(offsets[5], object.linkedMealIds);
   writer.writeString(offsets[6], object.notes);
   writer.writeDateTime(offsets[7], object.recordedAt);
-  writer.writeDouble(offsets[8], object.wellnessScore);
+  writer.writeLong(offsets[8], object.stressLevel);
+  writer.writeDouble(offsets[9], object.wellnessScore);
 }
 
 WellnessEntry _wellnessEntryDeserialize(
@@ -140,7 +146,8 @@ WellnessEntry _wellnessEntryDeserialize(
   object.linkedMealIds = reader.readLongList(offsets[5]) ?? [];
   object.notes = reader.readStringOrNull(offsets[6]);
   object.recordedAt = reader.readDateTime(offsets[7]);
-  object.wellnessScore = reader.readDouble(offsets[8]);
+  object.stressLevel = reader.readLong(offsets[8]);
+  object.wellnessScore = reader.readDouble(offsets[9]);
   return object;
 }
 
@@ -168,6 +175,8 @@ P _wellnessEntryDeserializeProp<P>(
     case 7:
       return (reader.readDateTime(offset)) as P;
     case 8:
+      return (reader.readLong(offset)) as P;
+    case 9:
       return (reader.readDouble(offset)) as P;
     default:
       throw IsarError('Unknown property with id $propertyId');
@@ -969,6 +978,62 @@ extension WellnessEntryQueryFilter
   }
 
   QueryBuilder<WellnessEntry, WellnessEntry, QAfterFilterCondition>
+      stressLevelEqualTo(int value) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'stressLevel',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<WellnessEntry, WellnessEntry, QAfterFilterCondition>
+      stressLevelGreaterThan(
+    int value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'stressLevel',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<WellnessEntry, WellnessEntry, QAfterFilterCondition>
+      stressLevelLessThan(
+    int value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'stressLevel',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<WellnessEntry, WellnessEntry, QAfterFilterCondition>
+      stressLevelBetween(
+    int lower,
+    int upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'stressLevel',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
+      ));
+    });
+  }
+
+  QueryBuilder<WellnessEntry, WellnessEntry, QAfterFilterCondition>
       wellnessScoreEqualTo(
     double value, {
     double epsilon = Query.epsilon,
@@ -1133,6 +1198,19 @@ extension WellnessEntryQuerySortBy
     });
   }
 
+  QueryBuilder<WellnessEntry, WellnessEntry, QAfterSortBy> sortByStressLevel() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'stressLevel', Sort.asc);
+    });
+  }
+
+  QueryBuilder<WellnessEntry, WellnessEntry, QAfterSortBy>
+      sortByStressLevelDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'stressLevel', Sort.desc);
+    });
+  }
+
   QueryBuilder<WellnessEntry, WellnessEntry, QAfterSortBy>
       sortByWellnessScore() {
     return QueryBuilder.apply(this, (query) {
@@ -1252,6 +1330,19 @@ extension WellnessEntryQuerySortThenBy
     });
   }
 
+  QueryBuilder<WellnessEntry, WellnessEntry, QAfterSortBy> thenByStressLevel() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'stressLevel', Sort.asc);
+    });
+  }
+
+  QueryBuilder<WellnessEntry, WellnessEntry, QAfterSortBy>
+      thenByStressLevelDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'stressLevel', Sort.desc);
+    });
+  }
+
   QueryBuilder<WellnessEntry, WellnessEntry, QAfterSortBy>
       thenByWellnessScore() {
     return QueryBuilder.apply(this, (query) {
@@ -1320,6 +1411,13 @@ extension WellnessEntryQueryWhereDistinct
   }
 
   QueryBuilder<WellnessEntry, WellnessEntry, QDistinct>
+      distinctByStressLevel() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'stressLevel');
+    });
+  }
+
+  QueryBuilder<WellnessEntry, WellnessEntry, QDistinct>
       distinctByWellnessScore() {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'wellnessScore');
@@ -1381,6 +1479,12 @@ extension WellnessEntryQueryProperty
   QueryBuilder<WellnessEntry, DateTime, QQueryOperations> recordedAtProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'recordedAt');
+    });
+  }
+
+  QueryBuilder<WellnessEntry, int, QQueryOperations> stressLevelProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'stressLevel');
     });
   }
 

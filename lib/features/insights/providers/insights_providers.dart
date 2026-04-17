@@ -6,8 +6,9 @@ import '../data/repositories/insights_repository.dart';
 import '../domain/correlation_engine.dart';
 import '../domain/impact_score.dart';
 import '../domain/timing_analysis.dart';
+import '../ui/widgets/food_fingerprint.dart';
 
-enum WellnessMetric { gutPeace, heartburn, diarrhea, combined }
+enum WellnessMetric { gutPeace, heartburn, diarrhea, stress, combined }
 
 final insightsMetricProvider =
     StateProvider<WellnessMetric>((ref) => WellnessMetric.gutPeace);
@@ -28,6 +29,7 @@ final heatmapDataProvider =
   final extractor = switch (metric) {
     WellnessMetric.heartburn => CorrelationEngine.heartburnAsY,
     WellnessMetric.diarrhea => CorrelationEngine.diarrheaAsY,
+    WellnessMetric.stress => CorrelationEngine.stressAsY,
     WellnessMetric.combined => CorrelationEngine.combinedAsY,
     WellnessMetric.gutPeace => null,
   };
@@ -49,6 +51,7 @@ final foodImpactScoresProvider =
   final extractor = switch (metric) {
     WellnessMetric.heartburn => CorrelationEngine.heartburnAsY,
     WellnessMetric.diarrhea  => CorrelationEngine.diarrheaAsY,
+    WellnessMetric.stress    => CorrelationEngine.stressAsY,
     WellnessMetric.combined  => CorrelationEngine.combinedAsY,
     WellnessMetric.gutPeace  => null,
   };
@@ -91,3 +94,17 @@ final timingAnalysisProvider =
   final wellness = await db.wellnessInRange(from: range.start, to: range.end);
   return TimingAnalyzer.analyze(meals: meals, wellness: wellness);
 });
+
+/// Food fingerprint data for each ingredient with enough data.
+final foodFingerprintProvider =
+    FutureProvider.autoDispose<Map<int, FoodFingerprintData>>((ref) async {
+  final filter = ref.watch(insightsTimeFilterProvider);
+  final range = filter.toDateRange();
+  final db = await ref.watch(appDatabaseProvider.future);
+  final meals = await db.mealsInRange(from: range.start, to: range.end);
+  final wellness = await db.wellnessInRange(from: range.start, to: range.end);
+  return computeFingerprints(meals: meals, wellness: wellness);
+});
+
+/// Currently selected food for the fingerprint detail view.
+final selectedFingerprintFoodProvider = StateProvider<int?>((ref) => null);

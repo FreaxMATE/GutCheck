@@ -20,11 +20,7 @@ class ExportService {
 
     final payload = {
       'exportedAt': DateTime.now().toIso8601String(),
-      // Bumped to 2 when gutPeace semantics flipped:
-      //   v1: 1-10, higher = better (gut peace)
-      //   v2: 0-10, higher = worse (gut discomfort)
-      // Importers for v < 2 must convert gutPeace values.
-      'version': 2,
+      'version': 3,
       'customIngredients': ingredients.map((i) => {
         'id': i.id,
         'name': i.name,
@@ -50,6 +46,7 @@ class ExportService {
         'recordedAt': w.recordedAt.toIso8601String(),
         'gutPeace': w.gutPeace,
         'heartburn': w.heartburn,
+        'stressLevel': w.stressLevel,
         'diarrhea': w.diarrhea,
         'wellnessScore': w.wellnessScore,
         'linkedMealIds': w.linkedMealIds,
@@ -87,11 +84,7 @@ class ExportService {
 
     final payload = {
       'exportedAt': DateTime.now().toIso8601String(),
-      // Bumped to 2 when gutPeace semantics flipped:
-      //   v1: 1-10, higher = better (gut peace)
-      //   v2: 0-10, higher = worse (gut discomfort)
-      // Importers for v < 2 must convert gutPeace values.
-      'version': 2,
+      'version': 3,
       'customIngredients': ingredients.map((i) => {
         'id': i.id,
         'name': i.name,

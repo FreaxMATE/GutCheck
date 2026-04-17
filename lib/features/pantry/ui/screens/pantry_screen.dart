@@ -10,11 +10,24 @@ import '../../providers/pantry_providers.dart';
 import '../widgets/category_filter_chips.dart';
 import '../widgets/ingredient_tile.dart';
 
-class PantryScreen extends ConsumerWidget {
+class PantryScreen extends ConsumerStatefulWidget {
   const PantryScreen({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<PantryScreen> createState() => _PantryScreenState();
+}
+
+class _PantryScreenState extends ConsumerState<PantryScreen> {
+  final _searchController = TextEditingController();
+
+  @override
+  void dispose() {
+    _searchController.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
     final searchQuery = ref.watch(pantrySearchQueryProvider);
     final ingredients = ref.watch(pagedIngredientsProvider);
@@ -38,15 +51,19 @@ class PantryScreen extends ConsumerWidget {
             Padding(
               padding: const EdgeInsets.fromLTRB(16, 8, 16, 4),
               child: SearchBar(
+                controller: _searchController,
                 hintText: l10n.pantrySearchHint,
                 leading: const Icon(Icons.search),
                 trailing: searchQuery.isNotEmpty
                     ? [
                         IconButton(
                           icon: const Icon(Icons.close),
-                          onPressed: () => ref
-                              .read(pantrySearchQueryProvider.notifier)
-                              .state = '',
+                          onPressed: () {
+                            _searchController.clear();
+                            ref
+                                .read(pantrySearchQueryProvider.notifier)
+                                .state = '';
+                          },
                         )
                       ]
                     : null,

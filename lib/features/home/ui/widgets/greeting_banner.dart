@@ -32,7 +32,7 @@ class GreetingBanner extends ConsumerWidget {
           GutBuddy(
             size: 72,
             discomfort: latestWellness.maybeWhen(
-              data: (w) => w?.gutPeace,
+              data: (w) => w?.gutPeaceDisplay.round(),
               orElse: () => null,
             ),
           ),

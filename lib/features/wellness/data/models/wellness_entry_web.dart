@@ -1,28 +1,30 @@
+/// Web fallback for WellnessEntry. Mirrors the native Isar model's fields.
 class WellnessEntry {
   int id = 0;
-
-  /// When symptoms were recorded
   DateTime recordedAt = DateTime.now();
 
-  /// Overall gut comfort. 1 = very uncomfortable, 10 = perfect.
-  int gutPeace = 10;
+  /// Gut discomfort. Stored as 2× display value (0-20 = 0.0-10.0 in 0.5 steps).
+  int gutPeace = 0;
 
-  /// Heartburn intensity. 1 = none, 10 = severe. Defaults to 1 for old records.
-  int heartburn = 1;
+  /// Heartburn (0-20, 2× encoding).
+  int heartburn = 0;
 
-  /// Whether the user experienced diarrhea. Defaults to false for old records.
+  /// Stress level (0-20, 2× encoding). Input context variable.
+  int stressLevel = 0;
+
   bool diarrhea = false;
-
-  /// Composite 0–100 score stored for fast querying.
   double wellnessScore = 100.0;
-
-  /// IDs of MealEntry records the user linked to these symptoms.
   List<int> linkedMealIds = [];
-
   String? notes;
-
-  /// true = inserted by SampleDataService
   bool isSample = false;
-
   DateTime createdAt = DateTime.now();
+
+  // Display helpers matching native model.
+  double get gutPeaceDisplay => gutPeace / 2.0;
+  double get heartburnDisplay => heartburn / 2.0;
+  double get stressDisplay => stressLevel / 2.0;
+
+  void setGutPeaceDisplay(double v) => gutPeace = (v * 2).round().clamp(0, 20);
+  void setHeartburnDisplay(double v) => heartburn = (v * 2).round().clamp(0, 20);
+  void setStressDisplay(double v) => stressLevel = (v * 2).round().clamp(0, 20);
 }

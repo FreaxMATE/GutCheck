@@ -240,6 +240,46 @@ class AppLocalizationsDe extends AppLocalizations {
   }
 
   @override
+  String get heatmapLegendPoor => 'Schlecht';
+
+  @override
+  String get heatmapLegendGreat => 'Gut';
+
+  @override
+  String get heatmapHarmful => 'Schädlich';
+
+  @override
+  String get heatmapBeneficial => 'Förderlich';
+
+  @override
+  String get heatmapNoData => 'Keine Daten';
+
+  @override
+  String get heatmapFoodTimeLag => 'Lebensmittel × Zeitverzögerung';
+
+  @override
+  String get heatmapFoodTimeLagDesc =>
+      'Pearson-r-Korrelation zwischen Lebensmittelkonsum und Wohlbefinden je Zeitfenster';
+
+  @override
+  String get scatterWellnessScore => 'Wohlbefindens-Score';
+
+  @override
+  String get scatterTimeOfDay => 'Tageszeit';
+
+  @override
+  String get calendarDayNoData => 'Keine Daten heute';
+
+  @override
+  String get calendarDayScore => 'Wohlbefindens-Score';
+
+  @override
+  String get dateToday => 'Heute';
+
+  @override
+  String get dateYesterday => 'Gestern';
+
+  @override
   String weeklyDigestAvgScore(int score) {
     return 'Durchschnittlicher Wohlbefindens-Score: $score';
   }
@@ -687,6 +727,18 @@ class AppLocalizationsDe extends AppLocalizations {
   String get wellnessSevereDiscomfort => 'Starkes Unwohlsein';
 
   @override
+  String get wellnessStress => 'Stresslevel';
+
+  @override
+  String get wellnessStressMin => 'Tiefenentspannt';
+
+  @override
+  String get wellnessStressMax => 'Am Limit';
+
+  @override
+  String get insightsMetricStress => 'Stress';
+
+  @override
   String get wellnessDiarrhea => 'Durchfall';
 
   @override
@@ -737,6 +789,13 @@ class AppLocalizationsDe extends AppLocalizations {
   @override
   String get insightsImpactEmpty =>
       'Trage mindestens 3 Mahlzeiten mit derselben Zutat und Wohlbefindensdaten ein, um Korrelationen zu sehen.';
+
+  @override
+  String get insightsTabFingerprint => 'Fingerabdruck';
+
+  @override
+  String get insightsFingerprintEmpty =>
+      'Trage mindestens 3 Mahlzeiten mit derselben Zutat und Wohlbefindensdaten ein, um Fingerabdrücke zu sehen.';
 
   @override
   String get insightsScatterEmpty =>

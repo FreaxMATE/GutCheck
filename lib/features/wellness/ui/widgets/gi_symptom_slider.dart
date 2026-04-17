@@ -3,7 +3,10 @@ import 'package:flutter/services.dart';
 
 import '../../../../core/constants/app_colors.dart';
 
-/// Slider for a GI symptom (or overall gut comfort).
+/// Slider for a GI symptom or context variable (stress, discomfort, etc.).
+///
+/// Displays values 0.0-10.0 in 0.5 steps. Internally the caller can store
+/// the value however they wish; this widget deals purely in display doubles.
 ///
 /// [inverted] controls color semantics only:
 ///   - false → high value is GOOD (slider turns greener as value rises).
@@ -12,11 +15,9 @@ class GiSymptomSlider extends StatelessWidget {
   final String label;
   final String minLabel;
   final String maxLabel;
-  final int value;
-  final int min;
-  final int max;
+  final double value; // 0.0 - 10.0
   final bool inverted;
-  final ValueChanged<int> onChanged;
+  final ValueChanged<double> onChanged;
 
   const GiSymptomSlider({
     super.key,
@@ -25,23 +26,19 @@ class GiSymptomSlider extends StatelessWidget {
     required this.maxLabel,
     required this.value,
     required this.onChanged,
-    this.min = 1,
-    this.max = 10,
     this.inverted = false,
   });
 
   Color get _thumbColor {
-    final range = max - min;
-    if (range <= 0) return AppColors.wellnessGreen;
-    final normalized = (value - min) / range; // 0..1
-    final goodness = inverted ? (1.0 - normalized) : normalized; // 0..1
+    final t = (value / 10.0).clamp(0.0, 1.0);
+    final goodness = inverted ? (1.0 - t) : t;
     return AppColors.wellnessScoreInterpolated(goodness * 100.0);
   }
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final divisions = (max - min).clamp(1, 1000);
+    final displayValue = value.clamp(0.0, 10.0);
 
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 8),
@@ -53,7 +50,7 @@ class GiSymptomSlider extends StatelessWidget {
               Text(label, style: theme.textTheme.titleSmall),
               const Spacer(),
               Container(
-                width: 36,
+                width: 44,
                 height: 36,
                 decoration: BoxDecoration(
                   color: _thumbColor.withValues(alpha: 0.15),
@@ -61,7 +58,9 @@ class GiSymptomSlider extends StatelessWidget {
                 ),
                 alignment: Alignment.center,
                 child: Text(
-                  '$value',
+                  displayValue == displayValue.roundToDouble()
+                      ? '${displayValue.round()}'
+                      : displayValue.toStringAsFixed(1),
                   style: theme.textTheme.titleMedium
                       ?.copyWith(color: _thumbColor),
                 ),
@@ -77,17 +76,15 @@ class GiSymptomSlider extends StatelessWidget {
               trackHeight: 6,
             ),
             child: Slider(
-              value: value.toDouble(),
-              min: min.toDouble(),
-              max: max.toDouble(),
-              divisions: divisions,
+              value: displayValue,
+              min: 0,
+              max: 10,
+              divisions: 20, // 0.5 steps
               onChanged: (v) {
-                final r = v.round();
-                if (r != value) {
-                  // Haptic intensity matches severity — stronger the
-                  // closer we are to the bad end of the scale.
-                  final range = (max - min).clamp(1, 1000);
-                  final t = ((r - min) / range).clamp(0.0, 1.0);
+                // Round to nearest 0.5
+                final rounded = (v * 2).round() / 2.0;
+                if (rounded != value) {
+                  final t = (rounded / 10.0).clamp(0.0, 1.0);
                   final severity = inverted ? t : (1.0 - t);
                   if (severity > 0.8) {
                     HapticFeedback.heavyImpact();
@@ -97,7 +94,7 @@ class GiSymptomSlider extends StatelessWidget {
                     HapticFeedback.selectionClick();
                   }
                 }
-                onChanged(r);
+                onChanged(rounded);
               },
             ),
           ),

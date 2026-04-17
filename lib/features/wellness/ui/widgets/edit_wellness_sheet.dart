@@ -19,8 +19,9 @@ class EditWellnessSheet extends ConsumerStatefulWidget {
 }
 
 class _EditWellnessSheetState extends ConsumerState<EditWellnessSheet> {
-  late int _gutPeace;
-  late int _heartburn;
+  late double _gutPeace;
+  late double _heartburn;
+  late double _stress;
   late bool _diarrhea;
   late DateTime _recordedAt;
   final _notesController = TextEditingController();
@@ -29,8 +30,9 @@ class _EditWellnessSheetState extends ConsumerState<EditWellnessSheet> {
   @override
   void initState() {
     super.initState();
-    _gutPeace = widget.entry.gutPeace;
-    _heartburn = widget.entry.heartburn;
+    _gutPeace = widget.entry.gutPeaceDisplay;
+    _heartburn = widget.entry.heartburnDisplay;
+    _stress = widget.entry.stressDisplay;
     _diarrhea = widget.entry.diarrhea;
     _recordedAt = widget.entry.recordedAt;
     _notesController.text = widget.entry.notes ?? '';
@@ -117,20 +119,16 @@ class _EditWellnessSheetState extends ConsumerState<EditWellnessSheet> {
               const Divider(),
               const SizedBox(height: 8),
 
-              // Gut discomfort (0 = none, 10 = extreme)
               GiSymptomSlider(
                 label: l10n.wellnessGutPeace,
                 minLabel: l10n.wellnessGutPeaceMin,
                 maxLabel: l10n.wellnessGutPeaceMax,
                 value: _gutPeace,
-                min: 0,
-                max: 10,
                 inverted: true,
                 onChanged: (v) => setState(() => _gutPeace = v),
               ),
               const SizedBox(height: 16),
 
-              // Heartburn
               GiSymptomSlider(
                 label: l10n.wellnessHeartburn,
                 minLabel: l10n.wellnessHeartburnMin,
@@ -138,6 +136,16 @@ class _EditWellnessSheetState extends ConsumerState<EditWellnessSheet> {
                 value: _heartburn,
                 inverted: true,
                 onChanged: (v) => setState(() => _heartburn = v),
+              ),
+              const SizedBox(height: 16),
+
+              GiSymptomSlider(
+                label: l10n.wellnessStress,
+                minLabel: l10n.wellnessStressMin,
+                maxLabel: l10n.wellnessStressMax,
+                value: _stress,
+                inverted: true,
+                onChanged: (v) => setState(() => _stress = v),
               ),
               const SizedBox(height: 16),
 
@@ -209,14 +217,16 @@ class _EditWellnessSheetState extends ConsumerState<EditWellnessSheet> {
     setState(() => _saving = true);
     try {
       final db = await ref.read(appDatabaseProvider.future);
+      final storedGut = WellnessDraftState.toStored(_gutPeace);
       final updated = WellnessEntry()
         ..id = widget.entry.id
         ..recordedAt = _recordedAt
-        ..gutPeace = _gutPeace
-        ..heartburn = _heartburn
+        ..gutPeace = storedGut
+        ..heartburn = WellnessDraftState.toStored(_heartburn)
+        ..stressLevel = WellnessDraftState.toStored(_stress)
         ..diarrhea = _diarrhea
         ..wellnessScore =
-            ((10 - _gutPeace) / 10.0) * 100.0
+            ((20 - storedGut) / 20.0) * 100.0
         ..linkedMealIds = List.from(widget.entry.linkedMealIds)
         ..notes = _notesController.text.trim().isEmpty
             ? null
