@@ -13,13 +13,30 @@ const features = [
   { icon: 'wifi',     title: 'Works offline',        text: 'Built local-first with Isar. The whole app runs without a connection.' },
 ];
 
+// The six "tour" screenshots. `name` resolves to the shared basename —
+// PhoneFrame picks the right theme-inverse variant automatically.
 const shots = [
-  { src: `${BASE}screenshots/home.png`,           title: 'Daily dashboard',  desc: 'See your latest wellness check, last meal, and 7-day average in one glance.' },
-  { src: `${BASE}screenshots/wellness-check.png`, title: 'Wellness check-in',desc: 'A quick guided form with sliders for discomfort, heartburn, and stress.' },
-  { src: `${BASE}screenshots/meal-log.png`,       title: 'Meal log',         desc: 'Reusable meal templates and one-tap ingredient logging.' },
-  { src: `${BASE}screenshots/fingerprint.png`,    title: 'Food fingerprint', desc: 'Radar chart per ingredient — know at a glance which symptoms each food correlates with.' },
-  { src: `${BASE}screenshots/correlations.png`,   title: 'Correlations',     desc: 'Foods that actually line up with your symptoms, ranked by strength.' },
-  { src: `${BASE}screenshots/heatmap.png`,        title: 'Delay heatmap',    desc: 'Ingredient × time-window matrix: immediate, 4–12h, overnight.' },
+  { name: '1_startpage.png',          title: 'Daily dashboard',   desc: 'See your latest wellness check, last meal, and 7-day average in one glance.' },
+  { name: '4_wellness_check.png',     title: 'Wellness check-in', desc: 'A quick guided form with sliders for discomfort, heartburn, and stress — plus a compact bloating selector.' },
+  { name: '3_meal_log.png',           title: 'Meal log',          desc: 'Reusable meal templates and one-tap ingredient logging.' },
+  { name: '10_radar.png',             title: 'Food radar',        desc: 'Per-food symptom profile — know at a glance which symptoms each food correlates with.' },
+  { name: '8_impact.png',             title: 'Impact list',       desc: 'Foods that actually line up with your symptoms, ranked by correlation strength and FDR-gated for statistical honesty.' },
+  { name: '9_heatmap.png',            title: 'Delay heatmap',     desc: 'Ingredient × time-window matrix: immediate, 4–12h, overnight.' },
+];
+
+// The full gallery for the bottom swipe strip.
+const gallery = [
+  { name: '1_startpage.png',                   label: 'Dashboard' },
+  { name: '2_startpage_symptom_timeline.png',  label: 'Symptom timeline' },
+  { name: '4_wellness_check.png',              label: 'Wellness check-in' },
+  { name: '5_wellness_history.png',            label: 'Wellness history' },
+  { name: '3_meal_log.png',                    label: 'Meal log' },
+  { name: '6_insights.png',                    label: 'Insights overview' },
+  { name: '7_calendar.png',                    label: 'Calendar' },
+  { name: '8_impact.png',                      label: 'Impact list' },
+  { name: '9_heatmap.png',                     label: 'Delay heatmap' },
+  { name: '10_radar.png',                      label: 'Food radar' },
+  { name: '11_scatter.png',                    label: 'Scatter plot' },
 ];
 ---
 <BaseLayout title="GutCheck — Know what your gut is telling you" description="A local-first digestive health tracker. Log meals, feelings, and let data reveal your gut patterns.">
@@ -56,8 +73,8 @@ const shots = [
         </div>
         <div class="relative flex justify-center md:justify-end">
           <div class="relative flex items-end gap-4">
-            <PhoneFrame src={`${BASE}screenshots/fingerprint.png`} alt="Food fingerprint radar chart" class="animate-float" />
-            <PhoneFrame src={`${BASE}screenshots/home.png`} alt="Daily dashboard" class="hidden sm:block -mb-8" />
+            <PhoneFrame name="10_radar.png" alt="Food radar chart" class="animate-float" />
+            <PhoneFrame name="1_startpage.png" alt="Daily dashboard" class="hidden sm:block -mb-8" />
           </div>
         </div>
       </div>
@@ -91,9 +108,36 @@ const shots = [
             <h3 class="mt-2 text-2xl font-bold tracking-tight">{s.title}</h3>
             <p class="mt-3 text-slate-600 dark:text-slate-300">{s.desc}</p>
           </div>
-          <div class="flex justify-center"><PhoneFrame src={s.src} alt={s.title} /></div>
+          <div class="flex justify-center"><PhoneFrame name={s.name} alt={s.title} /></div>
         </div>
       ))}
+    </div>
+  </section>
+
+  <!-- GALLERY (swipeable) -->
+  <section class="py-20 bg-gradient-to-b from-transparent via-brand-50/40 to-transparent dark:via-slate-900/40">
+    <div class="container-narrow">
+      <div class="max-w-2xl">
+        <span class="eyebrow">Every screen</span>
+        <h2 class="mt-4 text-3xl sm:text-4xl font-bold tracking-tight">Swipe through the whole app.</h2>
+        <p class="mt-4 text-slate-600 dark:text-slate-300">Nothing hidden behind a paywall, no sign-up before the tour. Every screen, just a scroll away.</p>
+      </div>
+    </div>
+
+    <!-- Horizontal snap scroller. Goes edge-to-edge so the cards peek in from
+         the right, hinting there's more to see. -->
+    <div class="mt-10 overflow-x-auto snap-x snap-mandatory scroll-px-6 [scrollbar-width:thin] pb-4">
+      <div class="flex gap-6 px-6 md:px-[calc((100vw-72rem)/2+1.5rem)]">
+        {gallery.map((g) => (
+          <div class="snap-start shrink-0 w-[220px] md:w-[240px]">
+            <PhoneFrame name={g.name} alt={g.label} />
+            <p class="mt-3 text-center text-sm font-medium text-slate-700 dark:text-slate-300">{g.label}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+    <div class="container-narrow mt-2">
+      <p class="text-xs text-slate-500 dark:text-slate-500">← swipe →</p>
     </div>
   </section>
 

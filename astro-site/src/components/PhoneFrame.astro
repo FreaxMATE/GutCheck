@@ -1,10 +1,31 @@
 ---
-const { src, alt, class: className = '' } = Astro.props;
+// PhoneFrame renders a phone bezel around a screenshot. When given a
+// `name` prop (e.g. "1_startpage.png"), it resolves both light and dark
+// variants from /screenshots/{light,dark}/ and swaps them INVERSE to the
+// current site theme — site in dark mode shows the light screenshot so the
+// phone pops against the background, and vice versa.
+const {
+  name,
+  src,           // fallback for non-screenshot usages
+  alt,
+  class: className = '',
+} = Astro.props;
+const BASE = import.meta.env.BASE_URL;
+const lightSrc = name ? `${BASE}screenshots/light/${name}` : src;
+const darkSrc = name ? `${BASE}screenshots/dark/${name}` : src;
 ---
 <div class={`relative mx-auto w-full max-w-[280px] ${className}`}>
   <div class="relative aspect-[9/19.5] rounded-[2.2rem] border border-slate-300/80 bg-slate-900 p-2 shadow-2xl dark:border-slate-700">
     <div class="absolute top-2 left-1/2 -translate-x-1/2 h-5 w-24 rounded-b-xl bg-slate-950 z-10"></div>
-    <img src={src} alt={alt} loading="lazy" class="h-full w-full rounded-[1.7rem] object-cover" />
+    {name ? (
+      <>
+        {/* Inverse theme: site light → dark screenshot; site dark → light screenshot */}
+        <img src={darkSrc} alt={alt} loading="lazy" class="block dark:hidden h-full w-full rounded-[1.7rem] object-cover" />
+        <img src={lightSrc} alt={alt} loading="lazy" class="hidden dark:block h-full w-full rounded-[1.7rem] object-cover" />
+      </>
+    ) : (
+      <img src={src} alt={alt} loading="lazy" class="h-full w-full rounded-[1.7rem] object-cover" />
+    )}
   </div>
   <div class="pointer-events-none absolute -inset-6 -z-10 rounded-[3rem] bg-gradient-to-b from-brand-500/20 to-transparent blur-2xl"></div>
 </div>

@@ -307,49 +307,127 @@ class _CalendarPreview extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final data = ref.watch(heatmapDataProvider);
+    final range = ref.watch(insightsCalendarRangeProvider);
     return data.maybeWhen(
       data: (scores) {
         if (scores.isEmpty) return const _PreviewEmpty();
-        final now = DateTime.now();
-        final days = List.generate(7, (i) {
-          final d = now.subtract(Duration(days: 6 - i));
-          return DateTime(d.year, d.month, d.day);
-        });
-        return SizedBox(
-          height: 44,
-          child: Row(
-            children: days.map((day) {
-              final score = scores[day];
-              final color = score != null
-                  ? AppColors.wellnessScoreInterpolated(score)
-                  : Colors.grey.withValues(alpha: 0.15);
-              return Expanded(
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 2),
-                  child: Container(
-                    decoration: BoxDecoration(
-                      color: score != null
-                          ? color.withValues(alpha: 0.7)
-                          : Colors.grey.withValues(alpha: 0.1),
-                      borderRadius: BorderRadius.circular(6),
-                    ),
-                    alignment: Alignment.center,
-                    child: Text(
-                      score != null ? WellnessDisplay.format(score) : '–',
-                      style: TextStyle(
-                        fontSize: 11,
-                        fontWeight: FontWeight.w700,
-                        color: score != null ? Colors.white : Colors.grey,
-                      ),
-                    ),
-                  ),
-                ),
-              );
-            }).toList(),
-          ),
-        );
+        return switch (range) {
+          TimeFilter.day => _DayTile(scores: scores),
+          TimeFilter.week => _WeekStrip(scores: scores),
+          TimeFilter.month || TimeFilter.year =>
+            _MonthGrid(scores: scores),
+        };
       },
       orElse: () => const _PreviewLoading(),
+    );
+  }
+}
+
+/// Single big tile with today's wellness score. Used when the user sets the
+/// card density to "Day" via long-press.
+class _DayTile extends StatelessWidget {
+  final Map<DateTime, double> scores;
+  const _DayTile({required this.scores});
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+    final today = DateTime.now();
+    final key = DateTime(today.year, today.month, today.day);
+    final score = scores[key];
+    final color = score != null
+        ? AppColors.wellnessScoreInterpolated(score)
+        : Colors.grey;
+    return Container(
+      height: 72,
+      decoration: BoxDecoration(
+        color: score != null
+            ? color.withValues(alpha: 0.15)
+            : Colors.grey.withValues(alpha: 0.1),
+        borderRadius: BorderRadius.circular(12),
+      ),
+      alignment: Alignment.center,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Text(
+            score != null ? WellnessDisplay.format(score) : '–',
+            style: TextStyle(
+              fontSize: 28,
+              fontWeight: FontWeight.w800,
+              color: score != null ? color : Colors.grey,
+            ),
+          ),
+          const SizedBox(width: 12),
+          Text(
+            score != null ? l10n.calendarDayScore : l10n.calendarDayNoData,
+            style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                  color: Colors.grey[700],
+                ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _WeekStrip extends StatelessWidget {
+  final Map<DateTime, double> scores;
+  const _WeekStrip({required this.scores});
+
+  @override
+  Widget build(BuildContext context) {
+    final now = DateTime.now();
+    final days = List.generate(7, (i) {
+      final d = now.subtract(Duration(days: 6 - i));
+      return DateTime(d.year, d.month, d.day);
+    });
+    return SizedBox(
+      height: 44,
+      child: Row(
+        children: days.map((day) {
+          final score = scores[day];
+          final color = score != null
+              ? AppColors.wellnessScoreInterpolated(score)
+              : Colors.grey.withValues(alpha: 0.15);
+          return Expanded(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 2),
+              child: Container(
+                decoration: BoxDecoration(
+                  color: score != null
+                      ? color.withValues(alpha: 0.7)
+                      : Colors.grey.withValues(alpha: 0.1),
+                  borderRadius: BorderRadius.circular(6),
+                ),
+                alignment: Alignment.center,
+                child: Text(
+                  score != null ? WellnessDisplay.format(score) : '–',
+                  style: TextStyle(
+                    fontSize: 11,
+                    fontWeight: FontWeight.w700,
+                    color: score != null ? Colors.white : Colors.grey,
+                  ),
+                ),
+              ),
+            ),
+          );
+        }).toList(),
+      ),
+    );
+  }
+}
+
+class _MonthGrid extends StatelessWidget {
+  final Map<DateTime, double> scores;
+  const _MonthGrid({required this.scores});
+
+  @override
+  Widget build(BuildContext context) {
+    final now = DateTime.now();
+    return CalendarHeatmap(
+      dailyScores: scores,
+      month: DateTime(now.year, now.month, 1),
     );
   }
 }

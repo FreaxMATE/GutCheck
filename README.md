@@ -22,26 +22,33 @@ Log meals, track how you feel, and discover which foods are secretly plotting ag
 Most food trackers care about calories. **GutCheck cares about how you feel.**
 It quietly correlates what you eat with how your gut reacts — no cloud, no account, no nonsense.
 
-- 🧠 **Find hidden triggers** — Pearson correlations tell you which foods line up with symptoms
+- 🧠 **Find hidden triggers** — Spearman rank correlations with BH FDR correction tell you which foods *actually* line up with symptoms
 - 🗓️ **Calendar + heatmap views** — spot weekly rhythms at a glance
-- 🔬 **Food fingerprints** — a symptom signature per ingredient
+- 🔬 **Food radars** — a symptom signature per ingredient
 - ⏱️ **Meal-timing analysis** — is late dinner really the culprit?
 - 🌱 **Beautifully local** — your data never leaves your device
 
 ## 📸 Screenshots
 
+<!-- GitHub theme-aware: shows light screenshots in light mode, dark in dark. -->
 <div align="center">
-  <img src="docs/screenshots/home.png" width="220" alt="Daily dashboard" />
-  <img src="docs/screenshots/wellness-check.png" width="220" alt="Wellness check-in" />
-  <img src="docs/screenshots/meal-log.png" width="220" alt="Meal log" />
+  <img src="docs/screenshots/light/1_startpage.png#gh-light-mode-only"       width="220" alt="Daily dashboard" />
+  <img src="docs/screenshots/light/4_wellness_check.png#gh-light-mode-only"  width="220" alt="Wellness check-in" />
+  <img src="docs/screenshots/light/3_meal_log.png#gh-light-mode-only"        width="220" alt="Meal log" />
+  <img src="docs/screenshots/dark/1_startpage.png#gh-dark-mode-only"         width="220" alt="Daily dashboard" />
+  <img src="docs/screenshots/dark/4_wellness_check.png#gh-dark-mode-only"    width="220" alt="Wellness check-in" />
+  <img src="docs/screenshots/dark/3_meal_log.png#gh-dark-mode-only"          width="220" alt="Meal log" />
 </div>
 <div align="center">
-  <img src="docs/screenshots/fingerprint.png" width="220" alt="Food fingerprint" />
-  <img src="docs/screenshots/correlations.png" width="220" alt="Correlations" />
-  <img src="docs/screenshots/heatmap.png" width="220" alt="Delay heatmap" />
+  <img src="docs/screenshots/light/10_radar.png#gh-light-mode-only"          width="220" alt="Food radar" />
+  <img src="docs/screenshots/light/8_impact.png#gh-light-mode-only"          width="220" alt="Impact list" />
+  <img src="docs/screenshots/light/9_heatmap.png#gh-light-mode-only"         width="220" alt="Delay heatmap" />
+  <img src="docs/screenshots/dark/10_radar.png#gh-dark-mode-only"            width="220" alt="Food radar" />
+  <img src="docs/screenshots/dark/8_impact.png#gh-dark-mode-only"            width="220" alt="Impact list" />
+  <img src="docs/screenshots/dark/9_heatmap.png#gh-dark-mode-only"           width="220" alt="Delay heatmap" />
 </div>
 
-<p align="center"><sub>Daily dashboard · Wellness check · Meal log · Food fingerprint · Correlations · Delay heatmap</sub></p>
+<p align="center"><sub>Daily dashboard · Wellness check · Meal log · Food radar · Impact list · Delay heatmap</sub></p>
 
 ## 🚀 Quick Start
 

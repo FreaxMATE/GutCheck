@@ -19,7 +19,7 @@ const groups = [
   {
     title: 'Logging that gets out of your way',
     body: 'Logging is the part you actually have to do every day — so it needs to be fast. GutCheck ships with a curated, bilingual (EN/DE) pantry of 115+ ingredients, and meal templates so your usual breakfast is one tap.',
-    shot: `${BASE}screenshots/meal-log.png`,
+    shot: '3_meal_log.png',
     alt: 'Meal log screen',
     items: [
       { icon: 'utensils', title: 'One-tap ingredients',   text: 'Tap to toggle — no quantities, no weighing, no friction.' },
@@ -29,19 +29,19 @@ const groups = [
   },
   {
     title: 'Insights that connect the dots',
-    body: 'Once you have a week of data, GutCheck starts doing the math. Pearson correlations, delayed-effect heatmaps, and per-food radar charts surface the patterns your memory would never spot.',
-    shot: `${BASE}screenshots/correlations.png`,
-    alt: 'Correlations screen',
+    body: 'Once you have a week of data, GutCheck starts doing the math. Spearman rank correlations with Benjamini–Hochberg FDR correction, delayed-effect heatmaps, and per-food radar charts surface the patterns your memory would never spot.',
+    shot: '8_impact.png',
+    alt: 'Impact list',
     items: [
-      { icon: 'chart',    title: 'Correlation engine', text: 'Pearson r between each ingredient and each symptom, ranked by strength.' },
-      { icon: 'activity', title: 'Food fingerprint',   text: 'Radar chart per ingredient — shape tells the story at a glance.' },
+      { icon: 'chart',    title: 'Correlation engine', text: 'Spearman rank correlation between each ingredient and each symptom, ranked by strength — FDR-corrected so the top list stays honest.' },
+      { icon: 'activity', title: 'Food radar',         text: 'Radar chart per ingredient — shape tells the story at a glance.' },
       { icon: 'sparkles', title: 'Delay heatmap',      text: 'Immediate vs. 4–12h vs. overnight. Because the body is not always prompt.' },
     ],
   },
   {
     title: 'Private by construction',
     body: "GutCheck is local-first. Your meal log never leaves your phone — there's no server that could leak it. The app works fully offline, and exporting your own data is a single tap.",
-    shot: `${BASE}screenshots/home.png`,
+    shot: '1_startpage.png',
     alt: 'Home dashboard',
     items: [
       { icon: 'shield',   title: 'On-device only',      text: 'Isar database on your phone. No cloud, no analytics, no telemetry.' },
@@ -80,7 +80,7 @@ const groups = [
             ))}
           </div>
         </div>
-        <div class="flex justify-center"><PhoneFrame src={g.shot} alt={g.alt} /></div>
+        <div class="flex justify-center"><PhoneFrame name={g.shot} alt={g.alt} /></div>
       </div>
     </section>
   ))}

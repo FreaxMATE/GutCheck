@@ -180,6 +180,7 @@ class _WellnessEntryTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final l10n = AppLocalizations.of(context)!;
     // Show discomfort 0.0-10.0 from stored 0-20 encoding.
     final d = entry.gutPeaceDisplay;
     final dRound = d.round().clamp(0, 10);
@@ -190,103 +191,193 @@ class _WellnessEntryTile extends StatelessWidget {
         ? Colors.orange
         : Colors.red;
 
+    final bloatingLabel = switch (entry.bloating.clamp(0, 2)) {
+      0 => l10n.bloatingLevelNone,
+      1 => l10n.bloatingLevelLight,
+      _ => l10n.bloatingLevelStrong,
+    };
+    final bloatingColor = switch (entry.bloating.clamp(0, 2)) {
+      0 => Colors.green,
+      1 => Colors.orange,
+      _ => Colors.red,
+    };
+
     return Card(
       margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
-      child: Padding(
-        padding: const EdgeInsets.fromLTRB(16, 12, 8, 12),
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            // Discomfort badge (0-10)
-            Container(
-              width: 44,
-              height: 44,
-              decoration: BoxDecoration(
-                color: badgeColor.withValues(alpha: 0.12),
-                shape: BoxShape.circle,
-              ),
-              child: Center(
-                child: Text(
-                  d == d.roundToDouble()
-                      ? '${d.round()}'
-                      : d.toStringAsFixed(1),
-                  style: theme.textTheme.titleMedium?.copyWith(
-                    color: badgeColor,
-                    fontWeight: FontWeight.bold,
+      child: InkWell(
+        onTap: onEdit,
+        borderRadius: BorderRadius.circular(12),
+        child: Padding(
+          padding: const EdgeInsets.fromLTRB(14, 14, 8, 14),
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              // Large discomfort ring (0-10)
+              Container(
+                width: 58,
+                height: 58,
+                decoration: BoxDecoration(
+                  color: badgeColor.withValues(alpha: 0.12),
+                  shape: BoxShape.circle,
+                  border: Border.all(
+                    color: badgeColor.withValues(alpha: 0.35),
+                    width: 2,
+                  ),
+                ),
+                child: Center(
+                  child: Text(
+                    d == d.roundToDouble()
+                        ? '${d.round()}'
+                        : d.toStringAsFixed(1),
+                    style: theme.textTheme.headlineSmall?.copyWith(
+                      color: badgeColor,
+                      fontWeight: FontWeight.w800,
+                      height: 1,
+                    ),
                   ),
                 ),
               ),
-            ),
-            const SizedBox(width: 12),
-            // Content
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
-                    children: [
-                      Text(
-                        GutDateUtils.formatTime(entry.recordedAt),
-                        style: theme.textTheme.bodyMedium?.copyWith(
-                          fontWeight: FontWeight.w600,
+              const SizedBox(width: 14),
+              // Content
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    // Time + diarrhea flag
+                    Row(
+                      children: [
+                        Text(
+                          GutDateUtils.formatTime(entry.recordedAt),
+                          style: theme.textTheme.titleMedium?.copyWith(
+                            fontWeight: FontWeight.w700,
+                          ),
                         ),
-                      ),
-                      const SizedBox(width: 8),
-                      _SliderBadge(
-                        icon: Icons.medical_information_outlined,
-                        color: Colors.red,
-                        value: entry.gutPeaceDisplay,
-                        tooltip: 'Gut discomfort',
-                        inverted: true,
-                      ),
-                      const SizedBox(width: 4),
-                      _SliderBadge(
-                        icon: Icons.local_fire_department_rounded,
-                        color: Colors.orange,
-                        value: entry.heartburnDisplay,
-                        tooltip: 'Heartburn',
-                        inverted: true,
-                      ),
-                      const SizedBox(width: 4),
-                      _SliderBadge(
-                        icon: Icons.psychology_rounded,
-                        color: Colors.purple,
-                        value: entry.stressDisplay,
-                        tooltip: 'Stress',
-                        inverted: true,
+                        if (entry.diarrhea) ...[
+                          const SizedBox(width: 8),
+                          Container(
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 8,
+                              vertical: 2,
+                            ),
+                            decoration: BoxDecoration(
+                              color: Colors.red.withValues(alpha: 0.12),
+                              borderRadius: BorderRadius.circular(999),
+                            ),
+                            child: Text(
+                              l10n.wellnessDiarrhea,
+                              style: const TextStyle(
+                                color: Colors.red,
+                                fontSize: 11,
+                                fontWeight: FontWeight.w700,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ],
+                    ),
+                    const SizedBox(height: 8),
+                    // Metric badges
+                    Wrap(
+                      spacing: 8,
+                      runSpacing: 6,
+                      children: [
+                        _SliderBadge(
+                          icon: Icons.local_fire_department_rounded,
+                          color: Colors.orange,
+                          value: entry.heartburnDisplay,
+                          tooltip: l10n.insightsMetricHeartburn,
+                          inverted: true,
+                        ),
+                        _SliderBadge(
+                          icon: Icons.psychology_rounded,
+                          color: Colors.purple,
+                          value: entry.stressDisplay,
+                          tooltip: l10n.insightsMetricStress,
+                          inverted: true,
+                        ),
+                        _TextBadge(
+                          icon: Icons.bubble_chart_rounded,
+                          color: bloatingColor,
+                          label: bloatingLabel,
+                          tooltip: l10n.wellnessBloating,
+                        ),
+                      ],
+                    ),
+                    if (entry.notes != null && entry.notes!.isNotEmpty) ...[
+                      const SizedBox(height: 8),
+                      Text(
+                        entry.notes!,
+                        style: theme.textTheme.bodyMedium?.copyWith(
+                          color: theme.colorScheme.onSurfaceVariant,
+                        ),
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
                       ),
                     ],
-                  ),
-                  if (entry.notes != null) ...[
-                    const SizedBox(height: 4),
-                    Text(
-                      entry.notes!,
-                      style: theme.textTheme.bodySmall?.copyWith(
-                        color: Colors.grey[600],
-                      ),
-                      maxLines: 2,
-                      overflow: TextOverflow.ellipsis,
-                    ),
                   ],
+                ),
+              ),
+              // Actions
+              Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  IconButton(
+                    icon: const Icon(Icons.edit_outlined, size: 22),
+                    onPressed: onEdit,
+                    visualDensity: VisualDensity.compact,
+                  ),
+                  IconButton(
+                    icon: const Icon(Icons.delete_outline, size: 22),
+                    onPressed: onDelete,
+                    color: Colors.red,
+                    visualDensity: VisualDensity.compact,
+                  ),
                 ],
               ),
-            ),
-            // Actions
-            Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                IconButton(
-                  icon: const Icon(Icons.edit_outlined, size: 20),
-                  onPressed: onEdit,
-                  visualDensity: VisualDensity.compact,
-                ),
-                IconButton(
-                  icon: const Icon(Icons.delete_outline, size: 20),
-                  onPressed: onDelete,
-                  color: Colors.red,
-                  visualDensity: VisualDensity.compact,
-                ),
-              ],
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+/// Compact pill showing a category label (used for the 3-level bloating read).
+class _TextBadge extends StatelessWidget {
+  final IconData icon;
+  final Color color;
+  final String label;
+  final String tooltip;
+
+  const _TextBadge({
+    required this.icon,
+    required this.color,
+    required this.label,
+    required this.tooltip,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Tooltip(
+      message: '$tooltip: $label',
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
+        decoration: BoxDecoration(
+          color: color.withValues(alpha: 0.12),
+          borderRadius: BorderRadius.circular(999),
+        ),
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Icon(icon, size: 14, color: color),
+            const SizedBox(width: 4),
+            Text(
+              label,
+              style: Theme.of(context).textTheme.labelMedium?.copyWith(
+                    color: color,
+                    fontWeight: FontWeight.w700,
+                  ),
             ),
           ],
         ),
@@ -322,19 +413,26 @@ class _SliderBadge extends StatelessWidget {
 
     return Tooltip(
       message: '$tooltip: $display/10',
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Icon(icon, size: 14, color: badgeColor),
-          const SizedBox(width: 2),
-          Text(
-            display,
-            style: Theme.of(context).textTheme.labelSmall?.copyWith(
-              color: badgeColor,
-              fontWeight: FontWeight.w600,
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
+        decoration: BoxDecoration(
+          color: badgeColor.withValues(alpha: 0.12),
+          borderRadius: BorderRadius.circular(999),
+        ),
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Icon(icon, size: 14, color: badgeColor),
+            const SizedBox(width: 4),
+            Text(
+              display,
+              style: Theme.of(context).textTheme.labelMedium?.copyWith(
+                color: badgeColor,
+                fontWeight: FontWeight.w700,
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
