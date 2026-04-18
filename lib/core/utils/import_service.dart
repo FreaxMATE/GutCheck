@@ -5,6 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../core/constants/food_categories.dart';
 import '../database/app_database.dart';
 import '../database/app_database_provider.dart';
+import '../database/migration_service.dart';
 import '../../features/meal_log/data/models/meal_entry.dart';
 import '../../features/meal_log/data/models/meal_ingredient.dart';
 import '../../features/meal_log/data/models/meal_template.dart';
@@ -42,9 +43,12 @@ class ImportService {
     try {
       final Map<String, dynamic> payload = jsonDecode(jsonString);
 
-      // Validate version. We currently support v1 (legacy) and v2 (current).
+      // Validate version. We currently support v1 (legacy) through v5 (current).
+      //   v4 introduced the bloating field on the old 0-20 continuous scale.
+      //   v5 downgrades bloating to a 3-level ordinal (0/1/2).
+      // Older exports are transparently converted.
       final version = payload['version'] as int? ?? 1;
-      if (version < 1 || version > 3) {
+      if (version < 1 || version > 5) {
         throw FormatException('Unsupported backup version: $version');
       }
 
@@ -253,12 +257,21 @@ class ImportService {
             final migratedStress = payloadVersion >= 3
                 ? rawStress.clamp(0, 20)
                 : rawStress.clamp(0, 10) * 2;
+            // Bloating: v4 stored 0-20 continuous; v5+ stores 3-level ordinal
+            // (0/1/2). Older exports → default 0 / Keine.
+            final rawBloat = item['bloating'] as int? ?? 0;
+            final migratedBloating = payloadVersion >= 5
+                ? rawBloat.clamp(0, 2)
+                : payloadVersion == 4
+                    ? MigrationService.downscaleBloating(rawBloat)
+                    : 0;
             final entry = WellnessEntry()
               ..id = item['id'] as int
               ..recordedAt = DateTime.parse(item['recordedAt'] as String)
               ..gutPeace = migratedGut
               ..heartburn = migratedHb
               ..stressLevel = migratedStress
+              ..bloating = migratedBloating
               ..diarrhea = item['diarrhea'] as bool? ?? false
               ..wellnessScore = _wellnessScoreFor(migratedGut)
               ..linkedMealIds = linkedMealIds
@@ -418,11 +431,26 @@ class ImportService {
                 rawGutPeace,
                 payloadVersion,
               );
+              final rawHb = item['heartburn'] as int? ??
+                  (payloadVersion <= 1 ? 1 : 0);
+              final rawStress = item['stressLevel'] as int? ?? 0;
+              final migratedHb = _migrateHeartburn(rawHb, payloadVersion);
+              final migratedStress = payloadVersion >= 3
+                  ? rawStress.clamp(0, 20)
+                  : rawStress.clamp(0, 10) * 2;
+              final rawBloat = item['bloating'] as int? ?? 0;
+              final migratedBloating = payloadVersion >= 5
+                  ? rawBloat.clamp(0, 2)
+                  : payloadVersion == 4
+                      ? MigrationService.downscaleBloating(rawBloat)
+                      : 0;
               final entry = WellnessEntry()
                 ..id = id
                 ..recordedAt = DateTime.parse(item['recordedAt'] as String)
                 ..gutPeace = migratedGutPeace
-                ..heartburn = item['heartburn'] as int? ?? 1
+                ..heartburn = migratedHb
+                ..stressLevel = migratedStress
+                ..bloating = migratedBloating
                 ..diarrhea = item['diarrhea'] as bool? ?? false
                 ..wellnessScore = _wellnessScoreFor(migratedGutPeace)
                 ..linkedMealIds = linkedMealIds

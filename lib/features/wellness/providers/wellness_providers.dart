@@ -13,6 +13,7 @@ class WellnessDraftState {
   final double gutPeace; // display 0.0-10.0
   final double heartburn; // display 0.0-10.0
   final double stress; // display 0.0-10.0
+  final int bloating; // 3-level ordinal (0=Keine, 1=Leicht, 2=Stark)
   final bool diarrhea;
   final String? notes;
   final List<int> linkedMealIds;
@@ -21,6 +22,7 @@ class WellnessDraftState {
     this.gutPeace = 0, // 0 = no discomfort
     this.heartburn = 0, // 0 = no heartburn
     this.stress = 0, // 0 = no stress
+    this.bloating = 0, // 0 = Keine
     this.diarrhea = false,
     this.notes,
     this.linkedMealIds = const [],
@@ -30,6 +32,7 @@ class WellnessDraftState {
     double? gutPeace,
     double? heartburn,
     double? stress,
+    int? bloating,
     bool? diarrhea,
     String? notes,
     List<int>? linkedMealIds,
@@ -38,6 +41,7 @@ class WellnessDraftState {
       gutPeace: gutPeace ?? this.gutPeace,
       heartburn: heartburn ?? this.heartburn,
       stress: stress ?? this.stress,
+      bloating: bloating ?? this.bloating,
       diarrhea: diarrhea ?? this.diarrhea,
       notes: notes ?? this.notes,
       linkedMealIds: linkedMealIds ?? this.linkedMealIds,
@@ -61,6 +65,7 @@ class WellnessDraftNotifier extends StateNotifier<WellnessDraftState> {
   void setGutPeace(double v) => state = state.copyWith(gutPeace: v);
   void setHeartburn(double v) => state = state.copyWith(heartburn: v);
   void setStress(double v) => state = state.copyWith(stress: v);
+  void setBloating(int v) => state = state.copyWith(bloating: v.clamp(0, 2));
   void setDiarrhea(bool v) => state = state.copyWith(diarrhea: v);
   void setNotes(String n) => state = state.copyWith(notes: n);
 
@@ -85,6 +90,7 @@ class WellnessDraftNotifier extends StateNotifier<WellnessDraftState> {
       ..gutPeace = WellnessDraftState.toStored(draft.gutPeace)
       ..heartburn = WellnessDraftState.toStored(draft.heartburn)
       ..stressLevel = WellnessDraftState.toStored(draft.stress)
+      ..bloating = draft.bloating.clamp(0, 2)
       ..diarrhea = draft.diarrhea
       ..wellnessScore = draft.liveScore
       ..linkedMealIds = List<int>.from(draft.linkedMealIds)

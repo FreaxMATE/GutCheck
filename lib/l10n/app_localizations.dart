@@ -215,218 +215,254 @@ abstract class AppLocalizations {
   /// No description provided for @greetingMorning1.
   ///
   /// In en, this message translates to:
-  /// **'Your innards demand sustenance 🍳'**
+  /// **'Rise and gurgle ☀️'**
   String get greetingMorning1;
 
   /// No description provided for @greetingMorning2.
   ///
   /// In en, this message translates to:
-  /// **'Behold! A conscious biped approaches'**
+  /// **'Your colon filed a morning report. It is displeased.'**
   String get greetingMorning2;
 
   /// No description provided for @greetingMorning3.
   ///
   /// In en, this message translates to:
-  /// **'Caffeinate first. Interrogate bowels later ☕'**
+  /// **'Coffee first. Vengeance against onion second. ☕'**
   String get greetingMorning3;
 
   /// No description provided for @greetingMorning4.
   ///
   /// In en, this message translates to:
-  /// **'Another dawn, another garlic indictment pending'**
+  /// **'Breakfast: the opening statement in today\'s trial 🍳'**
   String get greetingMorning4;
 
   /// No description provided for @greetingMorning5.
   ///
   /// In en, this message translates to:
-  /// **'The ol\' intestinal spaghetti awakens 🌅'**
+  /// **'Intestines: online. Brain: pending. 🧠'**
   String get greetingMorning5;
 
   /// No description provided for @greetingMorning6.
   ///
   /// In en, this message translates to:
-  /// **'Your alimentary canal sends its regards 🧠'**
+  /// **'Your stomach was awake at 3am. It has notes.'**
   String get greetingMorning6;
 
   /// No description provided for @greetingMorning7.
   ///
   /// In en, this message translates to:
-  /// **'Day #??? of the Great Belly Inquisition'**
+  /// **'Day #∞ of the Bowel Inquisition'**
   String get greetingMorning7;
 
   /// No description provided for @greetingMorning8.
   ///
   /// In en, this message translates to:
-  /// **'The tummy chronicle continues 🔍'**
+  /// **'Good morning. Your gut is already suspicious.'**
   String get greetingMorning8;
+
+  /// No description provided for @greetingMorning9.
+  ///
+  /// In en, this message translates to:
+  /// **'Stretch. Yawn. Accuse dairy of crimes. 🥛'**
+  String get greetingMorning9;
 
   /// No description provided for @greetingAfternoon1.
   ///
   /// In en, this message translates to:
-  /// **'You again? Peculiar. 🕵️'**
+  /// **'Lunch committed. Time to snitch on it. 🕵️'**
   String get greetingAfternoon1;
 
   /// No description provided for @greetingAfternoon2.
   ///
   /// In en, this message translates to:
-  /// **'Your entrails have lunchtime opinions'**
+  /// **'Your midsection is drafting a strongly-worded letter'**
   String get greetingAfternoon2;
 
   /// No description provided for @greetingAfternoon3.
   ///
   /// In en, this message translates to:
-  /// **'Post-meridian nibble or post-meridian blunder? 🤷'**
+  /// **'3pm: the bowels hit their stride 📈'**
   String get greetingAfternoon3;
 
   /// No description provided for @greetingAfternoon4.
   ///
   /// In en, this message translates to:
-  /// **'Your stomach is basically a Yelp reviewer 💬'**
+  /// **'Your stomach gave that sandwich 2 stars ⭐⭐'**
   String get greetingAfternoon4;
 
   /// No description provided for @greetingAfternoon5.
   ///
   /// In en, this message translates to:
-  /// **'Midday dispatches from the gut bureau 👀'**
+  /// **'Post-lunch dispatch from the gut newsroom 📰'**
   String get greetingAfternoon5;
 
   /// No description provided for @greetingAfternoon6.
   ///
   /// In en, this message translates to:
-  /// **'Tenacity! A most splendid quality 💪'**
+  /// **'You\'re still logging? Marry me. 💍'**
   String get greetingAfternoon6;
 
   /// No description provided for @greetingAfternoon7.
   ///
   /// In en, this message translates to:
-  /// **'The refrigerator observes. Log forthwith. 👀'**
+  /// **'The fridge is watching. Document accordingly. 👀'**
   String get greetingAfternoon7;
+
+  /// No description provided for @greetingAfternoon8.
+  ///
+  /// In en, this message translates to:
+  /// **'Afternoon slump = prime bowel prime-time 🎬'**
+  String get greetingAfternoon8;
 
   /// No description provided for @greetingEvening1.
   ///
   /// In en, this message translates to:
-  /// **'Vespertine confessions welcome here 🍕'**
+  /// **'Dinner is served. So is the subpoena. 🍝'**
   String get greetingEvening1;
 
   /// No description provided for @greetingEvening2.
   ///
   /// In en, this message translates to:
-  /// **'Your bowels are drafting the evening communiqué 📝'**
+  /// **'Evening verdict pending — plead your case 📝'**
   String get greetingEvening2;
 
   /// No description provided for @greetingEvening3.
   ///
   /// In en, this message translates to:
-  /// **'Supper was either magnificent or regrettable. Document it.'**
+  /// **'Was it worth it? Your gut has feelings. 💭'**
   String get greetingEvening3;
 
   /// No description provided for @greetingEvening4.
   ///
   /// In en, this message translates to:
-  /// **'The sofa beckons. But first: empirical data. 🛋️'**
+  /// **'Couch mode engaging. Log first, collapse second. 🛋️'**
   String get greetingEvening4;
 
   /// No description provided for @greetingEvening5.
   ///
   /// In en, this message translates to:
-  /// **'One morsel of data before the binge-watching 📺'**
+  /// **'Netflix can wait. Your intestines cannot. 📺'**
   String get greetingEvening5;
 
   /// No description provided for @greetingEvening6.
   ///
   /// In en, this message translates to:
-  /// **'Twilight debrief with your digestive apparatus 🌙'**
+  /// **'Twilight briefing from the lower GI command 🌙'**
   String get greetingEvening6;
+
+  /// No description provided for @greetingEvening7.
+  ///
+  /// In en, this message translates to:
+  /// **'One tap closer to convicting the broccoli 🥦'**
+  String get greetingEvening7;
 
   /// No description provided for @greetingNight1.
   ///
   /// In en, this message translates to:
-  /// **'Prowling at this hour? Your colon disapproves 🦉'**
+  /// **'It\'s late. Your bowels filed a complaint. 🦉'**
   String get greetingNight1;
 
   /// No description provided for @greetingNight2.
   ///
   /// In en, this message translates to:
-  /// **'Midnight snackery? We have receipts. 🍫'**
+  /// **'Midnight snack? We saw that. We have screenshots. 📸'**
   String get greetingNight2;
 
   /// No description provided for @greetingNight3.
   ///
   /// In en, this message translates to:
-  /// **'Your flora and fauna never slumber 🦠'**
+  /// **'The microbiome never sleeps. Neither, apparently, do you. 🦠'**
   String get greetingNight3;
 
   /// No description provided for @greetingNight4.
   ///
   /// In en, this message translates to:
-  /// **'Nocturnal data entry. Exquisite commitment.'**
+  /// **'2am data entry = connoisseur energy 🍷'**
   String get greetingNight4;
 
   /// No description provided for @greetingNight5.
   ///
   /// In en, this message translates to:
-  /// **'The icebox phoned. It said scram. 🚨'**
+  /// **'The fridge says: stand down, soldier. 🚨'**
   String get greetingNight5;
+
+  /// No description provided for @greetingNight6.
+  ///
+  /// In en, this message translates to:
+  /// **'Your pancreas wants a word 🗣️'**
+  String get greetingNight6;
 
   /// No description provided for @supportiveMsg1.
   ///
   /// In en, this message translates to:
-  /// **'Your gut has convictions. Vociferous ones.'**
+  /// **'Your gut has opinions. Very loud ones.'**
   String get supportiveMsg1;
 
   /// No description provided for @supportiveMsg2.
   ///
   /// In en, this message translates to:
-  /// **'Every tap edges closer to the onion tribunal.'**
+  /// **'Every tap gets closer to the onion verdict ⚖️'**
   String get supportiveMsg2;
 
   /// No description provided for @supportiveMsg3.
   ///
   /// In en, this message translates to:
-  /// **'Science is posh pattern-spotting. You do it gratis.'**
+  /// **'Science is pattern-spotting in a lab coat. You do it in pajamas.'**
   String get supportiveMsg3;
 
   /// No description provided for @supportiveMsg4.
   ///
   /// In en, this message translates to:
-  /// **'Your microbiome: 39 trillion groupies, one app 🦠'**
+  /// **'39 trillion bacteria watching. One app recording. 🦠'**
   String get supportiveMsg4;
 
   /// No description provided for @supportiveMsg5.
   ///
   /// In en, this message translates to:
-  /// **'Sherlock had a loupe. You wield this contraption.'**
+  /// **'Sherlock had a magnifying glass. You have this.'**
   String get supportiveMsg5;
 
   /// No description provided for @supportiveMsg6.
   ///
   /// In en, this message translates to:
-  /// **'Not all paragons don capes. Some chronicle suppers.'**
+  /// **'Not all heroes wear capes. Some log breakfast.'**
   String get supportiveMsg6;
 
   /// No description provided for @supportiveMsg7.
   ///
   /// In en, this message translates to:
-  /// **'Your torso speaks. This gizmo translates.'**
+  /// **'Your torso speaks fluent gas. We translate.'**
   String get supportiveMsg7;
 
   /// No description provided for @supportiveMsg8.
   ///
   /// In en, this message translates to:
-  /// **'Minuscule data morsels → colossal epiphanies.'**
+  /// **'Tiny data → huge \"oh THAT\'s why\" moments 💡'**
   String get supportiveMsg8;
 
   /// No description provided for @supportiveMsg9.
   ///
   /// In en, this message translates to:
-  /// **'Today\'s log = tomorrow\'s garlic prosecution evidence.'**
+  /// **'Today\'s log is tomorrow\'s courtroom evidence 👨‍⚖️'**
   String get supportiveMsg9;
 
   /// No description provided for @supportiveMsg10.
   ///
   /// In en, this message translates to:
-  /// **'Repast by repast. The gut forgets nothing.'**
+  /// **'Your intestines forget nothing. Neither will we.'**
   String get supportiveMsg10;
+
+  /// No description provided for @supportiveMsg11.
+  ///
+  /// In en, this message translates to:
+  /// **'Consistency > intensity. Log the boring days too.'**
+  String get supportiveMsg11;
+
+  /// No description provided for @supportiveMsg12.
+  ///
+  /// In en, this message translates to:
+  /// **'You, a scientist: currently measuring yourself 🔬'**
+  String get supportiveMsg12;
 
   /// No description provided for @weeklyDigestTitle.
   ///
@@ -817,6 +853,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Twilight Indigo'**
   String get paletteTwilightIndigo;
+
+  /// No description provided for @paletteTerracottaClay.
+  ///
+  /// In en, this message translates to:
+  /// **'Terracotta Clay'**
+  String get paletteTerracottaClay;
 
   /// No description provided for @settingsSectionLanguage.
   ///
@@ -1358,6 +1400,54 @@ abstract class AppLocalizations {
   /// **'Severe'**
   String get wellnessHeartburnMax;
 
+  /// No description provided for @wellnessBloating.
+  ///
+  /// In en, this message translates to:
+  /// **'Bloating'**
+  String get wellnessBloating;
+
+  /// No description provided for @wellnessBloatingMin.
+  ///
+  /// In en, this message translates to:
+  /// **'None'**
+  String get wellnessBloatingMin;
+
+  /// No description provided for @wellnessBloatingMax.
+  ///
+  /// In en, this message translates to:
+  /// **'Severe'**
+  String get wellnessBloatingMax;
+
+  /// No description provided for @bloatingLevelNone.
+  ///
+  /// In en, this message translates to:
+  /// **'None'**
+  String get bloatingLevelNone;
+
+  /// No description provided for @bloatingLevelLight.
+  ///
+  /// In en, this message translates to:
+  /// **'Light'**
+  String get bloatingLevelLight;
+
+  /// No description provided for @bloatingLevelStrong.
+  ///
+  /// In en, this message translates to:
+  /// **'Strong'**
+  String get bloatingLevelStrong;
+
+  /// No description provided for @wellnessGroupGut.
+  ///
+  /// In en, this message translates to:
+  /// **'How\'s your gut?'**
+  String get wellnessGroupGut;
+
+  /// No description provided for @wellnessGroupContext.
+  ///
+  /// In en, this message translates to:
+  /// **'Context'**
+  String get wellnessGroupContext;
+
   /// No description provided for @insightsMetricGutPeace.
   ///
   /// In en, this message translates to:
@@ -1369,6 +1459,48 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Heartburn'**
   String get insightsMetricHeartburn;
+
+  /// No description provided for @insightsMetricBloating.
+  ///
+  /// In en, this message translates to:
+  /// **'Bloating'**
+  String get insightsMetricBloating;
+
+  /// No description provided for @insightsMetricPrefix.
+  ///
+  /// In en, this message translates to:
+  /// **'Symptom'**
+  String get insightsMetricPrefix;
+
+  /// No description provided for @insightsMetricTooltip.
+  ///
+  /// In en, this message translates to:
+  /// **'Change which symptom the analysis ranks against'**
+  String get insightsMetricTooltip;
+
+  /// No description provided for @insightsFingerprintOverlayTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Best vs. worst foods'**
+  String get insightsFingerprintOverlayTitle;
+
+  /// No description provided for @insightsFingerprintOverlaySubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Your 3 most and 3 least harmful foods. Darker shade = more extreme. Tap a food below to see it on its own.'**
+  String get insightsFingerprintOverlaySubtitle;
+
+  /// No description provided for @insightsFingerprintWorst.
+  ///
+  /// In en, this message translates to:
+  /// **'Most harmful'**
+  String get insightsFingerprintWorst;
+
+  /// No description provided for @insightsFingerprintBest.
+  ///
+  /// In en, this message translates to:
+  /// **'Least harmful'**
+  String get insightsFingerprintBest;
 
   /// No description provided for @insightsMetricDiarrhea.
   ///
@@ -1565,19 +1697,19 @@ abstract class AppLocalizations {
   /// No description provided for @insightsTabFingerprint.
   ///
   /// In en, this message translates to:
-  /// **'Fingerprint'**
+  /// **'Radar'**
   String get insightsTabFingerprint;
 
   /// No description provided for @insightsFingerprintEmpty.
   ///
   /// In en, this message translates to:
-  /// **'Log at least 3 meals with the same ingredient and some wellness entries to see food fingerprints.'**
+  /// **'Log at least 3 meals with the same ingredient and some wellness entries to see food radars.'**
   String get insightsFingerprintEmpty;
 
   /// No description provided for @insightsScatterEmpty.
   ///
   /// In en, this message translates to:
-  /// **'Tap a food in the Impact tab to view its scatter plot.'**
+  /// **'Log more meals and wellness entries to see scatter plots.'**
   String get insightsScatterEmpty;
 
   /// No description provided for @insightsScatterPrompt.
@@ -1585,6 +1717,108 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Tap a food to view its scatter plot'**
   String get insightsScatterPrompt;
+
+  /// No description provided for @insightsScatterShowMore.
+  ///
+  /// In en, this message translates to:
+  /// **'Show {count} more foods'**
+  String insightsScatterShowMore(int count);
+
+  /// No description provided for @insightsScatterShowLess.
+  ///
+  /// In en, this message translates to:
+  /// **'Show less'**
+  String get insightsScatterShowLess;
+
+  /// No description provided for @insightsScatterShowingAll.
+  ///
+  /// In en, this message translates to:
+  /// **'Showing all {count} foods'**
+  String insightsScatterShowingAll(int count);
+
+  /// No description provided for @insightsScatterSignificant.
+  ///
+  /// In en, this message translates to:
+  /// **'Confirmed'**
+  String get insightsScatterSignificant;
+
+  /// No description provided for @insightsCalendarDensityTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Card shows'**
+  String get insightsCalendarDensityTitle;
+
+  /// No description provided for @insightsHowItWorksTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'How the analysis works'**
+  String get insightsHowItWorksTitle;
+
+  /// No description provided for @insightsHowItWorksLead.
+  ///
+  /// In en, this message translates to:
+  /// **'A plain-language explanation of the scores and correlations GutCheck shows you.'**
+  String get insightsHowItWorksLead;
+
+  /// No description provided for @insightsHelpCombinedTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'The Combined score'**
+  String get insightsHelpCombinedTitle;
+
+  /// No description provided for @insightsHelpCombinedBody.
+  ///
+  /// In en, this message translates to:
+  /// **'A single 0–100 number that summarizes how your body feels, weighted across four signals from your wellness check-in:\n\n  • 45% Gut discomfort\n  • 20% Bloating (None / Light / Strong)\n  • 20% Heartburn\n  • 15% Diarrhea (counts as 0 or 100)\n\nHigher = better. Stress is NOT part of the Combined score — it\'s treated as an input (see below).'**
+  String get insightsHelpCombinedBody;
+
+  /// No description provided for @insightsHelpCorrelationTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Food correlations'**
+  String get insightsHelpCorrelationTitle;
+
+  /// No description provided for @insightsHelpCorrelationBody.
+  ///
+  /// In en, this message translates to:
+  /// **'For every ingredient you log, GutCheck asks: \"on days you ate this, did your symptoms line up with it?\". For each food we try three time windows — 0–4h (immediate), 4–12h (delayed), 12–24h (overnight) — and keep the window with the strongest link.\n\nWe use Spearman rank correlation (robust to outliers, catches non-linear patterns) and compute a p-value. Because we run many tests at once, we then apply a Benjamini–Hochberg false-discovery correction: foods marked \"Confirmed\" have passed that statistical bar. Un-badged foods are interesting trends, not yet proven.'**
+  String get insightsHelpCorrelationBody;
+
+  /// No description provided for @insightsHelpStressTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Stress is an input'**
+  String get insightsHelpStressTitle;
+
+  /// No description provided for @insightsHelpStressBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Stress isn\'t a symptom you\'re trying to minimize — it\'s a predictor, like food. The \"Stress impact\" card at the top of the Impact list shows whether your stress slider correlates with your chosen symptom. A red, down-trending card means higher stress lines up with worse symptoms on your history.'**
+  String get insightsHelpStressBody;
+
+  /// No description provided for @insightsHelpCaveat.
+  ///
+  /// In en, this message translates to:
+  /// **'Correlation is not causation. Stress and diet often co-vary — a strong food-to-symptom link may partly reflect stressful days. Use these numbers as hypotheses, not verdicts.'**
+  String get insightsHelpCaveat;
+
+  /// No description provided for @insightsStressCardTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Stress impact'**
+  String get insightsStressCardTitle;
+
+  /// No description provided for @insightsStressCardHarmful.
+  ///
+  /// In en, this message translates to:
+  /// **'Higher stress lines up with worse symptoms ({pct}%)'**
+  String insightsStressCardHarmful(int pct);
+
+  /// No description provided for @insightsStressCardBeneficial.
+  ///
+  /// In en, this message translates to:
+  /// **'Higher stress lines up with better wellness ({pct}%)'**
+  String insightsStressCardBeneficial(int pct);
 
   /// No description provided for @insightsCardCalendarSubtitle.
   ///
@@ -1607,7 +1841,7 @@ abstract class AppLocalizations {
   /// No description provided for @insightsCardFingerprintSubtitle.
   ///
   /// In en, this message translates to:
-  /// **'Symptom signature per food'**
+  /// **'Per-food symptom radar'**
   String get insightsCardFingerprintSubtitle;
 
   /// No description provided for @insightsCardScatterSubtitle.

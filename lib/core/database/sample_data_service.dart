@@ -469,11 +469,23 @@ class SampleDataService {
     final storedGut = discomfort * 2; // 0-20
     final storedHb = (heartburn.clamp(1, 10) - 1) * 2; // 0-18
     final storedStress = stress.clamp(0, 10) * 2; // 0-20
+    // Bloating is a 3-level ordinal (0=Keine, 1=Leicht, 2=Stark). We bucket
+    // the discomfort score so there's still some correlation signal for the
+    // engine: 0-2 → Keine, 3-6 → Leicht, 7-10 → Stark. A small per-day wobble
+    // keeps the relationship imperfect.
+    final bucketed = discomfort <= 2
+        ? 0
+        : discomfort <= 6
+            ? 1
+            : 2;
+    final wobble = (at.day % 7 == 0 && bucketed > 0) ? -1 : 0;
+    final storedBloat = (bucketed + wobble).clamp(0, 2);
     return WellnessEntry()
       ..recordedAt = at
       ..gutPeace = storedGut
       ..heartburn = storedHb
       ..stressLevel = storedStress
+      ..bloating = storedBloat
       ..diarrhea = diarrhea
       ..wellnessScore = ((20 - storedGut) / 20.0) * 100.0
       ..linkedMealIds = []

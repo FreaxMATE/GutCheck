@@ -6,7 +6,7 @@ import '../constants/app_palette.dart';
 class PaletteNotifier extends StateNotifier<AppPalette> {
   static const _key = 'app_palette';
 
-  PaletteNotifier() : super(AppPalette.verdantGreen) {
+  PaletteNotifier() : super(AppPalette.terracottaClay) {
     _load();
   }
 

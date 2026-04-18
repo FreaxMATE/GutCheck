@@ -1,11 +1,7 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 192 192">
-  <defs>
-    <style>
-      .logo-bg { fill: #6366f1; }
-      .logo-icon { fill: white; }
-    </style>
-  </defs>
-  <rect class="logo-bg" width="192" height="192" rx="45"/>
-  <text x="96" y="110" font-size="80" font-weight="bold" text-anchor="middle" class="logo-icon" font-family="sans-serif">GC</text>
-  <text x="96" y="160" font-size="20" text-anchor="middle" class="logo-icon" font-family="sans-serif">Health</text>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024">
+  <rect width="1024" height="1024" rx="228" fill="#FBEFE3"/>
+  <path d="M 512,260 C 332,260 332,440 512,440 C 692,440 692,620 512,620 C 332,620 332,800 512,800"
+        fill="none" stroke="#D97757" stroke-width="48" stroke-linecap="round"/>
+  <circle cx="512" cy="260" r="24" fill="#D97757"/>
+  <circle cx="512" cy="800" r="24" fill="#D97757"/>
 </svg>

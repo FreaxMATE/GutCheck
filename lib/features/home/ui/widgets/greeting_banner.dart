@@ -76,6 +76,7 @@ class GreetingBanner extends ConsumerWidget {
         l10n.greetingMorning6,
         l10n.greetingMorning7,
         l10n.greetingMorning8,
+        l10n.greetingMorning9,
       ];
     } else if (h < 17) {
       pool = [
@@ -86,6 +87,7 @@ class GreetingBanner extends ConsumerWidget {
         l10n.greetingAfternoon5,
         l10n.greetingAfternoon6,
         l10n.greetingAfternoon7,
+        l10n.greetingAfternoon8,
       ];
     } else if (h < 22) {
       pool = [
@@ -95,6 +97,7 @@ class GreetingBanner extends ConsumerWidget {
         l10n.greetingEvening4,
         l10n.greetingEvening5,
         l10n.greetingEvening6,
+        l10n.greetingEvening7,
       ];
     } else {
       pool = [
@@ -103,6 +106,7 @@ class GreetingBanner extends ConsumerWidget {
         l10n.greetingNight3,
         l10n.greetingNight4,
         l10n.greetingNight5,
+        l10n.greetingNight6,
       ];
     }
     return pool[Random().nextInt(pool.length)];
@@ -120,6 +124,8 @@ class GreetingBanner extends ConsumerWidget {
       l10n.supportiveMsg8,
       l10n.supportiveMsg9,
       l10n.supportiveMsg10,
+      l10n.supportiveMsg11,
+      l10n.supportiveMsg12,
     ];
     final seed = now.year * 10000 + now.month * 100 + now.day;
     return messages[Random(seed).nextInt(messages.length)];

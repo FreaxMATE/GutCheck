@@ -1,6 +1,32 @@
 import '../../../core/constants/food_categories.dart';
 import 'correlation_engine.dart';
 
+/// Compact result of correlating stress (input) against a symptom metric.
+class StressImpact {
+  final double spearmanR;
+  final double pValue;
+  final int sampleCount;
+
+  const StressImpact({
+    required this.spearmanR,
+    required this.pValue,
+    required this.sampleCount,
+  });
+
+  /// Negative r means "more stress → worse wellness" — the intuitive direction.
+  bool get isHarmful => spearmanR < 0;
+
+  int get correlationPercent => (spearmanR.abs() * 100).round();
+
+  /// Cheap confidence heuristic, mirrors ImpactScore's: caps at 20+ samples.
+  double get confidenceLevel => (sampleCount / 20.0).clamp(0.0, 1.0);
+
+  /// Pre-FDR threshold. Call sites that display a batch of tests should still
+  /// run BH correction themselves; this flag is a simple single-test p < 0.05
+  /// heuristic for the solo stress card.
+  bool get isNominallySignificant => pValue < 0.05 && sampleCount >= 5;
+}
+
 class ImpactScore {
   final int ingredientId;
   final String ingredientName;
@@ -21,6 +47,18 @@ class ImpactScore {
   /// Pearson r at each time zone (key = zone.from hours: 0, 4, 12).
   final Map<int, double> pearsonByLag;
 
+  /// Two-sided p-value for the best-zone correlation (analytical, from t-dist).
+  /// Lower = more unlikely to have occurred by chance. Null when not computed.
+  final double? pValue;
+
+  /// Benjamini–Hochberg adjusted q-value across all (ingredient × window × symptom)
+  /// tests in the same analysis batch. Null until the engine runs FDR correction.
+  final double? qValue;
+
+  /// True when qValue ≤ the chosen FDR threshold (default 0.1).
+  /// UI can key off this to separate "confirmed" from "exploratory" patterns.
+  final bool isSignificant;
+
   const ImpactScore({
     required this.ingredientId,
     required this.ingredientName,
@@ -30,7 +68,24 @@ class ImpactScore {
     required this.sampleCount,
     required this.confidenceLevel,
     this.pearsonByLag = const {},
+    this.pValue,
+    this.qValue,
+    this.isSignificant = false,
   });
+
+  ImpactScore copyWith({double? qValue, bool? isSignificant}) => ImpactScore(
+        ingredientId: ingredientId,
+        ingredientName: ingredientName,
+        category: category,
+        pearsonR: pearsonR,
+        bestLagHours: bestLagHours,
+        sampleCount: sampleCount,
+        confidenceLevel: confidenceLevel,
+        pearsonByLag: pearsonByLag,
+        pValue: pValue,
+        qValue: qValue ?? this.qValue,
+        isSignificant: isSignificant ?? this.isSignificant,
+      );
 
   /// Adjusted score used for ranking: |r| * confidence
   double get rankScore => pearsonR.abs() * confidenceLevel;

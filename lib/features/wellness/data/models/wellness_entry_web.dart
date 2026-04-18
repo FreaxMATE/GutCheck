@@ -12,6 +12,9 @@ class WellnessEntry {
   /// Stress level (0-20, 2× encoding). Input context variable.
   int stressLevel = 0;
 
+  /// Bloating / Aufgeblähtheit — 3-level ordinal (0=Keine, 1=Leicht, 2=Stark).
+  int bloating = 0;
+
   bool diarrhea = false;
   double wellnessScore = 100.0;
   List<int> linkedMealIds = [];
@@ -20,9 +23,10 @@ class WellnessEntry {
   DateTime createdAt = DateTime.now();
 
   // Display helpers matching native model.
-  double get gutPeaceDisplay => gutPeace / 2.0;
-  double get heartburnDisplay => heartburn / 2.0;
-  double get stressDisplay => stressLevel / 2.0;
+  double get gutPeaceDisplay => gutPeace.clamp(0, 20) / 2.0;
+  double get heartburnDisplay => heartburn.clamp(0, 20) / 2.0;
+  double get stressDisplay => stressLevel.clamp(0, 20) / 2.0;
+  double get bloatingDisplay => bloating.clamp(0, 2) * 5.0;
 
   void setGutPeaceDisplay(double v) => gutPeace = (v * 2).round().clamp(0, 20);
   void setHeartburnDisplay(double v) =>

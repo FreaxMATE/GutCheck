@@ -20,7 +20,7 @@ class ExportService {
 
     final payload = {
       'exportedAt': DateTime.now().toIso8601String(),
-      'version': 3,
+      'version': 5,
       'customIngredients': ingredients
           .map(
             (i) => {
@@ -61,6 +61,7 @@ class ExportService {
               'gutPeace': w.gutPeace,
               'heartburn': w.heartburn,
               'stressLevel': w.stressLevel,
+              'bloating': w.bloating,
               'diarrhea': w.diarrhea,
               'wellnessScore': w.wellnessScore,
               'linkedMealIds': w.linkedMealIds,
@@ -108,7 +109,7 @@ class ExportService {
 
     final payload = {
       'exportedAt': DateTime.now().toIso8601String(),
-      'version': 3,
+      'version': 5,
       'customIngredients': ingredients
           .map(
             (i) => {

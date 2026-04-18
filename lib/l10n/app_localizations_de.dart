@@ -67,132 +67,154 @@ class AppLocalizationsDe extends AppLocalizations {
   String get homeLikelyBeneficial => 'Scheinbar förderlich';
 
   @override
-  String get greetingMorning1 => 'Dein Gedärm verlangt nach Nahrungszufuhr 🍳';
+  String get greetingMorning1 => 'Aufstehen und gluckern ☀️';
 
   @override
   String get greetingMorning2 =>
-      'Sieh an! Ein bewusstseinsfähiger Zweibeiner naht';
+      'Dein Dickdarm hat einen Morgenbericht eingereicht. Er ist unzufrieden.';
 
   @override
-  String get greetingMorning3 =>
-      'Erst koffeinieren. Dann Verdauungstrakt verhören ☕';
+  String get greetingMorning3 => 'Erst Kaffee. Dann Rache an der Zwiebel. ☕';
 
   @override
   String get greetingMorning4 =>
-      'Neuer Morgen, neue Knoblauch-Anklage in Vorbereitung';
+      'Frühstück: das Eröffnungsplädoyer im heutigen Prozess 🍳';
 
   @override
-  String get greetingMorning5 => 'Die gute alte Darmschlange erwacht 🌅';
+  String get greetingMorning5 => 'Darm: online. Gehirn: lädt. 🧠';
 
   @override
-  String get greetingMorning6 => 'Dein Verdauungsapparat lässt grüßen 🧠';
+  String get greetingMorning6 =>
+      'Dein Magen war um 3 Uhr wach. Er hat sich Notizen gemacht.';
 
   @override
-  String get greetingMorning7 => 'Tag #??? der Großen Bauch-Inquisition';
+  String get greetingMorning7 => 'Tag #∞ der großen Darm-Inquisition';
 
   @override
-  String get greetingMorning8 => 'Die Magen-Chronik geht weiter 🔍';
+  String get greetingMorning8 =>
+      'Guten Morgen. Dein Bauch ist schon misstrauisch.';
 
   @override
-  String get greetingAfternoon1 => 'Schon wieder? Suspekt. 🕵️';
+  String get greetingMorning9 => 'Strecken. Gähnen. Laktose anklagen. 🥛';
 
   @override
-  String get greetingAfternoon2 => 'Deine Eingeweide haben Mittagsmeinungen';
+  String get greetingAfternoon1 =>
+      'Mittagessen begangen. Zeit, es zu verraten. 🕵️';
+
+  @override
+  String get greetingAfternoon2 =>
+      'Deine Körpermitte verfasst einen geharnischten Brief';
 
   @override
   String get greetingAfternoon3 =>
-      'Nachmittägliches Knabbern oder nachmittägliche Reue? 🤷';
+      '15 Uhr: der Darm läuft zur Höchstform auf 📈';
 
   @override
-  String get greetingAfternoon4 => 'Dein Magen ist quasi ein Yelp-Kritiker 💬';
+  String get greetingAfternoon4 => 'Dein Magen gibt dem Sandwich 2 Sterne ⭐⭐';
 
   @override
-  String get greetingAfternoon5 => 'Mittägliche Depesche aus dem Bauch-Büro 👀';
+  String get greetingAfternoon5 =>
+      'Nachmittagsdepesche aus der Darm-Redaktion 📰';
 
   @override
   String get greetingAfternoon6 =>
-      'Beharrlichkeit! Eine vortreffliche Eigenschaft 💪';
+      'Du loggst immer noch? Heiratsantrag unterwegs. 💍';
 
   @override
   String get greetingAfternoon7 =>
-      'Der Eisschrank observiert. Sofort dokumentieren. 👀';
+      'Der Kühlschrank beobachtet dich. Dokumentiere entsprechend. 👀';
+
+  @override
+  String get greetingAfternoon8 =>
+      'Nachmittagstief = Primetime für den Darm 🎬';
 
   @override
   String get greetingEvening1 =>
-      'Abendliche Geständnisse sind hier willkommen 🍕';
+      'Abendessen ist serviert. Die Vorladung auch. 🍝';
 
   @override
-  String get greetingEvening2 => 'Dein Darm verfasst das Abend-Kommuniqué 📝';
+  String get greetingEvening2 => 'Abendurteil steht aus — plädiere jetzt 📝';
 
   @override
-  String get greetingEvening3 =>
-      'Mahl war entweder prächtig oder bedauerlich. Protokollieren.';
+  String get greetingEvening3 => 'War\'s das wert? Dein Bauch hat Gefühle. 💭';
 
   @override
   String get greetingEvening4 =>
-      'Das Sofa lockt. Aber erst: empirische Daten. 🛋️';
+      'Sofa-Modus aktiviert sich. Erst loggen, dann zusammenbrechen. 🛋️';
 
   @override
-  String get greetingEvening5 => 'Ein Datenhäppchen vor dem Serienmarathon 📺';
+  String get greetingEvening5 => 'Netflix kann warten. Dein Darm nicht. 📺';
 
   @override
-  String get greetingEvening6 =>
-      'Abenddämmerungs-Debriefing mit dem Verdauungsapparat 🌙';
+  String get greetingEvening6 => 'Abendbriefing vom unteren Magen-Darm-Stab 🌙';
+
+  @override
+  String get greetingEvening7 =>
+      'Einen Tap näher an der Verurteilung des Brokkolis 🥦';
 
   @override
   String get greetingNight1 =>
-      'Um diese Uhrzeit umherstreunend? Dein Dickdarm missbilligt 🦉';
+      'Es ist spät. Dein Darm hat Beschwerde eingereicht. 🦉';
 
   @override
-  String get greetingNight2 =>
-      'Mitternächtliche Nascherein? Wir haben Belege. 🍫';
+  String get greetingNight2 => 'Mitternachtssnack? Wir haben Screenshots. 📸';
 
   @override
-  String get greetingNight3 => 'Deine Flora und Fauna schlummern nie 🦠';
+  String get greetingNight3 =>
+      'Das Mikrobiom schläft nie. Du offenbar auch nicht. 🦠';
 
   @override
-  String get greetingNight4 =>
-      'Nächtliche Dateneingabe. Exquisites Engagement.';
+  String get greetingNight4 => 'Dateneingabe um 2 Uhr = Kenner-Energie 🍷';
 
   @override
-  String get greetingNight5 => 'Die Kühltruhe rief an. Sie sagte: Abmarsch. 🚨';
+  String get greetingNight5 => 'Der Kühlschrank sagt: Abmarsch, Soldat. 🚨';
 
   @override
-  String get supportiveMsg1 => 'Dein Darm hat Überzeugungen. Lautstarke.';
+  String get greetingNight6 =>
+      'Deine Bauchspeicheldrüse möchte dich sprechen 🗣️';
 
   @override
-  String get supportiveMsg2 => 'Jeder Tap nähert sich dem Zwiebel-Tribunal.';
+  String get supportiveMsg1 => 'Dein Darm hat Meinungen. Sehr laute.';
+
+  @override
+  String get supportiveMsg2 => 'Jeder Tap rückt das Zwiebel-Urteil näher ⚖️';
 
   @override
   String get supportiveMsg3 =>
-      'Wissenschaft ist feines Musterspähen. Du machst\'s umsonst.';
+      'Wissenschaft ist Mustererkennen im Laborkittel. Du machst\'s im Pyjama.';
 
   @override
   String get supportiveMsg4 =>
-      'Dein Mikrobiom: 39 Billionen Groupies, eine App 🦠';
+      '39 Billionen Bakterien schauen zu. Eine App protokolliert. 🦠';
 
   @override
-  String get supportiveMsg5 =>
-      'Sherlock hatte eine Lupe. Du schwingst dieses Gerät.';
+  String get supportiveMsg5 => 'Sherlock hatte eine Lupe. Du hast das hier.';
 
   @override
   String get supportiveMsg6 =>
-      'Nicht alle Koryphäen tragen Umhänge. Manche protokollieren Mähler.';
+      'Nicht alle Helden tragen Umhänge. Manche loggen ihr Frühstück.';
 
   @override
-  String get supportiveMsg7 => 'Dein Torso spricht. Dieses Gerät dolmetscht.';
+  String get supportiveMsg7 =>
+      'Dein Rumpf spricht fließend Blähungen. Wir übersetzen.';
 
   @override
-  String get supportiveMsg8 =>
-      'Winzige Datenbröckchen → kolossale Geistesblitze.';
+  String get supportiveMsg8 => 'Kleine Daten → große „Ach SO!\"-Momente 💡';
 
   @override
   String get supportiveMsg9 =>
-      'Heutiges Log = morgiges Beweismaterial gegen Knoblauch.';
+      'Das heutige Log ist das Beweismaterial von morgen 👨‍⚖️';
 
   @override
-  String get supportiveMsg10 =>
-      'Schmaus für Schmaus. Der Darm vergisst nichts.';
+  String get supportiveMsg10 => 'Dein Darm vergisst nichts. Wir auch nicht.';
+
+  @override
+  String get supportiveMsg11 =>
+      'Beständigkeit > Intensität. Logge auch langweilige Tage.';
+
+  @override
+  String get supportiveMsg12 =>
+      'Du, als Wissenschaftler: misst gerade dich selbst 🔬';
 
   @override
   String get weeklyDigestTitle => 'Deine Woche im Überblick';
@@ -415,6 +437,9 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get paletteTwilightIndigo => 'Twilight Indigo';
+
+  @override
+  String get paletteTerracottaClay => 'Terracotta Ton';
 
   @override
   String get settingsSectionLanguage => 'Sprache';
@@ -706,10 +731,58 @@ class AppLocalizationsDe extends AppLocalizations {
   String get wellnessHeartburnMax => 'Stark';
 
   @override
+  String get wellnessBloating => 'Aufgeblähtheit';
+
+  @override
+  String get wellnessBloatingMin => 'Keine';
+
+  @override
+  String get wellnessBloatingMax => 'Stark';
+
+  @override
+  String get bloatingLevelNone => 'Keine';
+
+  @override
+  String get bloatingLevelLight => 'Leicht';
+
+  @override
+  String get bloatingLevelStrong => 'Stark';
+
+  @override
+  String get wellnessGroupGut => 'Wie geht\'s dem Bauch?';
+
+  @override
+  String get wellnessGroupContext => 'Kontext';
+
+  @override
   String get insightsMetricGutPeace => 'Beschwerden';
 
   @override
   String get insightsMetricHeartburn => 'Sodbrennen';
+
+  @override
+  String get insightsMetricBloating => 'Aufgeblähtheit';
+
+  @override
+  String get insightsMetricPrefix => 'Symptom';
+
+  @override
+  String get insightsMetricTooltip =>
+      'Welches Symptom soll ausgewertet werden?';
+
+  @override
+  String get insightsFingerprintOverlayTitle =>
+      'Beste vs. schlechteste Lebensmittel';
+
+  @override
+  String get insightsFingerprintOverlaySubtitle =>
+      'Deine 3 am meisten und 3 am wenigsten belastenden Lebensmittel. Dunklerer Ton = extremer. Tippe unten ein Lebensmittel an, um es einzeln zu sehen.';
+
+  @override
+  String get insightsFingerprintWorst => 'Am belastendsten';
+
+  @override
+  String get insightsFingerprintBest => 'Am verträglichsten';
 
   @override
   String get insightsMetricDiarrhea => 'Durchfall';
@@ -813,19 +886,83 @@ class AppLocalizationsDe extends AppLocalizations {
       'Trage mindestens 3 Mahlzeiten mit derselben Zutat und Wohlbefindensdaten ein, um Korrelationen zu sehen.';
 
   @override
-  String get insightsTabFingerprint => 'Fingerabdruck';
+  String get insightsTabFingerprint => 'Radar';
 
   @override
   String get insightsFingerprintEmpty =>
-      'Trage mindestens 3 Mahlzeiten mit derselben Zutat und Wohlbefindensdaten ein, um Fingerabdrücke zu sehen.';
+      'Trage mindestens 3 Mahlzeiten mit derselben Zutat und Wohlbefindensdaten ein, um Lebensmittel-Radare zu sehen.';
 
   @override
   String get insightsScatterEmpty =>
-      'Tippe auf ein Lebensmittel im Auswirkungs-Tab, um das Streudiagramm anzuzeigen.';
+      'Trage mehr Mahlzeiten und Wohlbefindenseinträge ein, um Streudiagramme zu sehen.';
 
   @override
   String get insightsScatterPrompt =>
       'Tippe auf ein Lebensmittel, um das Streudiagramm anzuzeigen';
+
+  @override
+  String insightsScatterShowMore(int count) {
+    return '$count weitere Lebensmittel anzeigen';
+  }
+
+  @override
+  String get insightsScatterShowLess => 'Weniger anzeigen';
+
+  @override
+  String insightsScatterShowingAll(int count) {
+    return 'Alle $count Lebensmittel angezeigt';
+  }
+
+  @override
+  String get insightsScatterSignificant => 'Bestätigt';
+
+  @override
+  String get insightsCalendarDensityTitle => 'Karte zeigt';
+
+  @override
+  String get insightsHowItWorksTitle => 'Wie die Auswertung funktioniert';
+
+  @override
+  String get insightsHowItWorksLead =>
+      'Eine verständliche Erklärung der Scores und Korrelationen, die GutCheck dir zeigt.';
+
+  @override
+  String get insightsHelpCombinedTitle => 'Der Kombiniert-Score';
+
+  @override
+  String get insightsHelpCombinedBody =>
+      'Eine einzelne 0–100-Zahl, die zusammenfasst, wie sich dein Körper fühlt. Gewichteter Durchschnitt über vier Signale aus deinem Wohlbefindens-Check:\n\n  • 45% Beschwerden\n  • 20% Aufgeblähtheit (Keine / Leicht / Stark)\n  • 20% Sodbrennen\n  • 15% Durchfall (zählt als 0 oder 100)\n\nHöher = besser. Stress gehört NICHT zum Kombiniert-Score — er wird als Einflussfaktor behandelt (siehe unten).';
+
+  @override
+  String get insightsHelpCorrelationTitle => 'Lebensmittel-Korrelationen';
+
+  @override
+  String get insightsHelpCorrelationBody =>
+      'Für jede Zutat, die du einträgst, fragt GutCheck: „An Tagen, an denen du das gegessen hast, korrelierten deine Symptome damit?\" Für jedes Lebensmittel probieren wir drei Zeitfenster — 0–4h (sofort), 4–12h (verzögert), 12–24h (über Nacht) — und behalten das Fenster mit dem stärksten Zusammenhang.\n\nWir nutzen Spearman-Rangkorrelation (robust gegen Ausreißer, erkennt nichtlineare Muster) und berechnen einen p-Wert. Weil wir viele Tests gleichzeitig laufen lassen, wenden wir eine Benjamini–Hochberg-False-Discovery-Korrektur an: Lebensmittel mit dem Badge „Bestätigt\" haben diese statistische Hürde genommen. Ohne Badge sind es interessante Tendenzen, aber noch nicht nachgewiesen.';
+
+  @override
+  String get insightsHelpStressTitle => 'Stress ist ein Einflussfaktor';
+
+  @override
+  String get insightsHelpStressBody =>
+      'Stress ist kein Symptom, das du minimieren willst — er ist ein Prädiktor, wie Essen. Die Karte „Stress-Einfluss\" oben in der Auswirkungs-Liste zeigt, ob dein Stress-Wert mit dem gewählten Symptom korreliert. Eine rote, abwärts zeigende Karte bedeutet: mehr Stress geht in deinem Verlauf mit schlechteren Symptomen einher.';
+
+  @override
+  String get insightsHelpCaveat =>
+      'Korrelation ist nicht Kausalität. Stress und Ernährung hängen oft zusammen — ein starker Lebensmittel-Symptom-Zusammenhang kann teils auf stressigen Tagen beruhen. Nimm die Zahlen als Hypothesen, nicht als Urteile.';
+
+  @override
+  String get insightsStressCardTitle => 'Stress-Einfluss';
+
+  @override
+  String insightsStressCardHarmful(int pct) {
+    return 'Mehr Stress geht einher mit schlechteren Symptomen ($pct%)';
+  }
+
+  @override
+  String insightsStressCardBeneficial(int pct) {
+    return 'Mehr Stress geht einher mit besserem Befinden ($pct%)';
+  }
 
   @override
   String get insightsCardCalendarSubtitle =>
@@ -839,7 +976,7 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get insightsCardFingerprintSubtitle =>
-      'Symptom-Signatur pro Lebensmittel';
+      'Symptom-Radar pro Lebensmittel';
 
   @override
   String get insightsCardScatterSubtitle =>

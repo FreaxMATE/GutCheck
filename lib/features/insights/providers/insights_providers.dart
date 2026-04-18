@@ -2,67 +2,76 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../core/database/app_database_provider.dart';
 import '../../../core/utils/date_utils.dart';
+import '../../wellness/data/models/wellness_entry.dart';
 import '../data/repositories/insights_repository.dart';
 import '../domain/correlation_engine.dart';
 import '../domain/impact_score.dart';
 import '../domain/timing_analysis.dart';
 import '../ui/widgets/food_fingerprint.dart';
 
-enum WellnessMetric { gutPeace, heartburn, diarrhea, stress, combined }
+enum WellnessMetric { gutPeace, bloating, heartburn, diarrhea, combined }
 
 final insightsMetricProvider = StateProvider<WellnessMetric>(
   (ref) => WellnessMetric.gutPeace,
 );
 
-final insightsTimeFilterProvider = StateProvider<TimeFilter>(
+/// View-range for the calendar card. Correlation-based analyses ignore this —
+/// they always use the user's full history. This only changes how much of the
+/// calendar strip is rendered at once.
+final insightsCalendarRangeProvider = StateProvider<TimeFilter>(
   (ref) => TimeFilter.week,
 );
 
-/// Daily aggregated scores. Respects both the time filter and the metric
-/// toggle, so the calendar, scatter plot, and other views stay in sync.
-final heatmapDataProvider = FutureProvider.autoDispose<Map<DateTime, double>>((
-  ref,
-) async {
-  final filter = ref.watch(insightsTimeFilterProvider);
-  final metric = ref.watch(insightsMetricProvider);
-  final range = filter.toDateRange();
-  final db = await ref.watch(appDatabaseProvider.future);
-  final entries = await db.wellnessInRange(from: range.start, to: range.end);
-
-  final extractor = switch (metric) {
+double Function(WellnessEntry)? _extractorFor(WellnessMetric metric) {
+  return switch (metric) {
     WellnessMetric.heartburn => CorrelationEngine.heartburnAsY,
+    WellnessMetric.bloating => CorrelationEngine.bloatingAsY,
     WellnessMetric.diarrhea => CorrelationEngine.diarrheaAsY,
-    WellnessMetric.stress => CorrelationEngine.stressAsY,
     WellnessMetric.combined => CorrelationEngine.combinedAsY,
     WellnessMetric.gutPeace => null,
   };
+}
 
-  return InsightsRepository.aggregateByDay(entries, scoreExtractor: extractor);
+/// Stress-as-predictor correlation against the currently selected symptom
+/// metric, over the full wellness history.
+final stressImpactProvider = FutureProvider.autoDispose<StressImpact?>((
+  ref,
+) async {
+  final metric = ref.watch(insightsMetricProvider);
+  final db = await ref.watch(appDatabaseProvider.future);
+  final wellness = await db.allWellness();
+  return CorrelationEngine.computeStressImpact(
+    wellnessEntries: wellness,
+    yValueExtractor: _extractorFor(metric),
+  );
+});
+
+/// Daily aggregated scores over the user's FULL history. The UI layer decides
+/// how much of this to render (e.g. last week vs last month) — the provider
+/// always returns everything so zooming is instant and cache-friendly.
+final heatmapDataProvider = FutureProvider.autoDispose<Map<DateTime, double>>((
+  ref,
+) async {
+  final metric = ref.watch(insightsMetricProvider);
+  final db = await ref.watch(appDatabaseProvider.future);
+  final entries = await db.allWellness();
+  return InsightsRepository.aggregateByDay(
+    entries,
+    scoreExtractor: _extractorFor(metric),
+  );
 });
 
 final foodImpactScoresProvider = FutureProvider.autoDispose<List<ImpactScore>>((
   ref,
 ) async {
-  final filter = ref.watch(insightsTimeFilterProvider);
   final metric = ref.watch(insightsMetricProvider);
-  final range = filter.toDateRange();
   final db = await ref.watch(appDatabaseProvider.future);
-
-  final meals = await db.mealsInRange(from: range.start, to: range.end);
-  final wellness = await db.wellnessInRange(from: range.start, to: range.end);
-
-  final extractor = switch (metric) {
-    WellnessMetric.heartburn => CorrelationEngine.heartburnAsY,
-    WellnessMetric.diarrhea => CorrelationEngine.diarrheaAsY,
-    WellnessMetric.stress => CorrelationEngine.stressAsY,
-    WellnessMetric.combined => CorrelationEngine.combinedAsY,
-    WellnessMetric.gutPeace => null,
-  };
-
+  final meals = await db.allMeals();
+  final wellness = await db.allWellness();
   return CorrelationEngine.computeImpactScores(
     meals: meals,
     wellnessEntries: wellness,
-    yValueExtractor: extractor,
+    yValueExtractor: _extractorFor(metric),
   );
 });
 
@@ -75,10 +84,8 @@ final selectedIngredientMealTimesProvider =
       final selected = ref.watch(selectedImpactScoreProvider);
       if (selected == null) return [];
 
-      final filter = ref.watch(insightsTimeFilterProvider);
-      final range = filter.toDateRange();
       final db = await ref.watch(appDatabaseProvider.future);
-      final meals = await db.mealsInRange(from: range.start, to: range.end);
+      final meals = await db.allMeals();
 
       return meals
           .where(
@@ -90,31 +97,40 @@ final selectedIngredientMealTimesProvider =
           .toList();
     });
 
-/// Meal-timing analysis: how WHEN the user eats affects discomfort.
+/// Meal timestamps grouped by ingredient id. Used by the scatter screen to
+/// render a vertical list of scatter plots, one per food, without round-tripping
+/// the DB for each selection.
+final mealTimesByIngredientProvider =
+    FutureProvider.autoDispose<Map<int, List<DateTime>>>((ref) async {
+  final db = await ref.watch(appDatabaseProvider.future);
+  final meals = await db.allMeals();
+  final out = <int, List<DateTime>>{};
+  for (final m in meals) {
+    for (final i in m.ingredients) {
+      out.putIfAbsent(i.ingredientId, () => []).add(m.consumedAt);
+    }
+  }
+  return out;
+});
+
+/// Meal-timing analysis: how WHEN the user eats affects discomfort. All-time.
 final timingAnalysisProvider = FutureProvider.autoDispose<TimingAnalysis>((
   ref,
 ) async {
-  final filter = ref.watch(insightsTimeFilterProvider);
-  final range = filter.toDateRange();
   final db = await ref.watch(appDatabaseProvider.future);
-  final meals = await db.mealsInRange(from: range.start, to: range.end);
-  final wellness = await db.wellnessInRange(from: range.start, to: range.end);
+  final meals = await db.allMeals();
+  final wellness = await db.allWellness();
   return TimingAnalyzer.analyze(meals: meals, wellness: wellness);
 });
 
-/// Food fingerprint data for each ingredient with enough data.
+/// Food radar data for each ingredient with enough data. All-time.
 final foodFingerprintProvider =
     FutureProvider.autoDispose<Map<int, FoodFingerprintData>>((ref) async {
-      final filter = ref.watch(insightsTimeFilterProvider);
-      final range = filter.toDateRange();
       final db = await ref.watch(appDatabaseProvider.future);
-      final meals = await db.mealsInRange(from: range.start, to: range.end);
-      final wellness = await db.wellnessInRange(
-        from: range.start,
-        to: range.end,
-      );
+      final meals = await db.allMeals();
+      final wellness = await db.allWellness();
       return computeFingerprints(meals: meals, wellness: wellness);
     });
 
-/// Currently selected food for the fingerprint detail view.
+/// Currently selected food for the radar detail view.
 final selectedFingerprintFoodProvider = StateProvider<int?>((ref) => null);

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
 import 'package:gutcheck/l10n/app_localizations.dart';
-import '../widgets/time_filter_bar.dart';
 import 'insights_screen.dart';
 
 class _InsightsDetailScaffold extends StatelessWidget {
@@ -17,11 +16,7 @@ class _InsightsDetailScaffold extends StatelessWidget {
       body: Column(
         children: [
           const Padding(
-            padding: EdgeInsets.fromLTRB(16, 12, 16, 4),
-            child: TimeFilterBar(),
-          ),
-          const Padding(
-            padding: EdgeInsets.fromLTRB(16, 0, 16, 8),
+            padding: EdgeInsets.fromLTRB(16, 12, 16, 8),
             child: InsightsMetricToggleBar(),
           ),
           Expanded(child: child),

@@ -1,79 +1,80 @@
 {
-  "name": "GutCheck - Digestive Health Tracker",
-  "short_name": "GutCheck",
-  "description": "A local-first diet and digestive health tracker. Track meals and wellness scores to discover food impacts.",
-  "start_url": "/",
-  "scope": "/",
-  "display": "standalone",
-  "orientation": "portrait-primary",
-  "theme_color": "#6366f1",
-  "background_color": "#ffffff",
-  "categories": ["health", "medical"],
-  "screenshots": [
-    {
-      "src": "icons/Icon-192.png",
-      "sizes": "192x192",
-      "type": "image/png",
-      "form_factor": "narrow"
-    },
-    {
-      "src": "icons/Icon-512.png",
-      "sizes": "512x512",
-      "type": "image/png",
-      "form_factor": "wide"
-    }
-  ],
-  "icons": [
-    {
-      "src": "icons/Icon-192.png",
-      "sizes": "192x192",
-      "type": "image/png",
-      "purpose": "any"
-    },
-    {
-      "src": "icons/Icon-512.png",
-      "sizes": "512x512",
-      "type": "image/png",
-      "purpose": "any"
-    },
-    {
-      "src": "icons/Icon-maskable-192.png",
-      "sizes": "192x192",
-      "type": "image/png",
-      "purpose": "maskable"
-    },
-    {
-      "src": "icons/Icon-maskable-512.png",
-      "sizes": "512x512",
-      "type": "image/png",
-      "purpose": "maskable"
-    }
-  ],
-  "prefer_related_applications": false,
-  "shortcuts": [
-    {
-      "name": "Log Meal",
-      "short_name": "Meal",
-      "description": "Quickly log a meal",
-      "url": "/?route=/meal-log",
-      "icons": [
+    "name": "GutCheck - Digestive Health Tracker",
+    "short_name": "GutCheck",
+    "description": "A local-first diet and digestive health tracker. Track meals and wellness scores to discover food impacts.",
+    "start_url": "/",
+    "scope": "/",
+    "display": "standalone",
+    "orientation": "portrait-primary",
+    "theme_color": "#D97757",
+    "background_color": "#FBEFE3",
+    "categories": [
+        "health",
+        "medical"
+    ],
+    "screenshots": [
         {
-          "src": "icons/Icon-192.png",
-          "sizes": "192x192"
-        }
-      ]
-    },
-    {
-      "name": "Wellness Check",
-      "short_name": "Wellness",
-      "description": "Log a wellness entry",
-      "url": "/?route=/wellness",
-      "icons": [
+            "src": "icons/Icon-192.png",
+            "sizes": "192x192",
+            "type": "image/png",
+            "form_factor": "narrow"
+        },
         {
-          "src": "icons/Icon-192.png",
-          "sizes": "192x192"
+            "src": "icons/Icon-512.png",
+            "sizes": "512x512",
+            "type": "image/png",
+            "form_factor": "wide"
         }
-      ]
-    }
-  ]
+    ],
+    "prefer_related_applications": false,
+    "shortcuts": [
+        {
+            "name": "Log Meal",
+            "short_name": "Meal",
+            "description": "Quickly log a meal",
+            "url": "/?route=/meal-log",
+            "icons": [
+                {
+                    "src": "icons/Icon-192.png",
+                    "sizes": "192x192"
+                }
+            ]
+        },
+        {
+            "name": "Wellness Check",
+            "short_name": "Wellness",
+            "description": "Log a wellness entry",
+            "url": "/?route=/wellness",
+            "icons": [
+                {
+                    "src": "icons/Icon-192.png",
+                    "sizes": "192x192"
+                }
+            ]
+        }
+    ],
+    "icons": [
+        {
+            "src": "icons/Icon-192.png",
+            "sizes": "192x192",
+            "type": "image/png"
+        },
+        {
+            "src": "icons/Icon-512.png",
+            "sizes": "512x512",
+            "type": "image/png"
+        },
+        {
+            "src": "icons/Icon-maskable-192.png",
+            "sizes": "192x192",
+            "type": "image/png",
+            "purpose": "maskable"
+        },
+        {
+            "src": "icons/Icon-maskable-512.png",
+            "sizes": "512x512",
+            "type": "image/png",
+            "purpose": "maskable"
+        }
+    ]
 }

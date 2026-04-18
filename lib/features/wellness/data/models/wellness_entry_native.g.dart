@@ -17,40 +17,61 @@ const WellnessEntrySchema = CollectionSchema(
   name: r'WellnessEntry',
   id: -8709916360329735599,
   properties: {
-    r'createdAt': PropertySchema(
+    r'bloating': PropertySchema(
       id: 0,
+      name: r'bloating',
+      type: IsarType.long,
+    ),
+    r'createdAt': PropertySchema(
+      id: 1,
       name: r'createdAt',
       type: IsarType.dateTime,
     ),
-    r'diarrhea': PropertySchema(id: 1, name: r'diarrhea', type: IsarType.bool),
-    r'gutPeace': PropertySchema(id: 2, name: r'gutPeace', type: IsarType.long),
-    r'heartburn': PropertySchema(
+    r'diarrhea': PropertySchema(
+      id: 2,
+      name: r'diarrhea',
+      type: IsarType.bool,
+    ),
+    r'gutPeace': PropertySchema(
       id: 3,
+      name: r'gutPeace',
+      type: IsarType.long,
+    ),
+    r'heartburn': PropertySchema(
+      id: 4,
       name: r'heartburn',
       type: IsarType.long,
     ),
-    r'isSample': PropertySchema(id: 4, name: r'isSample', type: IsarType.bool),
-    r'linkedMealIds': PropertySchema(
+    r'isSample': PropertySchema(
       id: 5,
+      name: r'isSample',
+      type: IsarType.bool,
+    ),
+    r'linkedMealIds': PropertySchema(
+      id: 6,
       name: r'linkedMealIds',
       type: IsarType.longList,
     ),
-    r'notes': PropertySchema(id: 6, name: r'notes', type: IsarType.string),
-    r'recordedAt': PropertySchema(
+    r'notes': PropertySchema(
       id: 7,
+      name: r'notes',
+      type: IsarType.string,
+    ),
+    r'recordedAt': PropertySchema(
+      id: 8,
       name: r'recordedAt',
       type: IsarType.dateTime,
     ),
     r'stressLevel': PropertySchema(
-      id: 8,
+      id: 9,
       name: r'stressLevel',
       type: IsarType.long,
     ),
     r'wellnessScore': PropertySchema(
-      id: 9,
+      id: 10,
       name: r'wellnessScore',
       type: IsarType.double,
-    ),
+    )
   },
   estimateSize: _wellnessEntryEstimateSize,
   serialize: _wellnessEntrySerialize,
@@ -68,9 +89,9 @@ const WellnessEntrySchema = CollectionSchema(
           name: r'recordedAt',
           type: IndexType.value,
           caseSensitive: false,
-        ),
+        )
       ],
-    ),
+    )
   },
   links: {},
   embeddedSchemas: {},
@@ -102,16 +123,17 @@ void _wellnessEntrySerialize(
   List<int> offsets,
   Map<Type, List<int>> allOffsets,
 ) {
-  writer.writeDateTime(offsets[0], object.createdAt);
-  writer.writeBool(offsets[1], object.diarrhea);
-  writer.writeLong(offsets[2], object.gutPeace);
-  writer.writeLong(offsets[3], object.heartburn);
-  writer.writeBool(offsets[4], object.isSample);
-  writer.writeLongList(offsets[5], object.linkedMealIds);
-  writer.writeString(offsets[6], object.notes);
-  writer.writeDateTime(offsets[7], object.recordedAt);
-  writer.writeLong(offsets[8], object.stressLevel);
-  writer.writeDouble(offsets[9], object.wellnessScore);
+  writer.writeLong(offsets[0], object.bloating);
+  writer.writeDateTime(offsets[1], object.createdAt);
+  writer.writeBool(offsets[2], object.diarrhea);
+  writer.writeLong(offsets[3], object.gutPeace);
+  writer.writeLong(offsets[4], object.heartburn);
+  writer.writeBool(offsets[5], object.isSample);
+  writer.writeLongList(offsets[6], object.linkedMealIds);
+  writer.writeString(offsets[7], object.notes);
+  writer.writeDateTime(offsets[8], object.recordedAt);
+  writer.writeLong(offsets[9], object.stressLevel);
+  writer.writeDouble(offsets[10], object.wellnessScore);
 }
 
 WellnessEntry _wellnessEntryDeserialize(
@@ -121,17 +143,18 @@ WellnessEntry _wellnessEntryDeserialize(
   Map<Type, List<int>> allOffsets,
 ) {
   final object = WellnessEntry();
-  object.createdAt = reader.readDateTime(offsets[0]);
-  object.diarrhea = reader.readBool(offsets[1]);
-  object.gutPeace = reader.readLong(offsets[2]);
-  object.heartburn = reader.readLong(offsets[3]);
+  object.bloating = reader.readLong(offsets[0]);
+  object.createdAt = reader.readDateTime(offsets[1]);
+  object.diarrhea = reader.readBool(offsets[2]);
+  object.gutPeace = reader.readLong(offsets[3]);
+  object.heartburn = reader.readLong(offsets[4]);
   object.id = id;
-  object.isSample = reader.readBool(offsets[4]);
-  object.linkedMealIds = reader.readLongList(offsets[5]) ?? [];
-  object.notes = reader.readStringOrNull(offsets[6]);
-  object.recordedAt = reader.readDateTime(offsets[7]);
-  object.stressLevel = reader.readLong(offsets[8]);
-  object.wellnessScore = reader.readDouble(offsets[9]);
+  object.isSample = reader.readBool(offsets[5]);
+  object.linkedMealIds = reader.readLongList(offsets[6]) ?? [];
+  object.notes = reader.readStringOrNull(offsets[7]);
+  object.recordedAt = reader.readDateTime(offsets[8]);
+  object.stressLevel = reader.readLong(offsets[9]);
+  object.wellnessScore = reader.readDouble(offsets[10]);
   return object;
 }
 
@@ -143,24 +166,26 @@ P _wellnessEntryDeserializeProp<P>(
 ) {
   switch (propertyId) {
     case 0:
-      return (reader.readDateTime(offset)) as P;
-    case 1:
-      return (reader.readBool(offset)) as P;
-    case 2:
       return (reader.readLong(offset)) as P;
+    case 1:
+      return (reader.readDateTime(offset)) as P;
+    case 2:
+      return (reader.readBool(offset)) as P;
     case 3:
       return (reader.readLong(offset)) as P;
     case 4:
-      return (reader.readBool(offset)) as P;
-    case 5:
-      return (reader.readLongList(offset) ?? []) as P;
-    case 6:
-      return (reader.readStringOrNull(offset)) as P;
-    case 7:
-      return (reader.readDateTime(offset)) as P;
-    case 8:
       return (reader.readLong(offset)) as P;
+    case 5:
+      return (reader.readBool(offset)) as P;
+    case 6:
+      return (reader.readLongList(offset) ?? []) as P;
+    case 7:
+      return (reader.readStringOrNull(offset)) as P;
+    case 8:
+      return (reader.readDateTime(offset)) as P;
     case 9:
+      return (reader.readLong(offset)) as P;
+    case 10:
       return (reader.readDouble(offset)) as P;
     default:
       throw IsarError('Unknown property with id $propertyId');
@@ -176,10 +201,7 @@ List<IsarLinkBase<dynamic>> _wellnessEntryGetLinks(WellnessEntry object) {
 }
 
 void _wellnessEntryAttach(
-  IsarCollection<dynamic> col,
-  Id id,
-  WellnessEntry object,
-) {
+    IsarCollection<dynamic> col, Id id, WellnessEntry object) {
   object.id = id;
 }
 
@@ -203,16 +225,17 @@ extension WellnessEntryQueryWhereSort
 extension WellnessEntryQueryWhere
     on QueryBuilder<WellnessEntry, WellnessEntry, QWhereClause> {
   QueryBuilder<WellnessEntry, WellnessEntry, QAfterWhereClause> idEqualTo(
-    Id id,
-  ) {
+      Id id) {
     return QueryBuilder.apply(this, (query) {
-      return query.addWhereClause(IdWhereClause.between(lower: id, upper: id));
+      return query.addWhereClause(IdWhereClause.between(
+        lower: id,
+        upper: id,
+      ));
     });
   }
 
   QueryBuilder<WellnessEntry, WellnessEntry, QAfterWhereClause> idNotEqualTo(
-    Id id,
-  ) {
+      Id id) {
     return QueryBuilder.apply(this, (query) {
       if (query.whereSort == Sort.asc) {
         return query
@@ -235,9 +258,8 @@ extension WellnessEntryQueryWhere
   }
 
   QueryBuilder<WellnessEntry, WellnessEntry, QAfterWhereClause> idGreaterThan(
-    Id id, {
-    bool include = false,
-  }) {
+      Id id,
+      {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(
         IdWhereClause.greaterThan(lower: id, includeLower: include),
@@ -246,9 +268,8 @@ extension WellnessEntryQueryWhere
   }
 
   QueryBuilder<WellnessEntry, WellnessEntry, QAfterWhereClause> idLessThan(
-    Id id, {
-    bool include = false,
-  }) {
+      Id id,
+      {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(
         IdWhereClause.lessThan(upper: id, includeUpper: include),
@@ -263,114 +284,105 @@ extension WellnessEntryQueryWhere
     bool includeUpper = true,
   }) {
     return QueryBuilder.apply(this, (query) {
-      return query.addWhereClause(
-        IdWhereClause.between(
-          lower: lowerId,
-          includeLower: includeLower,
-          upper: upperId,
-          includeUpper: includeUpper,
-        ),
-      );
+      return query.addWhereClause(IdWhereClause.between(
+        lower: lowerId,
+        includeLower: includeLower,
+        upper: upperId,
+        includeUpper: includeUpper,
+      ));
     });
   }
 
   QueryBuilder<WellnessEntry, WellnessEntry, QAfterWhereClause>
-  recordedAtEqualTo(DateTime recordedAt) {
+      recordedAtEqualTo(DateTime recordedAt) {
     return QueryBuilder.apply(this, (query) {
-      return query.addWhereClause(
-        IndexWhereClause.equalTo(indexName: r'recordedAt', value: [recordedAt]),
-      );
+      return query.addWhereClause(IndexWhereClause.equalTo(
+        indexName: r'recordedAt',
+        value: [recordedAt],
+      ));
     });
   }
 
   QueryBuilder<WellnessEntry, WellnessEntry, QAfterWhereClause>
-  recordedAtNotEqualTo(DateTime recordedAt) {
+      recordedAtNotEqualTo(DateTime recordedAt) {
     return QueryBuilder.apply(this, (query) {
       if (query.whereSort == Sort.asc) {
         return query
-            .addWhereClause(
-              IndexWhereClause.between(
-                indexName: r'recordedAt',
-                lower: [],
-                upper: [recordedAt],
-                includeUpper: false,
-              ),
-            )
-            .addWhereClause(
-              IndexWhereClause.between(
-                indexName: r'recordedAt',
-                lower: [recordedAt],
-                includeLower: false,
-                upper: [],
-              ),
-            );
+            .addWhereClause(IndexWhereClause.between(
+              indexName: r'recordedAt',
+              lower: [],
+              upper: [recordedAt],
+              includeUpper: false,
+            ))
+            .addWhereClause(IndexWhereClause.between(
+              indexName: r'recordedAt',
+              lower: [recordedAt],
+              includeLower: false,
+              upper: [],
+            ));
       } else {
         return query
-            .addWhereClause(
-              IndexWhereClause.between(
-                indexName: r'recordedAt',
-                lower: [recordedAt],
-                includeLower: false,
-                upper: [],
-              ),
-            )
-            .addWhereClause(
-              IndexWhereClause.between(
-                indexName: r'recordedAt',
-                lower: [],
-                upper: [recordedAt],
-                includeUpper: false,
-              ),
-            );
+            .addWhereClause(IndexWhereClause.between(
+              indexName: r'recordedAt',
+              lower: [recordedAt],
+              includeLower: false,
+              upper: [],
+            ))
+            .addWhereClause(IndexWhereClause.between(
+              indexName: r'recordedAt',
+              lower: [],
+              upper: [recordedAt],
+              includeUpper: false,
+            ));
       }
     });
   }
 
   QueryBuilder<WellnessEntry, WellnessEntry, QAfterWhereClause>
-  recordedAtGreaterThan(DateTime recordedAt, {bool include = false}) {
+      recordedAtGreaterThan(
+    DateTime recordedAt, {
+    bool include = false,
+  }) {
     return QueryBuilder.apply(this, (query) {
-      return query.addWhereClause(
-        IndexWhereClause.between(
-          indexName: r'recordedAt',
-          lower: [recordedAt],
-          includeLower: include,
-          upper: [],
-        ),
-      );
+      return query.addWhereClause(IndexWhereClause.between(
+        indexName: r'recordedAt',
+        lower: [recordedAt],
+        includeLower: include,
+        upper: [],
+      ));
     });
   }
 
   QueryBuilder<WellnessEntry, WellnessEntry, QAfterWhereClause>
-  recordedAtLessThan(DateTime recordedAt, {bool include = false}) {
+      recordedAtLessThan(
+    DateTime recordedAt, {
+    bool include = false,
+  }) {
     return QueryBuilder.apply(this, (query) {
-      return query.addWhereClause(
-        IndexWhereClause.between(
-          indexName: r'recordedAt',
-          lower: [],
-          upper: [recordedAt],
-          includeUpper: include,
-        ),
-      );
+      return query.addWhereClause(IndexWhereClause.between(
+        indexName: r'recordedAt',
+        lower: [],
+        upper: [recordedAt],
+        includeUpper: include,
+      ));
     });
   }
 
   QueryBuilder<WellnessEntry, WellnessEntry, QAfterWhereClause>
-  recordedAtBetween(
+      recordedAtBetween(
     DateTime lowerRecordedAt,
     DateTime upperRecordedAt, {
     bool includeLower = true,
     bool includeUpper = true,
   }) {
     return QueryBuilder.apply(this, (query) {
-      return query.addWhereClause(
-        IndexWhereClause.between(
-          indexName: r'recordedAt',
-          lower: [lowerRecordedAt],
-          includeLower: includeLower,
-          upper: [upperRecordedAt],
-          includeUpper: includeUpper,
-        ),
-      );
+      return query.addWhereClause(IndexWhereClause.between(
+        indexName: r'recordedAt',
+        lower: [lowerRecordedAt],
+        includeLower: includeLower,
+        upper: [upperRecordedAt],
+        includeUpper: includeUpper,
+      ));
     });
   }
 }
@@ -378,199 +390,260 @@ extension WellnessEntryQueryWhere
 extension WellnessEntryQueryFilter
     on QueryBuilder<WellnessEntry, WellnessEntry, QFilterCondition> {
   QueryBuilder<WellnessEntry, WellnessEntry, QAfterFilterCondition>
-  createdAtEqualTo(DateTime value) {
+      bloatingEqualTo(int value) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(
-        FilterCondition.equalTo(property: r'createdAt', value: value),
-      );
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'bloating',
+        value: value,
+      ));
     });
   }
 
   QueryBuilder<WellnessEntry, WellnessEntry, QAfterFilterCondition>
-  createdAtGreaterThan(DateTime value, {bool include = false}) {
+      bloatingGreaterThan(
+    int value, {
+    bool include = false,
+  }) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(
-        FilterCondition.greaterThan(
-          include: include,
-          property: r'createdAt',
-          value: value,
-        ),
-      );
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'bloating',
+        value: value,
+      ));
     });
   }
 
   QueryBuilder<WellnessEntry, WellnessEntry, QAfterFilterCondition>
-  createdAtLessThan(DateTime value, {bool include = false}) {
+      bloatingLessThan(
+    int value, {
+    bool include = false,
+  }) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(
-        FilterCondition.lessThan(
-          include: include,
-          property: r'createdAt',
-          value: value,
-        ),
-      );
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'bloating',
+        value: value,
+      ));
     });
   }
 
   QueryBuilder<WellnessEntry, WellnessEntry, QAfterFilterCondition>
-  createdAtBetween(
+      bloatingBetween(
+    int lower,
+    int upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'bloating',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
+      ));
+    });
+  }
+
+  QueryBuilder<WellnessEntry, WellnessEntry, QAfterFilterCondition>
+      createdAtEqualTo(DateTime value) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'createdAt',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<WellnessEntry, WellnessEntry, QAfterFilterCondition>
+      createdAtGreaterThan(
+    DateTime value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'createdAt',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<WellnessEntry, WellnessEntry, QAfterFilterCondition>
+      createdAtLessThan(
+    DateTime value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'createdAt',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<WellnessEntry, WellnessEntry, QAfterFilterCondition>
+      createdAtBetween(
     DateTime lower,
     DateTime upper, {
     bool includeLower = true,
     bool includeUpper = true,
   }) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(
-        FilterCondition.between(
-          property: r'createdAt',
-          lower: lower,
-          includeLower: includeLower,
-          upper: upper,
-          includeUpper: includeUpper,
-        ),
-      );
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'createdAt',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
+      ));
     });
   }
 
   QueryBuilder<WellnessEntry, WellnessEntry, QAfterFilterCondition>
-  diarrheaEqualTo(bool value) {
+      diarrheaEqualTo(bool value) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(
-        FilterCondition.equalTo(property: r'diarrhea', value: value),
-      );
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'diarrhea',
+        value: value,
+      ));
     });
   }
 
   QueryBuilder<WellnessEntry, WellnessEntry, QAfterFilterCondition>
-  gutPeaceEqualTo(int value) {
+      gutPeaceEqualTo(int value) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(
-        FilterCondition.equalTo(property: r'gutPeace', value: value),
-      );
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'gutPeace',
+        value: value,
+      ));
     });
   }
 
   QueryBuilder<WellnessEntry, WellnessEntry, QAfterFilterCondition>
-  gutPeaceGreaterThan(int value, {bool include = false}) {
+      gutPeaceGreaterThan(
+    int value, {
+    bool include = false,
+  }) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(
-        FilterCondition.greaterThan(
-          include: include,
-          property: r'gutPeace',
-          value: value,
-        ),
-      );
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'gutPeace',
+        value: value,
+      ));
     });
   }
 
   QueryBuilder<WellnessEntry, WellnessEntry, QAfterFilterCondition>
-  gutPeaceLessThan(int value, {bool include = false}) {
+      gutPeaceLessThan(
+    int value, {
+    bool include = false,
+  }) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(
-        FilterCondition.lessThan(
-          include: include,
-          property: r'gutPeace',
-          value: value,
-        ),
-      );
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'gutPeace',
+        value: value,
+      ));
     });
   }
 
   QueryBuilder<WellnessEntry, WellnessEntry, QAfterFilterCondition>
-  gutPeaceBetween(
+      gutPeaceBetween(
     int lower,
     int upper, {
     bool includeLower = true,
     bool includeUpper = true,
   }) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(
-        FilterCondition.between(
-          property: r'gutPeace',
-          lower: lower,
-          includeLower: includeLower,
-          upper: upper,
-          includeUpper: includeUpper,
-        ),
-      );
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'gutPeace',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
+      ));
     });
   }
 
   QueryBuilder<WellnessEntry, WellnessEntry, QAfterFilterCondition>
-  heartburnEqualTo(int value) {
+      heartburnEqualTo(int value) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(
-        FilterCondition.equalTo(property: r'heartburn', value: value),
-      );
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'heartburn',
+        value: value,
+      ));
     });
   }
 
   QueryBuilder<WellnessEntry, WellnessEntry, QAfterFilterCondition>
-  heartburnGreaterThan(int value, {bool include = false}) {
+      heartburnGreaterThan(
+    int value, {
+    bool include = false,
+  }) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(
-        FilterCondition.greaterThan(
-          include: include,
-          property: r'heartburn',
-          value: value,
-        ),
-      );
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'heartburn',
+        value: value,
+      ));
     });
   }
 
   QueryBuilder<WellnessEntry, WellnessEntry, QAfterFilterCondition>
-  heartburnLessThan(int value, {bool include = false}) {
+      heartburnLessThan(
+    int value, {
+    bool include = false,
+  }) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(
-        FilterCondition.lessThan(
-          include: include,
-          property: r'heartburn',
-          value: value,
-        ),
-      );
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'heartburn',
+        value: value,
+      ));
     });
   }
 
   QueryBuilder<WellnessEntry, WellnessEntry, QAfterFilterCondition>
-  heartburnBetween(
+      heartburnBetween(
     int lower,
     int upper, {
     bool includeLower = true,
     bool includeUpper = true,
   }) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(
-        FilterCondition.between(
-          property: r'heartburn',
-          lower: lower,
-          includeLower: includeLower,
-          upper: upper,
-          includeUpper: includeUpper,
-        ),
-      );
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'heartburn',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
+      ));
     });
   }
 
   QueryBuilder<WellnessEntry, WellnessEntry, QAfterFilterCondition> idEqualTo(
-    Id value,
-  ) {
+      Id value) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(
-        FilterCondition.equalTo(property: r'id', value: value),
-      );
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'id',
+        value: value,
+      ));
     });
   }
 
   QueryBuilder<WellnessEntry, WellnessEntry, QAfterFilterCondition>
-  idGreaterThan(Id value, {bool include = false}) {
+      idGreaterThan(
+    Id value, {
+    bool include = false,
+  }) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(
-        FilterCondition.greaterThan(
-          include: include,
-          property: r'id',
-          value: value,
-        ),
-      );
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'id',
+        value: value,
+      ));
     });
   }
 
@@ -579,13 +652,11 @@ extension WellnessEntryQueryFilter
     bool include = false,
   }) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(
-        FilterCondition.lessThan(
-          include: include,
-          property: r'id',
-          value: value,
-        ),
-      );
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'id',
+        value: value,
+      ));
     });
   }
 
@@ -596,119 +667,155 @@ extension WellnessEntryQueryFilter
     bool includeUpper = true,
   }) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(
-        FilterCondition.between(
-          property: r'id',
-          lower: lower,
-          includeLower: includeLower,
-          upper: upper,
-          includeUpper: includeUpper,
-        ),
-      );
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'id',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
+      ));
     });
   }
 
   QueryBuilder<WellnessEntry, WellnessEntry, QAfterFilterCondition>
-  isSampleEqualTo(bool value) {
+      isSampleEqualTo(bool value) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(
-        FilterCondition.equalTo(property: r'isSample', value: value),
-      );
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'isSample',
+        value: value,
+      ));
     });
   }
 
   QueryBuilder<WellnessEntry, WellnessEntry, QAfterFilterCondition>
-  linkedMealIdsElementEqualTo(int value) {
+      linkedMealIdsElementEqualTo(int value) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(
-        FilterCondition.equalTo(property: r'linkedMealIds', value: value),
-      );
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'linkedMealIds',
+        value: value,
+      ));
     });
   }
 
   QueryBuilder<WellnessEntry, WellnessEntry, QAfterFilterCondition>
-  linkedMealIdsElementGreaterThan(int value, {bool include = false}) {
+      linkedMealIdsElementGreaterThan(
+    int value, {
+    bool include = false,
+  }) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(
-        FilterCondition.greaterThan(
-          include: include,
-          property: r'linkedMealIds',
-          value: value,
-        ),
-      );
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'linkedMealIds',
+        value: value,
+      ));
     });
   }
 
   QueryBuilder<WellnessEntry, WellnessEntry, QAfterFilterCondition>
-  linkedMealIdsElementLessThan(int value, {bool include = false}) {
+      linkedMealIdsElementLessThan(
+    int value, {
+    bool include = false,
+  }) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(
-        FilterCondition.lessThan(
-          include: include,
-          property: r'linkedMealIds',
-          value: value,
-        ),
-      );
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'linkedMealIds',
+        value: value,
+      ));
     });
   }
 
   QueryBuilder<WellnessEntry, WellnessEntry, QAfterFilterCondition>
-  linkedMealIdsElementBetween(
+      linkedMealIdsElementBetween(
     int lower,
     int upper, {
     bool includeLower = true,
     bool includeUpper = true,
   }) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(
-        FilterCondition.between(
-          property: r'linkedMealIds',
-          lower: lower,
-          includeLower: includeLower,
-          upper: upper,
-          includeUpper: includeUpper,
-        ),
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'linkedMealIds',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
+      ));
+    });
+  }
+
+  QueryBuilder<WellnessEntry, WellnessEntry, QAfterFilterCondition>
+      linkedMealIdsLengthEqualTo(int length) {
+    return QueryBuilder.apply(this, (query) {
+      return query.listLength(
+        r'linkedMealIds',
+        length,
+        true,
+        length,
+        true,
       );
     });
   }
 
   QueryBuilder<WellnessEntry, WellnessEntry, QAfterFilterCondition>
-  linkedMealIdsLengthEqualTo(int length) {
+      linkedMealIdsIsEmpty() {
     return QueryBuilder.apply(this, (query) {
-      return query.listLength(r'linkedMealIds', length, true, length, true);
+      return query.listLength(
+        r'linkedMealIds',
+        0,
+        true,
+        0,
+        true,
+      );
     });
   }
 
   QueryBuilder<WellnessEntry, WellnessEntry, QAfterFilterCondition>
-  linkedMealIdsIsEmpty() {
+      linkedMealIdsIsNotEmpty() {
     return QueryBuilder.apply(this, (query) {
-      return query.listLength(r'linkedMealIds', 0, true, 0, true);
+      return query.listLength(
+        r'linkedMealIds',
+        0,
+        false,
+        999999,
+        true,
+      );
     });
   }
 
   QueryBuilder<WellnessEntry, WellnessEntry, QAfterFilterCondition>
-  linkedMealIdsIsNotEmpty() {
+      linkedMealIdsLengthLessThan(
+    int length, {
+    bool include = false,
+  }) {
     return QueryBuilder.apply(this, (query) {
-      return query.listLength(r'linkedMealIds', 0, false, 999999, true);
+      return query.listLength(
+        r'linkedMealIds',
+        0,
+        true,
+        length,
+        include,
+      );
     });
   }
 
   QueryBuilder<WellnessEntry, WellnessEntry, QAfterFilterCondition>
-  linkedMealIdsLengthLessThan(int length, {bool include = false}) {
+      linkedMealIdsLengthGreaterThan(
+    int length, {
+    bool include = false,
+  }) {
     return QueryBuilder.apply(this, (query) {
-      return query.listLength(r'linkedMealIds', 0, true, length, include);
+      return query.listLength(
+        r'linkedMealIds',
+        length,
+        include,
+        999999,
+        true,
+      );
     });
   }
 
   QueryBuilder<WellnessEntry, WellnessEntry, QAfterFilterCondition>
-  linkedMealIdsLengthGreaterThan(int length, {bool include = false}) {
-    return QueryBuilder.apply(this, (query) {
-      return query.listLength(r'linkedMealIds', length, include, 999999, true);
-    });
-  }
-
-  QueryBuilder<WellnessEntry, WellnessEntry, QAfterFilterCondition>
-  linkedMealIdsLengthBetween(
+      linkedMealIdsLengthBetween(
     int lower,
     int upper, {
     bool includeLower = true,
@@ -726,74 +833,71 @@ extension WellnessEntryQueryFilter
   }
 
   QueryBuilder<WellnessEntry, WellnessEntry, QAfterFilterCondition>
-  notesIsNull() {
+      notesIsNull() {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(
-        const FilterCondition.isNull(property: r'notes'),
-      );
+      return query.addFilterCondition(const FilterCondition.isNull(
+        property: r'notes',
+      ));
     });
   }
 
   QueryBuilder<WellnessEntry, WellnessEntry, QAfterFilterCondition>
-  notesIsNotNull() {
+      notesIsNotNull() {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(
-        const FilterCondition.isNotNull(property: r'notes'),
-      );
+      return query.addFilterCondition(const FilterCondition.isNotNull(
+        property: r'notes',
+      ));
     });
   }
 
   QueryBuilder<WellnessEntry, WellnessEntry, QAfterFilterCondition>
-  notesEqualTo(String? value, {bool caseSensitive = true}) {
+      notesEqualTo(
+    String? value, {
+    bool caseSensitive = true,
+  }) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(
-        FilterCondition.equalTo(
-          property: r'notes',
-          value: value,
-          caseSensitive: caseSensitive,
-        ),
-      );
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'notes',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
     });
   }
 
   QueryBuilder<WellnessEntry, WellnessEntry, QAfterFilterCondition>
-  notesGreaterThan(
+      notesGreaterThan(
     String? value, {
     bool include = false,
     bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(
-        FilterCondition.greaterThan(
-          include: include,
-          property: r'notes',
-          value: value,
-          caseSensitive: caseSensitive,
-        ),
-      );
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'notes',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
     });
   }
 
   QueryBuilder<WellnessEntry, WellnessEntry, QAfterFilterCondition>
-  notesLessThan(
+      notesLessThan(
     String? value, {
     bool include = false,
     bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(
-        FilterCondition.lessThan(
-          include: include,
-          property: r'notes',
-          value: value,
-          caseSensitive: caseSensitive,
-        ),
-      );
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'notes',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
     });
   }
 
   QueryBuilder<WellnessEntry, WellnessEntry, QAfterFilterCondition>
-  notesBetween(
+      notesBetween(
     String? lower,
     String? upper, {
     bool includeLower = true,
@@ -801,250 +905,247 @@ extension WellnessEntryQueryFilter
     bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(
-        FilterCondition.between(
-          property: r'notes',
-          lower: lower,
-          includeLower: includeLower,
-          upper: upper,
-          includeUpper: includeUpper,
-          caseSensitive: caseSensitive,
-        ),
-      );
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'notes',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
+        caseSensitive: caseSensitive,
+      ));
     });
   }
 
   QueryBuilder<WellnessEntry, WellnessEntry, QAfterFilterCondition>
-  notesStartsWith(String value, {bool caseSensitive = true}) {
+      notesStartsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(
-        FilterCondition.startsWith(
-          property: r'notes',
-          value: value,
-          caseSensitive: caseSensitive,
-        ),
-      );
+      return query.addFilterCondition(FilterCondition.startsWith(
+        property: r'notes',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
     });
   }
 
   QueryBuilder<WellnessEntry, WellnessEntry, QAfterFilterCondition>
-  notesEndsWith(String value, {bool caseSensitive = true}) {
+      notesEndsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(
-        FilterCondition.endsWith(
-          property: r'notes',
-          value: value,
-          caseSensitive: caseSensitive,
-        ),
-      );
+      return query.addFilterCondition(FilterCondition.endsWith(
+        property: r'notes',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
     });
   }
 
   QueryBuilder<WellnessEntry, WellnessEntry, QAfterFilterCondition>
-  notesContains(String value, {bool caseSensitive = true}) {
+      notesContains(String value, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(
-        FilterCondition.contains(
-          property: r'notes',
-          value: value,
-          caseSensitive: caseSensitive,
-        ),
-      );
+      return query.addFilterCondition(FilterCondition.contains(
+        property: r'notes',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
     });
   }
 
   QueryBuilder<WellnessEntry, WellnessEntry, QAfterFilterCondition>
-  notesMatches(String pattern, {bool caseSensitive = true}) {
+      notesMatches(String pattern, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(
-        FilterCondition.matches(
-          property: r'notes',
-          wildcard: pattern,
-          caseSensitive: caseSensitive,
-        ),
-      );
+      return query.addFilterCondition(FilterCondition.matches(
+        property: r'notes',
+        wildcard: pattern,
+        caseSensitive: caseSensitive,
+      ));
     });
   }
 
   QueryBuilder<WellnessEntry, WellnessEntry, QAfterFilterCondition>
-  notesIsEmpty() {
+      notesIsEmpty() {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(
-        FilterCondition.equalTo(property: r'notes', value: ''),
-      );
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'notes',
+        value: '',
+      ));
     });
   }
 
   QueryBuilder<WellnessEntry, WellnessEntry, QAfterFilterCondition>
-  notesIsNotEmpty() {
+      notesIsNotEmpty() {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(
-        FilterCondition.greaterThan(property: r'notes', value: ''),
-      );
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        property: r'notes',
+        value: '',
+      ));
     });
   }
 
   QueryBuilder<WellnessEntry, WellnessEntry, QAfterFilterCondition>
-  recordedAtEqualTo(DateTime value) {
+      recordedAtEqualTo(DateTime value) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(
-        FilterCondition.equalTo(property: r'recordedAt', value: value),
-      );
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'recordedAt',
+        value: value,
+      ));
     });
   }
 
   QueryBuilder<WellnessEntry, WellnessEntry, QAfterFilterCondition>
-  recordedAtGreaterThan(DateTime value, {bool include = false}) {
+      recordedAtGreaterThan(
+    DateTime value, {
+    bool include = false,
+  }) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(
-        FilterCondition.greaterThan(
-          include: include,
-          property: r'recordedAt',
-          value: value,
-        ),
-      );
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'recordedAt',
+        value: value,
+      ));
     });
   }
 
   QueryBuilder<WellnessEntry, WellnessEntry, QAfterFilterCondition>
-  recordedAtLessThan(DateTime value, {bool include = false}) {
+      recordedAtLessThan(
+    DateTime value, {
+    bool include = false,
+  }) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(
-        FilterCondition.lessThan(
-          include: include,
-          property: r'recordedAt',
-          value: value,
-        ),
-      );
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'recordedAt',
+        value: value,
+      ));
     });
   }
 
   QueryBuilder<WellnessEntry, WellnessEntry, QAfterFilterCondition>
-  recordedAtBetween(
+      recordedAtBetween(
     DateTime lower,
     DateTime upper, {
     bool includeLower = true,
     bool includeUpper = true,
   }) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(
-        FilterCondition.between(
-          property: r'recordedAt',
-          lower: lower,
-          includeLower: includeLower,
-          upper: upper,
-          includeUpper: includeUpper,
-        ),
-      );
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'recordedAt',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
+      ));
     });
   }
 
   QueryBuilder<WellnessEntry, WellnessEntry, QAfterFilterCondition>
-  stressLevelEqualTo(int value) {
+      stressLevelEqualTo(int value) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(
-        FilterCondition.equalTo(property: r'stressLevel', value: value),
-      );
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'stressLevel',
+        value: value,
+      ));
     });
   }
 
   QueryBuilder<WellnessEntry, WellnessEntry, QAfterFilterCondition>
-  stressLevelGreaterThan(int value, {bool include = false}) {
+      stressLevelGreaterThan(
+    int value, {
+    bool include = false,
+  }) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(
-        FilterCondition.greaterThan(
-          include: include,
-          property: r'stressLevel',
-          value: value,
-        ),
-      );
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'stressLevel',
+        value: value,
+      ));
     });
   }
 
   QueryBuilder<WellnessEntry, WellnessEntry, QAfterFilterCondition>
-  stressLevelLessThan(int value, {bool include = false}) {
+      stressLevelLessThan(
+    int value, {
+    bool include = false,
+  }) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(
-        FilterCondition.lessThan(
-          include: include,
-          property: r'stressLevel',
-          value: value,
-        ),
-      );
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'stressLevel',
+        value: value,
+      ));
     });
   }
 
   QueryBuilder<WellnessEntry, WellnessEntry, QAfterFilterCondition>
-  stressLevelBetween(
+      stressLevelBetween(
     int lower,
     int upper, {
     bool includeLower = true,
     bool includeUpper = true,
   }) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(
-        FilterCondition.between(
-          property: r'stressLevel',
-          lower: lower,
-          includeLower: includeLower,
-          upper: upper,
-          includeUpper: includeUpper,
-        ),
-      );
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'stressLevel',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
+      ));
     });
   }
 
   QueryBuilder<WellnessEntry, WellnessEntry, QAfterFilterCondition>
-  wellnessScoreEqualTo(double value, {double epsilon = Query.epsilon}) {
+      wellnessScoreEqualTo(
+    double value, {
+    double epsilon = Query.epsilon,
+  }) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(
-        FilterCondition.equalTo(
-          property: r'wellnessScore',
-          value: value,
-          epsilon: epsilon,
-        ),
-      );
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'wellnessScore',
+        value: value,
+        epsilon: epsilon,
+      ));
     });
   }
 
   QueryBuilder<WellnessEntry, WellnessEntry, QAfterFilterCondition>
-  wellnessScoreGreaterThan(
+      wellnessScoreGreaterThan(
     double value, {
     bool include = false,
     double epsilon = Query.epsilon,
   }) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(
-        FilterCondition.greaterThan(
-          include: include,
-          property: r'wellnessScore',
-          value: value,
-          epsilon: epsilon,
-        ),
-      );
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'wellnessScore',
+        value: value,
+        epsilon: epsilon,
+      ));
     });
   }
 
   QueryBuilder<WellnessEntry, WellnessEntry, QAfterFilterCondition>
-  wellnessScoreLessThan(
+      wellnessScoreLessThan(
     double value, {
     bool include = false,
     double epsilon = Query.epsilon,
   }) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(
-        FilterCondition.lessThan(
-          include: include,
-          property: r'wellnessScore',
-          value: value,
-          epsilon: epsilon,
-        ),
-      );
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'wellnessScore',
+        value: value,
+        epsilon: epsilon,
+      ));
     });
   }
 
   QueryBuilder<WellnessEntry, WellnessEntry, QAfterFilterCondition>
-  wellnessScoreBetween(
+      wellnessScoreBetween(
     double lower,
     double upper, {
     bool includeLower = true,
@@ -1052,16 +1153,14 @@ extension WellnessEntryQueryFilter
     double epsilon = Query.epsilon,
   }) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(
-        FilterCondition.between(
-          property: r'wellnessScore',
-          lower: lower,
-          includeLower: includeLower,
-          upper: upper,
-          includeUpper: includeUpper,
-          epsilon: epsilon,
-        ),
-      );
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'wellnessScore',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
+        epsilon: epsilon,
+      ));
     });
   }
 }
@@ -1074,6 +1173,19 @@ extension WellnessEntryQueryLinks
 
 extension WellnessEntryQuerySortBy
     on QueryBuilder<WellnessEntry, WellnessEntry, QSortBy> {
+  QueryBuilder<WellnessEntry, WellnessEntry, QAfterSortBy> sortByBloating() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'bloating', Sort.asc);
+    });
+  }
+
+  QueryBuilder<WellnessEntry, WellnessEntry, QAfterSortBy>
+      sortByBloatingDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'bloating', Sort.desc);
+    });
+  }
+
   QueryBuilder<WellnessEntry, WellnessEntry, QAfterSortBy> sortByCreatedAt() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'createdAt', Sort.asc);
@@ -1081,7 +1193,7 @@ extension WellnessEntryQuerySortBy
   }
 
   QueryBuilder<WellnessEntry, WellnessEntry, QAfterSortBy>
-  sortByCreatedAtDesc() {
+      sortByCreatedAtDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'createdAt', Sort.desc);
     });
@@ -1094,7 +1206,7 @@ extension WellnessEntryQuerySortBy
   }
 
   QueryBuilder<WellnessEntry, WellnessEntry, QAfterSortBy>
-  sortByDiarrheaDesc() {
+      sortByDiarrheaDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'diarrhea', Sort.desc);
     });
@@ -1107,7 +1219,7 @@ extension WellnessEntryQuerySortBy
   }
 
   QueryBuilder<WellnessEntry, WellnessEntry, QAfterSortBy>
-  sortByGutPeaceDesc() {
+      sortByGutPeaceDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'gutPeace', Sort.desc);
     });
@@ -1120,7 +1232,7 @@ extension WellnessEntryQuerySortBy
   }
 
   QueryBuilder<WellnessEntry, WellnessEntry, QAfterSortBy>
-  sortByHeartburnDesc() {
+      sortByHeartburnDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'heartburn', Sort.desc);
     });
@@ -1133,7 +1245,7 @@ extension WellnessEntryQuerySortBy
   }
 
   QueryBuilder<WellnessEntry, WellnessEntry, QAfterSortBy>
-  sortByIsSampleDesc() {
+      sortByIsSampleDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'isSample', Sort.desc);
     });
@@ -1158,7 +1270,7 @@ extension WellnessEntryQuerySortBy
   }
 
   QueryBuilder<WellnessEntry, WellnessEntry, QAfterSortBy>
-  sortByRecordedAtDesc() {
+      sortByRecordedAtDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'recordedAt', Sort.desc);
     });
@@ -1171,21 +1283,21 @@ extension WellnessEntryQuerySortBy
   }
 
   QueryBuilder<WellnessEntry, WellnessEntry, QAfterSortBy>
-  sortByStressLevelDesc() {
+      sortByStressLevelDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'stressLevel', Sort.desc);
     });
   }
 
   QueryBuilder<WellnessEntry, WellnessEntry, QAfterSortBy>
-  sortByWellnessScore() {
+      sortByWellnessScore() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'wellnessScore', Sort.asc);
     });
   }
 
   QueryBuilder<WellnessEntry, WellnessEntry, QAfterSortBy>
-  sortByWellnessScoreDesc() {
+      sortByWellnessScoreDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'wellnessScore', Sort.desc);
     });
@@ -1194,6 +1306,19 @@ extension WellnessEntryQuerySortBy
 
 extension WellnessEntryQuerySortThenBy
     on QueryBuilder<WellnessEntry, WellnessEntry, QSortThenBy> {
+  QueryBuilder<WellnessEntry, WellnessEntry, QAfterSortBy> thenByBloating() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'bloating', Sort.asc);
+    });
+  }
+
+  QueryBuilder<WellnessEntry, WellnessEntry, QAfterSortBy>
+      thenByBloatingDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'bloating', Sort.desc);
+    });
+  }
+
   QueryBuilder<WellnessEntry, WellnessEntry, QAfterSortBy> thenByCreatedAt() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'createdAt', Sort.asc);
@@ -1201,7 +1326,7 @@ extension WellnessEntryQuerySortThenBy
   }
 
   QueryBuilder<WellnessEntry, WellnessEntry, QAfterSortBy>
-  thenByCreatedAtDesc() {
+      thenByCreatedAtDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'createdAt', Sort.desc);
     });
@@ -1214,7 +1339,7 @@ extension WellnessEntryQuerySortThenBy
   }
 
   QueryBuilder<WellnessEntry, WellnessEntry, QAfterSortBy>
-  thenByDiarrheaDesc() {
+      thenByDiarrheaDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'diarrhea', Sort.desc);
     });
@@ -1227,7 +1352,7 @@ extension WellnessEntryQuerySortThenBy
   }
 
   QueryBuilder<WellnessEntry, WellnessEntry, QAfterSortBy>
-  thenByGutPeaceDesc() {
+      thenByGutPeaceDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'gutPeace', Sort.desc);
     });
@@ -1240,7 +1365,7 @@ extension WellnessEntryQuerySortThenBy
   }
 
   QueryBuilder<WellnessEntry, WellnessEntry, QAfterSortBy>
-  thenByHeartburnDesc() {
+      thenByHeartburnDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'heartburn', Sort.desc);
     });
@@ -1265,7 +1390,7 @@ extension WellnessEntryQuerySortThenBy
   }
 
   QueryBuilder<WellnessEntry, WellnessEntry, QAfterSortBy>
-  thenByIsSampleDesc() {
+      thenByIsSampleDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'isSample', Sort.desc);
     });
@@ -1290,7 +1415,7 @@ extension WellnessEntryQuerySortThenBy
   }
 
   QueryBuilder<WellnessEntry, WellnessEntry, QAfterSortBy>
-  thenByRecordedAtDesc() {
+      thenByRecordedAtDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'recordedAt', Sort.desc);
     });
@@ -1303,21 +1428,21 @@ extension WellnessEntryQuerySortThenBy
   }
 
   QueryBuilder<WellnessEntry, WellnessEntry, QAfterSortBy>
-  thenByStressLevelDesc() {
+      thenByStressLevelDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'stressLevel', Sort.desc);
     });
   }
 
   QueryBuilder<WellnessEntry, WellnessEntry, QAfterSortBy>
-  thenByWellnessScore() {
+      thenByWellnessScore() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'wellnessScore', Sort.asc);
     });
   }
 
   QueryBuilder<WellnessEntry, WellnessEntry, QAfterSortBy>
-  thenByWellnessScoreDesc() {
+      thenByWellnessScoreDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'wellnessScore', Sort.desc);
     });
@@ -1326,6 +1451,12 @@ extension WellnessEntryQuerySortThenBy
 
 extension WellnessEntryQueryWhereDistinct
     on QueryBuilder<WellnessEntry, WellnessEntry, QDistinct> {
+  QueryBuilder<WellnessEntry, WellnessEntry, QDistinct> distinctByBloating() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'bloating');
+    });
+  }
+
   QueryBuilder<WellnessEntry, WellnessEntry, QDistinct> distinctByCreatedAt() {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'createdAt');
@@ -1357,15 +1488,14 @@ extension WellnessEntryQueryWhereDistinct
   }
 
   QueryBuilder<WellnessEntry, WellnessEntry, QDistinct>
-  distinctByLinkedMealIds() {
+      distinctByLinkedMealIds() {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'linkedMealIds');
     });
   }
 
-  QueryBuilder<WellnessEntry, WellnessEntry, QDistinct> distinctByNotes({
-    bool caseSensitive = true,
-  }) {
+  QueryBuilder<WellnessEntry, WellnessEntry, QDistinct> distinctByNotes(
+      {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'notes', caseSensitive: caseSensitive);
     });
@@ -1378,14 +1508,14 @@ extension WellnessEntryQueryWhereDistinct
   }
 
   QueryBuilder<WellnessEntry, WellnessEntry, QDistinct>
-  distinctByStressLevel() {
+      distinctByStressLevel() {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'stressLevel');
     });
   }
 
   QueryBuilder<WellnessEntry, WellnessEntry, QDistinct>
-  distinctByWellnessScore() {
+      distinctByWellnessScore() {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'wellnessScore');
     });
@@ -1397,6 +1527,12 @@ extension WellnessEntryQueryProperty
   QueryBuilder<WellnessEntry, int, QQueryOperations> idProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'id');
+    });
+  }
+
+  QueryBuilder<WellnessEntry, int, QQueryOperations> bloatingProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'bloating');
     });
   }
 
@@ -1431,7 +1567,7 @@ extension WellnessEntryQueryProperty
   }
 
   QueryBuilder<WellnessEntry, List<int>, QQueryOperations>
-  linkedMealIdsProperty() {
+      linkedMealIdsProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'linkedMealIds');
     });
@@ -1456,7 +1592,7 @@ extension WellnessEntryQueryProperty
   }
 
   QueryBuilder<WellnessEntry, double, QQueryOperations>
-  wellnessScoreProperty() {
+      wellnessScoreProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'wellnessScore');
     });

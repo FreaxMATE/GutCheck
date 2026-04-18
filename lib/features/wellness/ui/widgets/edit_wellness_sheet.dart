@@ -6,6 +6,7 @@ import '../../../../core/database/app_database_provider.dart';
 import '../../../../core/utils/date_utils.dart';
 import '../../data/models/wellness_entry.dart';
 import '../../providers/wellness_providers.dart';
+import 'bloating_level_picker.dart';
 import 'diarrhea_toggle.dart';
 import 'gi_symptom_slider.dart';
 
@@ -22,6 +23,7 @@ class _EditWellnessSheetState extends ConsumerState<EditWellnessSheet> {
   late double _gutPeace;
   late double _heartburn;
   late double _stress;
+  late int _bloating;
   late bool _diarrhea;
   late DateTime _recordedAt;
   final _notesController = TextEditingController();
@@ -33,6 +35,7 @@ class _EditWellnessSheetState extends ConsumerState<EditWellnessSheet> {
     _gutPeace = widget.entry.gutPeaceDisplay;
     _heartburn = widget.entry.heartburnDisplay;
     _stress = widget.entry.stressDisplay;
+    _bloating = widget.entry.bloating.clamp(0, 2);
     _diarrhea = widget.entry.diarrhea;
     _recordedAt = widget.entry.recordedAt;
     _notesController.text = widget.entry.notes ?? '';
@@ -122,6 +125,9 @@ class _EditWellnessSheetState extends ConsumerState<EditWellnessSheet> {
               const Divider(),
               const SizedBox(height: 8),
 
+              // ── Group 1: How's your gut? ──────────────────────────
+              _GroupHeader(title: l10n.wellnessGroupGut),
+
               GiSymptomSlider(
                 label: l10n.wellnessGutPeace,
                 minLabel: l10n.wellnessGutPeaceMin,
@@ -129,6 +135,12 @@ class _EditWellnessSheetState extends ConsumerState<EditWellnessSheet> {
                 value: _gutPeace,
                 inverted: true,
                 onChanged: (v) => setState(() => _gutPeace = v),
+              ),
+              const SizedBox(height: 16),
+
+              BloatingLevelPicker(
+                value: _bloating,
+                onChanged: (v) => setState(() => _bloating = v),
               ),
               const SizedBox(height: 16),
 
@@ -142,6 +154,16 @@ class _EditWellnessSheetState extends ConsumerState<EditWellnessSheet> {
               ),
               const SizedBox(height: 16),
 
+              DiarrheaToggle(
+                value: _diarrhea,
+                label: l10n.wellnessDiarrhea,
+                onChanged: (v) => setState(() => _diarrhea = v),
+              ),
+              const SizedBox(height: 24),
+
+              // ── Group 2: Context ──────────────────────────────────
+              _GroupHeader(title: l10n.wellnessGroupContext),
+
               GiSymptomSlider(
                 label: l10n.wellnessStress,
                 minLabel: l10n.wellnessStressMin,
@@ -149,14 +171,6 @@ class _EditWellnessSheetState extends ConsumerState<EditWellnessSheet> {
                 value: _stress,
                 inverted: true,
                 onChanged: (v) => setState(() => _stress = v),
-              ),
-              const SizedBox(height: 16),
-
-              // Diarrhea
-              DiarrheaToggle(
-                value: _diarrhea,
-                label: l10n.wellnessDiarrhea,
-                onChanged: (v) => setState(() => _diarrhea = v),
               ),
               const SizedBox(height: 20),
 
@@ -227,6 +241,7 @@ class _EditWellnessSheetState extends ConsumerState<EditWellnessSheet> {
         ..gutPeace = storedGut
         ..heartburn = WellnessDraftState.toStored(_heartburn)
         ..stressLevel = WellnessDraftState.toStored(_stress)
+        ..bloating = _bloating.clamp(0, 2)
         ..diarrhea = _diarrhea
         ..wellnessScore = ((20 - storedGut) / 20.0) * 100.0
         ..linkedMealIds = List.from(widget.entry.linkedMealIds)
@@ -241,5 +256,25 @@ class _EditWellnessSheetState extends ConsumerState<EditWellnessSheet> {
     } finally {
       if (mounted) setState(() => _saving = false);
     }
+  }
+}
+
+class _GroupHeader extends StatelessWidget {
+  final String title;
+  const _GroupHeader({required this.title});
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 8, top: 4),
+      child: Text(
+        title.toUpperCase(),
+        style: Theme.of(context).textTheme.labelSmall?.copyWith(
+              letterSpacing: 1.2,
+              color: Theme.of(context).colorScheme.primary,
+              fontWeight: FontWeight.w700,
+            ),
+      ),
+    );
   }
 }

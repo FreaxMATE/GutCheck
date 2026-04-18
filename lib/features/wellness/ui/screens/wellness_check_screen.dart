@@ -10,6 +10,7 @@ import '../../../../core/utils/error_dialog.dart';
 import '../../../achievements/achievements.dart';
 import '../../../home/ui/widgets/gut_buddy.dart';
 import '../../providers/wellness_providers.dart';
+import '../widgets/bloating_level_picker.dart';
 import '../widgets/diarrhea_toggle.dart';
 import '../widgets/gi_symptom_slider.dart';
 import '../widgets/linked_meal_selector.dart';
@@ -68,11 +69,7 @@ class WellnessCheckScreen extends ConsumerWidget {
             ),
             const SizedBox(height: 28),
 
-            Text(
-              l10n.wellnessGutPeace,
-              style: Theme.of(context).textTheme.titleMedium,
-            ),
-            const SizedBox(height: 4),
+            _SectionHeader(title: l10n.wellnessGroupGut),
             const Divider(),
 
             GiSymptomSlider(
@@ -82,6 +79,13 @@ class WellnessCheckScreen extends ConsumerWidget {
               value: draft.gutPeace,
               inverted: true,
               onChanged: notifier.setGutPeace,
+            ),
+
+            const SizedBox(height: 16),
+
+            BloatingLevelPicker(
+              value: draft.bloating,
+              onChanged: notifier.setBloating,
             ),
 
             const SizedBox(height: 16),
@@ -96,6 +100,15 @@ class WellnessCheckScreen extends ConsumerWidget {
             ),
 
             const SizedBox(height: 16),
+            DiarrheaToggle(
+              value: draft.diarrhea,
+              label: l10n.wellnessDiarrhea,
+              onChanged: notifier.setDiarrhea,
+            ),
+
+            const SizedBox(height: 24),
+            _SectionHeader(title: l10n.wellnessGroupContext),
+            const Divider(),
 
             GiSymptomSlider(
               label: l10n.wellnessStress,
@@ -104,13 +117,6 @@ class WellnessCheckScreen extends ConsumerWidget {
               value: draft.stress,
               inverted: true,
               onChanged: notifier.setStress,
-            ),
-
-            const SizedBox(height: 16),
-            DiarrheaToggle(
-              value: draft.diarrhea,
-              label: l10n.wellnessDiarrhea,
-              onChanged: notifier.setDiarrhea,
             ),
 
             const SizedBox(height: 24),
@@ -190,5 +196,25 @@ class WellnessCheckScreen extends ConsumerWidget {
         await showErrorDialog(context, e, st);
       }
     }
+  }
+}
+
+class _SectionHeader extends StatelessWidget {
+  final String title;
+  const _SectionHeader({required this.title});
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.only(top: 4, bottom: 2),
+      child: Text(
+        title.toUpperCase(),
+        style: Theme.of(context).textTheme.labelSmall?.copyWith(
+              letterSpacing: 1.2,
+              color: Theme.of(context).colorScheme.primary,
+              fontWeight: FontWeight.w700,
+            ),
+      ),
+    );
   }
 }

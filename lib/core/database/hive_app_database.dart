@@ -433,6 +433,7 @@ class HiveAppDatabase implements AppDatabase {
     'gutPeace': entry.gutPeace,
     'heartburn': entry.heartburn,
     'stressLevel': entry.stressLevel,
+    'bloating': entry.bloating,
     'diarrhea': entry.diarrhea,
     'wellnessScore': entry.wellnessScore,
     'linkedMealIds': entry.linkedMealIds,
@@ -450,6 +451,7 @@ class HiveAppDatabase implements AppDatabase {
       ..gutPeace = (json['gutPeace'] as int?) ?? 0
       ..heartburn = (json['heartburn'] as int?) ?? 0
       ..stressLevel = (json['stressLevel'] as int?) ?? 0
+      ..bloating = (json['bloating'] as int?) ?? 0
       ..diarrhea = (json['diarrhea'] as bool?) ?? false
       ..wellnessScore = (json['wellnessScore'] as num?)?.toDouble() ?? 50.0
       ..linkedMealIds = (json['linkedMealIds'] as List<dynamic>? ?? [])
