@@ -8,8 +8,8 @@
 //   maxLink    — max distance (px) for drawing a connecting line.
 //   className  — extra classes to place the canvas wrapper.
 const {
-  density = 75,
-  maxLink = 140,
+  density = 160,
+  maxLink = 160,
   class: className = '',
 } = Astro.props;
 ---
@@ -39,12 +39,12 @@ const {
       // Terracotta tuned per theme so the constellation reads but doesn't dominate.
       return isDark
         ? {
-            dot: 'rgba(241,177,121,0.55)',
+            dot: 'rgba(241,177,121,0.85)',
             line: (a) => `rgba(241,177,121,${a.toFixed(3)})`,
           }
         : {
-            dot: 'rgba(195,95,61,0.45)',
-            line: (a) => `rgba(195,95,61,${a.toFixed(3)})`,
+            dot: 'rgba(160,74,48,0.75)',
+            line: (a) => `rgba(160,74,48,${a.toFixed(3)})`,
           };
     }
 
@@ -64,7 +64,7 @@ const {
           y: Math.random() * h,
           vx: (Math.random() - 0.5) * 0.18,
           vy: (Math.random() - 0.5) * 0.18,
-          r: Math.random() * 1.2 + 0.6,
+          r: Math.random() * 1.6 + 1.0,
         }));
       }
     }
@@ -97,7 +97,7 @@ const {
           const dist2 = dx * dx + dy * dy;
           if (dist2 > maxLink * maxLink) continue;
           const dist = Math.sqrt(dist2);
-          const alpha = (1 - dist / maxLink) * 0.35;
+          const alpha = (1 - dist / maxLink) * 0.7;
           ctx.strokeStyle = c.line(alpha);
           ctx.beginPath();
           ctx.moveTo(a.x, a.y);
