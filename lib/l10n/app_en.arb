@@ -72,7 +72,7 @@
   "weeklyDigestTitle": "Your week at a glance",
   "weeklyDigestMeals": "meals",
   "weeklyDigestWellness": "check-ins",
-  "weeklyDigestStreak": "day streak",
+  "weeklyDigestVariety": "foods tried",
   "shakeTip": "🦠 Tip: Tap the + button to log your meal!",
 
   "timingTitle": "Meal Timing",
@@ -108,7 +108,7 @@
   "heatmapBeneficial": "Beneficial",
   "heatmapNoData": "No data",
   "heatmapFoodTimeLag": "Food × Time Lag",
-  "heatmapFoodTimeLagDesc": "Pearson r correlation between food consumption and wellness at each lag window",
+  "heatmapFoodTimeLagDesc": "Rank correlation between food consumption and wellness at each lag window",
   "scatterWellnessScore": "Wellness Score",
   "scatterTimeOfDay": "Time of Day",
   "calendarDayNoData": "No data today",

@@ -482,11 +482,11 @@ abstract class AppLocalizations {
   /// **'check-ins'**
   String get weeklyDigestWellness;
 
-  /// No description provided for @weeklyDigestStreak.
+  /// No description provided for @weeklyDigestVariety.
   ///
   /// In en, this message translates to:
-  /// **'day streak'**
-  String get weeklyDigestStreak;
+  /// **'foods tried'**
+  String get weeklyDigestVariety;
 
   /// No description provided for @shakeTip.
   ///
@@ -575,7 +575,7 @@ abstract class AppLocalizations {
   /// No description provided for @heatmapFoodTimeLagDesc.
   ///
   /// In en, this message translates to:
-  /// **'Pearson r correlation between food consumption and wellness at each lag window'**
+  /// **'Rank correlation between food consumption and wellness at each lag window'**
   String get heatmapFoodTimeLagDesc;
 
   /// No description provided for @scatterWellnessScore.

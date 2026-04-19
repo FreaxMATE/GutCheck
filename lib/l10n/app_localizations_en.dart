@@ -221,7 +221,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get weeklyDigestWellness => 'check-ins';
 
   @override
-  String get weeklyDigestStreak => 'day streak';
+  String get weeklyDigestVariety => 'foods tried';
 
   @override
   String get shakeTip => '🦠 Tip: Tap the + button to log your meal!';
@@ -275,7 +275,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get heatmapFoodTimeLagDesc =>
-      'Pearson r correlation between food consumption and wellness at each lag window';
+      'Rank correlation between food consumption and wellness at each lag window';
 
   @override
   String get scatterWellnessScore => 'Wellness Score';

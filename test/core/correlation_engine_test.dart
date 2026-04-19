@@ -71,7 +71,7 @@ void main() {
 
     test('zero variance in wellness returns empty (handles gracefully)', () {
       // All wellness entries have the same constant score (zero variance).
-      // Pearson r is undefined; the engine should return 0 and omit the result.
+      // Correlation r is undefined; the engine should return 0 and omit the result.
       final base = DateTime(2025, 1, 1, 12, 0);
       final meals = List.generate(
         10,
@@ -124,7 +124,7 @@ void main() {
       );
       // Should produce at least one impact score with a negative correlation
       if (scores.isNotEmpty) {
-        expect(scores.first.pearsonR, lessThan(0));
+        expect(scores.first.correlationR, lessThan(0));
       }
       // (May still be empty if sampleCount < 3)
     });

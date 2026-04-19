@@ -46,7 +46,7 @@ class CorrelationEngine {
       ((2 - e.bloating.clamp(0, 2)) / 2.0) * 100.0;
 
   /// Diarrhea as a 0–100 score: 100 = no diarrhea (good), 0 = diarrhea (bad).
-  /// [isHarmful] logic (pearsonR < 0) stays correct: high food → low score → harmful.
+  /// [isHarmful] logic (correlationR < 0) stays correct: high food → low score → harmful.
   static double diarrheaAsY(WellnessEntry e) => e.diarrhea ? 0.0 : 100.0;
 
   /// Combined gut health index (0–100) — a weighted average over the four
@@ -96,7 +96,7 @@ class CorrelationEngine {
     final r = _spearman(xs, ys);
     final p = _pValueFromR(r, xs.length);
     return StressImpact(
-      spearmanR: r,
+      correlationR: r,
       pValue: p,
       sampleCount: xs.length,
     );
@@ -197,11 +197,11 @@ class CorrelationEngine {
           ingredientId: ingredientId,
           ingredientName: name,
           category: category,
-          pearsonR: bestR,
+          correlationR: bestR,
           bestLagHours: bestZoneFrom,
           sampleCount: bestN,
           confidenceLevel: confidence,
-          pearsonByLag: rByLag,
+          correlationByLag: rByLag,
           pValue: p,
         ),
       );

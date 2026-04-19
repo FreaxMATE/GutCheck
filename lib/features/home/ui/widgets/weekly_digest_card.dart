@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:gutcheck/l10n/app_localizations.dart';
 import '../../../../core/animations/animations.dart';
+import '../../../../core/constants/app_colors.dart';
 import '../../../../core/database/app_database_provider.dart';
 import '../../../wellness/domain/wellness_display.dart';
 
@@ -66,31 +67,19 @@ class WeeklyDigestCard extends ConsumerWidget {
                       child: _CountTile(
                         value: data.wellnessCount,
                         label: l10n.weeklyDigestWellness,
-                        color: Colors.red,
+                        color: Colors.redAccent,
                         icon: Icons.favorite_rounded,
                       ),
                     ),
                     Expanded(
-                      child: _CountTile(
-                        value: data.streak,
-                        label: l10n.weeklyDigestStreak,
-                        color: Colors.deepOrange,
-                        icon: Icons.local_fire_department_rounded,
+                      child: _VarietyTile(
+                        uniqueFoodCount: data.uniqueFoodCount,
+                        avgWellness: data.avgWellness,
+                        l10n: l10n,
                       ),
                     ),
                   ],
                 ),
-                if (data.avgWellness != null) ...[
-                  const SizedBox(height: 10),
-                  Text(
-                    l10n.weeklyDigestAvgScore(
-                      '${WellnessDisplay.format(data.avgWellness!)}${WellnessDisplay.suffix}',
-                    ),
-                    style: Theme.of(
-                      context,
-                    ).textTheme.bodySmall?.copyWith(color: Colors.grey),
-                  ),
-                ],
               ],
             ),
           ),
@@ -111,20 +100,10 @@ class WeeklyDigestCard extends ConsumerWidget {
         : wellness.fold<double>(0, (a, w) => a + w.wellnessScore) /
               wellness.length;
 
-    // Compute streak (consecutive days with any log).
-    final days = <DateTime>{
-      for (final m in meals)
-        DateTime(m.consumedAt.year, m.consumedAt.month, m.consumedAt.day),
-      for (final w in wellness)
-        DateTime(w.recordedAt.year, w.recordedAt.month, w.recordedAt.day),
-    };
-    int streak = 0;
-    for (int i = 0; i < 60; i++) {
-      final d = DateTime(now.year, now.month, now.day - i);
-      if (days.contains(d)) {
-        streak++;
-      } else if (i > 0) {
-        break;
+    final uniqueFoodIds = <int>{};
+    for (final m in meals) {
+      for (final i in m.ingredients) {
+        uniqueFoodIds.add(i.ingredientId);
       }
     }
 
@@ -132,7 +111,7 @@ class WeeklyDigestCard extends ConsumerWidget {
       mealCount: meals.length,
       wellnessCount: wellness.length,
       avgWellness: avg,
-      streak: streak,
+      uniqueFoodCount: uniqueFoodIds.length,
     );
   }
 }
@@ -141,13 +120,89 @@ class _DigestData {
   final int mealCount;
   final int wellnessCount;
   final double? avgWellness;
-  final int streak;
+  final int uniqueFoodCount;
   _DigestData({
     required this.mealCount,
     required this.wellnessCount,
-    required this.streak,
+    required this.uniqueFoodCount,
     this.avgWellness,
   });
+}
+
+/// Third tile: a "food variety" counter. Celebrates dietary breadth without
+/// gamifying adherence. More varied weeks generally produce better-quality
+/// correlation data — so the number is both a flex and an actionable nudge.
+class _VarietyTile extends ConsumerWidget {
+  final int uniqueFoodCount;
+  final double? avgWellness;
+  final AppLocalizations l10n;
+
+  const _VarietyTile({
+    required this.uniqueFoodCount,
+    required this.avgWellness,
+    required this.l10n,
+  });
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final animationsOn = ref.watch(animationsEnabledProvider);
+    final accent = _colorForVariety(uniqueFoodCount);
+    return Column(
+      children: [
+        Icon(Icons.spa_rounded, color: accent, size: 20),
+        const SizedBox(height: 4),
+        animationsOn
+            ? TweenAnimationBuilder<double>(
+                tween: Tween(begin: 0, end: uniqueFoodCount.toDouble()),
+                duration: const Duration(milliseconds: 900),
+                curve: Curves.easeOutCubic,
+                builder: (_, v, __) => Text(
+                  v.round().toString(),
+                  style: TextStyle(
+                    fontSize: 24,
+                    fontWeight: FontWeight.w800,
+                    color: accent,
+                  ),
+                ),
+              )
+            : Text(
+                uniqueFoodCount.toString(),
+                style: TextStyle(
+                  fontSize: 24,
+                  fontWeight: FontWeight.w800,
+                  color: accent,
+                ),
+              ),
+        Text(
+          l10n.weeklyDigestVariety,
+          style: const TextStyle(fontSize: 11, color: Colors.grey),
+          textAlign: TextAlign.center,
+        ),
+        if (avgWellness != null) ...[
+          const SizedBox(height: 4),
+          Text(
+            'Ø ${WellnessDisplay.format(avgWellness!)}${WellnessDisplay.suffix}',
+            style: TextStyle(
+              fontSize: 10,
+              color: avgWellness != null
+                  ? AppColors.wellnessScoreInterpolated(avgWellness!)
+                  : Colors.grey,
+              fontWeight: FontWeight.w600,
+            ),
+          ),
+        ],
+      ],
+    );
+  }
+
+  /// Muted green spectrum: richer greens for more variety, fading to grey.
+  static Color _colorForVariety(int n) {
+    if (n >= 25) return const Color(0xFF2E7D32);
+    if (n >= 15) return const Color(0xFF43A047);
+    if (n >= 8) return const Color(0xFF66BB6A);
+    if (n >= 3) return const Color(0xFF9CCC65);
+    return Colors.grey;
+  }
 }
 
 class _CountTile extends ConsumerWidget {

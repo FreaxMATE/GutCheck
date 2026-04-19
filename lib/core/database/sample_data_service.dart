@@ -17,7 +17,7 @@ import 'app_database.dart';
 ///
 ///   Each day has 4 meals + 4 wellness entries (morning / post-lunch / evening
 ///   / post-dinner).  Scores include ±2 random noise and ~15 % "off" days
-///   where the expected pattern is loosely reversed, keeping Pearson r in a
+///   where the expected pattern is loosely reversed, keeping Spearman r in a
 ///   realistic 0.45–0.75 range.
 ///
 ///   Wellness timing ensures multiple lag windows show correlations:
@@ -74,7 +74,7 @@ class SampleDataService {
       // Per-day seeded RNG for deterministic but varied noise.
       final rng = Random(42 + day);
       // ~15 % of days are "off" days: pattern loosens so correlations stay
-      // realistic (Pearson r ~0.5–0.75 rather than 0.99).
+      // realistic (Spearman r ~0.5–0.75 rather than 0.99).
       final isOffDay = rng.nextDouble() < 0.15;
 
       // ── Time anchors ──────────────────────────────────────────────────────

@@ -7,7 +7,7 @@ import '../../domain/impact_score.dart';
 
 /// A food × time-zone correlation matrix.
 ///
-/// Rows  = food items (sorted by |pearsonR|, highest first).
+/// Rows  = food items (sorted by |correlationR|, highest first).
 /// Columns = the three named time zones (Immediate / Delayed / Overnight).
 /// Cell color: red (r = -1) → white (r = 0) → green (r = +1).
 class FoodCorrelationHeatmap extends StatelessWidget {
@@ -100,7 +100,7 @@ class _DataRow extends StatelessWidget {
               ),
             ),
           ),
-          ...zones.map((z) => _Cell(pearsonR: score.pearsonByLag[z.from])),
+          ...zones.map((z) => _Cell(r: score.correlationByLag[z.from])),
         ],
       ),
     );
@@ -108,13 +108,13 @@ class _DataRow extends StatelessWidget {
 }
 
 class _Cell extends StatelessWidget {
-  final double? pearsonR;
+  final double? r;
 
-  const _Cell({this.pearsonR});
+  const _Cell({this.r});
 
   @override
   Widget build(BuildContext context) {
-    final r = pearsonR;
+    final r = this.r;
     final Color cellColor;
     final String label;
 

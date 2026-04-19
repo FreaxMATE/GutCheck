@@ -72,7 +72,7 @@
   "weeklyDigestTitle": "Deine Woche im Überblick",
   "weeklyDigestMeals": "Mahlzeiten",
   "weeklyDigestWellness": "Check-ins",
-  "weeklyDigestStreak": "Tage Serie",
+  "weeklyDigestVariety": "verschiedene Zutaten",
   "shakeTip": "🦠 Tipp: Tippe auf + um eine Mahlzeit einzutragen!",
 
   "timingTitle": "Essenszeiten",
@@ -89,7 +89,7 @@
   "heatmapBeneficial": "Förderlich",
   "heatmapNoData": "Keine Daten",
   "heatmapFoodTimeLag": "Lebensmittel × Zeitverzögerung",
-  "heatmapFoodTimeLagDesc": "Pearson-r-Korrelation zwischen Lebensmittelkonsum und Wohlbefinden je Zeitfenster",
+  "heatmapFoodTimeLagDesc": "Rang-Korrelation zwischen Lebensmittelkonsum und Wohlbefinden je Zeitfenster",
   "scatterWellnessScore": "Wohlbefindens-Score",
   "scatterTimeOfDay": "Tageszeit",
   "calendarDayNoData": "Keine Daten heute",

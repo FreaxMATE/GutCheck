@@ -7,7 +7,6 @@ import '../../../../core/constants/food_categories.dart';
 import '../../../../core/database/app_database_provider.dart';
 import '../../../../core/l10n/l10n_extensions.dart';
 import '../../../../core/providers/sound_provider.dart';
-import '../../../achievements/achievements.dart';
 import '../../../pantry/data/models/ingredient.dart';
 import '../../data/models/meal_entry.dart';
 import '../../data/models/meal_ingredient.dart';
@@ -479,15 +478,7 @@ class _LogMealSheetState extends ConsumerState<LogMealSheet> {
       } else {
         await ref.read(mealLogProvider.notifier).addMeal(entry);
       }
-      final newlyUnlocked = await evaluateAchievements(ref);
       if (mounted) Navigator.of(context).pop();
-      // Show any unlocked achievements on the parent screen after the sheet closes.
-      if (mounted) {
-        for (final a in newlyUnlocked) {
-          showAchievementToast(context, a);
-          await Future<void>.delayed(const Duration(milliseconds: 900));
-        }
-      }
     } finally {
       if (mounted) setState(() => _saving = false);
     }

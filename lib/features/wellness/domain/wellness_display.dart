@@ -1,7 +1,7 @@
 /// Utilities for formatting wellness scores for display.
 ///
 /// Internal storage keeps wellnessScore in 0-100 (higher = better) for
-/// correlation math and Pearson r precision. User-facing displays use the
+/// correlation math and rank-correlation precision. User-facing displays use the
 /// friendlier 0-10 scale matching the discomfort input scale.
 class WellnessDisplay {
   WellnessDisplay._();

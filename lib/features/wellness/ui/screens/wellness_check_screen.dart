@@ -7,7 +7,6 @@ import 'package:go_router/go_router.dart';
 import 'package:gutcheck/l10n/app_localizations.dart';
 import '../../../../core/animations/animations.dart';
 import '../../../../core/utils/error_dialog.dart';
-import '../../../achievements/achievements.dart';
 import '../../../home/ui/widgets/gut_buddy.dart';
 import '../../providers/wellness_providers.dart';
 import '../widgets/bloating_level_picker.dart';
@@ -182,13 +181,6 @@ class WellnessCheckScreen extends ConsumerWidget {
         ScaffoldMessenger.of(
           context,
         ).showSnackBar(SnackBar(content: Text(l10n.wellnessSaved)));
-      }
-      // Evaluate achievements — any newly unlocked show a toast.
-      final newlyUnlocked = await evaluateAchievements(ref);
-      for (final a in newlyUnlocked) {
-        if (!context.mounted) break;
-        showAchievementToast(context, a);
-        await Future<void>.delayed(const Duration(milliseconds: 900));
       }
     } catch (e, st) {
       debugPrint('Wellness save failed: $e\n$st');

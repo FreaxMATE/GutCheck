@@ -230,19 +230,6 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
             onTap: () => _confirmResetDatabase(context, l10n),
           ),
 
-          // ── Achievements ────────────────────────────────────────────────────
-          const Divider(indent: 16, endIndent: 16),
-          ListTile(
-            leading: const Icon(
-              Icons.emoji_events_rounded,
-              color: Colors.amber,
-            ),
-            title: Text(l10n.settingsTrophiesTitle),
-            subtitle: Text(l10n.settingsTrophiesSubtitle),
-            trailing: const Icon(Icons.chevron_right),
-            onTap: () => context.push('/trophies'),
-          ),
-
           // ── About ────────────────────────────────────────────────────────────
           _SectionHeader(l10n.settingsSectionAbout),
           ListTile(

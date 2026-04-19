@@ -3,20 +3,20 @@ import 'correlation_engine.dart';
 
 /// Compact result of correlating stress (input) against a symptom metric.
 class StressImpact {
-  final double spearmanR;
+  final double correlationR;
   final double pValue;
   final int sampleCount;
 
   const StressImpact({
-    required this.spearmanR,
+    required this.correlationR,
     required this.pValue,
     required this.sampleCount,
   });
 
   /// Negative r means "more stress → worse wellness" — the intuitive direction.
-  bool get isHarmful => spearmanR < 0;
+  bool get isHarmful => correlationR < 0;
 
-  int get correlationPercent => (spearmanR.abs() * 100).round();
+  int get correlationPercent => (correlationR.abs() * 100).round();
 
   /// Cheap confidence heuristic, mirrors ImpactScore's: caps at 20+ samples.
   double get confidenceLevel => (sampleCount / 20.0).clamp(0.0, 1.0);
@@ -32,8 +32,9 @@ class ImpactScore {
   final String ingredientName;
   final FoodCategory category;
 
-  /// Pearson r: −1.0 (always bad) to +1.0 (always good). 0 = no correlation.
-  final double pearsonR;
+  /// Spearman rank correlation coefficient: −1.0 (always bad) to +1.0
+  /// (always good). 0 = no monotone association.
+  final double correlationR;
 
   /// The zone.from hour (0, 4, or 12) of the zone that produces the strongest |r|.
   final int bestLagHours;
@@ -44,8 +45,8 @@ class ImpactScore {
   /// 0–1: min(1.0, sampleCount / 20). Discounts sparse data.
   final double confidenceLevel;
 
-  /// Pearson r at each time zone (key = zone.from hours: 0, 4, 12).
-  final Map<int, double> pearsonByLag;
+  /// Spearman r at each time zone (key = zone.from hours: 0, 4, 12).
+  final Map<int, double> correlationByLag;
 
   /// Two-sided p-value for the best-zone correlation (analytical, from t-dist).
   /// Lower = more unlikely to have occurred by chance. Null when not computed.
@@ -63,11 +64,11 @@ class ImpactScore {
     required this.ingredientId,
     required this.ingredientName,
     required this.category,
-    required this.pearsonR,
+    required this.correlationR,
     required this.bestLagHours,
     required this.sampleCount,
     required this.confidenceLevel,
-    this.pearsonByLag = const {},
+    this.correlationByLag = const {},
     this.pValue,
     this.qValue,
     this.isSignificant = false,
@@ -77,24 +78,24 @@ class ImpactScore {
         ingredientId: ingredientId,
         ingredientName: ingredientName,
         category: category,
-        pearsonR: pearsonR,
+        correlationR: correlationR,
         bestLagHours: bestLagHours,
         sampleCount: sampleCount,
         confidenceLevel: confidenceLevel,
-        pearsonByLag: pearsonByLag,
+        correlationByLag: correlationByLag,
         pValue: pValue,
         qValue: qValue ?? this.qValue,
         isSignificant: isSignificant ?? this.isSignificant,
       );
 
   /// Adjusted score used for ranking: |r| * confidence
-  double get rankScore => pearsonR.abs() * confidenceLevel;
+  double get rankScore => correlationR.abs() * confidenceLevel;
 
-  /// Percentage representation of |pearsonR| * 100
-  int get correlationPercent => (pearsonR.abs() * 100).round();
+  /// Percentage representation of |r| * 100
+  int get correlationPercent => (correlationR.abs() * 100).round();
 
   /// true if the food is associated with WORSE wellness
-  bool get isHarmful => pearsonR < 0;
+  bool get isHarmful => correlationR < 0;
 
   /// The time zone that produced the best correlation.
   ({int from, int to, String label, String shortLabel}) get bestZone {
