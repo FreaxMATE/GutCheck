@@ -15,7 +15,7 @@ class SeedService {
   SeedService(this._isar);
 
   static const _seedVersionKey = 'seed_version';
-  static const _currentSeedVersion = 10; // bumped: mushroom varieties + vegan feta
+  static const _currentSeedVersion = 12; // bumped: broad set of common foods (meats, cheeses, veg, fruit, grains, beverages, snacks)
   static const _stableIdMigrationKey = 'stable_id_migration_v1';
 
   /// FNV-1a 64-bit hash (shifted into positive 63-bit range). Stable across
