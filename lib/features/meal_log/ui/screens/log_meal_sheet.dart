@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:intl/intl.dart';
 
 import 'package:gutcheck/l10n/app_localizations.dart';
 import '../../../../core/animations/animations.dart';
@@ -188,18 +189,35 @@ class _LogMealSheetState extends ConsumerState<LogMealSheet> {
             ),
             const SizedBox(height: 4),
 
-            // Time row
+            // Date & time row
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 8),
-              child: ListTile(
-                leading: const Icon(Icons.access_time_rounded),
-                title: Text(
-                  '${_consumedAt.hour.toString().padLeft(2, '0')}:'
-                  '${_consumedAt.minute.toString().padLeft(2, '0')}',
-                ),
-                subtitle: Text(l10n.logMealTapToChangeTime),
-                onTap: _pickTime,
-                dense: true,
+              child: Row(
+                children: [
+                  Expanded(
+                    child: ListTile(
+                      leading: const Icon(Icons.event_rounded),
+                      title: Text(
+                        DateFormat.yMMMd(
+                          Localizations.localeOf(context).toString(),
+                        ).format(_consumedAt),
+                      ),
+                      onTap: _pickDate,
+                      dense: true,
+                    ),
+                  ),
+                  Expanded(
+                    child: ListTile(
+                      leading: const Icon(Icons.access_time_rounded),
+                      title: Text(
+                        '${_consumedAt.hour.toString().padLeft(2, '0')}:'
+                        '${_consumedAt.minute.toString().padLeft(2, '0')}',
+                      ),
+                      onTap: _pickTime,
+                      dense: true,
+                    ),
+                  ),
+                ],
               ),
             ),
             const Divider(height: 1),
@@ -432,6 +450,27 @@ class _LogMealSheetState extends ConsumerState<LogMealSheet> {
       counts[cat] = (counts[cat] ?? 0) + 1;
     }
     return counts;
+  }
+
+  Future<void> _pickDate() async {
+    final now = DateTime.now();
+    final picked = await showDatePicker(
+      context: context,
+      initialDate: _consumedAt,
+      firstDate: DateTime(now.year - 5),
+      lastDate: now,
+    );
+    if (picked != null && mounted) {
+      setState(() {
+        _consumedAt = DateTime(
+          picked.year,
+          picked.month,
+          picked.day,
+          _consumedAt.hour,
+          _consumedAt.minute,
+        );
+      });
+    }
   }
 
   Future<void> _pickTime() async {
