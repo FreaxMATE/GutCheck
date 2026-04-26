@@ -77,6 +77,7 @@ class GreetingBanner extends ConsumerWidget {
         l10n.greetingMorning7,
         l10n.greetingMorning8,
         l10n.greetingMorning9,
+        l10n.greetingMorning10,
       ];
     } else if (h < 17) {
       pool = [
@@ -88,6 +89,8 @@ class GreetingBanner extends ConsumerWidget {
         l10n.greetingAfternoon6,
         l10n.greetingAfternoon7,
         l10n.greetingAfternoon8,
+        l10n.greetingAfternoon9,
+        l10n.greetingAfternoon10,
       ];
     } else if (h < 22) {
       pool = [
@@ -98,6 +101,7 @@ class GreetingBanner extends ConsumerWidget {
         l10n.greetingEvening5,
         l10n.greetingEvening6,
         l10n.greetingEvening7,
+        l10n.greetingEvening8,
       ];
     } else {
       pool = [
@@ -107,6 +111,7 @@ class GreetingBanner extends ConsumerWidget {
         l10n.greetingNight4,
         l10n.greetingNight5,
         l10n.greetingNight6,
+        l10n.greetingNight7,
       ];
     }
     return pool[Random().nextInt(pool.length)];

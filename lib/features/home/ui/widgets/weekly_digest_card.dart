@@ -7,18 +7,13 @@ import '../../../../core/constants/app_colors.dart';
 import '../../../../core/database/app_database_provider.dart';
 import '../../../wellness/domain/wellness_display.dart';
 
-/// A "your week" summary card. Appears only on Sunday / Monday to review
-/// the prior 7 days. Counts up numbers from zero on appearance.
+/// A "your week" summary card showing the trailing 7 days at a glance.
+/// Counts up numbers from zero on appearance.
 class WeeklyDigestCard extends ConsumerWidget {
   const WeeklyDigestCard({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final now = DateTime.now();
-    // Only show on Sunday (7) and Monday (1). Otherwise render nothing.
-    if (now.weekday != DateTime.sunday && now.weekday != DateTime.monday) {
-      return const SizedBox.shrink();
-    }
     final l10n = AppLocalizations.of(context)!;
 
     return FutureBuilder<_DigestData>(

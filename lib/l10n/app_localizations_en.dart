@@ -67,106 +67,115 @@ class AppLocalizationsEn extends AppLocalizations {
   String get homeLikelyBeneficial => 'Likely beneficial';
 
   @override
-  String get greetingMorning1 => 'Rise and gurgle ☀️';
+  String get greetingMorning1 =>
+      'Stomach 4.2 deployed. Rollback still possible.';
 
   @override
-  String get greetingMorning2 =>
-      'Your colon filed a morning report. It is displeased.';
+  String get greetingMorning2 => 'Breakfast MVP shipped.';
 
   @override
-  String get greetingMorning3 =>
-      'Coffee first. Vengeance against onion second. ☕';
+  String get greetingMorning3 => 'Standup with the small intestine at nine.';
 
   @override
-  String get greetingMorning4 =>
-      'Breakfast: the opening statement in today\'s trial 🍳';
+  String get greetingMorning4 => 'Health check: 200 OK.';
 
   @override
-  String get greetingMorning5 => 'Intestines: online. Brain: pending. 🧠';
+  String get greetingMorning5 => 'systemctl restart stomach.service';
 
   @override
-  String get greetingMorning6 => 'Your stomach was awake at 3am. It has notes.';
+  String get greetingMorning6 => 'Race condition between coffee and croissant.';
 
   @override
-  String get greetingMorning7 => 'Day #∞ of the Bowel Inquisition';
+  String get greetingMorning7 => 'Hotfix for last night deployed.';
 
   @override
-  String get greetingMorning8 =>
-      'Good morning. Your gut is already suspicious.';
+  String get greetingMorning8 => 'Coffee deployed as mitigation.';
 
   @override
-  String get greetingMorning9 => 'Stretch. Yawn. Accuse dairy of crimes. 🥛';
+  String get greetingMorning9 =>
+      'alias breakfast=\'make coffee && echo bread\'';
 
   @override
-  String get greetingAfternoon1 => 'Lunch committed. Time to snitch on it. 🕵️';
+  String get greetingMorning10 => 'New pipeline. Please test with peppermint.';
 
   @override
-  String get greetingAfternoon2 =>
-      'Your midsection is drafting a strongly-worded letter';
+  String get greetingAfternoon1 => 'We\'re disrupting lunch.';
 
   @override
-  String get greetingAfternoon3 => '3pm: the bowels hit their stride 📈';
+  String get greetingAfternoon2 => 'Digestion: 87% uptime this week.';
 
   @override
-  String get greetingAfternoon4 => 'Your stomach gave that sandwich 2 stars ⭐⭐';
+  String get greetingAfternoon3 => 'Stakeholder alignment on the banana.';
 
   @override
-  String get greetingAfternoon5 =>
-      'Post-lunch dispatch from the gut newsroom 📰';
+  String get greetingAfternoon4 => 'Stomach is currently rate-limited.';
 
   @override
-  String get greetingAfternoon6 => 'You\'re still logging? Marry me. 💍';
+  String get greetingAfternoon5 => 'p99 latency at lunch elevated.';
 
   @override
-  String get greetingAfternoon7 =>
-      'The fridge is watching. Document accordingly. 👀';
+  String get greetingAfternoon6 => 'PR open: a second coffee.';
 
   @override
-  String get greetingAfternoon8 =>
-      'Afternoon slump = prime bowel prime-time 🎬';
+  String get greetingAfternoon7 => 'Privilege escalation in the colon.';
 
   @override
-  String get greetingEvening1 => 'Dinner is served. So is the subpoena. 🍝';
+  String get greetingAfternoon8 => 'Throughput in the gut: nominal.';
 
   @override
-  String get greetingEvening2 => 'Evening verdict pending — plead your case 📝';
+  String get greetingAfternoon9 =>
+      'Soft lockup detected in the small intestine.';
 
   @override
-  String get greetingEvening3 => 'Was it worth it? Your gut has feelings. 💭';
+  String get greetingAfternoon10 => 'Broccoli has been moved to the backlog.';
 
   @override
-  String get greetingEvening4 =>
-      'Couch mode engaging. Log first, collapse second. 🛋️';
+  String get greetingEvening1 =>
+      'Incident in the small intestine — severity: 2.';
 
   @override
-  String get greetingEvening5 => 'Netflix can wait. Your intestines cannot. 📺';
+  String get greetingEvening2 =>
+      'CVE-2025-1147 in the digestive tract. Patch pending.';
 
   @override
-  String get greetingEvening6 =>
-      'Twilight briefing from the lower GI command 🌙';
+  String get greetingEvening3 => 'LGTM on the soup.';
 
   @override
-  String get greetingEvening7 => 'One tap closer to convicting the broccoli 🥦';
+  String get greetingEvening4 => 'Merge conflict between salad and fries.';
 
   @override
-  String get greetingNight1 => 'It\'s late. Your bowels filed a complaint. 🦉';
+  String get greetingEvening5 => 'Retro: what went well in the stomach?';
 
   @override
-  String get greetingNight2 =>
-      'Midnight snack? We saw that. We have screenshots. 📸';
+  String get greetingEvening6 => 'Reviewer requested: pancreas.';
 
   @override
-  String get greetingNight3 =>
-      'The microbiome never sleeps. Neither, apparently, do you. 🦠';
+  String get greetingEvening7 => 'Mount point /digestion is read-only.';
 
   @override
-  String get greetingNight4 => '2am data entry = connoisseur energy 🍷';
+  String get greetingEvening8 => 'Feature freeze on cream sauces.';
 
   @override
-  String get greetingNight5 => 'The fridge says: stand down, soldier. 🚨';
+  String get greetingNight1 => 'Code freeze after 10pm.';
 
   @override
-  String get greetingNight6 => 'Your pancreas wants a word 🗣️';
+  String get greetingNight2 => 'Kernel panic after pizza.';
+
+  @override
+  String get greetingNight3 => 'Zero-day reported in the small intestine.';
+
+  @override
+  String get greetingNight4 => 'systemd-oomd killed the snack.';
+
+  @override
+  String get greetingNight5 => 'Critical vulnerability in libgut.so.';
+
+  @override
+  String get greetingNight6 =>
+      'Memory leak in the stomach — size growing hourly.';
+
+  @override
+  String get greetingNight7 => '* * * * * /usr/bin/snack';
 
   @override
   String get supportiveMsg1 => 'Your gut has opinions. Very loud ones.';

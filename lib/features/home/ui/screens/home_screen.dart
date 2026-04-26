@@ -134,16 +134,21 @@ class _WellnessContent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final heartburnDisplay = entry.heartburnDisplay;
+    final gutPeaceDisplay = entry.gutPeaceDisplay;
     final heartburnColor = Color.lerp(
       Colors.green,
       Colors.red,
-      (entry.heartburn - 1) / 9.0,
+      (heartburnDisplay / 10.0).clamp(0.0, 1.0),
     )!;
     final gutColor = Color.lerp(
       Colors.red,
       Colors.green,
-      (entry.gutPeace - 1) / 9.0,
+      (gutPeaceDisplay / 10.0).clamp(0.0, 1.0),
     )!;
+    String fmt(double v) => v == v.roundToDouble()
+        ? v.toStringAsFixed(0)
+        : v.toStringAsFixed(1);
 
     return Row(
       crossAxisAlignment: CrossAxisAlignment.center,
@@ -162,7 +167,7 @@ class _WellnessContent extends StatelessWidget {
                   Icon(Icons.favorite_rounded, size: 16, color: gutColor),
                   const SizedBox(width: 4),
                   Text(
-                    '${l10n.wellnessGutPeace}: ${entry.gutPeace}/10',
+                    '${l10n.wellnessGutPeace}: ${fmt(gutPeaceDisplay)}/10',
                     style: theme.textTheme.bodyMedium,
                   ),
                 ],
@@ -177,7 +182,7 @@ class _WellnessContent extends StatelessWidget {
                   ),
                   const SizedBox(width: 4),
                   Text(
-                    '${l10n.wellnessHeartburn}: ${entry.heartburn}/10',
+                    '${l10n.wellnessHeartburn}: ${fmt(heartburnDisplay)}/10',
                     style: theme.textTheme.bodyMedium,
                   ),
                 ],
