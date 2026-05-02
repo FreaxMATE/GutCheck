@@ -13,6 +13,7 @@ import '../../../pantry/providers/pantry_providers.dart';
 import '../../../pantry/ui/widgets/localized_ingredient_name.dart';
 import '../../../wellness/domain/wellness_display.dart';
 import '../widgets/calendar_heatmap.dart';
+import 'insights_trend_screen.dart' show WellnessSparkline;
 import '../widgets/correlation_scatter_plot.dart';
 import '../widgets/food_correlation_heatmap.dart';
 import '../widgets/food_fingerprint.dart';
@@ -104,6 +105,17 @@ class InsightsScreen extends ConsumerWidget {
               subtitle: l10n.insightsCardScatterSubtitle,
               preview: null,
               onTap: () => context.push('/insights/scatter'),
+            ),
+          ),
+          const SizedBox(height: 12),
+          StaggeredEntrance(
+            index: 5,
+            child: _OverviewCard(
+              icon: Icons.show_chart_rounded,
+              title: l10n.insightsTabTrend,
+              subtitle: l10n.insightsCardTrendSubtitle,
+              preview: const _TrendPreview(),
+              onTap: () => context.push('/insights/trend'),
             ),
           ),
         ],
@@ -690,6 +702,28 @@ class _HelpSection extends StatelessWidget {
           ),
         ],
       ),
+    );
+  }
+}
+
+class _TrendPreview extends ConsumerWidget {
+  const _TrendPreview();
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final async = ref.watch(wellnessDailySeriesProvider);
+    return async.maybeWhen(
+      data: (series) {
+        if (series.length < 2) return const _PreviewEmpty();
+        final tail = series.length > 30
+            ? series.sublist(series.length - 30)
+            : series;
+        return WellnessSparkline(
+          points: [for (final p in tail) (t: p.day, score: p.score)],
+          height: 48,
+        );
+      },
+      orElse: () => const _PreviewLoading(),
     );
   }
 }

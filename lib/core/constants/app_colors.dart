@@ -27,11 +27,11 @@ class AppColors {
   }
 
   static Color wellnessScoreInterpolated(double score) {
-    final t = (score / 100.0).clamp(0.0, 1.0);
-    if (t >= 0.5) {
-      return Color.lerp(wellnessAmber, wellnessGreen, (t - 0.5) * 2.0)!;
-    } else {
-      return Color.lerp(wellnessRed, wellnessAmber, t * 2.0)!;
+    final s = score.clamp(0.0, 100.0);
+    if (s <= 30) return wellnessRed;
+    if (s >= 60) {
+      return Color.lerp(wellnessAmber, wellnessGreen, (s - 60) / 40.0)!;
     }
+    return Color.lerp(wellnessRed, wellnessAmber, (s - 30) / 30.0)!;
   }
 }

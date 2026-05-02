@@ -42,6 +42,19 @@ final weeklyWellnessAvgProvider = FutureProvider.autoDispose<double?>((
       entries.length;
 });
 
+/// Wellness entries over the last 7 days (oldest first), used to draw the
+/// home-card sparkline.
+final weeklyWellnessSeriesProvider =
+    FutureProvider.autoDispose<List<WellnessEntry>>((ref) async {
+  final db = await ref.watch(appDatabaseProvider.future);
+  final now = DateTime.now();
+  final from = DateTime(now.year, now.month, now.day - 7);
+  final to = DateTime(now.year, now.month, now.day + 1);
+  final entries = await db.wellnessInRange(from: from, to: to);
+  entries.sort((a, b) => a.recordedAt.compareTo(b.recordedAt));
+  return entries;
+});
+
 typedef DashboardTopImpact = ({ImpactScore? harmful, ImpactScore? beneficial});
 
 /// Top harmful and top beneficial food correlations over the last 30 days.

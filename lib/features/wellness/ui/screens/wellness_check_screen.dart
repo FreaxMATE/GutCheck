@@ -52,7 +52,7 @@ class WellnessCheckScreen extends ConsumerWidget {
                 GutBuddy(size: 110, discomfort: draft.gutPeace.round()),
                 const SizedBox(width: 12),
                 WellnessScoreRing(
-                  discomfort: draft.gutPeace.round(),
+                  discomfort: draft.gutPeace,
                   size: 120,
                 ),
               ],

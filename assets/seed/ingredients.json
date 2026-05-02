@@ -1,5 +1,5 @@
 {
-  "version": 12,
+  "version": 13,
   "ingredients": [
     { "name": "Carrot", "nameDE": "Karotte", "category": "vegetable", "fodmapLevel": "low" },
     { "name": "Spinach", "nameDE": "Spinat", "category": "vegetable", "fodmapLevel": "low" },
@@ -341,6 +341,20 @@
     { "name": "Waffle", "nameDE": "Waffel", "category": "grain", "fodmapLevel": "high" },
     { "name": "Pretzel Stick", "nameDE": "Salzstange", "category": "grain", "fodmapLevel": "moderate" },
     { "name": "Crackers", "nameDE": "Cracker", "category": "grain", "fodmapLevel": "moderate" },
+    { "name": "All-Purpose Flour", "nameDE": "Weizenmehl", "category": "grain", "fodmapLevel": "high" },
+    { "name": "Whole Wheat Flour", "nameDE": "Vollkornmehl", "category": "grain", "fodmapLevel": "high" },
+    { "name": "Spelt Flour", "nameDE": "Dinkelmehl", "category": "grain", "fodmapLevel": "moderate" },
+    { "name": "Rye Flour", "nameDE": "Roggenmehl", "category": "grain", "fodmapLevel": "high" },
+    { "name": "Rice Flour", "nameDE": "Reismehl", "category": "grain", "fodmapLevel": "low" },
+    { "name": "Almond Flour", "nameDE": "Mandelmehl", "category": "grain", "fodmapLevel": "low" },
+    { "name": "Coconut Flour", "nameDE": "Kokosmehl", "category": "grain", "fodmapLevel": "low" },
+    { "name": "Buckwheat Flour", "nameDE": "Buchweizenmehl", "category": "grain", "fodmapLevel": "low" },
+    { "name": "Oat Flour", "nameDE": "Hafermehl", "category": "grain", "fodmapLevel": "low" },
+    { "name": "Chickpea Flour", "nameDE": "Kichererbsenmehl", "category": "grain", "fodmapLevel": "moderate" },
+    { "name": "Cornmeal", "nameDE": "Maismehl", "category": "grain", "fodmapLevel": "low" },
+    { "name": "Cornstarch", "nameDE": "Maisstärke", "category": "grain", "fodmapLevel": "low" },
+    { "name": "Tapioca Flour", "nameDE": "Tapiokamehl", "category": "grain", "fodmapLevel": "low" },
+    { "name": "Semolina", "nameDE": "Hartweizengrieß", "category": "grain", "fodmapLevel": "high" },
 
     { "name": "Ground Beef", "nameDE": "Hackfleisch", "category": "protein", "fodmapLevel": "low" },
     { "name": "Bacon", "nameDE": "Speck", "category": "protein", "fodmapLevel": "low" },

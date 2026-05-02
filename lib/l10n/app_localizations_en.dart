@@ -271,6 +271,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get heatmapLegendGreat => 'Great';
 
   @override
+  String get heatmapLegendCaption => '0–10 wellness score · higher is better';
+
+  @override
   String get heatmapHarmful => 'Harmful';
 
   @override
@@ -974,6 +977,25 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get insightsCardScatterSubtitle => 'Drill into any food\'s timing';
+
+  @override
+  String get insightsTabTrend => 'Trend';
+
+  @override
+  String get insightsCardTrendSubtitle => 'Wellness over time, smoothed';
+
+  @override
+  String get insightsTrendEmpty =>
+      'Log wellness entries to see your trend over time';
+
+  @override
+  String get insightsTrendRawSeries => 'Daily score';
+
+  @override
+  String get insightsTrendEntries => 'Each entry';
+
+  @override
+  String get insightsTrend7dAvg => '7-day average';
 
   @override
   String get insightsCardNoData => 'Not enough data yet';

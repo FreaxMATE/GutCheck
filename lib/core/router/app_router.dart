@@ -5,6 +5,7 @@ import 'package:go_router/go_router.dart';
 import '../../features/home/ui/screens/home_screen.dart';
 import '../../features/insights/ui/screens/insights_screen.dart';
 import '../../features/insights/ui/screens/insights_detail_screens.dart';
+import '../../features/insights/ui/screens/insights_trend_screen.dart';
 import '../../features/meal_log/ui/screens/meal_log_screen.dart';
 import '../../features/pantry/ui/screens/add_custom_food_screen.dart';
 import '../../features/pantry/ui/screens/pantry_screen.dart';
@@ -104,6 +105,11 @@ final appRouterProvider = Provider<GoRouter>((ref) {
                 path: 'scatter',
                 pageBuilder: (c, s) =>
                     _fadeThroughPage(const InsightsScatterScreen()),
+              ),
+              GoRoute(
+                path: 'trend',
+                pageBuilder: (c, s) =>
+                    _fadeThroughPage(const InsightsTrendScreen()),
               ),
             ],
           ),

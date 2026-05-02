@@ -9,6 +9,7 @@ import '../../../../core/constants/app_colors.dart';
 import '../../../../core/l10n/l10n_extensions.dart';
 import '../../../../core/utils/date_utils.dart';
 import '../../../insights/domain/impact_score.dart';
+import '../../../insights/ui/screens/insights_trend_screen.dart';
 import '../../../meal_log/data/models/meal_entry.dart';
 import '../../../pantry/ui/widgets/localized_ingredient_name.dart';
 import '../../../wellness/data/models/wellness_entry.dart';
@@ -221,7 +222,7 @@ class _WellnessContent extends StatelessWidget {
           ),
         ),
         const SizedBox(width: 16),
-        WellnessScoreRing(discomfort: entry.gutPeaceDisplay.round(), size: 80),
+        WellnessScoreRing(discomfort: entry.gutPeaceDisplay, size: 80),
       ],
     );
   }
@@ -361,67 +362,106 @@ class _WeeklyTrendCard extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final async = ref.watch(weeklyWellnessAvgProvider);
+    final asyncAvg = ref.watch(weeklyWellnessAvgProvider);
+    final asyncSeries = ref.watch(weeklyWellnessSeriesProvider);
 
-    return async.when(
+    return asyncAvg.when(
       loading: () => const SizedBox.shrink(),
       error: (e, _) => const SizedBox.shrink(),
       data: (avg) {
         if (avg == null) return const SizedBox.shrink();
         final color = AppColors.wellnessScoreInterpolated(avg);
         final theme = Theme.of(context);
+        final entries = asyncSeries.maybeWhen(
+          data: (e) => e,
+          orElse: () => const [],
+        );
 
         return Card(
-          child: Padding(
-            padding: const EdgeInsets.all(16),
-            child: Row(
-              children: [
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+          clipBehavior: Clip.antiAlias,
+          child: InkWell(
+            onTap: () => context.push('/insights/trend'),
+            child: Padding(
+              padding: const EdgeInsets.all(16),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
                     children: [
-                      _SectionLabel(label: l10n.homeWeeklyAvgTitle),
-                      const SizedBox(height: 4),
-                      Text(
-                        _weekDescription(avg, l10n),
-                        style: theme.textTheme.bodySmall?.copyWith(
-                          color: Colors.grey,
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            _SectionLabel(label: l10n.homeWeeklyAvgTitle),
+                            const SizedBox(height: 4),
+                            Text(
+                              _weekDescription(avg, l10n),
+                              style: theme.textTheme.bodySmall?.copyWith(
+                                color: Colors.grey,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      const SizedBox(width: 16),
+                      Container(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 16,
+                          vertical: 10,
+                        ),
+                        decoration: BoxDecoration(
+                          color: color.withValues(alpha: 0.12),
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            _RollUpScore(
+                              value: avg,
+                              style: theme.textTheme.headlineMedium?.copyWith(
+                                color: color,
+                                fontWeight: FontWeight.bold,
+                                height: 1,
+                              ),
+                            ),
+                            Text(
+                              WellnessDisplay.suffix,
+                              style: theme.textTheme.labelSmall?.copyWith(
+                                color: color.withValues(alpha: 0.7),
+                              ),
+                            ),
+                          ],
                         ),
                       ),
                     ],
                   ),
-                ),
-                const SizedBox(width: 16),
-                Container(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 16,
-                    vertical: 10,
-                  ),
-                  decoration: BoxDecoration(
-                    color: color.withValues(alpha: 0.12),
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Text(
-                        WellnessDisplay.format(avg),
-                        style: theme.textTheme.headlineMedium?.copyWith(
-                          color: color,
-                          fontWeight: FontWeight.bold,
-                          height: 1,
-                        ),
-                      ),
-                      Text(
-                        WellnessDisplay.suffix,
-                        style: theme.textTheme.labelSmall?.copyWith(
-                          color: color.withValues(alpha: 0.7),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ],
+                  if (entries.length >= 2) ...[
+                    const SizedBox(height: 12),
+                    Builder(
+                      builder: (_) {
+                        final now = DateTime.now();
+                        final today = DateTime(now.year, now.month, now.day);
+                        final from = today.subtract(const Duration(days: 6));
+                        final to = today.add(const Duration(days: 1));
+                        final markers = [
+                          for (var i = 0; i < 7; i++)
+                            from.add(Duration(days: i)),
+                        ];
+                        return WellnessSparkline(
+                          points: [
+                            for (final e in entries)
+                              (t: e.recordedAt, score: e.wellnessScore),
+                          ],
+                          height: 44,
+                          from: from,
+                          to: to,
+                          dayMarkers: markers,
+                        );
+                      },
+                    ),
+                  ],
+                ],
+              ),
             ),
           ),
         );
@@ -554,8 +594,9 @@ class _InsightRow extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
-                  score.ingredientName,
+                LocalizedIngredientText(
+                  ingredientId: score.ingredientId,
+                  fallbackName: score.ingredientName,
                   style: theme.textTheme.bodyMedium?.copyWith(
                     fontWeight: FontWeight.w600,
                   ),
@@ -607,6 +648,38 @@ class _EmptyCardContent extends StatelessWidget {
       style: Theme.of(
         context,
       ).textTheme.bodySmall?.copyWith(color: Colors.grey),
+    );
+  }
+}
+
+/// A 0–100 wellness score that rolls up from 0 to its current value on first
+/// appearance, then snaps to subsequent value changes (no animation on data
+/// refresh).
+class _RollUpScore extends ConsumerStatefulWidget {
+  final double value;
+  final TextStyle? style;
+  const _RollUpScore({required this.value, this.style});
+
+  @override
+  ConsumerState<_RollUpScore> createState() => _RollUpScoreState();
+}
+
+class _RollUpScoreState extends ConsumerState<_RollUpScore> {
+  bool _hasAnimated = false;
+
+  @override
+  Widget build(BuildContext context) {
+    final enabled = ref.watch(animationsEnabledProvider);
+    if (!enabled || _hasAnimated) {
+      return Text(WellnessDisplay.format(widget.value), style: widget.style);
+    }
+    return TweenAnimationBuilder<double>(
+      tween: Tween<double>(begin: 0, end: widget.value),
+      duration: const Duration(milliseconds: 900),
+      curve: Curves.easeOutCubic,
+      onEnd: () => _hasAnimated = true,
+      builder: (_, v, __) =>
+          Text(WellnessDisplay.format(v), style: widget.style),
     );
   }
 }

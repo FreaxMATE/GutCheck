@@ -5,6 +5,7 @@ import 'package:gutcheck/l10n/app_localizations.dart';
 import '../../../../core/animations/animations.dart';
 import '../../../../core/constants/app_colors.dart';
 import '../../../../core/utils/date_utils.dart';
+import '../../../wellness/domain/wellness_display.dart';
 
 class CalendarHeatmap extends ConsumerWidget {
   final Map<DateTime, double> dailyScores;
@@ -66,7 +67,7 @@ class CalendarHeatmap extends ConsumerWidget {
               final score = dailyScores[DateTime(day.year, day.month, day.day)];
               final cellWidget = Container(
                 margin: const EdgeInsets.all(2),
-                height: 36,
+                height: 42,
                 decoration: BoxDecoration(
                   color: score != null
                       ? AppColors.wellnessScoreInterpolated(
@@ -75,16 +76,44 @@ class CalendarHeatmap extends ConsumerWidget {
                       : Colors.grey.withValues(alpha: 0.1),
                   borderRadius: BorderRadius.circular(6),
                 ),
-                child: Center(
-                  child: Text(
-                    '${day.day}',
-                    style: TextStyle(
-                      fontSize: 12,
-                      fontWeight: FontWeight.w500,
-                      color: score != null ? Colors.white : Colors.grey,
-                    ),
-                  ),
-                ),
+                child: score != null
+                    ? Stack(
+                        children: [
+                          Positioned(
+                            top: 2,
+                            left: 4,
+                            child: Text(
+                              '${day.day}',
+                              style: TextStyle(
+                                fontSize: 9,
+                                fontWeight: FontWeight.w500,
+                                color: Colors.white.withValues(alpha: 0.75),
+                              ),
+                            ),
+                          ),
+                          Center(
+                            child: Text(
+                              WellnessDisplay.format(score),
+                              style: const TextStyle(
+                                fontSize: 13,
+                                fontWeight: FontWeight.w700,
+                                color: Colors.white,
+                                height: 1,
+                              ),
+                            ),
+                          ),
+                        ],
+                      )
+                    : Center(
+                        child: Text(
+                          '${day.day}',
+                          style: const TextStyle(
+                            fontSize: 12,
+                            fontWeight: FontWeight.w500,
+                            color: Colors.grey,
+                          ),
+                        ),
+                      ),
               );
               return Expanded(
                 child: GestureDetector(
@@ -97,34 +126,44 @@ class CalendarHeatmap extends ConsumerWidget {
             }),
           );
         }),
-        const SizedBox(height: 8),
+        const SizedBox(height: 10),
         // Legend
-        Row(
-          mainAxisAlignment: MainAxisAlignment.end,
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.end,
           children: [
             Text(
-              AppLocalizations.of(context)!.heatmapLegendPoor,
-              style: const TextStyle(fontSize: 11, color: Colors.grey),
+              AppLocalizations.of(context)!.heatmapLegendCaption,
+              style: const TextStyle(fontSize: 10.5, color: Colors.grey),
             ),
-            const SizedBox(width: 4),
-            ...List.generate(5, (i) {
-              final score = (i + 1) * 20.0;
-              return Container(
-                width: 16,
-                height: 10,
-                margin: const EdgeInsets.symmetric(horizontal: 1),
-                decoration: BoxDecoration(
-                  color: AppColors.wellnessScoreInterpolated(
-                    score,
-                  ).withValues(alpha: 0.7),
-                  borderRadius: BorderRadius.circular(2),
+            const SizedBox(height: 4),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                const Text(
+                  '0',
+                  style: TextStyle(fontSize: 11, color: Colors.grey),
                 ),
-              );
-            }),
-            const SizedBox(width: 4),
-            Text(
-              AppLocalizations.of(context)!.heatmapLegendGreat,
-              style: const TextStyle(fontSize: 11, color: Colors.grey),
+                const SizedBox(width: 4),
+                ...List.generate(10, (i) {
+                  final score = (i + 0.5) * 10.0;
+                  return Container(
+                    width: 12,
+                    height: 10,
+                    margin: const EdgeInsets.symmetric(horizontal: 1),
+                    decoration: BoxDecoration(
+                      color: AppColors.wellnessScoreInterpolated(
+                        score,
+                      ).withValues(alpha: 0.7),
+                      borderRadius: BorderRadius.circular(2),
+                    ),
+                  );
+                }),
+                const SizedBox(width: 4),
+                const Text(
+                  '10',
+                  style: TextStyle(fontSize: 11, color: Colors.grey),
+                ),
+              ],
             ),
           ],
         ),

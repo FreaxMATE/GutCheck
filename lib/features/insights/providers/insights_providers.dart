@@ -134,3 +134,32 @@ final foodFingerprintProvider =
 
 /// Currently selected food for the radar detail view.
 final selectedFingerprintFoodProvider = StateProvider<int?>((ref) => null);
+
+/// Per-day average wellness score across the user's full history, sorted by
+/// day ascending. Days with no entry are omitted (the trend line draws straight
+/// segments across gaps).
+final wellnessDailySeriesProvider =
+    FutureProvider.autoDispose<List<({DateTime day, double score})>>((
+  ref,
+) async {
+  final db = await ref.watch(appDatabaseProvider.future);
+  final entries = await db.allWellness();
+  final byDay = InsightsRepository.aggregateByDay(entries);
+  final keys = byDay.keys.toList()..sort();
+  return [for (final k in keys) (day: k, score: byDay[k]!)];
+});
+
+/// Every wellness entry across the user's full history (one point per logged
+/// check-in), sorted by recordedAt ascending. Used by the trend view at low
+/// data density; aggregation kicks in once the count exceeds the threshold.
+final wellnessEntrySeriesProvider =
+    FutureProvider.autoDispose<List<({DateTime t, double score})>>((
+  ref,
+) async {
+  final db = await ref.watch(appDatabaseProvider.future);
+  final entries = await db.allWellness();
+  entries.sort((a, b) => a.recordedAt.compareTo(b.recordedAt));
+  return [
+    for (final e in entries) (t: e.recordedAt, score: e.wellnessScore),
+  ];
+});

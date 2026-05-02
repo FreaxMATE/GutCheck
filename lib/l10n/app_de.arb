@@ -90,6 +90,7 @@
 
   "heatmapLegendPoor": "Schlecht",
   "heatmapLegendGreat": "Gut",
+  "heatmapLegendCaption": "0–10 Wohlbefindens-Score · höher ist besser",
   "heatmapHarmful": "Schädlich",
   "heatmapBeneficial": "Förderlich",
   "heatmapNoData": "Keine Daten",
@@ -337,6 +338,12 @@
   "insightsCardHeatmapSubtitle": "Lebensmittel × Zeitverzögerung",
   "insightsCardFingerprintSubtitle": "Symptom-Radar pro Lebensmittel",
   "insightsCardScatterSubtitle": "Zeitliche Muster einzelner Lebensmittel",
+  "insightsTabTrend": "Verlauf",
+  "insightsCardTrendSubtitle": "Wohlbefinden über Zeit, geglättet",
+  "insightsTrendEmpty": "Trage Wohlbefinden ein, um deinen Verlauf zu sehen",
+  "insightsTrendRawSeries": "Tageswert",
+  "insightsTrendEntries": "Pro Eintrag",
+  "insightsTrend7dAvg": "7-Tage-Schnitt",
   "insightsCardNoData": "Noch nicht genug Daten",
   "insightsCardHeatmapStat": "{count} Lebensmittel analysiert",
   "@insightsCardHeatmapStat": {

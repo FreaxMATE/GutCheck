@@ -269,6 +269,10 @@ class AppLocalizationsDe extends AppLocalizations {
   String get heatmapLegendGreat => 'Gut';
 
   @override
+  String get heatmapLegendCaption =>
+      '0–10 Wohlbefindens-Score · höher ist besser';
+
+  @override
   String get heatmapHarmful => 'Schädlich';
 
   @override
@@ -982,6 +986,25 @@ class AppLocalizationsDe extends AppLocalizations {
   @override
   String get insightsCardScatterSubtitle =>
       'Zeitliche Muster einzelner Lebensmittel';
+
+  @override
+  String get insightsTabTrend => 'Verlauf';
+
+  @override
+  String get insightsCardTrendSubtitle => 'Wohlbefinden über Zeit, geglättet';
+
+  @override
+  String get insightsTrendEmpty =>
+      'Trage Wohlbefinden ein, um deinen Verlauf zu sehen';
+
+  @override
+  String get insightsTrendRawSeries => 'Tageswert';
+
+  @override
+  String get insightsTrendEntries => 'Pro Eintrag';
+
+  @override
+  String get insightsTrend7dAvg => '7-Tage-Schnitt';
 
   @override
   String get insightsCardNoData => 'Noch nicht genug Daten';

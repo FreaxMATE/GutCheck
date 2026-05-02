@@ -9,9 +9,11 @@ import '../../../../core/constants/app_colors.dart';
 /// A ring gauge that visualises gut discomfort (0-10).
 ///
 /// 0 = none (green, ring nearly empty) → 10 = extreme (red, ring full).
-/// The digit animates with a vertical slide + fade when the value changes.
+/// Accepts fractional values; the arc length tracks the true value while the
+/// digit shows the rounded integer. A small dot below the digit indicates a
+/// half-step (.5) without disturbing the digit's optical centering.
 class WellnessScoreRing extends ConsumerWidget {
-  final int discomfort;
+  final double discomfort;
   final double size;
 
   const WellnessScoreRing({
@@ -23,8 +25,10 @@ class WellnessScoreRing extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final enabled = ref.watch(animationsEnabledProvider);
-    final d = discomfort.clamp(0, 10);
+    final d = discomfort.clamp(0.0, 10.0);
     final fraction = d / 10.0;
+    final intD = d.round();
+    final isHalf = (d - d.floorToDouble() - 0.5).abs() < 0.05;
     final wellnessEquiv = ((10 - d) / 10.0) * 100.0;
     final color = AppColors.wellnessScoreInterpolated(wellnessEquiv);
 
@@ -39,36 +43,59 @@ class WellnessScoreRing extends ConsumerWidget {
           return CustomPaint(
             painter: _DiscomfortRingPainter(fraction: t, color: color),
             child: Center(
-              // Animated digit: slides up/down and fades when value changes.
-              child: AnimatedSwitcher(
-                duration: enabled
-                    ? const Duration(milliseconds: 350)
-                    : Duration.zero,
-                switchInCurve: Curves.easeOutBack,
-                switchOutCurve: Curves.easeIn,
-                transitionBuilder: (child, anim) {
-                  // Determine direction: new value slides in from below if
-                  // increasing, from above if decreasing.
-                  return FadeTransition(
-                    opacity: anim,
-                    child: SlideTransition(
-                      position: Tween<Offset>(
-                        begin: const Offset(0, 0.4),
-                        end: Offset.zero,
-                      ).animate(anim),
-                      child: child,
+              child: Stack(
+                alignment: Alignment.center,
+                clipBehavior: Clip.none,
+                children: [
+                  // Animated digit: slides up/down and fades when value changes.
+                  AnimatedSwitcher(
+                    duration: enabled
+                        ? const Duration(milliseconds: 350)
+                        : Duration.zero,
+                    switchInCurve: Curves.easeOutBack,
+                    switchOutCurve: Curves.easeIn,
+                    transitionBuilder: (child, anim) {
+                      return FadeTransition(
+                        opacity: anim,
+                        child: SlideTransition(
+                          position: Tween<Offset>(
+                            begin: const Offset(0, 0.4),
+                            end: Offset.zero,
+                          ).animate(anim),
+                          child: child,
+                        ),
+                      );
+                    },
+                    child: Text(
+                      '$intD',
+                      key: ValueKey<int>(intD),
+                      style: TextStyle(
+                        fontSize: size * 0.34,
+                        fontWeight: FontWeight.w800,
+                        color: color,
+                      ),
                     ),
-                  );
-                },
-                child: Text(
-                  '$d',
-                  key: ValueKey<int>(d),
-                  style: TextStyle(
-                    fontSize: size * 0.34,
-                    fontWeight: FontWeight.w800,
-                    color: color,
                   ),
-                ),
+                  // Half-step dot: appears centered below the digit at .5 only.
+                  Positioned(
+                    bottom: size * 0.16,
+                    child: AnimatedOpacity(
+                      duration: enabled
+                          ? const Duration(milliseconds: 250)
+                          : Duration.zero,
+                      curve: Curves.easeOut,
+                      opacity: isHalf ? 1 : 0,
+                      child: Container(
+                        width: size * 0.05,
+                        height: size * 0.05,
+                        decoration: BoxDecoration(
+                          color: color,
+                          shape: BoxShape.circle,
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
               ),
             ),
           );

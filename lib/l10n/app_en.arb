@@ -109,6 +109,7 @@
 
   "heatmapLegendPoor": "Poor",
   "heatmapLegendGreat": "Great",
+  "heatmapLegendCaption": "0–10 wellness score · higher is better",
   "heatmapHarmful": "Harmful",
   "heatmapBeneficial": "Beneficial",
   "heatmapNoData": "No data",
@@ -397,6 +398,12 @@
   "insightsCardHeatmapSubtitle": "Food × time-lag correlations",
   "insightsCardFingerprintSubtitle": "Per-food symptom radar",
   "insightsCardScatterSubtitle": "Drill into any food's timing",
+  "insightsTabTrend": "Trend",
+  "insightsCardTrendSubtitle": "Wellness over time, smoothed",
+  "insightsTrendEmpty": "Log wellness entries to see your trend over time",
+  "insightsTrendRawSeries": "Daily score",
+  "insightsTrendEntries": "Each entry",
+  "insightsTrend7dAvg": "7-day average",
   "insightsCardNoData": "Not enough data yet",
   "insightsCardHeatmapStat": "{count} foods analyzed",
   "@insightsCardHeatmapStat": {

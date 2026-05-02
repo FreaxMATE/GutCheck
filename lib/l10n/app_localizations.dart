@@ -578,6 +578,12 @@ abstract class AppLocalizations {
   /// **'Great'**
   String get heatmapLegendGreat;
 
+  /// No description provided for @heatmapLegendCaption.
+  ///
+  /// In en, this message translates to:
+  /// **'0–10 wellness score · higher is better'**
+  String get heatmapLegendCaption;
+
   /// No description provided for @heatmapHarmful.
   ///
   /// In en, this message translates to:
@@ -1879,6 +1885,42 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Drill into any food\'s timing'**
   String get insightsCardScatterSubtitle;
+
+  /// No description provided for @insightsTabTrend.
+  ///
+  /// In en, this message translates to:
+  /// **'Trend'**
+  String get insightsTabTrend;
+
+  /// No description provided for @insightsCardTrendSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Wellness over time, smoothed'**
+  String get insightsCardTrendSubtitle;
+
+  /// No description provided for @insightsTrendEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'Log wellness entries to see your trend over time'**
+  String get insightsTrendEmpty;
+
+  /// No description provided for @insightsTrendRawSeries.
+  ///
+  /// In en, this message translates to:
+  /// **'Daily score'**
+  String get insightsTrendRawSeries;
+
+  /// No description provided for @insightsTrendEntries.
+  ///
+  /// In en, this message translates to:
+  /// **'Each entry'**
+  String get insightsTrendEntries;
+
+  /// No description provided for @insightsTrend7dAvg.
+  ///
+  /// In en, this message translates to:
+  /// **'7-day average'**
+  String get insightsTrend7dAvg;
 
   /// No description provided for @insightsCardNoData.
   ///

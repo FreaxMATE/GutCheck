@@ -9,6 +9,11 @@ import 'core/router/app_router.dart';
 import 'features/home/providers/home_providers.dart';
 import 'l10n/app_localizations.dart';
 
+/// Latches the last successful wellness avg so the theme seed doesn't flip
+/// back to the base color while [weeklyWellnessAvgProvider] is reloading
+/// (which would cause two AppBar/theme transitions per pull-to-refresh).
+final _stableWellnessAvgProvider = StateProvider<double?>((ref) => null);
+
 class GutCheckApp extends ConsumerWidget {
   const GutCheckApp({super.key});
 
@@ -18,11 +23,18 @@ class GutCheckApp extends ConsumerWidget {
     final locale = ref.watch(localeProvider);
     final themeMode = ref.watch(themeModeProvider);
     // Adaptive theme tint: if the user's weekly wellness avg is low, shift
-    // the seed color toward a calming blue-green. Loads async; falls back to
-    // default seed until data is available.
-    final weekly = ref.watch(weeklyWellnessAvgProvider);
+    // the seed color toward a calming blue-green. We watch a latched copy so
+    // the theme only updates when new data arrives, not on the loading gap.
+    ref.listen(weeklyWellnessAvgProvider, (_, next) {
+      next.whenData((v) {
+        if (v != ref.read(_stableWellnessAvgProvider)) {
+          ref.read(_stableWellnessAvgProvider.notifier).state = v;
+        }
+      });
+    });
+    final wellnessForTheme = ref.watch(_stableWellnessAvgProvider);
     final palette = ref.watch(paletteProvider);
-    final seed = AppTheme.resolveSeed(palette, weekly.asData?.value);
+    final seed = AppTheme.resolveSeed(palette, wellnessForTheme);
     return MaterialApp.router(
       title: 'GutCheck',
       theme: AppTheme.light(palette: palette, seedColor: seed),
