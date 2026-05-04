@@ -344,6 +344,7 @@
   "insightsTrendRawSeries": "Tageswert",
   "insightsTrendEntries": "Pro Eintrag",
   "insightsTrend7dAvg": "7-Tage-Schnitt",
+  "insightsTrendZoomHint": "Pinchen oder scrollen zum Zoomen · Doppeltipp zum Zurücksetzen",
   "insightsCardNoData": "Noch nicht genug Daten",
   "insightsCardHeatmapStat": "{count} Lebensmittel analysiert",
   "@insightsCardHeatmapStat": {

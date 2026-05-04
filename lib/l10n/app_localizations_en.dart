@@ -998,6 +998,10 @@ class AppLocalizationsEn extends AppLocalizations {
   String get insightsTrend7dAvg => '7-day average';
 
   @override
+  String get insightsTrendZoomHint =>
+      'Pinch or scroll to zoom · double-tap to reset';
+
+  @override
   String get insightsCardNoData => 'Not enough data yet';
 
   @override

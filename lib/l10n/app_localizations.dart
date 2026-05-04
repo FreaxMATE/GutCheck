@@ -1922,6 +1922,12 @@ abstract class AppLocalizations {
   /// **'7-day average'**
   String get insightsTrend7dAvg;
 
+  /// No description provided for @insightsTrendZoomHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Pinch or scroll to zoom · double-tap to reset'**
+  String get insightsTrendZoomHint;
+
   /// No description provided for @insightsCardNoData.
   ///
   /// In en, this message translates to:

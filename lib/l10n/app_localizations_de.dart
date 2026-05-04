@@ -1007,6 +1007,10 @@ class AppLocalizationsDe extends AppLocalizations {
   String get insightsTrend7dAvg => '7-Tage-Schnitt';
 
   @override
+  String get insightsTrendZoomHint =>
+      'Pinchen oder scrollen zum Zoomen · Doppeltipp zum Zurücksetzen';
+
+  @override
   String get insightsCardNoData => 'Noch nicht genug Daten';
 
   @override

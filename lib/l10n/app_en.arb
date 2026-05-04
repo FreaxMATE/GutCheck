@@ -404,6 +404,7 @@
   "insightsTrendRawSeries": "Daily score",
   "insightsTrendEntries": "Each entry",
   "insightsTrend7dAvg": "7-day average",
+  "insightsTrendZoomHint": "Pinch or scroll to zoom · double-tap to reset",
   "insightsCardNoData": "Not enough data yet",
   "insightsCardHeatmapStat": "{count} foods analyzed",
   "@insightsCardHeatmapStat": {
