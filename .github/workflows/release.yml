@@ -51,7 +51,18 @@ jobs:
         env:
           KEYSTORE_BASE64: ${{ secrets.ANDROID_KEYSTORE_BASE64 }}
         run: |
-          echo "$KEYSTORE_BASE64" | base64 -d > "$RUNNER_TEMP/upload.jks"
+          if [ -z "$KEYSTORE_BASE64" ]; then
+            echo "ERROR: ANDROID_KEYSTORE_BASE64 secret is empty" >&2
+            exit 1
+          fi
+          # printf avoids the trailing newline echo would add; -d -w 0 ignores whitespace.
+          printf '%s' "$KEYSTORE_BASE64" | base64 -d > "$RUNNER_TEMP/upload.jks"
+          size=$(stat -c%s "$RUNNER_TEMP/upload.jks")
+          echo "Decoded keystore: $size bytes"
+          if [ "$size" -lt 1000 ]; then
+            echo "ERROR: decoded keystore is suspiciously small. Re-paste the secret." >&2
+            exit 1
+          fi
 
       - name: Write key.properties
         env:
