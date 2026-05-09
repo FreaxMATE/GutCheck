@@ -1,6 +1,15 @@
-Initial release.
+🎉 GutCheck 1.0 is here!
 
-* Local-first meal and wellness tracking
-* Pearson correlation engine for food–symptom analysis
-* Bilingual (EN/DE) UI and ingredient database
-* Light/dark theme, CSV export, sample data mode
+The local-first wellness tracker that connects what you eat to how you feel — without sending a byte to the cloud.
+
+✨ What's inside:
+🥗 Curated bilingual food database
+📊 Pearson correlation engine surfaces hidden food–symptom links
+📈 Charts: radar, heatmap, scatter, timeline
+🔒 100% local — no account, no sync, no telemetry, ever
+🌗 Beautiful light & dark themes
+🇬🇧 🇩🇪 Full English & German UI
+📤 CSV export to share with your doctor
+🧪 Sample data mode — kick the tires before logging your own
+
+Open source under AGPL-3.0. Your gut, your data. 💪

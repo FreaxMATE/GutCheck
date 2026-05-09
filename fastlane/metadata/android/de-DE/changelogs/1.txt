@@ -1,6 +1,15 @@
-Erstveröffentlichung.
+🎉 GutCheck 1.0 ist da!
 
-* Lokales Tracking von Mahlzeiten und Wohlbefinden
-* Pearson-Korrelations-Engine für Lebensmittel-Symptom-Analyse
-* Zweisprachige Oberfläche und Lebensmittel-Datenbank (DE/EN)
-* Helles/dunkles Theme, CSV-Export, Beispieldaten-Modus
+Der lokal-first Wellness-Tracker, der verbindet, was du isst, mit wie du dich fühlst — ohne ein einziges Byte in die Cloud zu schicken.
+
+✨ Was drin ist:
+🥗 Kuratierte zweisprachige Lebensmittel-Datenbank
+📊 Pearson-Korrelations-Engine findet versteckte Lebensmittel–Symptom-Zusammenhänge
+📈 Diagramme: Radar, Heatmap, Scatter, Timeline
+🔒 100% lokal — kein Konto, keine Cloud, keine Telemetrie
+🌗 Helles & dunkles Theme
+🇬🇧 🇩🇪 Vollständige deutsche & englische Oberfläche
+📤 CSV-Export für deine Ärzt:innen
+🧪 Beispieldaten-Modus zum Ausprobieren
+
+Open Source unter AGPL-3.0. Dein Bauch, deine Daten. 💪
