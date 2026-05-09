@@ -14,15 +14,11 @@ rootProject.layout.buildDirectory.value(newBuildDir)
 subprojects {
     val newSubprojectBuildDir: Directory = newBuildDir.dir(project.name)
     project.layout.buildDirectory.value(newSubprojectBuildDir)
-}
-subprojects {
-    project.evaluationDependsOn(":app")
-}
 
-// Inject the AGP `namespace` for legacy Flutter plugins that still rely on the
-// (now-removed) `package` attribute in AndroidManifest.xml. Required by
-// isar_flutter_libs 3.1.0+1 (unmaintained) on AGP 8+.
-subprojects {
+    // Inject the AGP `namespace` for legacy Flutter plugins that still rely on the
+    // (now-removed) `package` attribute in AndroidManifest.xml. Required by
+    // isar_flutter_libs 3.1.0+1 (unmaintained) on AGP 8+. Must register BEFORE
+    // the evaluationDependsOn(":app") block below, which forces subproject eval.
     afterEvaluate {
         if (project.plugins.hasPlugin("com.android.library")) {
             val androidExt = project.extensions.getByName("android")
@@ -38,6 +34,9 @@ subprojects {
             }
         }
     }
+}
+subprojects {
+    project.evaluationDependsOn(":app")
 }
 
 tasks.register<Delete>("clean") {
