@@ -302,24 +302,29 @@ class _LogMealSheetState extends ConsumerState<LogMealSheet> {
                             style: Theme.of(context).textTheme.labelLarge,
                           ),
                           const SizedBox(height: 6),
-                          Wrap(
-                            spacing: 6,
-                            runSpacing: 4,
-                            children: _selectedIngredients
-                                .map(
-                                  (i) => MealIngredientChip(
-                                    item: i,
-                                    onDelete: () {
-                                      setState(() {
-                                        _selectedIngredients.remove(i);
-                                        _categoryByIngredientId.remove(
-                                          i.ingredientId,
-                                        );
-                                      });
-                                    },
-                                  ),
-                                )
-                                .toList(),
+                          ConstrainedBox(
+                            constraints: const BoxConstraints(maxHeight: 120),
+                            child: SingleChildScrollView(
+                              child: Wrap(
+                                spacing: 6,
+                                runSpacing: 4,
+                                children: _selectedIngredients
+                                    .map(
+                                      (i) => MealIngredientChip(
+                                        item: i,
+                                        onDelete: () {
+                                          setState(() {
+                                            _selectedIngredients.remove(i);
+                                            _categoryByIngredientId.remove(
+                                              i.ingredientId,
+                                            );
+                                          });
+                                        },
+                                      ),
+                                    )
+                                    .toList(),
+                              ),
+                            ),
                           ),
                         ],
                       ),
