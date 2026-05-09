@@ -1,0 +1,6 @@
+Initial release.
+
+* Local-first meal and wellness tracking
+* Pearson correlation engine for food–symptom analysis
+* Bilingual (EN/DE) UI and ingredient database
+* Light/dark theme, CSV export, sample data mode

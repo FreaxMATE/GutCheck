@@ -1,0 +1,19 @@
+GutCheck ist ein privater, lokal-first Wellness-Tracker, der dir hilft, die Verbindung zwischen deiner Ernährung und deinem Wohlbefinden zu verstehen.
+
+Logge Mahlzeiten aus einer kuratierten Lebensmittel-Datenbank. Verfolge Symptome und Wohlbefinden täglich. Entdecke Zusammenhänge zwischen bestimmten Lebensmitteln und deiner Magen-Darm-Verträglichkeit, Energie und Stimmung mithilfe einer integrierten statistischen Auswertung.
+
+Funktionen:
+
+* Lokal-first: alle Daten bleiben auf deinem Gerät
+* Keine Konten, keine Cloud, keine Telemetrie, keine Werbung
+* Kuratierte zweisprachige Lebensmittel-Datenbank (Deutsch / Englisch)
+* Tägliches Wellness-Tracking (Energie, Stimmung, Bauchgefühl)
+* Schnelle Mahlzeitenerfassung nach Kategorie mit Suche
+* Pearson-Korrelations-Engine zur Erkennung von Lebensmittel-Symptom-Zusammenhängen
+* Diagramme zur Visualisierung von Trends
+* Helles / dunkles Theme
+* Vollständige deutsche und englische Oberfläche
+* Datenexport (CSV) zur Weitergabe an Ärzt:innen
+* Beispieldaten-Modus zum Ausprobieren
+
+Open Source unter der AGPL-3.0.

@@ -1,0 +1,14 @@
+# Copy this file to `key.properties` and fill in real values.
+# `key.properties` is gitignored — never commit your real passwords or keystore path.
+#
+# `storeFile` is an absolute path to your .jks keystore (or relative to android/ directory).
+# Example after running `keytool -genkey ... -keystore ~/gutcheck-upload.jks`:
+#
+#   storeFile=/home/yourname/gutcheck-upload.jks
+#
+# CI will write its own key.properties from GitHub secrets at build time.
+
+storePassword=
+keyPassword=
+keyAlias=upload
+storeFile=

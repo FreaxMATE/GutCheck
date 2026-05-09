@@ -1,0 +1,39 @@
+Categories:
+  - Health & Fitness
+  - Science & Education
+License: AGPL-3.0-or-later
+AuthorName: Konstantin Unruh
+AuthorEmail: freaxmate@protonmail.com
+WebSite: https://freaxmate.github.io/GutCheck/
+SourceCode: https://github.com/FreaxMATE/GutCheck
+IssueTracker: https://github.com/FreaxMATE/GutCheck/issues
+Changelog: https://github.com/FreaxMATE/GutCheck/blob/HEAD/CHANGELOG.md
+
+AutoName: GutCheck
+
+RepoType: git
+Repo: https://github.com/FreaxMATE/GutCheck.git
+
+Builds:
+  - versionName: 1.0.0
+    versionCode: 1
+    commit: v1.0.0
+    sudo:
+      - apt-get update
+      - apt-get install -y openjdk-17-jdk-headless curl ca-certificates xz-utils git unzip
+      - install -d -o vagrant -g vagrant /opt/flutter
+    rm:
+      - libisar.so
+    prebuild:
+      - git clone --depth 1 --branch 3.41.6 https://github.com/flutter/flutter.git /opt/flutter
+      - /opt/flutter/bin/flutter config --no-analytics --no-cli-animations
+      - /opt/flutter/bin/flutter doctor -v
+      - /opt/flutter/bin/flutter pub get
+    build:
+      - /opt/flutter/bin/flutter build apk --release
+    output: build/app/outputs/flutter-apk/app-release.apk
+
+AutoUpdateMode: Version v%v
+UpdateCheckMode: Tags
+CurrentVersion: 1.0.0
+CurrentVersionCode: 1

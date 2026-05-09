@@ -1,0 +1,6 @@
+Erstveröffentlichung.
+
+* Lokales Tracking von Mahlzeiten und Wohlbefinden
+* Pearson-Korrelations-Engine für Lebensmittel-Symptom-Analyse
+* Zweisprachige Oberfläche und Lebensmittel-Datenbank (DE/EN)
+* Helles/dunkles Theme, CSV-Export, Beispieldaten-Modus

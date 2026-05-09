@@ -1,0 +1,19 @@
+GutCheck is a private, local-first wellness tracker that helps you understand the connection between what you eat and how you feel.
+
+Log meals from a curated database of ingredients. Track symptoms and wellness on a daily basis. Discover correlations between specific foods and your gut comfort, energy, and overall wellbeing using a built-in statistical engine.
+
+Features:
+
+* Local-first: all your data stays on your device
+* No accounts, no cloud sync, no telemetry, no ads
+* Curated bilingual ingredient database (English / German)
+* Daily wellness tracking (energy, mood, gut comfort)
+* Fast meal logging by category with search
+* Pearson correlation engine identifies food–symptom links
+* Charts to visualize trends over time
+* Light / dark theme
+* Full German and English UI
+* Data export (CSV) for sharing with healthcare providers
+* Sample data mode for trying out the app
+
+Open source under AGPL-3.0.
